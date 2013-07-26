@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Text;
 
 namespace Alba.CsCss
 {
     internal partial class nsCSSToken
     {
-        public string mIdent;
+        public StringBuilder mIdent;
         public float mNumber;
         public Int32 mInteger;
         public Int32 mInteger2;

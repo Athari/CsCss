@@ -12,6 +12,9 @@
     string outputToken = ConvertSource(sourceToken);
 #>
 using System;
+using System.Diagnostics;
+using System.Text;
+using Alba.CsCss.Extensions;
 
 using int32_t = System.Int32;
 using uint8_t = System.SByte;
@@ -48,11 +51,14 @@ internal partial class nsCSSScanner {
             .ReReplace(@"#undef .*", "")
             .ReReplace(@"#ifdef DEBUG", "#if DEBUG")
             .ReReplace(@"using .*", "")
+            // common c++ fixes
+            .Replace(@"PRUnichar(')')", "((PRUnichar)(')'))")
             // common c++
             .ReReplace(@"static const", "const")
             .ReReplace(@"\) const\n", ")\n") // const functions
             .ReReplace(@"inline", "")
-            .ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArg + @")\)", "(($1)($2))") // casts in functional style
+            .ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style
+            .ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // cast inside cast
             // common c++ functions
             .Replace(@"std::min", "Math.Min")
             .Replace(@"std::max", "Math.Max")
@@ -65,14 +71,16 @@ internal partial class nsCSSScanner {
             // specific mozilla
             .Replace(@"MOZ_LIKELY(ch < 0 || ch == ')')", "ch < 0 || ch == ')'")
             // common mozilla
-            .ReReplace(@"(const )?nsA?String&", "string")
+            .ReReplace(@"(const )?nsA?String&", "StringBuilder")
             .ReReplace(@"(?s)MOZ_STATIC_ASSERT\(" + sArgs + @"\)", "")
-            .ReReplace(@"(?s)MOZ_ASSERT\(" + sArgs + @"\)", "")
+            .ReReplace(@"(?s)MOZ_ASSERT\((" + sArgs + @")\)", "Debug.Assert($1)")
             .ReReplace(@"(?s)MOZ_(?:UN)?LIKELY\((" + sArgs + @")\)", "$1")
             .ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
             // specific methods removal
-            .ReReplace(@"(?s)nsCSSScanner::nsCSSScanner\(string aBuffer, uint32_t aLineNumber\).*?}", "")
-            .ReReplace(@"(?s)nsCSSScanner::~nsCSSScanner\(\).*?}", "")
+            .ReReplace(@"(?s)nsCSSScanner::nsCSSScanner\(StringBuilder aBuffer, uint32_t aLineNumber\).*?\n}\n", "")
+            .ReReplace(@"(?s)nsCSSScanner::~nsCSSScanner\(\).*?\n}\n", "")
+            .ReReplace(@"(?s)void\s+nsCSSScanner::StopRecording\(StringBuilder aBuffer\).*?\n}\n", "")
+            .ReReplace(@"(?s)nsDependentSubstring\s+nsCSSScanner::GetCurrentLine\(\).*?\n}\n", "")
             // specific methods signatures
             .Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
             .Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
@@ -87,6 +95,11 @@ internal partial class nsCSSScanner {
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
             // specific vars
             .Replace(@"const uint8_t gLexTable[] =", "static uint8_t[] gLexTable =")
+            // specific expressions
+            .Replace(@"AppendUCS4ToUTF16(ENSURE_VALID_CHAR(val), aOutput)", "aOutput.Append(val)")
+            .Replace(@"aToken.mSymbol = Peek()", "aToken.mSymbol = (char)Peek()") // Peek returns int
+            .Replace(@"aToken.mSymbol = ch", "aToken.mSymbol = (char)ch") // ch is int
+            .Replace(@"aToken.mNumber = value", "aToken.mNumber = (float)value") // precision lost
             // common c++
             .ReReplace(@"->", ".")
             .ReReplace(@"::", ".")

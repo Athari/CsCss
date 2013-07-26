@@ -1,4 +1,7 @@
 using System;
+using System.Diagnostics;
+using System.Text;
+using Alba.CsCss.Extensions;
 
 using int32_t = System.Int32;
 using uint8_t = System.SByte;
@@ -16,7 +19,7 @@ internal partial class nsCSSToken {
 /**
  * Append the textual representation of |this| to |aBuffer|.
  */
-public void AppendToString(string aBuffer)
+public void AppendToString(StringBuilder aBuffer)
 {
   switch (mType) {
     case nsCSSTokenType.Ident:
@@ -48,7 +51,7 @@ public void AppendToString(string aBuffer)
         aBuffer.Append(mIdent);
       }
       if (mType == nsCSSTokenType.URL) {
-        aBuffer.Append(((PRUnichar)('))'));
+        aBuffer.Append(((PRUnichar)(')')));
       }
       break;
 
@@ -329,30 +332,15 @@ MatchOperatorType(int32_t ch)
 
 public void StartRecording()
 {
+  Debug.Assert(!mRecording, "already started recording");
   mRecording = true;
   mRecordStartOffset = mOffset;
 }
 
 public void StopRecording()
 {
+  Debug.Assert(mRecording, "haven't started recording");
   mRecording = false;
-}
-
-public void StopRecording(string aBuffer)
-{
-  mRecording = false;
-  aBuffer.Append(mBuffer + mRecordStartOffset,
-                 mOffset - mRecordStartOffset);
-}
-
-public nsDependentSubstring GetCurrentLine()
-{
-  uint32_t end = mTokenOffset;
-  while (end < mCount && !IsVertSpace(mBuffer[end])) {
-    end++;
-  }
-  return nsDependentSubstring(mBuffer + mTokenLineOffset,
-                              mBuffer + end);
 }
 
 /**
@@ -378,6 +366,8 @@ public  void Advance(uint32_t n = 1)
 {
 #if DEBUG
   while (mOffset < mCount && n > 0) {
+    Debug.Assert(!IsVertSpace(mBuffer[mOffset]),
+               "may not Advance() over a line boundary");
     mOffset++;
     n--;
   }
@@ -394,6 +384,8 @@ public  void Advance(uint32_t n = 1)
  */
 public void AdvanceLine()
 {
+  Debug.Assert(IsVertSpace(mBuffer[mOffset]),
+             "may not AdvanceLine() over a horizontal character");
   // Advance over \r\n as a unit.
   if (mBuffer[mOffset]   == '\r' && mOffset + 1 < mCount &&
       mBuffer[mOffset+1] == '\n')
@@ -416,6 +408,8 @@ public void Backup(uint32_t n)
 {
 #if DEBUG
   while (mOffset > 0 && n > 0) {
+    Debug.Assert(!IsVertSpace(mBuffer[mOffset-1]),
+               "may not Backup() over a line boundary");
     mOffset--;
     n--;
   }
@@ -451,6 +445,7 @@ public void SkipWhitespace()
  */
 public void SkipComment()
 {
+  Debug.Assert(Peek() == '/' && Peek(1) == '*', "should not have been called");
   Advance(2);
   for (;;) {
     int32_t ch = Peek();
@@ -477,8 +472,9 @@ public void SkipComment()
  * unmodified, and return false.  If |aInString| is true, accept the
  * additional form of escape sequence allowed within string-like tokens.
  */
-public bool GatherEscape(string aOutput, bool aInString)
+public bool GatherEscape(StringBuilder aOutput, bool aInString)
 {
+  Debug.Assert(Peek() == '\\', "should not have been called");
   int32_t ch = Peek(1);
   if (ch < 0) {
     // Backslash followed by EOF is not an escape.
@@ -533,7 +529,7 @@ public bool GatherEscape(string aOutput, bool aInString)
       aOutput.Append('0');
     } while (--i != 0);
   } else {
-    AppendUCS4ToUTF16(ENSURE_VALID_CHAR(val), aOutput);
+    aOutput.Append(val);
     // Consume exactly one whitespace character after a nonzero
     // hexadecimal escape sequence.
     if (IsVertSpace(ch)) {
@@ -554,11 +550,15 @@ public bool GatherEscape(string aOutput, bool aInString)
  * Returns true if at least one character was appended to |aText|,
  * false otherwise.
  */
-public bool GatherText(uint8_t aClass, string aText)
+public bool GatherText(uint8_t aClass, StringBuilder aText)
 {
   // This is all of the character classes currently used with
   // GatherText.  If you have a need to use this function with a
   // different class, go ahead and add it.
+  Debug.Assert(aClass == IS_STRING ||
+             aClass == IS_IDCHAR ||
+             aClass == IS_URL_CHAR,
+             "possibly-inappropriate character class");
 
   uint32_t start = mOffset;
   bool inString = aClass == IS_STRING;
@@ -578,6 +578,8 @@ public bool GatherText(uint8_t aClass, string aText)
     }
 
     int32_t ch = Peek();
+    Debug.Assert(!IsOpenCharClass(ch, aClass),
+               "should not have exited the inner loop");
 
     if (ch != '\\') {
       break;
@@ -599,7 +601,7 @@ public bool GatherText(uint8_t aClass, string aText)
 public bool ScanIdent(nsCSSToken aToken)
 {
   if (!GatherText(IS_IDCHAR, aToken.mIdent)) {
-    aToken.mSymbol = Peek();
+    aToken.mSymbol = (char)Peek();
     Advance();
     return true;
   }
@@ -623,6 +625,7 @@ public bool ScanIdent(nsCSSToken aToken)
  */
 public bool ScanAtKeyword(nsCSSToken aToken)
 {
+  Debug.Assert(Peek() == '@', "should not have been called");
 
   // Fall back for when '@' isn't followed by an identifier.
   aToken.mSymbol = '@';
@@ -644,6 +647,7 @@ public bool ScanAtKeyword(nsCSSToken aToken)
  */
 public bool ScanHash(nsCSSToken aToken)
 {
+  Debug.Assert(Peek() == '#', "should not have been called");
 
   // Fall back for when '#' isn't followed by identifier characters.
   aToken.mSymbol = '#';
@@ -676,6 +680,10 @@ public bool ScanNumber(nsCSSToken aToken)
   {
     int32_t c2 = Peek(1);
     int32_t c3 = Peek(2);
+    Debug.Assert(IsDigit(c) ||
+               (IsDigit(c2) && (c == '.' || c == '+' || c == '-')) ||
+               (IsDigit(c3) && (c == '+' || c == '-') && c2 == '.'),
+               "should not have been called");
   }
 #endif
 
@@ -709,6 +717,7 @@ public bool ScanNumber(nsCSSToken aToken)
 
   if (!gotDot) {
     // Scan the integer part of the mantissa.
+    Debug.Assert(IsDigit(c), "should have been excluded by logic above");
     do {
       intPart = 10*intPart + DecimalDigitValue(c);
       Advance();
@@ -722,6 +731,7 @@ public bool ScanNumber(nsCSSToken aToken)
     // Scan the fractional part of the mantissa.
     Advance();
     c = Peek();
+    Debug.Assert(IsDigit(c), "should have been excluded by logic above");
     // Power of ten by which we need to divide our next digit
     double divisor = 10;
     do {
@@ -749,6 +759,7 @@ public bool ScanNumber(nsCSSToken aToken)
       } else {
         c = expSignChar;
       }
+      Debug.Assert(IsDigit(c), "should have been excluded by logic above");
       do {
         exponent = 10*exponent + DecimalDigitValue(c);
         Advance();
@@ -773,14 +784,14 @@ public bool ScanNumber(nsCSSToken aToken)
   } else if (!gotDot) {
     // Clamp values outside of integer range.
     if (sign > 0) {
-      aToken.mInteger = int32_t(Math.Min(intPart, ((double)(Int32.MaxValue))));
+      aToken.mInteger = ((int32_t)(Math.Min(intPart, ((double)(Int32.MaxValue)))));
     } else {
-      aToken.mInteger = int32_t(Math.Max(-intPart, ((double)(Int32.MinValue))));
+      aToken.mInteger = ((int32_t)(Math.Max(-intPart, ((double)(Int32.MinValue)))));
     }
     aToken.mIntegerValid = true;
   }
 
-  string ident = aToken.mIdent;
+  StringBuilder ident = aToken.mIdent;
 
   // Check for Dimension and Percentage tokens.
   if (c >= 0) {
@@ -795,7 +806,7 @@ public bool ScanNumber(nsCSSToken aToken)
       aToken.mIntegerValid = false;
     }
   }
-  aToken.mNumber = value;
+  aToken.mNumber = (float)value;
   aToken.mType = type;
   return true;
 }
@@ -808,6 +819,7 @@ public bool ScanNumber(nsCSSToken aToken)
 public bool ScanString(nsCSSToken aToken)
 {
   int32_t aStop = Peek();
+  Debug.Assert(aStop == '"' || aStop == '\'', "should not have been called");
   aToken.mType = nsCSSTokenType.String;
   aToken.mSymbol = ((PRUnichar)(aStop)); // Remember how it's quoted.
   Advance();
@@ -858,6 +870,11 @@ public bool ScanURange(nsCSSToken aResult)
   int32_t intro1 = Peek();
   int32_t intro2 = Peek(1);
   int32_t ch = Peek(2);
+
+  Debug.Assert((intro1 == 'u' || intro1 == 'U') &&
+             intro2 == '+' &&
+             (IsHexDigit(ch) || ch == '?'),
+             "should not have been called");
 
   aResult.mIdent.Append(intro1);
   aResult.mIdent.Append(intro2);
@@ -942,6 +959,7 @@ public bool NextURL(nsCSSToken aToken)
       aToken.mType = nsCSSTokenType.Bad_URL;
       return true;
     }
+    Debug.Assert(aToken.mType == nsCSSTokenType.String, "unexpected token type");
 
   } else {
     // Otherwise, this is the start of a non-quoted url (which may be empty).
@@ -1090,7 +1108,7 @@ public bool Next(nsCSSToken aToken, bool aSkipWS)
   }
 
   // Otherwise, a symbol (DELIM).
-  aToken.mSymbol = ch;
+  aToken.mSymbol = (char)ch;
   Advance();
   return true;
 }

@@ -39,9 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorReporter.cs" />
+    <Compile Include="Extensions\StringBuilderExts.cs" />
     <Compile Include="nsCSSScanner.cs" />
     <Compile Include="nsCSSToken.cs" />
     <Compile Include="nsCSSTokenType.cs" />
+    <Compile Include="nsStyleUtil.cs" />
     <Compile Include="Original\nsCSSScanner.conv.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -68,6 +71,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

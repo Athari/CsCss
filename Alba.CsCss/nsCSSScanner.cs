@@ -1,12 +1,13 @@
-﻿using uint32_t = System.Int32;
+﻿using System.Text;
+using uint32_t = System.Int32;
 
 namespace Alba.CsCss
 {
     internal partial class nsCSSScanner
     {
-        private string mBuffer;
+        private readonly string mBuffer;
         private uint32_t mOffset;
-        private uint32_t mCount;
+        private readonly uint32_t mCount;
 
         private uint32_t mLineNumber;
         private uint32_t mLineOffset;
@@ -21,5 +22,53 @@ namespace Alba.CsCss
 
         private bool mSVGMode;
         private bool mRecording;
+
+        public nsCSSScanner (string aBuffer, uint32_t aLineNumber)
+        {
+            mBuffer = aBuffer;
+            mCount = aBuffer.Length;
+            mLineNumber = aLineNumber;
+            mTokenLineNumber = aLineNumber;
+        }
+
+        public void SetErrorReporter (ErrorReporter aReporter)
+        {
+            mReporter = aReporter;
+        }
+
+        public bool IsSVGMode ()
+        {
+            return mSVGMode;
+        }
+
+        public void SetSVGMode (bool aSVGMode)
+        {
+            mSVGMode = aSVGMode;
+        }
+
+        public uint32_t GetLineNumber ()
+        {
+            return mTokenLineNumber;
+        }
+
+        public uint32_t GetColumnLineNumber ()
+        {
+            return mTokenOffset - mTokenLineOffset;
+        }
+
+        public void StopRecording (StringBuilder aBuffer)
+        {
+            mRecording = false;
+            aBuffer.Append(mBuffer, mRecordStartOffset, mOffset - mRecordStartOffset);
+        }
+
+        public string GetCurrentLine ()
+        {
+            uint32_t end = mTokenOffset;
+            while (end < mCount && !IsVertSpace(mBuffer[end])) {
+                end++;
+            }
+            return mBuffer.Substring(mTokenLineOffset, end);
+        }
     }
 }
