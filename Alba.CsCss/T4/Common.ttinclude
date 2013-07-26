@@ -1,0 +1,4 @@
+﻿<#@   assembly name="$(SolutionDir)\bin\Debug\Alba.Framework.dll"
+#><#@ import namespace="Alba.Framework.Text"
+#><#@ include file="$(SolutionDir)\Alba.Framework\Alba.Framework.CodeGeneration\T4\Common.ttinclude"
+#>

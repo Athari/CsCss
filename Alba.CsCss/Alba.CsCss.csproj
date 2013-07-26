@@ -39,11 +39,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="nsCSSScanner.cs" />
+    <Compile Include="nsCSSToken.cs" />
+    <Compile Include="nsCSSTokenType.cs" />
+    <Compile Include="Original\nsCSSScanner.conv.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSScanner.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Original\nsCSSScanner.cpp" />
+    <None Include="Original\nsCSSScanner.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSScanner.cpp</DependentUpon>
+      <LastGenOutput>nsCSSScanner.conv.cs</LastGenOutput>
+    </None>
+    <None Include="T4\Common.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Original\nsCSSScanner.cpp">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSScanner.tt</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
