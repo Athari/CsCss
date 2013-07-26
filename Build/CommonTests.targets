@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- Can be used to disable all "Copy Local" -->
+    <!--<UseCommonOutputDirectory>true</UseCommonOutputDirectory>-->
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>$(SolutionDir)\bin\DebugTests\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)\obj\DebugTests\$(AssemblyName)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>$(SolutionDir)\bin\ReleaseTests\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)\obj\ReleaseTests\$(AssemblyName)\</IntermediateOutputPath>
+  </PropertyGroup>
+</Project>

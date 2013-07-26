@@ -1,0 +1,8 @@
+/.nuget/NuGet.exe
+/Packages
+/TestResults
+bin/
+obj/
+*.suo
+*.DotSettings.user
+*.csproj.user
