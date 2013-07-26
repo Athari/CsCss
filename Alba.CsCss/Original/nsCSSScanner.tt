@@ -84,10 +84,11 @@ internal partial class nsCSSScanner {
             // specific methods signatures
             .Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
             .Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
-            // specific class access
+            // specific members access
             .ReReplace(@"\n(.*)\n(nsCSSScanner|nsCSSToken)::", "\npublic $1 ")
-            .ReReplace(@"nsCSSToken&", "nsCSSToken")
-            .ReReplace(@"&mBuffer", "mBuffer")
+            .ReReplace(@"nsCSSToken&", "ref nsCSSToken")
+            .ReReplace(@"(\w+)\(aToken\)", "$1(ref aToken)")
+            .Replace(@"Append(&mBuffer[mOffset]", "Append(mBuffer, mOffset")
             // specific #define-style consts
             .ReReplace(@"#define +(\w+) +(\w+)\n", "const uint8_t $1 = $2;\n")
             .ReReplace(@"#define +(\w+) +([\w|]+)\n", "const uint8_t $1 = $2;\n")
@@ -100,6 +101,7 @@ internal partial class nsCSSScanner {
             .Replace(@"aToken.mSymbol = Peek()", "aToken.mSymbol = (char)Peek()") // Peek returns int
             .Replace(@"aToken.mSymbol = ch", "aToken.mSymbol = (char)ch") // ch is int
             .Replace(@"aToken.mNumber = value", "aToken.mNumber = (float)value") // precision lost
+            .Replace(@"((uint32_t)(ch)) < 128", "ch >= 0 && ch < 128") // uint32_t is Int32...
             // common c++
             .ReReplace(@"->", ".")
             .ReReplace(@"::", ".")

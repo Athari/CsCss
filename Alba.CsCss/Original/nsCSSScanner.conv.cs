@@ -213,7 +213,7 @@ IsOpenCharClass(int32_t ch, uint8_t cls) {
  */
 static  bool
 IsClosedCharClass(int32_t ch, uint8_t cls) {
-  return ((uint32_t)(ch)) < 128 && (gLexTable[ch] & cls) != 0;
+  return ch >= 0 && ch < 128 && (gLexTable[ch] & cls) != 0;
 }
 
 /**
@@ -570,7 +570,7 @@ public bool GatherText(uint8_t aClass, StringBuilder aText)
       n++;
     }
     if (n > mOffset) {
-      aText.Append(mBuffer[mOffset], n - mOffset);
+      aText.Append(mBuffer, mOffset, n - mOffset);
       mOffset = n;
     }
     if (n == mCount) {
@@ -598,7 +598,7 @@ public bool GatherText(uint8_t aClass, StringBuilder aText)
  * produce a Symbol token when an apparent identifier actually led
  * into an invalid escape sequence.
  */
-public bool ScanIdent(nsCSSToken aToken)
+public bool ScanIdent(ref nsCSSToken aToken)
 {
   if (!GatherText(IS_IDCHAR, aToken.mIdent)) {
     aToken.mSymbol = (char)Peek();
@@ -614,7 +614,7 @@ public bool ScanIdent(nsCSSToken aToken)
   Advance();
   aToken.mType = nsCSSTokenType.Function;
   if (aToken.mIdent.LowerCaseEqualsLiteral("url")) {
-    NextURL(aToken);
+    NextURL(ref aToken);
   }
   return true;
 }
@@ -623,7 +623,7 @@ public bool ScanIdent(nsCSSToken aToken)
  * Scan an AtKeyword token.  Also handles production of Symbol when
  * an '@' is not followed by an identifier.
  */
-public bool ScanAtKeyword(nsCSSToken aToken)
+public bool ScanAtKeyword(ref nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '@', "should not have been called");
 
@@ -645,7 +645,7 @@ public bool ScanAtKeyword(nsCSSToken aToken)
  * and nsCSSTokenType.Hash, and handles production of Symbol when a '#'
  * is not followed by identifier characters.
  */
-public bool ScanHash(nsCSSToken aToken)
+public bool ScanHash(ref nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '#', "should not have been called");
 
@@ -673,7 +673,7 @@ public bool ScanHash(nsCSSToken aToken)
  * '.' and then a digit.  Can also produce a HTMLComment when it
  * encounters '-.'.
  */
-public bool ScanNumber(nsCSSToken aToken)
+public bool ScanNumber(ref nsCSSToken aToken)
 {
   int32_t c = Peek();
 #if DEBUG
@@ -816,7 +816,7 @@ public bool ScanNumber(nsCSSToken aToken)
  * either a String or a Bad_String token; the latter occurs when the
  * close quote is missing.  Always returns true (for convenience in Next()).
  */
-public bool ScanString(nsCSSToken aToken)
+public bool ScanString(ref nsCSSToken aToken)
 {
   int32_t aStop = Peek();
   Debug.Assert(aStop == '"' || aStop == '\'', "should not have been called");
@@ -865,7 +865,7 @@ public bool ScanString(nsCSSToken aToken)
  * Note that this does not validate the numeric range, only the syntactic
  * form.
  */
-public bool ScanURange(nsCSSToken aResult)
+public bool ScanURange(ref nsCSSToken aResult)
 {
   int32_t intro1 = Peek();
   int32_t intro2 = Peek(1);
@@ -940,7 +940,7 @@ public bool ScanURange(nsCSSToken aResult)
  * Exposed for use by nsCSSParser.ParseMozDocumentRule, which applies
  * the special lexical rules for URL tokens in a nonstandard context.
  */
-public bool NextURL(nsCSSToken aToken)
+public bool NextURL(ref nsCSSToken aToken)
 {
   SkipWhitespace();
 
@@ -954,7 +954,7 @@ public bool NextURL(nsCSSToken aToken)
 
   // Do we have a string?
   if (ch == '"' || ch == '\'') {
-    ScanString(aToken);
+    ScanString(ref aToken);
     if (aToken.mType == nsCSSTokenType.Bad_String) {
       aToken.mType = nsCSSTokenType.Bad_URL;
       return true;
@@ -989,7 +989,7 @@ public bool NextURL(nsCSSToken aToken)
  * been reached.  Will always advance the current read position by at
  * least one character unless called when already at EOF.
  */
-public bool Next(nsCSSToken aToken, bool aSkipWS)
+public bool Next(ref nsCSSToken aToken, bool aSkipWS)
 {
   int32_t ch;
 
@@ -1031,29 +1031,29 @@ public bool Next(nsCSSToken aToken, bool aSkipWS)
     int32_t c2 = Peek(1);
     int32_t c3 = Peek(2);
     if (c2 == '+' && (IsHexDigit(c3) || c3 == '?')) {
-      return ScanURange(aToken);
+      return ScanURange(ref aToken);
     }
-    return ScanIdent(aToken);
+    return ScanIdent(ref aToken);
   }
 
   // identifier family
   if (IsIdentStart(ch)) {
-    return ScanIdent(aToken);
+    return ScanIdent(ref aToken);
   }
 
   // number family
   if (IsDigit(ch)) {
-    return ScanNumber(aToken);
+    return ScanNumber(ref aToken);
   }
 
   if (ch == '.' && IsDigit(Peek(1))) {
-    return ScanNumber(aToken);
+    return ScanNumber(ref aToken);
   }
 
   if (ch == '+') {
     int32_t c2 = Peek(1);
     if (IsDigit(c2) || (c2 == '.' && IsDigit(Peek(2)))) {
-      return ScanNumber(aToken);
+      return ScanNumber(ref aToken);
     }
   }
 
@@ -1063,10 +1063,10 @@ public bool Next(nsCSSToken aToken, bool aSkipWS)
     int32_t c2 = Peek(1);
     int32_t c3 = Peek(2);
     if (IsIdentStart(c2)) {
-      return ScanIdent(aToken);
+      return ScanIdent(ref aToken);
     }
     if (IsDigit(c2) || (c2 == '.' && IsDigit(c3))) {
-      return ScanNumber(aToken);
+      return ScanNumber(ref aToken);
     }
     if (c2 == '-' && c3 == '>') {
       Advance(3);
@@ -1086,17 +1086,17 @@ public bool Next(nsCSSToken aToken, bool aSkipWS)
 
   // AT_KEYWORD
   if (ch == '@') {
-    return ScanAtKeyword(aToken);
+    return ScanAtKeyword(ref aToken);
   }
 
   // HASH
   if (ch == '#') {
-    return ScanHash(aToken);
+    return ScanHash(ref aToken);
   }
 
   // STRING
   if (ch == '"' || ch == '\'') {
-    return ScanString(aToken);
+    return ScanString(ref aToken);
   }
 
   // Match operators: ~= |= ^= $= *=

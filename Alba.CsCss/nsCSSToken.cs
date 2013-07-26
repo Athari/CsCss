@@ -5,7 +5,7 @@ namespace Alba.CsCss
 {
     internal partial class nsCSSToken
     {
-        public StringBuilder mIdent;
+        public StringBuilder mIdent = new StringBuilder();
         public float mNumber;
         public Int32 mInteger;
         public Int32 mInteger2;
