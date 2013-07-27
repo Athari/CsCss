@@ -1,0 +1,25 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+    var T4 = GetT4();
+    T4.GenerateFile("nsFont.conv.cs", () => GenerateFontConstants(source));
+    T4.Process();
+#>
+
+<#+ void GenerateFontConstants (string source) { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Gfx
+{
+    internal partial struct nsFont
+    {
+<#+   foreach (Match m in source.ReMatches(@"#define NS_FONT_(?<Name>\w+) (?<Value>.*)")) { #>
+        public const int <#=m.Get("Name")#> = <#=m.Get("Value")#>;
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateFontConstants */ #>

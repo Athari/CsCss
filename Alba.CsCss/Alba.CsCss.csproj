@@ -38,9 +38,21 @@
     <Compile Include="ErrorReporter.cs" />
     <Compile Include="Extensions\StringBuilderExts.cs" />
     <Compile Include="Extensions\StringExts.cs" />
+    <Compile Include="Gfx\gfxFontFeature.cs" />
+    <Compile Include="Gfx\nsFont.cs" />
+    <Compile Include="Gfx\nsIntRect.cs" />
+    <Compile Include="Gfx\nsIntMargin.cs" />
+    <Compile Include="Gfx\nsIntPoint.cs" />
     <Compile Include="Gfx\nscolor.cs" />
+    <Compile Include="Gfx\nscoord.cs" />
+    <Compile Include="Gfx\nsMargin.cs" />
+    <Compile Include="Gfx\nsPoint.cs" />
+    <Compile Include="Gfx\nsRect.cs" />
     <Compile Include="Gfx\Original\nscolor.g.cs">
       <DependentUpon>nsColorNameList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gfx\Original\nsFont.conv.cs">
+      <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>
     <Compile Include="nsCSSScanner.cs" />
     <Compile Include="nsCSSToken.cs" />
@@ -61,6 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Gfx\Original\gfxFontConstants.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>gfxFontConstants.h</DependentUpon>
+    </None>
     <None Include="Gfx\Original\nsColorNameList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -121,6 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Gfx\Original\gfxFontConstants.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>gfxFontConstants.tt</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
