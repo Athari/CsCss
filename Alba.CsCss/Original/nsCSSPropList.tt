@@ -1,0 +1,129 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\T4\Common.ttinclude" #>
+<#
+    Regex reSourceMain = new Regex(@"(?s)#endif /\* !defined\(CSS_PROP\) \*/(.*)#ifdef USED_CSS_PROP");
+
+    string source = LoadText(ext: "h");
+    string sourceMain = source.ReMatchGet(reSourceMain);
+    //string sourceScanner = source.ReReplace(reSourceToken, "");
+    //string sourceToken = source.ReMatchGet(reSourceToken);
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsCssPropList.conv.cs", () => GenerateSource(sourceMain));
+    T4.Process();
+#>
+<#+
+    void GenerateSource (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable RedundantCast
+
+using System;
+using System.Diagnostics;
+using System.Text;
+using Alba.CsCss.Extensions;
+
+namespace Alba.CsCss
+{
+internal partial class nsCssPropList
+{
+<#+ foreach (CssProp prop in GetCssPropsFromSource(source, isDomPropPublic: true)) { #>
+//
+// Name: <#= prop.Name #>
+// Id: <#= prop.Id #>
+// Method: <#= prop.Method #>
+// Flags: <#= prop.Flags #>
+// Pref: <#= prop.Pref #>
+// ParseVariant: <#= prop.ParseVariant #>
+// KwTable: <#= prop.KwTable ?? "null" #>
+// StyleStruct: <#= prop.StyleStruct #>
+// StyleStructOffset: <#= prop.StyleStructOffset ?? "null" #>
+// AnimType: <#= prop.AnimType #>
+<#+ } #>
+} // class nsCssPropList
+} // namespace Alba.CsCss
+<#+
+    } // GenerateSource
+#>
+<#+
+    string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
+    string sArgs = @"(?:[^()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
+    string[] CssPropDefineShortcuts = new string [] {
+        "Font", "Color", "Background", "List", "Position", "Text", "TextReset", "Display", "Visibility", "Content", "Quotes",
+        "UserInterface", "UIReset", "Table", "TableBorder", "Margin", "Padding", "Border", "Outline", "XUL", "Column", "SVG", "SVGReset"
+    };
+
+    IEnumerable<CssProp> GetCssPropsFromSource (string source, bool isDomPropPublic) {
+        source = source
+
+            // whitespace
+            .ReReplace(@"\r", "")
+
+            // comments remove
+            .ReReplace(@"//.*", "")
+
+            // specific preprocessor
+            .ReReplace(@"CSS_PROP_DOMPROP_PREFIXED\((\w+)\)", "CSS_PROP_PUBLIC_OR_PRIVATE(Moz$1,$1)")
+            .ReReplace(@"CSS_PROP_PUBLIC_OR_PRIVATE\((\w+), *(\w+)\)", "$1|$2")
+            .ReReplace(@"offsetof\((\w+), *(\w+)\)", "$1.$2")
+
+            // common preprocessor
+            .ReReplace(@"#include .*", "")
+            .ReReplace(@"#undef .*", "")
+            .ReReplace(@"#ifdef (\w+)", "#if $1")
+            .ReReplace(@"#ifndef (\w+)", "#if !$1")
+            .ReReplace(@"using .*", "")
+
+            // whitespace
+            .ReReplace(@"\n\s*;\n", "\n")
+            .ReReplace(@"\n{3,}", "\n\n")
+            .Trim()
+            ;
+        foreach (var shortcut in CssPropDefineShortcuts)
+            source = source.ReReplace(
+                @"CSS_PROP_#NAME#\($,$,$,$,$,$,$,$,$\)"
+                    .Replace("#NAME#", shortcut.ToUpper())
+                    .Replace(",", ", *\n")
+                    .Replace("$", "(" + sArgs + ")"),
+                "CSS_PROP($1,\n$2,\n$3,\n$4,\n$5,\n$6,\n$7,\n    #NAME#,\n$8,\n$9)"
+                    .Replace("#NAME#", shortcut));
+
+        foreach (Match m in source.ReMatches(
+                @"(?x)CSS_PROP\(
+                    (?<Name>$), (?<Id>$), (?<Method>$), (?<Flags>$), (?<Pref>$), (?<ParseVariant>$), (?<KwTable>$),
+                    (?<StyleStruct>$), (?<StyleStructOffset>$), (?<AnimType>$)
+                \)".Replace(",", @",\ *\n").Replace("$", sArgs))) {
+            var prop = new CssProp {
+                Name = m.Get("Name").Trim(),
+                Id = m.Get("Id").Trim(),
+                Method = m.Get("Method").Trim(),
+                Flags = m.Get("Flags").ReReplace(@"\s+", " ").Trim(),
+                Pref = m.Get("Pref").Trim(),
+                ParseVariant = m.Get("ParseVariant").Trim(),
+                KwTable = m.Get("KwTable").Trim(),
+                StyleStruct = m.Get("StyleStruct").Trim(),
+                StyleStructOffset = m.Get("StyleStructOffset").Trim(),
+                AnimType = m.Get("AnimType").Replace("eStyleAnimType_", "").Trim(),
+            };
+            if (prop.Method.Contains("|")) {
+                string[] methods = prop.Method.Split('|');
+                prop.Method = isDomPropPublic ? methods[0] : methods[1];
+            }
+            if (prop.KwTable == "nullptr")
+                prop.KwTable = null;
+            if (prop.StyleStructOffset == "CSS_PROP_NO_OFFSET")
+                prop.StyleStructOffset = null;
+            yield return prop;
+        }
+        //WriteLine(source);
+    }
+
+    class CssProp
+    {
+        public string Name, Id, Method, Flags, Pref, ParseVariant, KwTable, StyleStruct, StyleStructOffset, AnimType;
+    }
+#>
