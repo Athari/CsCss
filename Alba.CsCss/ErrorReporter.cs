@@ -2,12 +2,12 @@
 {
     internal class ErrorReporter
     {
-        public void ReportUnexpectedEOF (string str)
+        internal void ReportUnexpectedEOF (string str)
         {
             // TODO
         }
 
-        public void ReportUnexpected (string str, nsCSSToken token)
+        internal void ReportUnexpected (string str, nsCSSToken token)
         {
             // TODO
         }

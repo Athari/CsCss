@@ -23,7 +23,7 @@ namespace Alba.CsCss
         private bool mSVGMode;
         private bool mRecording;
 
-        public nsCSSScanner (string aBuffer, uint32_t aLineNumber)
+        internal nsCSSScanner (string aBuffer, uint32_t aLineNumber)
         {
             mBuffer = aBuffer;
             mCount = aBuffer.Length;
@@ -31,38 +31,38 @@ namespace Alba.CsCss
             mTokenLineNumber = aLineNumber;
         }
 
-        public void SetErrorReporter (ErrorReporter aReporter)
+        internal void SetErrorReporter (ErrorReporter aReporter)
         {
             mReporter = aReporter;
         }
 
-        public bool IsSVGMode ()
+        internal bool IsSVGMode ()
         {
             return mSVGMode;
         }
 
-        public void SetSVGMode (bool aSVGMode)
+        internal void SetSVGMode (bool aSVGMode)
         {
             mSVGMode = aSVGMode;
         }
 
-        public uint32_t GetLineNumber ()
+        internal uint32_t GetLineNumber ()
         {
             return mTokenLineNumber;
         }
 
-        public uint32_t GetColumnLineNumber ()
+        internal uint32_t GetColumnLineNumber ()
         {
             return mTokenOffset - mTokenLineOffset;
         }
 
-        public void StopRecording (StringBuilder aBuffer)
+        internal void StopRecording (StringBuilder aBuffer)
         {
             mRecording = false;
             aBuffer.Append(mBuffer, mRecordStartOffset, mOffset - mRecordStartOffset);
         }
 
-        public string GetCurrentLine ()
+        internal string GetCurrentLine ()
         {
             uint32_t end = mTokenOffset;
             while (end < mCount && !IsVertSpace(mBuffer[end])) {

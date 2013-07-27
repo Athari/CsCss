@@ -5,16 +5,16 @@ namespace Alba.CsCss
 {
     internal partial class nsCSSToken
     {
-        public StringBuilder mIdent = new StringBuilder();
-        public float mNumber;
-        public Int32 mInteger;
-        public Int32 mInteger2;
-        public nsCSSTokenType mType = nsCSSTokenType.Whitespace;
-        public char mSymbol;
-        public bool mIntegerValid;
-        public bool mHasSign;
+        internal readonly StringBuilder mIdent = new StringBuilder();
+        internal nsCSSTokenType mType = nsCSSTokenType.Whitespace;
+        internal float mNumber;
+        internal Int32 mInteger;
+        internal Int32 mInteger2;
+        internal char mSymbol;
+        internal bool mIntegerValid;
+        internal bool mHasSign;
 
-        public bool IsSymbol (char aSymbol)
+        internal bool IsSymbol (char aSymbol)
         {
             return mType == nsCSSTokenType.Symbol && mSymbol == aSymbol;
         }

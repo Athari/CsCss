@@ -19,7 +19,7 @@ internal partial class nsCSSToken {
 /**
  * Append the textual representation of |this| to |aBuffer|.
  */
-public void AppendToString(StringBuilder aBuffer)
+internal void AppendToString(StringBuilder aBuffer)
 {
   switch (mType) {
     case nsCSSTokenType.Ident:
@@ -330,14 +330,14 @@ MatchOperatorType(int32_t ch)
   }
 }
 
-public void StartRecording()
+internal void StartRecording()
 {
   Debug.Assert(!mRecording, "already started recording");
   mRecording = true;
   mRecordStartOffset = mOffset;
 }
 
-public void StopRecording()
+internal void StopRecording()
 {
   Debug.Assert(mRecording, "haven't started recording");
   mRecording = false;
@@ -348,7 +348,7 @@ public void StopRecording()
  * the read buffer.  If that is beyond the end of the buffer, returns
  * -1 to indicate end of input.
  */
-public  int32_t Peek(uint32_t n = 0)
+internal  int32_t Peek(uint32_t n = 0)
 {
   if (mOffset + n >= mCount) {
     return -1;
@@ -362,7 +362,7 @@ public  int32_t Peek(uint32_t n = 0)
  * stop at the end.  May not be used to advance over a line boundary;
  * AdvanceLine() must be used instead.
  */
-public  void Advance(uint32_t n = 1)
+internal  void Advance(uint32_t n = 1)
 {
 #if DEBUG
   while (mOffset < mCount && n > 0) {
@@ -382,7 +382,7 @@ public  void Advance(uint32_t n = 1)
 /**
  * Advance |mOffset| over a line boundary.
  */
-public void AdvanceLine()
+internal void AdvanceLine()
 {
   Debug.Assert(IsVertSpace(mBuffer[mOffset]),
              "may not AdvanceLine() over a horizontal character");
@@ -404,7 +404,7 @@ public void AdvanceLine()
  * silently stop at the beginning.  May not be used to back up over a
  * line boundary.
  */
-public void Backup(uint32_t n)
+internal void Backup(uint32_t n)
 {
 #if DEBUG
   while (mOffset > 0 && n > 0) {
@@ -425,7 +425,7 @@ public void Backup(uint32_t n)
  * Skip over a sequence of whitespace characters (vertical or
  * horizontal) starting at the current read position.
  */
-public void SkipWhitespace()
+internal void SkipWhitespace()
 {
   for (;;) {
     int32_t ch = Peek();
@@ -443,7 +443,7 @@ public void SkipWhitespace()
 /**
  * Skip over one CSS comment starting at the current read position.
  */
-public void SkipComment()
+internal void SkipComment()
 {
   Debug.Assert(Peek() == '/' && Peek(1) == '*', "should not have been called");
   Advance(2);
@@ -472,7 +472,7 @@ public void SkipComment()
  * unmodified, and return false.  If |aInString| is true, accept the
  * additional form of escape sequence allowed within string-like tokens.
  */
-public bool GatherEscape(StringBuilder aOutput, bool aInString)
+internal bool GatherEscape(StringBuilder aOutput, bool aInString)
 {
   Debug.Assert(Peek() == '\\', "should not have been called");
   int32_t ch = Peek(1);
@@ -550,7 +550,7 @@ public bool GatherEscape(StringBuilder aOutput, bool aInString)
  * Returns true if at least one character was appended to |aText|,
  * false otherwise.
  */
-public bool GatherText(uint8_t aClass, StringBuilder aText)
+internal bool GatherText(uint8_t aClass, StringBuilder aText)
 {
   // This is all of the character classes currently used with
   // GatherText.  If you have a need to use this function with a
@@ -598,7 +598,7 @@ public bool GatherText(uint8_t aClass, StringBuilder aText)
  * produce a Symbol token when an apparent identifier actually led
  * into an invalid escape sequence.
  */
-public bool ScanIdent(ref nsCSSToken aToken)
+internal bool ScanIdent(ref nsCSSToken aToken)
 {
   if (!GatherText(IS_IDCHAR, aToken.mIdent)) {
     aToken.mSymbol = (char)Peek();
@@ -623,7 +623,7 @@ public bool ScanIdent(ref nsCSSToken aToken)
  * Scan an AtKeyword token.  Also handles production of Symbol when
  * an '@' is not followed by an identifier.
  */
-public bool ScanAtKeyword(ref nsCSSToken aToken)
+internal bool ScanAtKeyword(ref nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '@', "should not have been called");
 
@@ -645,7 +645,7 @@ public bool ScanAtKeyword(ref nsCSSToken aToken)
  * and nsCSSTokenType.Hash, and handles production of Symbol when a '#'
  * is not followed by identifier characters.
  */
-public bool ScanHash(ref nsCSSToken aToken)
+internal bool ScanHash(ref nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '#', "should not have been called");
 
@@ -673,7 +673,7 @@ public bool ScanHash(ref nsCSSToken aToken)
  * '.' and then a digit.  Can also produce a HTMLComment when it
  * encounters '-.'.
  */
-public bool ScanNumber(ref nsCSSToken aToken)
+internal bool ScanNumber(ref nsCSSToken aToken)
 {
   int32_t c = Peek();
 #if DEBUG
@@ -816,7 +816,7 @@ public bool ScanNumber(ref nsCSSToken aToken)
  * either a String or a Bad_String token; the latter occurs when the
  * close quote is missing.  Always returns true (for convenience in Next()).
  */
-public bool ScanString(ref nsCSSToken aToken)
+internal bool ScanString(ref nsCSSToken aToken)
 {
   int32_t aStop = Peek();
   Debug.Assert(aStop == '"' || aStop == '\'', "should not have been called");
@@ -865,7 +865,7 @@ public bool ScanString(ref nsCSSToken aToken)
  * Note that this does not validate the numeric range, only the syntactic
  * form.
  */
-public bool ScanURange(ref nsCSSToken aResult)
+internal bool ScanURange(ref nsCSSToken aResult)
 {
   int32_t intro1 = Peek();
   int32_t intro2 = Peek(1);
@@ -940,7 +940,7 @@ public bool ScanURange(ref nsCSSToken aResult)
  * Exposed for use by nsCSSParser.ParseMozDocumentRule, which applies
  * the special lexical rules for URL tokens in a nonstandard context.
  */
-public bool NextURL(ref nsCSSToken aToken)
+internal bool NextURL(ref nsCSSToken aToken)
 {
   SkipWhitespace();
 
@@ -989,7 +989,7 @@ public bool NextURL(ref nsCSSToken aToken)
  * been reached.  Will always advance the current read position by at
  * least one character unless called when already at EOF.
  */
-public bool Next(ref nsCSSToken aToken, bool aSkipWS)
+internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
 {
   int32_t ch;
 

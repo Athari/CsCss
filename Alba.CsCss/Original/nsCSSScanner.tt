@@ -85,7 +85,7 @@ internal partial class nsCSSScanner {
             .Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
             .Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
             // specific members access
-            .ReReplace(@"\n(.*)\n(nsCSSScanner|nsCSSToken)::", "\npublic $1 ")
+            .ReReplace(@"\n(.*)\n(nsCSSScanner|nsCSSToken)::", "\ninternal $1 ")
             .ReReplace(@"nsCSSToken&", "ref nsCSSToken")
             .ReReplace(@"(\w+)\(aToken\)", "$1(ref aToken)")
             .Replace(@"Append(&mBuffer[mOffset]", "Append(mBuffer, mOffset")
