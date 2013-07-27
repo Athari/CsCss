@@ -488,7 +488,7 @@ internal bool GatherText(uint8_t aClass, StringBuilder aText)
  * produce a Symbol token when an apparent identifier actually led
  * into an invalid escape sequence.
  */
-internal bool ScanIdent(ref nsCSSToken aToken)
+internal bool ScanIdent(nsCSSToken aToken)
 {
   if (!GatherText(IS_IDCHAR, aToken.mIdent)) {
     aToken.mSymbol = (char)Peek();
@@ -504,7 +504,7 @@ internal bool ScanIdent(ref nsCSSToken aToken)
   Advance();
   aToken.mType = nsCSSTokenType.Function;
   if (aToken.mIdent.LowerCaseEqualsLiteral("url")) {
-    NextURL(ref aToken);
+    NextURL(aToken);
   }
   return true;
 }
@@ -513,7 +513,7 @@ internal bool ScanIdent(ref nsCSSToken aToken)
  * Scan an AtKeyword token.  Also handles production of Symbol when
  * an '@' is not followed by an identifier.
  */
-internal bool ScanAtKeyword(ref nsCSSToken aToken)
+internal bool ScanAtKeyword(nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '@', "should not have been called");
 
@@ -535,7 +535,7 @@ internal bool ScanAtKeyword(ref nsCSSToken aToken)
  * and nsCSSTokenType.Hash, and handles production of Symbol when a '#'
  * is not followed by identifier characters.
  */
-internal bool ScanHash(ref nsCSSToken aToken)
+internal bool ScanHash(nsCSSToken aToken)
 {
   Debug.Assert(Peek() == '#', "should not have been called");
 
@@ -563,7 +563,7 @@ internal bool ScanHash(ref nsCSSToken aToken)
  * '.' and then a digit.  Can also produce a HTMLComment when it
  * encounters '-.'.
  */
-internal bool ScanNumber(ref nsCSSToken aToken)
+internal bool ScanNumber(nsCSSToken aToken)
 {
   int32_t c = Peek();
 #if DEBUG
@@ -706,7 +706,7 @@ internal bool ScanNumber(ref nsCSSToken aToken)
  * either a String or a Bad_String token; the latter occurs when the
  * close quote is missing.  Always returns true (for convenience in Next()).
  */
-internal bool ScanString(ref nsCSSToken aToken)
+internal bool ScanString(nsCSSToken aToken)
 {
   int32_t aStop = Peek();
   Debug.Assert(aStop == '"' || aStop == '\'', "should not have been called");
@@ -755,7 +755,7 @@ internal bool ScanString(ref nsCSSToken aToken)
  * Note that this does not validate the numeric range, only the syntactic
  * form.
  */
-internal bool ScanURange(ref nsCSSToken aResult)
+internal bool ScanURange(nsCSSToken aResult)
 {
   int32_t intro1 = Peek();
   int32_t intro2 = Peek(1);
@@ -830,7 +830,7 @@ internal bool ScanURange(ref nsCSSToken aResult)
  * Exposed for use by nsCSSParser.ParseMozDocumentRule, which applies
  * the special lexical rules for URL tokens in a nonstandard context.
  */
-internal bool NextURL(ref nsCSSToken aToken)
+internal bool NextURL(nsCSSToken aToken)
 {
   SkipWhitespace();
 
@@ -844,7 +844,7 @@ internal bool NextURL(ref nsCSSToken aToken)
 
   // Do we have a string?
   if (ch == '"' || ch == '\'') {
-    ScanString(ref aToken);
+    ScanString(aToken);
     if (aToken.mType == nsCSSTokenType.Bad_String) {
       aToken.mType = nsCSSTokenType.Bad_URL;
       return true;
@@ -879,7 +879,7 @@ internal bool NextURL(ref nsCSSToken aToken)
  * been reached.  Will always advance the current read position by at
  * least one character unless called when already at EOF.
  */
-internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
+internal bool Next(nsCSSToken aToken, bool aSkipWS)
 {
   int32_t ch;
 
@@ -921,29 +921,29 @@ internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
     int32_t c2 = Peek(1);
     int32_t c3 = Peek(2);
     if (c2 == '+' && (IsHexDigit(c3) || c3 == '?')) {
-      return ScanURange(ref aToken);
+      return ScanURange(aToken);
     }
-    return ScanIdent(ref aToken);
+    return ScanIdent(aToken);
   }
 
   // identifier family
   if (IsIdentStart(ch)) {
-    return ScanIdent(ref aToken);
+    return ScanIdent(aToken);
   }
 
   // number family
   if (IsDigit(ch)) {
-    return ScanNumber(ref aToken);
+    return ScanNumber(aToken);
   }
 
   if (ch == '.' && IsDigit(Peek(1))) {
-    return ScanNumber(ref aToken);
+    return ScanNumber(aToken);
   }
 
   if (ch == '+') {
     int32_t c2 = Peek(1);
     if (IsDigit(c2) || (c2 == '.' && IsDigit(Peek(2)))) {
-      return ScanNumber(ref aToken);
+      return ScanNumber(aToken);
     }
   }
 
@@ -953,10 +953,10 @@ internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
     int32_t c2 = Peek(1);
     int32_t c3 = Peek(2);
     if (IsIdentStart(c2)) {
-      return ScanIdent(ref aToken);
+      return ScanIdent(aToken);
     }
     if (IsDigit(c2) || (c2 == '.' && IsDigit(c3))) {
-      return ScanNumber(ref aToken);
+      return ScanNumber(aToken);
     }
     if (c2 == '-' && c3 == '>') {
       Advance(3);
@@ -976,17 +976,17 @@ internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
 
   // AT_KEYWORD
   if (ch == '@') {
-    return ScanAtKeyword(ref aToken);
+    return ScanAtKeyword(aToken);
   }
 
   // HASH
   if (ch == '#') {
-    return ScanHash(ref aToken);
+    return ScanHash(aToken);
   }
 
   // STRING
   if (ch == '"' || ch == '\'') {
-    return ScanString(ref aToken);
+    return ScanString(aToken);
   }
 
   // Match operators: ~= |= ^= $= *=

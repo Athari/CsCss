@@ -68,14 +68,12 @@ internal partial class <#=className#>
             .Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
             // specific members access
             .ReReplace(@"\n(.*)\n(nsCSSScanner|nsCSSToken)::", "\ninternal $1 ")
-            .ReReplace(@"nsCSSToken&", "ref nsCSSToken")
-            .ReReplace(@"(\w+)\(aToken\)", "$1(ref aToken)")
+            .ReReplace(@"nsCSSToken&", "nsCSSToken")
             .Replace(@"Append(&mBuffer[mOffset]", "Append(mBuffer, mOffset")
             // specific enums
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
-            // specific vars
-            .Replace(@"static const uint8_t gLexTable[] =", "private static readonly uint8_t[] gLexTable =")
             // specific expressions
+            .Replace(@"static const uint8_t gLexTable[] =", "private static readonly uint8_t[] gLexTable =")
             .Replace(@"AppendUCS4ToUTF16(ENSURE_VALID_CHAR(val), aOutput)", "aOutput.Append(val)")
             .Replace(@"aToken.mSymbol = Peek()", "aToken.mSymbol = (char)Peek()") // Peek returns int
             .Replace(@"aToken.mSymbol = ch", "aToken.mSymbol = (char)ch") // ch is int

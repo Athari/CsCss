@@ -10,6 +10,7 @@ namespace Alba.CsCss.Tests
         [TestMethod]
         public void Create ()
         {
+            // ReSharper disable once UnusedVariable
             var lex = new nsCSSScanner("", 0);
         }
 
@@ -30,7 +31,7 @@ namespace Alba.CsCss.Tests
         private static void AssertNextToken (nsCSSScanner lex, nsCSSTokenType type, Func<nsCSSToken, bool> condition)
         {
             var token = new nsCSSToken();
-            Assert.IsTrue(lex.Next(ref token, true), "Unexpected EOF");
+            Assert.IsTrue(lex.Next(token, true), "Unexpected EOF");
             Assert.AreEqual(type, token.mType);
             Assert.IsTrue(condition(token), "Condition for token {0} failed".Fmt(token.mType));
         }
@@ -38,7 +39,7 @@ namespace Alba.CsCss.Tests
         private static void AssertNextTokenEnd (nsCSSScanner lex)
         {
             var token = new nsCSSToken();
-            Assert.IsFalse(lex.Next(ref token, true), "Expected EOF");
+            Assert.IsFalse(lex.Next(token, true), "Expected EOF");
         }
     }
 }
