@@ -2,7 +2,6 @@
 // Generated file. Do not edit manually.
 //
 // ReSharper disable RedundantUsingDirective
-// ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable RedundantCast
 
 using System;

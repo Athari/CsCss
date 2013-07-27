@@ -2,7 +2,6 @@
 // Generated file. Do not edit manually.
 //
 // ReSharper disable RedundantUsingDirective
-// ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable RedundantCast
 
 using System;
@@ -52,7 +51,7 @@ private const uint8_t SUIJ = S|U|I|J;
 private const uint8_t SUIX = S|U|I|X;
 private const uint8_t SUIJX = S|U|I|J|X;
 
-private static uint8_t[] gLexTable = {
+private static readonly uint8_t[] gLexTable = {
 // 00    01    02    03    04    05    06    07
     0,    S,    S,    S,    S,    S,    S,    S,
 // 08   TAB    LF    0B    FF    CR    0E    0F
