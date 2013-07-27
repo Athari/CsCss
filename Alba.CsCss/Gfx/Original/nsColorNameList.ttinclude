@@ -1,0 +1,28 @@
+﻿<#+
+    IList<GfxColorName> _gfxColorNames;
+
+    IEnumerable<GfxColorName> GetGfxColorNamesFromSource (string source) {
+
+        foreach (Match m in source.ReMatches(
+                @"(?x)GFX_COLOR\(
+                    (?<Name>\w+), (?<Value>$)
+                \)".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var desc = new GfxColorName {
+                Name = m.Get("Name").Trim(),
+                Value = m.Get("Value").Trim(),
+            };
+            yield return desc;
+        }
+    }
+
+    IEnumerable<GfxColorName> GetGfxColorNames () {
+        if (_gfxColorNames == null)
+            _gfxColorNames = GetGfxColorNamesFromSource(LoadText("nsColorNameList.h")).ToList();
+        return _gfxColorNames;
+    }
+
+    class GfxColorName
+    {
+        public string Name, Value;
+    }
+#>

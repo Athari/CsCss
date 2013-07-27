@@ -1,0 +1,51 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#@ include file="nsColorNameList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    //T4.GenerateFile("nsColorNameList.g.txt", () => GenerateGfxColorNameListText());
+    T4.GenerateFile("nscolor.g.cs", () => GenerateGfxColor());
+    T4.Process();
+#>
+
+<#+ void GenerateGfxColorNameListText () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+<#+ foreach (GfxColorName color in GetGfxColorNames()) { #>
+//
+// Name: <#= color.Name #>
+// Value: <#= color.Value #>
+<#+ } #>
+<#+ } /* void GenerateGfxColorNameListText */ #>
+
+<#+ void GenerateGfxColor () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Alba.CsCss.Gfx
+{
+    internal partial struct nscolor
+    {
+        private static readonly string[] kColorNames = {
+<#+       foreach (GfxColorName color in GetGfxColorNames()) { #>
+            "<#= color.Name #>",
+<#+       } #>
+        };
+
+        private static readonly nscolor[] kColors = {
+<#+       foreach (GfxColorName color in GetGfxColorNames()) { #>
+            <#= color.Value.Replace("NS_", "") #>,
+<#+       } #>
+        };
+
+        private static readonly Dictionary<string, int> gColorTable = kColorNames.Select((n, i) => new { n, i }).ToDictionary(c => c.n, c => c.i);
+    }
+}
+<#+ } /* void GenerateGfxColor */ #>

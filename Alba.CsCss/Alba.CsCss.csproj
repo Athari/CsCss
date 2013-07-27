@@ -37,6 +37,11 @@
   <ItemGroup>
     <Compile Include="ErrorReporter.cs" />
     <Compile Include="Extensions\StringBuilderExts.cs" />
+    <Compile Include="Extensions\StringExts.cs" />
+    <Compile Include="Gfx\nscolor.cs" />
+    <Compile Include="Gfx\Original\nscolor.g.cs">
+      <DependentUpon>nsColorNameList.tt</DependentUpon>
+    </Compile>
     <Compile Include="nsCSSScanner.cs" />
     <Compile Include="nsCSSToken.cs" />
     <Compile Include="nsCSSTokenType.cs" />
@@ -56,6 +61,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Gfx\Original\nsColorNameList.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsColorNameList.h</DependentUpon>
+    </None>
+    <None Include="Gfx\Original\nsColorNameList.ttinclude" />
     <None Include="Original\nsCSSFontDescList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -86,27 +98,30 @@
     <None Include="T4\Common.ttinclude" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Original\nsCSSFontDescList.h">
+    <None Include="Gfx\Original\nsColorNameList.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsColorNameList.tt</LastGenOutput>
+    </None>
+    <None Include="Original\nsCSSFontDescList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSFontDescList.tt</LastGenOutput>
-    </Content>
-    <Content Include="Original\nsCSSPropAliasList.h">
+    </None>
+    <None Include="Original\nsCSSPropAliasList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropAliasList.tt</LastGenOutput>
-    </Content>
-    <Content Include="Original\nsCSSPropList.h">
+    </None>
+    <None Include="Original\nsCSSPropList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropList.tt</LastGenOutput>
-    </Content>
-    <Content Include="Original\nsCSSScanner.cpp">
+    </None>
+    <None Include="Original\nsCSSScanner.cpp">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSScanner.tt</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
