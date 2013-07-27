@@ -1,3 +1,10 @@
+//
+// Generated file. Do not edit manually.
+//
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable RedundantCast
+
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -8,126 +15,10 @@ using uint8_t = System.SByte;
 using uint32_t = System.Int32;
 using PRUnichar = System.Char;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Local
-// ReSharper disable RedundantCast
-namespace Alba.CsCss {
-
-internal partial class nsCSSToken {
-
-
-
-/**
- * Append the textual representation of |this| to |aBuffer|.
- */
-internal void AppendToString(StringBuilder aBuffer)
+namespace Alba.CsCss
 {
-  switch (mType) {
-    case nsCSSTokenType.Ident:
-      nsStyleUtil.AppendEscapedCSSIdent(mIdent, aBuffer);
-      break;
-
-    case nsCSSTokenType.AtKeyword:
-      aBuffer.Append('@');
-      nsStyleUtil.AppendEscapedCSSIdent(mIdent, aBuffer);
-      break;
-
-    case nsCSSTokenType.ID:
-    case nsCSSTokenType.Hash:
-      aBuffer.Append('#');
-      nsStyleUtil.AppendEscapedCSSIdent(mIdent, aBuffer);
-      break;
-
-    case nsCSSTokenType.Function:
-      nsStyleUtil.AppendEscapedCSSIdent(mIdent, aBuffer);
-      aBuffer.Append('(');
-      break;
-
-    case nsCSSTokenType.URL:
-    case nsCSSTokenType.Bad_URL:
-      aBuffer.AppendLiteral("url(");
-      if (mSymbol != ((PRUnichar)(0))) {
-        nsStyleUtil.AppendEscapedCSSString(mIdent, aBuffer, mSymbol);
-      } else {
-        aBuffer.Append(mIdent);
-      }
-      if (mType == nsCSSTokenType.URL) {
-        aBuffer.Append(((PRUnichar)(')')));
-      }
-      break;
-
-    case nsCSSTokenType.Number:
-      if (mIntegerValid) {
-        aBuffer.AppendInt(mInteger, 10);
-      } else {
-        aBuffer.AppendFloat(mNumber);
-      }
-      break;
-
-    case nsCSSTokenType.Percentage:
-      aBuffer.AppendFloat(mNumber * 100.0f);
-      aBuffer.Append(((PRUnichar)('%')));
-      break;
-
-    case nsCSSTokenType.Dimension:
-      if (mIntegerValid) {
-        aBuffer.AppendInt(mInteger, 10);
-      } else {
-        aBuffer.AppendFloat(mNumber);
-      }
-      nsStyleUtil.AppendEscapedCSSIdent(mIdent, aBuffer);
-      break;
-
-    case nsCSSTokenType.Bad_String:
-      nsStyleUtil.AppendEscapedCSSString(mIdent, aBuffer, mSymbol);
-      // remove the trailing quote character
-      aBuffer.Truncate(aBuffer.Length() - 1);
-      break;
-
-    case nsCSSTokenType.String:
-      nsStyleUtil.AppendEscapedCSSString(mIdent, aBuffer, mSymbol);
-      break;
-
-    case nsCSSTokenType.Symbol:
-      aBuffer.Append(mSymbol);
-      break;
-
-    case nsCSSTokenType.Whitespace:
-      aBuffer.Append(' ');
-      break;
-
-    case nsCSSTokenType.HTMLComment:
-    case nsCSSTokenType.URange:
-      aBuffer.Append(mIdent);
-      break;
-
-    case nsCSSTokenType.Includes:
-      aBuffer.AppendLiteral("~=");
-      break;
-    case nsCSSTokenType.Dashmatch:
-      aBuffer.AppendLiteral("|=");
-      break;
-    case nsCSSTokenType.Beginsmatch:
-      aBuffer.AppendLiteral("^=");
-      break;
-    case nsCSSTokenType.Endsmatch:
-      aBuffer.AppendLiteral("$=");
-      break;
-    case nsCSSTokenType.Containsmatch:
-      aBuffer.AppendLiteral("*=");
-      break;
-
-    default:
-      throw new Exception("invalid token type");
-      break;
-  }
-}
-
-
-
-} // class nsCSSToken
-
-internal partial class nsCSSScanner {
-
+internal partial class nsCSSScanner
+{
 /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -137,31 +28,31 @@ internal partial class nsCSSScanner {
 
 /* Character class tables and related helper functions. */
 
-const uint8_t IS_HEX_DIGIT  = 0x01;
-const uint8_t IS_IDSTART    = 0x02;
-const uint8_t IS_IDCHAR     = 0x04;
-const uint8_t IS_URL_CHAR   = 0x08;
-const uint8_t IS_HSPACE     = 0x10;
-const uint8_t IS_VSPACE     = 0x20;
-const uint8_t IS_SPACE      = IS_HSPACE|IS_VSPACE;
-const uint8_t IS_STRING     = 0x40;
+private const uint8_t IS_HEX_DIGIT  = 0x01;
+private const uint8_t IS_IDSTART    = 0x02;
+private const uint8_t IS_IDCHAR     = 0x04;
+private const uint8_t IS_URL_CHAR   = 0x08;
+private const uint8_t IS_HSPACE     = 0x10;
+private const uint8_t IS_VSPACE     = 0x20;
+private const uint8_t IS_SPACE      = IS_HSPACE|IS_VSPACE;
+private const uint8_t IS_STRING     = 0x40;
 
-const uint8_t H = IS_HSPACE;
-const uint8_t V = IS_VSPACE;
-const uint8_t I = IS_IDCHAR;
-const uint8_t J = IS_IDSTART;
-const uint8_t U = IS_URL_CHAR;
-const uint8_t S = IS_STRING;
-const uint8_t X = IS_HEX_DIGIT;
+private const uint8_t H = IS_HSPACE;
+private const uint8_t V = IS_VSPACE;
+private const uint8_t I = IS_IDCHAR;
+private const uint8_t J = IS_IDSTART;
+private const uint8_t U = IS_URL_CHAR;
+private const uint8_t S = IS_STRING;
+private const uint8_t X = IS_HEX_DIGIT;
 
-const uint8_t SH = S|H;
-const uint8_t SU = S|U;
-const uint8_t SUI = S|U|I;
-const uint8_t SUIJ = S|U|I|J;
-const uint8_t SUIX = S|U|I|X;
-const uint8_t SUIJX = S|U|I|J|X;
+private const uint8_t SH = S|H;
+private const uint8_t SU = S|U;
+private const uint8_t SUI = S|U|I;
+private const uint8_t SUIJ = S|U|I|J;
+private const uint8_t SUIX = S|U|I|X;
+private const uint8_t SUIJX = S|U|I|J|X;
 
-static uint8_t[] gLexTable = {
+private static uint8_t[] gLexTable = {
 // 00    01    02    03    04    05    06    07
     0,    S,    S,    S,    S,    S,    S,    S,
 // 08   TAB    LF    0B    FF    CR    0E    0F
@@ -1112,8 +1003,5 @@ internal bool Next(ref nsCSSToken aToken, bool aSkipWS)
   Advance();
   return true;
 }
-
-
 } // class nsCSSScanner
-
 } // namespace Alba.CsCss

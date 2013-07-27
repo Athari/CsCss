@@ -1,16 +1,28 @@
 <#@ template hostspecific="true" debug="true" #>
-<#@ output extension="conv.cs" #>
+<#@ output extension="/" #>
 <#@ include file="..\T4\Common.ttinclude" #>
 <#
-    string source = LoadText(ext: "cpp");
-
     Regex reSourceToken = new Regex(@"(?s)/\* Out-of-line nsCSSToken methods. \*/(.*)/\* nsCSSScanner methods. \*/");
 
+    string source = LoadText(ext: "cpp");
     string sourceScanner = source.ReReplace(reSourceToken, "");
     string sourceToken = source.ReMatchGet(reSourceToken);
-    string outputScanner = ConvertSource(sourceScanner);
-    string outputToken = ConvertSource(sourceToken);
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsCSSToken.conv.cs", () => GenerateSource(sourceToken, "nsCSSToken"));
+    T4.GenerateFile("nsCSSScanner.conv.cs", () => GenerateSource(sourceScanner, "nsCSSScanner"));
+    T4.Process();
 #>
+<#+
+    void GenerateSource (string source, string className) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable RedundantCast
+
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -21,28 +33,21 @@ using uint8_t = System.SByte;
 using uint32_t = System.Int32;
 using PRUnichar = System.Char;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Local
-// ReSharper disable RedundantCast
-namespace Alba.CsCss {
-
-internal partial class nsCSSToken {
-
-<#= outputToken #>
-
-} // class nsCSSToken
-
-internal partial class nsCSSScanner {
-
-<#= outputScanner #>
-
-} // class nsCSSScanner
-
+namespace Alba.CsCss
+{
+internal partial class <#=className#>
+{
+<#= ConvertSource(source) #>
+} // class <#=className#>
 } // namespace Alba.CsCss
+<#+
+    } // GenerateSource
+#>
 <#+
     string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
     string sArgs = @"(?:[^()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
 
-    string ConvertSource(string source) {
+    string ConvertSource (string source) {
         return source
             // whitespace
             .ReReplace(@"\r", "")
@@ -54,7 +59,7 @@ internal partial class nsCSSScanner {
             // common c++ fixes
             .Replace(@"PRUnichar(')')", "((PRUnichar)(')'))")
             // common c++
-            .ReReplace(@"static const", "const")
+            .ReReplace(@"static const", "private const")
             .ReReplace(@"\) const\n", ")\n") // const functions
             .ReReplace(@"inline", "")
             .ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style
@@ -90,8 +95,8 @@ internal partial class nsCSSScanner {
             .ReReplace(@"(\w+)\(aToken\)", "$1(ref aToken)")
             .Replace(@"Append(&mBuffer[mOffset]", "Append(mBuffer, mOffset")
             // specific #define-style consts
-            .ReReplace(@"#define +(\w+) +(\w+)\n", "const uint8_t $1 = $2;\n")
-            .ReReplace(@"#define +(\w+) +([\w|]+)\n", "const uint8_t $1 = $2;\n")
+            .ReReplace(@"#define +(\w+) +(\w+)\n", "private const uint8_t $1 = $2;\n")
+            .ReReplace(@"#define +(\w+) +([\w|]+)\n", "private const uint8_t $1 = $2;\n")
             // specific enums
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
             // specific vars
@@ -109,6 +114,7 @@ internal partial class nsCSSScanner {
             .ReReplace(@"\n\s*;\n", "\n")
             .ReReplace(@"\n{3,}", "\n\n")
             .ReReplace(@"\n", "\r\n")
+            .Trim()
             ;
     }
 #>

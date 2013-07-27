@@ -46,8 +46,9 @@
     <Compile Include="nsCSSTokenType.cs" />
     <Compile Include="nsStyleUtil.cs" />
     <Compile Include="Original\nsCSSScanner.conv.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSScanner.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Original\nsCSSToken.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,7 +59,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSScanner.cpp</DependentUpon>
-      <LastGenOutput>nsCSSScanner.conv.cs</LastGenOutput>
     </None>
     <None Include="T4\Common.ttinclude" />
   </ItemGroup>
