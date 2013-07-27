@@ -41,7 +41,10 @@
     <Compile Include="nsCSSToken.cs" />
     <Compile Include="nsCSSTokenType.cs" />
     <Compile Include="nsStyleUtil.cs" />
-    <Compile Include="Original\nsCSSProperty.cs">
+    <Compile Include="Original\nsCSSFontDesc.g.cs">
+      <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Original\nsCSSProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
     <Compile Include="Original\nsCSSScanner.conv.cs">
@@ -53,6 +56,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Original\nsCSSFontDescList.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSFontDescList.h</DependentUpon>
+    </None>
+    <None Include="Original\nsCSSFontDescList.ttinclude" />
     <None Include="Original\nsCSSPropAliasList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -76,19 +86,17 @@
     <None Include="T4\Common.ttinclude" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Original\nsCSSFontDescList.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSFontDescList.tt</LastGenOutput>
+    </Content>
     <Content Include="Original\nsCSSPropAliasList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropAliasList.tt</LastGenOutput>
     </Content>
-    <Content Include="Original\nsCSSPropAliasList.txt">
-      <DependentUpon>nsCSSPropAliasList.tt</DependentUpon>
-    </Content>
     <Content Include="Original\nsCSSPropList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropList.tt</LastGenOutput>
-    </Content>
-    <Content Include="Original\nsCSSPropList.txt">
-      <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Content>
     <Content Include="Original\nsCSSScanner.cpp">
       <Generator>AttachT4</Generator>

@@ -4,7 +4,7 @@
 <#@ include file="nsCSSPropAliasList.ttinclude" #>
 <#
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSPropAliasList.txt", () => GenerateCssPropAliasListText());
+    //T4.GenerateFile("nsCSSPropAliasList.g.txt", () => GenerateCssPropAliasListText());
     T4.Process();
 #>
 
@@ -19,5 +19,5 @@
 // Id: <#= prop.Id #>
 // Method: <#= prop.Method #>
 // Pref: <#= prop.Pref #>
-<#+ } /* foreach (CssPropBase prop in GetCssProps()) */ #>
-<#+ } /* void GenerateCssPropListText */ #>
+<#+ } #>
+<#+ } /* void GenerateCssPropAliasListText */ #>

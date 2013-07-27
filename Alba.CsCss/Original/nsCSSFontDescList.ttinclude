@@ -1,0 +1,28 @@
+﻿<#+
+    IList<CssFontDesc> _cssFontDescs;
+
+    IEnumerable<CssFontDesc> GetCssFontDescsFromSource (string source) {
+
+        foreach (Match m in source.ReMatches(
+                @"(?x)CSS_FONT_DESC\(
+                    (?<Name>$), (?<Method>$)
+                \)".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var desc = new CssFontDesc {
+                Name = m.Get("Name").Trim(),
+                Method = m.Get("Method").Trim(),
+            };
+            yield return desc;
+        }
+    }
+
+    IEnumerable<CssFontDesc> GetCssFontDescs () {
+        if (_cssFontDescs == null)
+            _cssFontDescs = GetCssFontDescsFromSource(LoadText("nsCSSFontDescList.h")).ToList();
+        return _cssFontDescs;
+    }
+
+    class CssFontDesc
+    {
+        public string Name, Method;
+    }
+#>

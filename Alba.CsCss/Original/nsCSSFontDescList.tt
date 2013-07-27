@@ -1,0 +1,38 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="nsCSSFontDescList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    //T4.GenerateFile("nsCSSFontDescList.g.txt", () => GenerateCssFontDescListText());
+    T4.GenerateFile("nsCSSFontDesc.g.cs", () => GenerateCssFontDesc());
+    T4.Process();
+#>
+
+<#+ void GenerateCssFontDescListText () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+<#+ foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+//
+// Name: <#= desc.Name #>
+// Method: <#= desc.Method #>
+<#+ } #>
+<#+ } /* void GenerateCssFontDescListText */ #>
+
+<#+ void GenerateCssFontDesc () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss
+{
+    internal enum nsCSSFontDesc
+    {
+<#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+        <#= desc.Method #>,
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateCssFontDesc */ #>

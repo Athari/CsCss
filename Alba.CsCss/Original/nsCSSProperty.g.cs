@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Alba.CsCss
 {
-    enum nsCSSProperty {
+    internal enum nsCSSProperty {
         UNKNOWN = -1,
         appearance,
         _moz_outline_radius_topLeft,

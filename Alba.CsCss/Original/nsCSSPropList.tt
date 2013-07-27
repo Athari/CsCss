@@ -5,8 +5,8 @@
 <#@ include file="nsCSSPropAliasList.ttinclude" #>
 <#
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSPropList.txt", () => GenerateCssPropListText());
-    T4.GenerateFile("nsCSSProperty.cs", () => GenerateCssProperty());
+    //T4.GenerateFile("nsCSSPropList.g.txt", () => GenerateCssPropListText());
+    T4.GenerateFile("nsCSSProperty.g.cs", () => GenerateCssProperty());
     T4.Process();
 #>
 
@@ -45,7 +45,7 @@ using System.ComponentModel;
 
 namespace Alba.CsCss
 {
-    enum nsCSSProperty {
+    internal enum nsCSSProperty {
         UNKNOWN = -1,
 <#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
         <#= prop.Id != "float" ? prop.Id : "@float" #>,
