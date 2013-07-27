@@ -112,18 +112,25 @@
         //WriteLine(source);
     }
 
-    IEnumerable<CssPropBase> GetCssPropsAll () {
+    IEnumerable<CssPropBase> GetCssPropsAll (IEnumerable<string> defs = null) {
         if (_cssProps == null)
             LoadCssProps();
-        return _cssProps;
+        defs = defs != null ? defs.ToArray() : new string[0];
+        return _cssProps.Where(p => {
+            if (p.IfDef == null)
+                return true;
+            bool isNegative = p.IfDef.StartsWith("!");
+            string ifDef = isNegative ? p.IfDef.Substring(1) : p.IfDef;
+            return isNegative ^ defs.Contains(ifDef);
+        });
     }
 
-    IEnumerable<CssProp> GetCssProps () {
-        return GetCssPropsAll().OfType<CssProp>();
+    IEnumerable<CssProp> GetCssProps (IEnumerable<string> defs = null) {
+        return GetCssPropsAll(defs).OfType<CssProp>();
     }
 
-    IEnumerable<CssPropShort> GetCssPropsShort () {
-        return GetCssPropsAll().OfType<CssPropShort>();
+    IEnumerable<CssPropShort> GetCssPropsShort (IEnumerable<string> defs = null) {
+        return GetCssPropsAll(defs).OfType<CssPropShort>();
     }
 
     class CssPropBase

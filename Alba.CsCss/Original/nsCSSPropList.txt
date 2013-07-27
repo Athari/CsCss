@@ -24,6 +24,7 @@
 // MethodPrivate: OutlineRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: -moz-outline-radius-topleft
@@ -116,6 +117,7 @@
 // MethodPrivate: Animation
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: animation-delay
@@ -236,6 +238,7 @@
 // MethodPrivate: Background
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: background-attachment
@@ -384,6 +387,7 @@
 // MethodPrivate: Border
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: border-bottom
@@ -392,6 +396,7 @@
 // MethodPrivate: BorderBottom
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-bottom-color
@@ -470,6 +475,7 @@
 // MethodPrivate: BorderColor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: -moz-border-end
@@ -478,6 +484,7 @@
 // MethodPrivate: BorderEnd
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: -moz-border-end-color
@@ -486,6 +493,7 @@
 // MethodPrivate: BorderEndColor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-end-color-value
@@ -508,6 +516,7 @@
 // MethodPrivate: BorderEndStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-end-style-value
@@ -530,6 +539,7 @@
 // MethodPrivate: BorderEndWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-end-width-value
@@ -552,6 +562,7 @@
 // MethodPrivate: BorderImage
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-image-source
@@ -630,6 +641,7 @@
 // MethodPrivate: BorderLeft
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: border-left-color
@@ -638,6 +650,7 @@
 // MethodPrivate: BorderLeftColor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-left-color-value
@@ -702,6 +715,7 @@
 // MethodPrivate: BorderLeftStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-left-style-value
@@ -752,6 +766,7 @@
 // MethodPrivate: BorderLeftWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-left-width-value
@@ -802,6 +817,7 @@
 // MethodPrivate: BorderRight
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: border-right-color
@@ -810,6 +826,7 @@
 // MethodPrivate: BorderRightColor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-right-color-value
@@ -874,6 +891,7 @@
 // MethodPrivate: BorderRightStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-right-style-value
@@ -924,6 +942,7 @@
 // MethodPrivate: BorderRightWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-right-width-value
@@ -988,6 +1007,7 @@
 // MethodPrivate: BorderStart
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: -moz-border-start-color
@@ -996,6 +1016,7 @@
 // MethodPrivate: BorderStartColor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-start-color-value
@@ -1018,6 +1039,7 @@
 // MethodPrivate: BorderStartStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-start-style-value
@@ -1040,6 +1062,7 @@
 // MethodPrivate: BorderStartWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-start-width-value
@@ -1062,6 +1085,7 @@
 // MethodPrivate: BorderStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: border-top
@@ -1070,6 +1094,7 @@
 // MethodPrivate: BorderTop
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-top-color
@@ -1134,6 +1159,7 @@
 // MethodPrivate: BorderWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssPropShort
 // Name: border-radius
@@ -1142,6 +1168,7 @@
 // MethodPrivate: BorderRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: border-top-left-radius
@@ -1304,6 +1331,7 @@
 // MethodPrivate: Columns
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: -moz-column-count
@@ -1368,6 +1396,7 @@
 // MethodPrivate: ColumnRule
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: -moz-column-rule-color
@@ -1510,126 +1539,6 @@
 // IfDef: null
 //
 // Kind: CssProp
-// Name: align-items
-// Id: align_items
-// MethodPublic: AlignItems
-// MethodPrivate: AlignItems
-// Flags: CSS_PROPERTY_PARSE_VALUE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HK
-// KwTable: kAlignItemsKTable
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mAlignItems
-// AnimType: EnumU8
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: align-self
-// Id: align_self
-// MethodPublic: AlignSelf
-// MethodPrivate: AlignSelf
-// Flags: CSS_PROPERTY_PARSE_VALUE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HK
-// KwTable: kAlignSelfKTable
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mAlignSelf
-// AnimType: EnumU8
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssPropShort
-// Name: flex
-// Id: flex
-// MethodPublic: Flex
-// MethodPrivate: Flex
-// Flags: CSS_PROPERTY_PARSE_FUNCTION
-// Pref: "layout.css.flexbox.enabled"
-//
-// Kind: CssProp
-// Name: flex-basis
-// Id: flex_basis
-// MethodPublic: FlexBasis
-// MethodPrivate: FlexBasis
-// Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_AHKLP | VARIANT_CALC
-// KwTable: kWidthKTable
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mFlexBasis
-// AnimType: Coord
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: flex-direction
-// Id: flex_direction
-// MethodPublic: FlexDirection
-// MethodPrivate: FlexDirection
-// Flags: CSS_PROPERTY_PARSE_VALUE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HK
-// KwTable: kFlexDirectionKTable
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mFlexDirection
-// AnimType: EnumU8
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: flex-grow
-// Id: flex_grow
-// MethodPublic: FlexGrow
-// MethodPrivate: FlexGrow
-// Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HN
-// KwTable: null
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mFlexGrow
-// AnimType: float
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: flex-shrink
-// Id: flex_shrink
-// MethodPublic: FlexShrink
-// MethodPrivate: FlexShrink
-// Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HN
-// KwTable: null
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mFlexShrink
-// AnimType: float
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: order
-// Id: order
-// MethodPublic: Order
-// MethodPrivate: Order
-// Flags: CSS_PROPERTY_PARSE_VALUE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HI
-// KwTable: null
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mOrder
-// AnimType: Custom
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
-// Name: justify-content
-// Id: justify_content
-// MethodPublic: JustifyContent
-// MethodPrivate: JustifyContent
-// Flags: CSS_PROPERTY_PARSE_VALUE
-// Pref: "layout.css.flexbox.enabled"
-// ParseVariant: VARIANT_HK
-// KwTable: kJustifyContentKTable
-// StyleStruct: Position
-// StyleStructOffset: nsStylePosition.mJustifyContent
-// AnimType: EnumU8
-// IfDef: MOZ_FLEXBOX
-//
-// Kind: CssProp
 // Name: float
 // Id: float
 // MethodPublic: CssFloat
@@ -1664,6 +1573,7 @@
 // MethodPrivate: Font
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: font-family
@@ -1896,6 +1806,7 @@
 // MethodPrivate: ListStyle
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: list-style-image
@@ -1946,6 +1857,7 @@
 // MethodPrivate: Margin
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: margin-bottom
@@ -1968,6 +1880,7 @@
 // MethodPrivate: MarginEnd
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: margin-end-value
@@ -1990,6 +1903,7 @@
 // MethodPrivate: MarginLeft
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: margin-left-value
@@ -2040,6 +1954,7 @@
 // MethodPrivate: MarginRight
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: margin-right-value
@@ -2090,6 +2005,7 @@
 // MethodPrivate: MarginStart
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: margin-start-value
@@ -2224,6 +2140,7 @@
 // MethodPrivate: Outline
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: outline-color
@@ -2288,6 +2205,7 @@
 // MethodPrivate: Overflow
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: overflow-x
@@ -2324,6 +2242,7 @@
 // MethodPrivate: Padding
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: padding-bottom
@@ -2346,6 +2265,7 @@
 // MethodPrivate: PaddingEnd
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: padding-end-value
@@ -2368,6 +2288,7 @@
 // MethodPrivate: PaddingLeft
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: padding-left-value
@@ -2418,6 +2339,7 @@
 // MethodPrivate: PaddingRight
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: padding-right-value
@@ -2468,6 +2390,7 @@
 // MethodPrivate: PaddingStart
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: padding-start-value
@@ -2672,6 +2595,7 @@
 // MethodPrivate: TextDecoration
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: -moz-text-blink
@@ -2904,6 +2828,7 @@
 // MethodPrivate: Transition
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: transition-delay
@@ -3500,6 +3425,7 @@
 // MethodPrivate: Marker
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
+// IfDef: null
 //
 // Kind: CssProp
 // Name: marker-end
@@ -3760,6 +3686,7 @@
 // MethodPrivate: MozTransform
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_IS_ALIAS
 // Pref: "layout.css.prefixes.transforms"
+// IfDef: null
 //
 // Kind: CssProp
 // Name: -x-lang

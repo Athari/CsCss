@@ -4,4 +4,5 @@
 #><#+
     string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
     string sArgs = @"(?:[^()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
+    string[] CommonDefs = new[] { "MOZ_FLEXBOX" };
 #>
