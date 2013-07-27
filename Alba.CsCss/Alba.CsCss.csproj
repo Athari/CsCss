@@ -45,7 +45,9 @@
     <Compile Include="nsCSSToken.cs" />
     <Compile Include="nsCSSTokenType.cs" />
     <Compile Include="nsStyleUtil.cs" />
-    <Compile Include="Original\nsCssPropList.conv.cs">
+    <Compile Include="Original\nsCSSPropList.conv.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
     <Compile Include="Original\nsCSSScanner.conv.cs">
@@ -62,7 +64,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSPropList.h</DependentUpon>
+      <LastGenOutput>nsCSSPropList.conv.cs</LastGenOutput>
     </None>
+    <None Include="Original\nsCSSPropList.ttinclude" />
     <None Include="Original\nsCSSScanner.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>

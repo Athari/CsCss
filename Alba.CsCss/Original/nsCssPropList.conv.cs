@@ -1,22 +1,12 @@
 //
 // Generated file. Do not edit manually.
 //
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable RedundantCast
 
-using System;
-using System.Diagnostics;
-using System.Text;
-using Alba.CsCss.Extensions;
-
-namespace Alba.CsCss
-{
-internal partial class nsCssPropList
-{
 //
 // Name: -moz-appearance
 // Id: appearance
-// Method: MozAppearance
+// MethodPublic: MozAppearance
+// MethodPrivate: Appearance
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -28,7 +18,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-outline-radius-topleft
 // Id: _moz_outline_radius_topLeft
-// Method: MozOutlineRadiusTopleft
+// MethodPublic: MozOutlineRadiusTopleft
+// MethodPrivate: OutlineRadiusTopleft
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -40,7 +31,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-outline-radius-topright
 // Id: _moz_outline_radius_topRight
-// Method: MozOutlineRadiusTopright
+// MethodPublic: MozOutlineRadiusTopright
+// MethodPrivate: OutlineRadiusTopright
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -52,7 +44,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-outline-radius-bottomright
 // Id: _moz_outline_radius_bottomRight
-// Method: MozOutlineRadiusBottomright
+// MethodPublic: MozOutlineRadiusBottomright
+// MethodPrivate: OutlineRadiusBottomright
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -64,7 +57,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-outline-radius-bottomleft
 // Id: _moz_outline_radius_bottomLeft
-// Method: MozOutlineRadiusBottomleft
+// MethodPublic: MozOutlineRadiusBottomleft
+// MethodPrivate: OutlineRadiusBottomleft
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -76,7 +70,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-tab-size
 // Id: _moz_tab_size
-// Method: MozTabSize
+// MethodPublic: MozTabSize
+// MethodPrivate: TabSize
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HI
@@ -88,7 +83,8 @@ internal partial class nsCssPropList
 //
 // Name: -x-system-font
 // Id: _x_system_font
-// Method: MozSystemFont
+// MethodPublic: MozSystemFont
+// MethodPrivate: SystemFont
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -100,7 +96,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-delay
 // Id: animation_delay
-// Method: AnimationDelay
+// MethodPublic: AnimationDelay
+// MethodPrivate: AnimationDelay
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_TIME
@@ -112,7 +109,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-direction
 // Id: animation_direction
-// Method: AnimationDirection
+// MethodPublic: AnimationDirection
+// MethodPrivate: AnimationDirection
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -124,7 +122,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-duration
 // Id: animation_duration
-// Method: AnimationDuration
+// MethodPublic: AnimationDuration
+// MethodPrivate: AnimationDuration
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_TIME | VARIANT_NONNEGATIVE_DIMENSION
@@ -136,7 +135,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-fill-mode
 // Id: animation_fill_mode
-// Method: AnimationFillMode
+// MethodPublic: AnimationFillMode
+// MethodPrivate: AnimationFillMode
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -148,7 +148,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-iteration-count
 // Id: animation_iteration_count
-// Method: AnimationIterationCount
+// MethodPublic: AnimationIterationCount
+// MethodPrivate: AnimationIterationCount
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD | VARIANT_NUMBER
@@ -160,7 +161,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-name
 // Id: animation_name
-// Method: AnimationName
+// MethodPublic: AnimationName
+// MethodPrivate: AnimationName
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_NONE | VARIANT_IDENTIFIER_NO_INHERIT
@@ -172,7 +174,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-play-state
 // Id: animation_play_state
-// Method: AnimationPlayState
+// MethodPublic: AnimationPlayState
+// MethodPrivate: AnimationPlayState
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -184,7 +187,8 @@ internal partial class nsCssPropList
 //
 // Name: animation-timing-function
 // Id: animation_timing_function
-// Method: AnimationTimingFunction
+// MethodPublic: AnimationTimingFunction
+// MethodPrivate: AnimationTimingFunction
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD | VARIANT_TIMING_FUNCTION
@@ -196,7 +200,8 @@ internal partial class nsCssPropList
 //
 // Name: background-attachment
 // Id: background_attachment
-// Method: BackgroundAttachment
+// MethodPublic: BackgroundAttachment
+// MethodPrivate: BackgroundAttachment
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -208,7 +213,8 @@ internal partial class nsCssPropList
 //
 // Name: background-clip
 // Id: background_clip
-// Method: BackgroundClip
+// MethodPublic: BackgroundClip
+// MethodPrivate: BackgroundClip
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -220,7 +226,8 @@ internal partial class nsCssPropList
 //
 // Name: background-color
 // Id: background_color
-// Method: BackgroundColor
+// MethodPublic: BackgroundColor
+// MethodPrivate: BackgroundColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HC
@@ -232,7 +239,8 @@ internal partial class nsCssPropList
 //
 // Name: background-image
 // Id: background_image
-// Method: BackgroundImage
+// MethodPublic: BackgroundImage
+// MethodPrivate: BackgroundImage
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_START_IMAGE_LOADS
 // Pref: ""
 // ParseVariant: VARIANT_IMAGE
@@ -244,7 +252,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-background-inline-policy
 // Id: _moz_background_inline_policy
-// Method: MozBackgroundInlinePolicy
+// MethodPublic: MozBackgroundInlinePolicy
+// MethodPrivate: BackgroundInlinePolicy
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -256,7 +265,8 @@ internal partial class nsCssPropList
 //
 // Name: background-origin
 // Id: background_origin
-// Method: BackgroundOrigin
+// MethodPublic: BackgroundOrigin
+// MethodPrivate: BackgroundOrigin
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -268,7 +278,8 @@ internal partial class nsCssPropList
 //
 // Name: background-position
 // Id: background_position
-// Method: BackgroundPosition
+// MethodPublic: BackgroundPosition
+// MethodPrivate: BackgroundPosition
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -280,7 +291,8 @@ internal partial class nsCssPropList
 //
 // Name: background-repeat
 // Id: background_repeat
-// Method: BackgroundRepeat
+// MethodPublic: BackgroundRepeat
+// MethodPrivate: BackgroundRepeat
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD
@@ -292,7 +304,8 @@ internal partial class nsCssPropList
 //
 // Name: background-size
 // Id: background_size
-// Method: BackgroundSize
+// MethodPublic: BackgroundSize
+// MethodPrivate: BackgroundSize
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -304,7 +317,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-binding
 // Id: binding
-// Method: MozBinding
+// MethodPublic: MozBinding
+// MethodPrivate: Binding
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -316,7 +330,8 @@ internal partial class nsCssPropList
 //
 // Name: border-bottom-color
 // Id: border_bottom_color
-// Method: BorderBottomColor
+// MethodPublic: BorderBottomColor
+// MethodPrivate: BorderBottomColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -328,7 +343,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-border-bottom-colors
 // Id: border_bottom_colors
-// Method: MozBorderBottomColors
+// MethodPublic: MozBorderBottomColors
+// MethodPrivate: BorderBottomColors
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -340,7 +356,8 @@ internal partial class nsCssPropList
 //
 // Name: border-bottom-style
 // Id: border_bottom_style
-// Method: BorderBottomStyle
+// MethodPublic: BorderBottomStyle
+// MethodPrivate: BorderBottomStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -352,7 +369,8 @@ internal partial class nsCssPropList
 //
 // Name: border-bottom-width
 // Id: border_bottom_width
-// Method: BorderBottomWidth
+// MethodPublic: BorderBottomWidth
+// MethodPrivate: BorderBottomWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -364,7 +382,8 @@ internal partial class nsCssPropList
 //
 // Name: border-collapse
 // Id: border_collapse
-// Method: BorderCollapse
+// MethodPublic: BorderCollapse
+// MethodPrivate: BorderCollapse
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -376,7 +395,8 @@ internal partial class nsCssPropList
 //
 // Name: border-end-color-value
 // Id: border_end_color_value
-// Method: BorderEndColorValue
+// MethodPublic: BorderEndColorValue
+// MethodPrivate: BorderEndColorValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -388,7 +408,8 @@ internal partial class nsCssPropList
 //
 // Name: border-end-style-value
 // Id: border_end_style_value
-// Method: BorderEndStyleValue
+// MethodPublic: BorderEndStyleValue
+// MethodPrivate: BorderEndStyleValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -400,7 +421,8 @@ internal partial class nsCssPropList
 //
 // Name: border-end-width-value
 // Id: border_end_width_value
-// Method: BorderEndWidthValue
+// MethodPublic: BorderEndWidthValue
+// MethodPrivate: BorderEndWidthValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -412,7 +434,8 @@ internal partial class nsCssPropList
 //
 // Name: border-image-source
 // Id: border_image_source
-// Method: BorderImageSource
+// MethodPublic: BorderImageSource
+// MethodPrivate: BorderImageSource
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_START_IMAGE_LOADS
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -424,7 +447,8 @@ internal partial class nsCssPropList
 //
 // Name: border-image-slice
 // Id: border_image_slice
-// Method: BorderImageSlice
+// MethodPublic: BorderImageSlice
+// MethodPrivate: BorderImageSlice
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: 0
@@ -436,7 +460,8 @@ internal partial class nsCssPropList
 //
 // Name: border-image-width
 // Id: border_image_width
-// Method: BorderImageWidth
+// MethodPublic: BorderImageWidth
+// MethodPrivate: BorderImageWidth
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: 0
@@ -448,7 +473,8 @@ internal partial class nsCssPropList
 //
 // Name: border-image-outset
 // Id: border_image_outset
-// Method: BorderImageOutset
+// MethodPublic: BorderImageOutset
+// MethodPrivate: BorderImageOutset
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: 0
@@ -460,7 +486,8 @@ internal partial class nsCssPropList
 //
 // Name: border-image-repeat
 // Id: border_image_repeat
-// Method: BorderImageRepeat
+// MethodPublic: BorderImageRepeat
+// MethodPrivate: BorderImageRepeat
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: 0
@@ -472,7 +499,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-color-value
 // Id: border_left_color_value
-// Method: BorderLeftColorValue
+// MethodPublic: BorderLeftColorValue
+// MethodPrivate: BorderLeftColorValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -484,7 +512,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-color-ltr-source
 // Id: border_left_color_ltr_source
-// Method: BorderLeftColorLTRSource
+// MethodPublic: BorderLeftColorLTRSource
+// MethodPrivate: BorderLeftColorLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -496,7 +525,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-color-rtl-source
 // Id: border_left_color_rtl_source
-// Method: BorderLeftColorRTLSource
+// MethodPublic: BorderLeftColorRTLSource
+// MethodPrivate: BorderLeftColorRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -508,7 +538,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-border-left-colors
 // Id: border_left_colors
-// Method: MozBorderLeftColors
+// MethodPublic: MozBorderLeftColors
+// MethodPrivate: BorderLeftColors
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -520,7 +551,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-style-value
 // Id: border_left_style_value
-// Method: BorderLeftStyleValue
+// MethodPublic: BorderLeftStyleValue
+// MethodPrivate: BorderLeftStyleValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -532,7 +564,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-style-ltr-source
 // Id: border_left_style_ltr_source
-// Method: BorderLeftStyleLTRSource
+// MethodPublic: BorderLeftStyleLTRSource
+// MethodPrivate: BorderLeftStyleLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -544,7 +577,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-style-rtl-source
 // Id: border_left_style_rtl_source
-// Method: BorderLeftStyleRTLSource
+// MethodPublic: BorderLeftStyleRTLSource
+// MethodPrivate: BorderLeftStyleRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -556,7 +590,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-width-value
 // Id: border_left_width_value
-// Method: BorderLeftWidthValue
+// MethodPublic: BorderLeftWidthValue
+// MethodPrivate: BorderLeftWidthValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -568,7 +603,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-width-ltr-source
 // Id: border_left_width_ltr_source
-// Method: BorderLeftWidthLTRSource
+// MethodPublic: BorderLeftWidthLTRSource
+// MethodPrivate: BorderLeftWidthLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -580,7 +616,8 @@ internal partial class nsCssPropList
 //
 // Name: border-left-width-rtl-source
 // Id: border_left_width_rtl_source
-// Method: BorderLeftWidthRTLSource
+// MethodPublic: BorderLeftWidthRTLSource
+// MethodPrivate: BorderLeftWidthRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -592,7 +629,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-color-value
 // Id: border_right_color_value
-// Method: BorderRightColorValue
+// MethodPublic: BorderRightColorValue
+// MethodPrivate: BorderRightColorValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -604,7 +642,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-color-ltr-source
 // Id: border_right_color_ltr_source
-// Method: BorderRightColorLTRSource
+// MethodPublic: BorderRightColorLTRSource
+// MethodPrivate: BorderRightColorLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -616,7 +655,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-color-rtl-source
 // Id: border_right_color_rtl_source
-// Method: BorderRightColorRTLSource
+// MethodPublic: BorderRightColorRTLSource
+// MethodPrivate: BorderRightColorRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -628,7 +668,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-border-right-colors
 // Id: border_right_colors
-// Method: MozBorderRightColors
+// MethodPublic: MozBorderRightColors
+// MethodPrivate: BorderRightColors
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -640,7 +681,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-style-value
 // Id: border_right_style_value
-// Method: BorderRightStyleValue
+// MethodPublic: BorderRightStyleValue
+// MethodPrivate: BorderRightStyleValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -652,7 +694,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-style-ltr-source
 // Id: border_right_style_ltr_source
-// Method: BorderRightStyleLTRSource
+// MethodPublic: BorderRightStyleLTRSource
+// MethodPrivate: BorderRightStyleLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -664,7 +707,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-style-rtl-source
 // Id: border_right_style_rtl_source
-// Method: BorderRightStyleRTLSource
+// MethodPublic: BorderRightStyleRTLSource
+// MethodPrivate: BorderRightStyleRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -676,7 +720,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-width-value
 // Id: border_right_width_value
-// Method: BorderRightWidthValue
+// MethodPublic: BorderRightWidthValue
+// MethodPrivate: BorderRightWidthValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -688,7 +733,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-width-ltr-source
 // Id: border_right_width_ltr_source
-// Method: BorderRightWidthLTRSource
+// MethodPublic: BorderRightWidthLTRSource
+// MethodPrivate: BorderRightWidthLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -700,7 +746,8 @@ internal partial class nsCssPropList
 //
 // Name: border-right-width-rtl-source
 // Id: border_right_width_rtl_source
-// Method: BorderRightWidthRTLSource
+// MethodPublic: BorderRightWidthRTLSource
+// MethodPrivate: BorderRightWidthRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -712,7 +759,8 @@ internal partial class nsCssPropList
 //
 // Name: border-spacing
 // Id: border_spacing
-// Method: BorderSpacing
+// MethodPublic: BorderSpacing
+// MethodPrivate: BorderSpacing
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: 0
@@ -724,7 +772,8 @@ internal partial class nsCssPropList
 //
 // Name: border-start-color-value
 // Id: border_start_color_value
-// Method: BorderStartColorValue
+// MethodPublic: BorderStartColorValue
+// MethodPrivate: BorderStartColorValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -736,7 +785,8 @@ internal partial class nsCssPropList
 //
 // Name: border-start-style-value
 // Id: border_start_style_value
-// Method: BorderStartStyleValue
+// MethodPublic: BorderStartStyleValue
+// MethodPrivate: BorderStartStyleValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -748,7 +798,8 @@ internal partial class nsCssPropList
 //
 // Name: border-start-width-value
 // Id: border_start_width_value
-// Method: BorderStartWidthValue
+// MethodPublic: BorderStartWidthValue
+// MethodPrivate: BorderStartWidthValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -760,7 +811,8 @@ internal partial class nsCssPropList
 //
 // Name: border-top-color
 // Id: border_top_color
-// Method: BorderTopColor
+// MethodPublic: BorderTopColor
+// MethodPrivate: BorderTopColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -772,7 +824,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-border-top-colors
 // Id: border_top_colors
-// Method: MozBorderTopColors
+// MethodPublic: MozBorderTopColors
+// MethodPrivate: BorderTopColors
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -784,7 +837,8 @@ internal partial class nsCssPropList
 //
 // Name: border-top-style
 // Id: border_top_style
-// Method: BorderTopStyle
+// MethodPublic: BorderTopStyle
+// MethodPrivate: BorderTopStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -796,7 +850,8 @@ internal partial class nsCssPropList
 //
 // Name: border-top-width
 // Id: border_top_width
-// Method: BorderTopWidth
+// MethodPublic: BorderTopWidth
+// MethodPrivate: BorderTopWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -808,7 +863,8 @@ internal partial class nsCssPropList
 //
 // Name: border-top-left-radius
 // Id: border_top_left_radius
-// Method: BorderTopLeftRadius
+// MethodPublic: BorderTopLeftRadius
+// MethodPrivate: BorderTopLeftRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -820,7 +876,8 @@ internal partial class nsCssPropList
 //
 // Name: border-top-right-radius
 // Id: border_top_right_radius
-// Method: BorderTopRightRadius
+// MethodPublic: BorderTopRightRadius
+// MethodPrivate: BorderTopRightRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -832,7 +889,8 @@ internal partial class nsCssPropList
 //
 // Name: border-bottom-right-radius
 // Id: border_bottom_right_radius
-// Method: BorderBottomRightRadius
+// MethodPublic: BorderBottomRightRadius
+// MethodPrivate: BorderBottomRightRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -844,7 +902,8 @@ internal partial class nsCssPropList
 //
 // Name: border-bottom-left-radius
 // Id: border_bottom_left_radius
-// Method: BorderBottomLeftRadius
+// MethodPublic: BorderBottomLeftRadius
+// MethodPrivate: BorderBottomLeftRadius
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -856,7 +915,8 @@ internal partial class nsCssPropList
 //
 // Name: bottom
 // Id: bottom
-// Method: Bottom
+// MethodPublic: Bottom
+// MethodPrivate: Bottom
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -868,7 +928,8 @@ internal partial class nsCssPropList
 //
 // Name: box-shadow
 // Id: box_shadow
-// Method: BoxShadow
+// MethodPublic: BoxShadow
+// MethodPrivate: BoxShadow
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -880,7 +941,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-sizing
 // Id: box_sizing
-// Method: MozBoxSizing
+// MethodPublic: MozBoxSizing
+// MethodPrivate: BoxSizing
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -892,7 +954,8 @@ internal partial class nsCssPropList
 //
 // Name: caption-side
 // Id: caption_side
-// Method: CaptionSide
+// MethodPublic: CaptionSide
+// MethodPrivate: CaptionSide
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -904,7 +967,8 @@ internal partial class nsCssPropList
 //
 // Name: clear
 // Id: clear
-// Method: Clear
+// MethodPublic: Clear
+// MethodPrivate: Clear
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -916,7 +980,8 @@ internal partial class nsCssPropList
 //
 // Name: clip
 // Id: clip
-// Method: Clip
+// MethodPublic: Clip
+// MethodPrivate: Clip
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: 0
@@ -928,7 +993,8 @@ internal partial class nsCssPropList
 //
 // Name: color
 // Id: color
-// Method: Color
+// MethodPublic: Color
+// MethodPrivate: Color
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HC
@@ -940,7 +1006,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-count
 // Id: _moz_column_count
-// Method: MozColumnCount
+// MethodPublic: MozColumnCount
+// MethodPrivate: ColumnCount
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_AT_LEAST_ONE
 // Pref: ""
 // ParseVariant: VARIANT_AHI
@@ -952,7 +1019,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-fill
 // Id: _moz_column_fill
-// Method: MozColumnFill
+// MethodPublic: MozColumnFill
+// MethodPrivate: ColumnFill
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -964,7 +1032,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-width
 // Id: _moz_column_width
-// Method: MozColumnWidth
+// MethodPublic: MozColumnWidth
+// MethodPrivate: ColumnWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_AHL | VARIANT_CALC
@@ -976,7 +1045,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-gap
 // Id: _moz_column_gap
-// Method: MozColumnGap
+// MethodPublic: MozColumnGap
+// MethodPrivate: ColumnGap
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HL | VARIANT_NORMAL | VARIANT_CALC
@@ -988,7 +1058,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-rule-color
 // Id: _moz_column_rule_color
-// Method: MozColumnRuleColor
+// MethodPublic: MozColumnRuleColor
+// MethodPrivate: ColumnRuleColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -1000,7 +1071,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-rule-style
 // Id: _moz_column_rule_style
-// Method: MozColumnRuleStyle
+// MethodPublic: MozColumnRuleStyle
+// MethodPrivate: ColumnRuleStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1012,7 +1084,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-column-rule-width
 // Id: _moz_column_rule_width
-// Method: MozColumnRuleWidth
+// MethodPublic: MozColumnRuleWidth
+// MethodPrivate: ColumnRuleWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -1024,7 +1097,8 @@ internal partial class nsCssPropList
 //
 // Name: content
 // Id: content
-// Method: Content
+// MethodPublic: Content
+// MethodPrivate: Content
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_START_IMAGE_LOADS
 // Pref: ""
 // ParseVariant: 0
@@ -1036,7 +1110,8 @@ internal partial class nsCssPropList
 //
 // Name: counter-increment
 // Id: counter_increment
-// Method: CounterIncrement
+// MethodPublic: CounterIncrement
+// MethodPrivate: CounterIncrement
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -1048,7 +1123,8 @@ internal partial class nsCssPropList
 //
 // Name: counter-reset
 // Id: counter_reset
-// Method: CounterReset
+// MethodPublic: CounterReset
+// MethodPrivate: CounterReset
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -1060,7 +1136,8 @@ internal partial class nsCssPropList
 //
 // Name: cursor
 // Id: cursor
-// Method: Cursor
+// MethodPublic: Cursor
+// MethodPrivate: Cursor
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_START_IMAGE_LOADS | CSS_PROPERTY_IMAGE_IS_IN_ARRAY_0
 // Pref: ""
 // ParseVariant: 0
@@ -1072,7 +1149,8 @@ internal partial class nsCssPropList
 //
 // Name: direction
 // Id: direction
-// Method: Direction
+// MethodPublic: Direction
+// MethodPrivate: Direction
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1084,7 +1162,8 @@ internal partial class nsCssPropList
 //
 // Name: display
 // Id: display
-// Method: Display
+// MethodPublic: Display
+// MethodPrivate: Display
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1096,7 +1175,8 @@ internal partial class nsCssPropList
 //
 // Name: empty-cells
 // Id: empty_cells
-// Method: EmptyCells
+// MethodPublic: EmptyCells
+// MethodPrivate: EmptyCells
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1108,7 +1188,8 @@ internal partial class nsCssPropList
 //
 // Name: align-items
 // Id: align_items
-// Method: AlignItems
+// MethodPublic: AlignItems
+// MethodPrivate: AlignItems
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HK
@@ -1120,7 +1201,8 @@ internal partial class nsCssPropList
 //
 // Name: align-self
 // Id: align_self
-// Method: AlignSelf
+// MethodPublic: AlignSelf
+// MethodPrivate: AlignSelf
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HK
@@ -1132,7 +1214,8 @@ internal partial class nsCssPropList
 //
 // Name: flex-basis
 // Id: flex_basis
-// Method: FlexBasis
+// MethodPublic: FlexBasis
+// MethodPrivate: FlexBasis
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_AHKLP | VARIANT_CALC
@@ -1144,7 +1227,8 @@ internal partial class nsCssPropList
 //
 // Name: flex-direction
 // Id: flex_direction
-// Method: FlexDirection
+// MethodPublic: FlexDirection
+// MethodPrivate: FlexDirection
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HK
@@ -1156,7 +1240,8 @@ internal partial class nsCssPropList
 //
 // Name: flex-grow
 // Id: flex_grow
-// Method: FlexGrow
+// MethodPublic: FlexGrow
+// MethodPrivate: FlexGrow
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HN
@@ -1168,7 +1253,8 @@ internal partial class nsCssPropList
 //
 // Name: flex-shrink
 // Id: flex_shrink
-// Method: FlexShrink
+// MethodPublic: FlexShrink
+// MethodPrivate: FlexShrink
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HN
@@ -1180,7 +1266,8 @@ internal partial class nsCssPropList
 //
 // Name: order
 // Id: order
-// Method: Order
+// MethodPublic: Order
+// MethodPrivate: Order
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HI
@@ -1192,7 +1279,8 @@ internal partial class nsCssPropList
 //
 // Name: justify-content
 // Id: justify_content
-// Method: JustifyContent
+// MethodPublic: JustifyContent
+// MethodPrivate: JustifyContent
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.flexbox.enabled"
 // ParseVariant: VARIANT_HK
@@ -1204,7 +1292,8 @@ internal partial class nsCssPropList
 //
 // Name: float
 // Id: float
-// Method: CssFloat
+// MethodPublic: CssFloat
+// MethodPrivate: Float
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1216,7 +1305,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-float-edge
 // Id: float_edge
-// Method: MozFloatEdge
+// MethodPublic: MozFloatEdge
+// MethodPrivate: FloatEdge
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1228,7 +1318,8 @@ internal partial class nsCssPropList
 //
 // Name: font-family
 // Id: font_family
-// Method: FontFamily
+// MethodPublic: FontFamily
+// MethodPrivate: FontFamily
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_PARSER_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -1240,7 +1331,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-font-feature-settings
 // Id: font_feature_settings
-// Method: MozFontFeatureSettings
+// MethodPublic: MozFontFeatureSettings
+// MethodPrivate: FontFeatureSettings
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_PARSER_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -1252,7 +1344,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-font-language-override
 // Id: font_language_override
-// Method: MozFontLanguageOverride
+// MethodPublic: MozFontLanguageOverride
+// MethodPrivate: FontLanguageOverride
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_NORMAL | VARIANT_INHERIT | VARIANT_STRING
@@ -1264,7 +1357,8 @@ internal partial class nsCssPropList
 //
 // Name: font-size
 // Id: font_size
-// Method: FontSize
+// MethodPublic: FontSize
+// MethodPrivate: FontSize
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HKLP | VARIANT_SYSFONT | VARIANT_CALC
@@ -1276,7 +1370,8 @@ internal partial class nsCssPropList
 //
 // Name: font-size-adjust
 // Id: font_size_adjust
-// Method: FontSizeAdjust
+// MethodPublic: FontSizeAdjust
+// MethodPrivate: FontSizeAdjust
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HON | VARIANT_SYSFONT
@@ -1288,7 +1383,8 @@ internal partial class nsCssPropList
 //
 // Name: font-stretch
 // Id: font_stretch
-// Method: FontStretch
+// MethodPublic: FontStretch
+// MethodPrivate: FontStretch
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK | VARIANT_SYSFONT
@@ -1300,7 +1396,8 @@ internal partial class nsCssPropList
 //
 // Name: font-style
 // Id: font_style
-// Method: FontStyle
+// MethodPublic: FontStyle
+// MethodPrivate: FontStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK | VARIANT_SYSFONT
@@ -1312,7 +1409,8 @@ internal partial class nsCssPropList
 //
 // Name: font-variant
 // Id: font_variant
-// Method: FontVariant
+// MethodPublic: FontVariant
+// MethodPrivate: FontVariant
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK | VARIANT_SYSFONT
@@ -1324,7 +1422,8 @@ internal partial class nsCssPropList
 //
 // Name: font-weight
 // Id: font_weight
-// Method: FontWeight
+// MethodPublic: FontWeight
+// MethodPrivate: FontWeight
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_PARSER_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -1336,7 +1435,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-force-broken-image-icon
 // Id: force_broken_image_icon
-// Method: MozForceBrokenImageIcon
+// MethodPublic: MozForceBrokenImageIcon
+// MethodPrivate: ForceBrokenImageIcon
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HI
@@ -1348,7 +1448,8 @@ internal partial class nsCssPropList
 //
 // Name: height
 // Id: height
-// Method: Height
+// MethodPublic: Height
+// MethodPrivate: Height
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1360,7 +1461,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-image-region
 // Id: image_region
-// Method: MozImageRegion
+// MethodPublic: MozImageRegion
+// MethodPrivate: ImageRegion
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -1372,7 +1474,8 @@ internal partial class nsCssPropList
 //
 // Name: ime-mode
 // Id: ime_mode
-// Method: ImeMode
+// MethodPublic: ImeMode
+// MethodPrivate: ImeMode
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1384,7 +1487,8 @@ internal partial class nsCssPropList
 //
 // Name: left
 // Id: left
-// Method: Left
+// MethodPublic: Left
+// MethodPrivate: Left
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1396,7 +1500,8 @@ internal partial class nsCssPropList
 //
 // Name: letter-spacing
 // Id: letter_spacing
-// Method: LetterSpacing
+// MethodPublic: LetterSpacing
+// MethodPrivate: LetterSpacing
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HL | VARIANT_NORMAL | VARIANT_CALC
@@ -1408,7 +1513,8 @@ internal partial class nsCssPropList
 //
 // Name: line-height
 // Id: line_height
-// Method: LineHeight
+// MethodPublic: LineHeight
+// MethodPrivate: LineHeight
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HLPN | VARIANT_KEYWORD | VARIANT_NORMAL | VARIANT_SYSFONT
@@ -1420,7 +1526,8 @@ internal partial class nsCssPropList
 //
 // Name: list-style-image
 // Id: list_style_image
-// Method: ListStyleImage
+// MethodPublic: ListStyleImage
+// MethodPrivate: ListStyleImage
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_START_IMAGE_LOADS
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -1432,7 +1539,8 @@ internal partial class nsCssPropList
 //
 // Name: list-style-position
 // Id: list_style_position
-// Method: ListStylePosition
+// MethodPublic: ListStylePosition
+// MethodPrivate: ListStylePosition
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1444,7 +1552,8 @@ internal partial class nsCssPropList
 //
 // Name: list-style-type
 // Id: list_style_type
-// Method: ListStyleType
+// MethodPublic: ListStyleType
+// MethodPrivate: ListStyleType
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1456,7 +1565,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-bottom
 // Id: margin_bottom
-// Method: MarginBottom
+// MethodPublic: MarginBottom
+// MethodPrivate: MarginBottom
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1468,7 +1578,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-end-value
 // Id: margin_end_value
-// Method: MarginEndValue
+// MethodPublic: MarginEndValue
+// MethodPrivate: MarginEndValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1480,7 +1591,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-left-value
 // Id: margin_left_value
-// Method: MarginLeftValue
+// MethodPublic: MarginLeftValue
+// MethodPrivate: MarginLeftValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1492,7 +1604,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-left-ltr-source
 // Id: margin_left_ltr_source
-// Method: MarginLeftLTRSource
+// MethodPublic: MarginLeftLTRSource
+// MethodPrivate: MarginLeftLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: 0
@@ -1504,7 +1617,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-left-rtl-source
 // Id: margin_left_rtl_source
-// Method: MarginLeftRTLSource
+// MethodPublic: MarginLeftRTLSource
+// MethodPrivate: MarginLeftRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: 0
@@ -1516,7 +1630,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-right-value
 // Id: margin_right_value
-// Method: MarginRightValue
+// MethodPublic: MarginRightValue
+// MethodPrivate: MarginRightValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_REPORT_OTHER_NAME | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1528,7 +1643,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-right-ltr-source
 // Id: margin_right_ltr_source
-// Method: MarginRightLTRSource
+// MethodPublic: MarginRightLTRSource
+// MethodPrivate: MarginRightLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: 0
@@ -1540,7 +1656,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-right-rtl-source
 // Id: margin_right_rtl_source
-// Method: MarginRightRTLSource
+// MethodPublic: MarginRightRTLSource
+// MethodPrivate: MarginRightRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: 0
@@ -1552,7 +1669,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-start-value
 // Id: margin_start_value
-// Method: MarginStartValue
+// MethodPublic: MarginStartValue
+// MethodPrivate: MarginStartValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1564,7 +1682,8 @@ internal partial class nsCssPropList
 //
 // Name: margin-top
 // Id: margin_top
-// Method: MarginTop
+// MethodPublic: MarginTop
+// MethodPrivate: MarginTop
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1576,7 +1695,8 @@ internal partial class nsCssPropList
 //
 // Name: marker-offset
 // Id: marker_offset
-// Method: MarkerOffset
+// MethodPublic: MarkerOffset
+// MethodPrivate: MarkerOffset
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_AHL | VARIANT_CALC
@@ -1588,7 +1708,8 @@ internal partial class nsCssPropList
 //
 // Name: max-height
 // Id: max_height
-// Method: MaxHeight
+// MethodPublic: MaxHeight
+// MethodPrivate: MaxHeight
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLPO | VARIANT_CALC
@@ -1600,7 +1721,8 @@ internal partial class nsCssPropList
 //
 // Name: max-width
 // Id: max_width
-// Method: MaxWidth
+// MethodPublic: MaxWidth
+// MethodPrivate: MaxWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HKLPO | VARIANT_CALC
@@ -1612,7 +1734,8 @@ internal partial class nsCssPropList
 //
 // Name: min-height
 // Id: min_height
-// Method: MinHeight
+// MethodPublic: MinHeight
+// MethodPrivate: MinHeight
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1624,7 +1747,8 @@ internal partial class nsCssPropList
 //
 // Name: min-width
 // Id: min_width
-// Method: MinWidth
+// MethodPublic: MinWidth
+// MethodPrivate: MinWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HKLP | VARIANT_CALC
@@ -1636,7 +1760,8 @@ internal partial class nsCssPropList
 //
 // Name: opacity
 // Id: opacity
-// Method: Opacity
+// MethodPublic: Opacity
+// MethodPrivate: Opacity
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HN
@@ -1648,7 +1773,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-orient
 // Id: orient
-// Method: MozOrient
+// MethodPublic: MozOrient
+// MethodPrivate: Orient
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1660,7 +1786,8 @@ internal partial class nsCssPropList
 //
 // Name: outline-color
 // Id: outline_color
-// Method: OutlineColor
+// MethodPublic: OutlineColor
+// MethodPrivate: OutlineColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -1672,7 +1799,8 @@ internal partial class nsCssPropList
 //
 // Name: outline-style
 // Id: outline_style
-// Method: OutlineStyle
+// MethodPublic: OutlineStyle
+// MethodPrivate: OutlineStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1684,7 +1812,8 @@ internal partial class nsCssPropList
 //
 // Name: outline-width
 // Id: outline_width
-// Method: OutlineWidth
+// MethodPublic: OutlineWidth
+// MethodPrivate: OutlineWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HKL | VARIANT_CALC
@@ -1696,7 +1825,8 @@ internal partial class nsCssPropList
 //
 // Name: outline-offset
 // Id: outline_offset
-// Method: OutlineOffset
+// MethodPublic: OutlineOffset
+// MethodPrivate: OutlineOffset
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HL | VARIANT_CALC
@@ -1708,7 +1838,8 @@ internal partial class nsCssPropList
 //
 // Name: overflow-x
 // Id: overflow_x
-// Method: OverflowX
+// MethodPublic: OverflowX
+// MethodPrivate: OverflowX
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1720,7 +1851,8 @@ internal partial class nsCssPropList
 //
 // Name: overflow-y
 // Id: overflow_y
-// Method: OverflowY
+// MethodPublic: OverflowY
+// MethodPrivate: OverflowY
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1732,7 +1864,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-bottom
 // Id: padding_bottom
-// Method: PaddingBottom
+// MethodPublic: PaddingBottom
+// MethodPrivate: PaddingBottom
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1744,7 +1877,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-end-value
 // Id: padding_end_value
-// Method: PaddingEndValue
+// MethodPublic: PaddingEndValue
+// MethodPrivate: PaddingEndValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1756,7 +1890,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-left-value
 // Id: padding_left_value
-// Method: PaddingLeftValue
+// MethodPublic: PaddingLeftValue
+// MethodPrivate: PaddingLeftValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_REPORT_OTHER_NAME | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1768,7 +1903,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-left-ltr-source
 // Id: padding_left_ltr_source
-// Method: PaddingLeftLTRSource
+// MethodPublic: PaddingLeftLTRSource
+// MethodPrivate: PaddingLeftLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -1780,7 +1916,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-left-rtl-source
 // Id: padding_left_rtl_source
-// Method: PaddingLeftRTLSource
+// MethodPublic: PaddingLeftRTLSource
+// MethodPrivate: PaddingLeftRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -1792,7 +1929,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-right-value
 // Id: padding_right_value
-// Method: PaddingRightValue
+// MethodPublic: PaddingRightValue
+// MethodPrivate: PaddingRightValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_REPORT_OTHER_NAME | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1804,7 +1942,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-right-ltr-source
 // Id: padding_right_ltr_source
-// Method: PaddingRightLTRSource
+// MethodPublic: PaddingRightLTRSource
+// MethodPrivate: PaddingRightLTRSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -1816,7 +1955,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-right-rtl-source
 // Id: padding_right_rtl_source
-// Method: PaddingRightRTLSource
+// MethodPublic: PaddingRightRTLSource
+// MethodPrivate: PaddingRightRTLSource
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_DIRECTIONAL_SOURCE
 // Pref: ""
 // ParseVariant: 0
@@ -1828,7 +1968,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-start-value
 // Id: padding_start_value
-// Method: PaddingStartValue
+// MethodPublic: PaddingStartValue
+// MethodPrivate: PaddingStartValue
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1840,7 +1981,8 @@ internal partial class nsCssPropList
 //
 // Name: padding-top
 // Id: padding_top
-// Method: PaddingTop
+// MethodPublic: PaddingTop
+// MethodPrivate: PaddingTop
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -1852,7 +1994,8 @@ internal partial class nsCssPropList
 //
 // Name: page-break-after
 // Id: page_break_after
-// Method: PageBreakAfter
+// MethodPublic: PageBreakAfter
+// MethodPrivate: PageBreakAfter
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1864,7 +2007,8 @@ internal partial class nsCssPropList
 //
 // Name: page-break-before
 // Id: page_break_before
-// Method: PageBreakBefore
+// MethodPublic: PageBreakBefore
+// MethodPrivate: PageBreakBefore
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1876,7 +2020,8 @@ internal partial class nsCssPropList
 //
 // Name: page-break-inside
 // Id: page_break_inside
-// Method: PageBreakInside
+// MethodPublic: PageBreakInside
+// MethodPrivate: PageBreakInside
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1888,7 +2033,8 @@ internal partial class nsCssPropList
 //
 // Name: paint-order
 // Id: paint_order
-// Method: PaintOrder
+// MethodPublic: PaintOrder
+// MethodPrivate: PaintOrder
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: "svg.paint-order.enabled"
 // ParseVariant: 0
@@ -1900,7 +2046,8 @@ internal partial class nsCssPropList
 //
 // Name: pointer-events
 // Id: pointer_events
-// Method: PointerEvents
+// MethodPublic: PointerEvents
+// MethodPrivate: PointerEvents
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1912,7 +2059,8 @@ internal partial class nsCssPropList
 //
 // Name: position
 // Id: position
-// Method: Position
+// MethodPublic: Position
+// MethodPrivate: Position
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1924,7 +2072,8 @@ internal partial class nsCssPropList
 //
 // Name: quotes
 // Id: quotes
-// Method: Quotes
+// MethodPublic: Quotes
+// MethodPrivate: Quotes
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -1936,7 +2085,8 @@ internal partial class nsCssPropList
 //
 // Name: resize
 // Id: resize
-// Method: Resize
+// MethodPublic: Resize
+// MethodPrivate: Resize
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1948,7 +2098,8 @@ internal partial class nsCssPropList
 //
 // Name: right
 // Id: right
-// Method: Right
+// MethodPublic: Right
+// MethodPrivate: Right
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -1960,7 +2111,8 @@ internal partial class nsCssPropList
 //
 // Name: table-layout
 // Id: table_layout
-// Method: TableLayout
+// MethodPublic: TableLayout
+// MethodPrivate: TableLayout
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1972,7 +2124,8 @@ internal partial class nsCssPropList
 //
 // Name: text-align
 // Id: text_align
-// Method: TextAlign
+// MethodPublic: TextAlign
+// MethodPrivate: TextAlign
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK /* | VARIANT_STRING */
@@ -1984,7 +2137,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-align-last
 // Id: text_align_last
-// Method: MozTextAlignLast
+// MethodPublic: MozTextAlignLast
+// MethodPrivate: TextAlignLast
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -1996,7 +2150,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-blink
 // Id: text_blink
-// Method: MozTextBlink
+// MethodPublic: MozTextBlink
+// MethodPrivate: TextBlink
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2008,7 +2163,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-decoration-color
 // Id: text_decoration_color
-// Method: MozTextDecorationColor
+// MethodPublic: MozTextDecorationColor
+// MethodPrivate: TextDecorationColor
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: VARIANT_HCK
@@ -2020,7 +2176,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-decoration-line
 // Id: text_decoration_line
-// Method: MozTextDecorationLine
+// MethodPublic: MozTextDecorationLine
+// MethodPrivate: TextDecorationLine
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_PARSER_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -2032,7 +2189,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-decoration-style
 // Id: text_decoration_style
-// Method: MozTextDecorationStyle
+// MethodPublic: MozTextDecorationStyle
+// MethodPrivate: TextDecorationStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2044,7 +2202,8 @@ internal partial class nsCssPropList
 //
 // Name: text-indent
 // Id: text_indent
-// Method: TextIndent
+// MethodPublic: TextIndent
+// MethodPrivate: TextIndent
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HLP | VARIANT_CALC
@@ -2056,7 +2215,8 @@ internal partial class nsCssPropList
 //
 // Name: text-overflow
 // Id: text_overflow
-// Method: TextOverflow
+// MethodPublic: TextOverflow
+// MethodPrivate: TextOverflow
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_PARSER_FUNCTION | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: 0
@@ -2068,7 +2228,8 @@ internal partial class nsCssPropList
 //
 // Name: text-shadow
 // Id: text_shadow
-// Method: TextShadow
+// MethodPublic: TextShadow
+// MethodPrivate: TextShadow
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_VALUE_LIST_USES_COMMAS | CSS_PROPERTY_IGNORED_WHEN_COLORS_DISABLED
 // Pref: ""
 // ParseVariant: 0
@@ -2080,7 +2241,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-text-size-adjust
 // Id: text_size_adjust
-// Method: MozTextSizeAdjust
+// MethodPublic: MozTextSizeAdjust
+// MethodPrivate: TextSizeAdjust
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_AUTO | VARIANT_NONE | VARIANT_INHERIT
@@ -2092,7 +2254,8 @@ internal partial class nsCssPropList
 //
 // Name: text-transform
 // Id: text_transform
-// Method: TextTransform
+// MethodPublic: TextTransform
+// MethodPrivate: TextTransform
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2104,7 +2267,8 @@ internal partial class nsCssPropList
 //
 // Name: transform
 // Id: transform
-// Method: Transform
+// MethodPublic: Transform
+// MethodPrivate: Transform
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -2116,7 +2280,8 @@ internal partial class nsCssPropList
 //
 // Name: transform-origin
 // Id: transform_origin
-// Method: TransformOrigin
+// MethodPublic: TransformOrigin
+// MethodPrivate: TransformOrigin
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -2128,7 +2293,8 @@ internal partial class nsCssPropList
 //
 // Name: perspective-origin
 // Id: perspective_origin
-// Method: PerspectiveOrigin
+// MethodPublic: PerspectiveOrigin
+// MethodPrivate: PerspectiveOrigin
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: 0
@@ -2140,7 +2306,8 @@ internal partial class nsCssPropList
 //
 // Name: perspective
 // Id: perspective
-// Method: Perspective
+// MethodPublic: Perspective
+// MethodPrivate: Perspective
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_NONE | VARIANT_INHERIT | VARIANT_LENGTH | VARIANT_POSITIVE_DIMENSION
@@ -2152,7 +2319,8 @@ internal partial class nsCssPropList
 //
 // Name: transform-style
 // Id: transform_style
-// Method: TransformStyle
+// MethodPublic: TransformStyle
+// MethodPrivate: TransformStyle
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2164,7 +2332,8 @@ internal partial class nsCssPropList
 //
 // Name: backface-visibility
 // Id: backface_visibility
-// Method: BackfaceVisibility
+// MethodPublic: BackfaceVisibility
+// MethodPrivate: BackfaceVisibility
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2176,7 +2345,8 @@ internal partial class nsCssPropList
 //
 // Name: top
 // Id: top
-// Method: Top
+// MethodPublic: Top
+// MethodPrivate: Top
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHLP | VARIANT_CALC
@@ -2188,7 +2358,8 @@ internal partial class nsCssPropList
 //
 // Name: transition-delay
 // Id: transition_delay
-// Method: TransitionDelay
+// MethodPublic: TransitionDelay
+// MethodPrivate: TransitionDelay
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_TIME
@@ -2200,7 +2371,8 @@ internal partial class nsCssPropList
 //
 // Name: transition-duration
 // Id: transition_duration
-// Method: TransitionDuration
+// MethodPublic: TransitionDuration
+// MethodPrivate: TransitionDuration
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_TIME | VARIANT_NONNEGATIVE_DIMENSION
@@ -2212,7 +2384,8 @@ internal partial class nsCssPropList
 //
 // Name: transition-property
 // Id: transition_property
-// Method: TransitionProperty
+// MethodPublic: TransitionProperty
+// MethodPrivate: TransitionProperty
 // Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_IDENTIFIER | VARIANT_NONE | VARIANT_ALL
@@ -2224,7 +2397,8 @@ internal partial class nsCssPropList
 //
 // Name: transition-timing-function
 // Id: transition_timing_function
-// Method: TransitionTimingFunction
+// MethodPublic: TransitionTimingFunction
+// MethodPrivate: TransitionTimingFunction
 // Flags: CSS_PROPERTY_PARSE_VALUE_LIST | CSS_PROPERTY_VALUE_LIST_USES_COMMAS
 // Pref: ""
 // ParseVariant: VARIANT_KEYWORD | VARIANT_TIMING_FUNCTION
@@ -2236,7 +2410,8 @@ internal partial class nsCssPropList
 //
 // Name: unicode-bidi
 // Id: unicode_bidi
-// Method: UnicodeBidi
+// MethodPublic: UnicodeBidi
+// MethodPrivate: UnicodeBidi
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2248,7 +2423,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-user-focus
 // Id: user_focus
-// Method: MozUserFocus
+// MethodPublic: MozUserFocus
+// MethodPrivate: UserFocus
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2260,7 +2436,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-user-input
 // Id: user_input
-// Method: MozUserInput
+// MethodPublic: MozUserInput
+// MethodPrivate: UserInput
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2272,7 +2449,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-user-modify
 // Id: user_modify
-// Method: MozUserModify
+// MethodPublic: MozUserModify
+// MethodPrivate: UserModify
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2284,7 +2462,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-user-select
 // Id: user_select
-// Method: MozUserSelect
+// MethodPublic: MozUserSelect
+// MethodPrivate: UserSelect
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2296,7 +2475,8 @@ internal partial class nsCssPropList
 //
 // Name: vertical-align
 // Id: vertical_align
-// Method: VerticalAlign
+// MethodPublic: VerticalAlign
+// MethodPrivate: VerticalAlign
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_STORES_CALC
 // Pref: ""
 // ParseVariant: VARIANT_HKLP | VARIANT_CALC
@@ -2308,7 +2488,8 @@ internal partial class nsCssPropList
 //
 // Name: visibility
 // Id: visibility
-// Method: Visibility
+// MethodPublic: Visibility
+// MethodPrivate: Visibility
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2320,7 +2501,8 @@ internal partial class nsCssPropList
 //
 // Name: white-space
 // Id: white_space
-// Method: WhiteSpace
+// MethodPublic: WhiteSpace
+// MethodPrivate: WhiteSpace
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2332,7 +2514,8 @@ internal partial class nsCssPropList
 //
 // Name: width
 // Id: width
-// Method: Width
+// MethodPublic: Width
+// MethodPrivate: Width
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE | CSS_PROPERTY_STORES_CALC | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_AHKLP | VARIANT_CALC
@@ -2344,7 +2527,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-window-shadow
 // Id: _moz_window_shadow
-// Method: MozWindowShadow
+// MethodPublic: MozWindowShadow
+// MethodPrivate: WindowShadow
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2356,7 +2540,8 @@ internal partial class nsCssPropList
 //
 // Name: word-break
 // Id: word_break
-// Method: WordBreak
+// MethodPublic: WordBreak
+// MethodPrivate: WordBreak
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2368,7 +2553,8 @@ internal partial class nsCssPropList
 //
 // Name: word-spacing
 // Id: word_spacing
-// Method: WordSpacing
+// MethodPublic: WordSpacing
+// MethodPrivate: WordSpacing
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE | CSS_PROPERTY_APPLIES_TO_PLACEHOLDER | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
 // Pref: ""
 // ParseVariant: VARIANT_HL | VARIANT_NORMAL | VARIANT_CALC
@@ -2380,7 +2566,8 @@ internal partial class nsCssPropList
 //
 // Name: word-wrap
 // Id: word_wrap
-// Method: WordWrap
+// MethodPublic: WordWrap
+// MethodPrivate: WordWrap
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2392,7 +2579,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-hyphens
 // Id: hyphens
-// Method: MozHyphens
+// MethodPublic: MozHyphens
+// MethodPrivate: Hyphens
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2404,7 +2592,8 @@ internal partial class nsCssPropList
 //
 // Name: z-index
 // Id: z_index
-// Method: ZIndex
+// MethodPublic: ZIndex
+// MethodPrivate: ZIndex
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_AHI
@@ -2416,7 +2605,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-align
 // Id: box_align
-// Method: MozBoxAlign
+// MethodPublic: MozBoxAlign
+// MethodPrivate: BoxAlign
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2428,7 +2618,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-direction
 // Id: box_direction
-// Method: MozBoxDirection
+// MethodPublic: MozBoxDirection
+// MethodPrivate: BoxDirection
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2440,7 +2631,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-flex
 // Id: box_flex
-// Method: MozBoxFlex
+// MethodPublic: MozBoxFlex
+// MethodPrivate: BoxFlex
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HN
@@ -2452,7 +2644,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-orient
 // Id: box_orient
-// Method: MozBoxOrient
+// MethodPublic: MozBoxOrient
+// MethodPrivate: BoxOrient
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2464,7 +2657,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-pack
 // Id: box_pack
-// Method: MozBoxPack
+// MethodPublic: MozBoxPack
+// MethodPrivate: BoxPack
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2476,7 +2670,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-box-ordinal-group
 // Id: box_ordinal_group
-// Method: MozBoxOrdinalGroup
+// MethodPublic: MozBoxOrdinalGroup
+// MethodPrivate: BoxOrdinalGroup
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HI
@@ -2488,7 +2683,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-stack-sizing
 // Id: stack_sizing
-// Method: MozStackSizing
+// MethodPublic: MozStackSizing
+// MethodPrivate: StackSizing
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2500,7 +2696,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-script-level
 // Id: script_level
-// Method: ScriptLevel
+// MethodPublic: ScriptLevel
+// MethodPrivate: ScriptLevel
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HI
@@ -2512,7 +2709,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-script-size-multiplier
 // Id: script_size_multiplier
-// Method: ScriptSizeMultiplier
+// MethodPublic: ScriptSizeMultiplier
+// MethodPrivate: ScriptSizeMultiplier
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE
 // Pref: ""
 // ParseVariant: 0
@@ -2524,7 +2722,8 @@ internal partial class nsCssPropList
 //
 // Name: -moz-script-min-size
 // Id: script_min_size
-// Method: ScriptMinSize
+// MethodPublic: ScriptMinSize
+// MethodPrivate: ScriptMinSize
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE
 // Pref: ""
 // ParseVariant: 0
@@ -2536,7 +2735,8 @@ internal partial class nsCssPropList
 //
 // Name: clip-path
 // Id: clip_path
-// Method: ClipPath
+// MethodPublic: ClipPath
+// MethodPrivate: ClipPath
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2548,7 +2748,8 @@ internal partial class nsCssPropList
 //
 // Name: clip-rule
 // Id: clip_rule
-// Method: ClipRule
+// MethodPublic: ClipRule
+// MethodPrivate: ClipRule
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2560,7 +2761,8 @@ internal partial class nsCssPropList
 //
 // Name: color-interpolation
 // Id: color_interpolation
-// Method: ColorInterpolation
+// MethodPublic: ColorInterpolation
+// MethodPrivate: ColorInterpolation
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2572,7 +2774,8 @@ internal partial class nsCssPropList
 //
 // Name: color-interpolation-filters
 // Id: color_interpolation_filters
-// Method: ColorInterpolationFilters
+// MethodPublic: ColorInterpolationFilters
+// MethodPrivate: ColorInterpolationFilters
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2584,7 +2787,8 @@ internal partial class nsCssPropList
 //
 // Name: dominant-baseline
 // Id: dominant_baseline
-// Method: DominantBaseline
+// MethodPublic: DominantBaseline
+// MethodPrivate: DominantBaseline
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2596,7 +2800,8 @@ internal partial class nsCssPropList
 //
 // Name: fill
 // Id: fill
-// Method: Fill
+// MethodPublic: Fill
+// MethodPrivate: Fill
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -2608,7 +2813,8 @@ internal partial class nsCssPropList
 //
 // Name: fill-opacity
 // Id: fill_opacity
-// Method: FillOpacity
+// MethodPublic: FillOpacity
+// MethodPrivate: FillOpacity
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HN | VARIANT_KEYWORD
@@ -2620,7 +2826,8 @@ internal partial class nsCssPropList
 //
 // Name: fill-rule
 // Id: fill_rule
-// Method: FillRule
+// MethodPublic: FillRule
+// MethodPrivate: FillRule
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2632,7 +2839,8 @@ internal partial class nsCssPropList
 //
 // Name: filter
 // Id: filter
-// Method: Filter
+// MethodPublic: Filter
+// MethodPrivate: Filter
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2644,7 +2852,8 @@ internal partial class nsCssPropList
 //
 // Name: flood-color
 // Id: flood_color
-// Method: FloodColor
+// MethodPublic: FloodColor
+// MethodPrivate: FloodColor
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HC
@@ -2656,7 +2865,8 @@ internal partial class nsCssPropList
 //
 // Name: flood-opacity
 // Id: flood_opacity
-// Method: FloodOpacity
+// MethodPublic: FloodOpacity
+// MethodPrivate: FloodOpacity
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HN
@@ -2668,7 +2878,8 @@ internal partial class nsCssPropList
 //
 // Name: image-rendering
 // Id: image_rendering
-// Method: ImageRendering
+// MethodPublic: ImageRendering
+// MethodPrivate: ImageRendering
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2680,7 +2891,8 @@ internal partial class nsCssPropList
 //
 // Name: lighting-color
 // Id: lighting_color
-// Method: LightingColor
+// MethodPublic: LightingColor
+// MethodPrivate: LightingColor
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HC
@@ -2692,7 +2904,8 @@ internal partial class nsCssPropList
 //
 // Name: marker-end
 // Id: marker_end
-// Method: MarkerEnd
+// MethodPublic: MarkerEnd
+// MethodPrivate: MarkerEnd
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2704,7 +2917,8 @@ internal partial class nsCssPropList
 //
 // Name: marker-mid
 // Id: marker_mid
-// Method: MarkerMid
+// MethodPublic: MarkerMid
+// MethodPrivate: MarkerMid
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2716,7 +2930,8 @@ internal partial class nsCssPropList
 //
 // Name: marker-start
 // Id: marker_start
-// Method: MarkerStart
+// MethodPublic: MarkerStart
+// MethodPrivate: MarkerStart
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2728,7 +2943,8 @@ internal partial class nsCssPropList
 //
 // Name: mask
 // Id: mask
-// Method: Mask
+// MethodPublic: Mask
+// MethodPrivate: Mask
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HUO
@@ -2740,7 +2956,8 @@ internal partial class nsCssPropList
 //
 // Name: mask-type
 // Id: mask_type
-// Method: MaskType
+// MethodPublic: MaskType
+// MethodPrivate: MaskType
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: "layout.css.masking.enabled"
 // ParseVariant: VARIANT_HK
@@ -2752,7 +2969,8 @@ internal partial class nsCssPropList
 //
 // Name: shape-rendering
 // Id: shape_rendering
-// Method: ShapeRendering
+// MethodPublic: ShapeRendering
+// MethodPrivate: ShapeRendering
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2764,7 +2982,8 @@ internal partial class nsCssPropList
 //
 // Name: stop-color
 // Id: stop_color
-// Method: StopColor
+// MethodPublic: StopColor
+// MethodPrivate: StopColor
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HC
@@ -2776,7 +2995,8 @@ internal partial class nsCssPropList
 //
 // Name: stop-opacity
 // Id: stop_opacity
-// Method: StopOpacity
+// MethodPublic: StopOpacity
+// MethodPrivate: StopOpacity
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HN
@@ -2788,7 +3008,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke
 // Id: stroke
-// Method: Stroke
+// MethodPublic: Stroke
+// MethodPrivate: Stroke
 // Flags: CSS_PROPERTY_PARSE_FUNCTION
 // Pref: ""
 // ParseVariant: 0
@@ -2800,7 +3021,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-dashoffset
 // Id: stroke_dashoffset
-// Method: StrokeDashoffset
+// MethodPublic: StrokeDashoffset
+// MethodPrivate: StrokeDashoffset
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HLPN | VARIANT_KEYWORD
@@ -2812,7 +3034,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-linecap
 // Id: stroke_linecap
-// Method: StrokeLinecap
+// MethodPublic: StrokeLinecap
+// MethodPrivate: StrokeLinecap
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2824,7 +3047,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-linejoin
 // Id: stroke_linejoin
-// Method: StrokeLinejoin
+// MethodPublic: StrokeLinejoin
+// MethodPrivate: StrokeLinejoin
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2836,7 +3060,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-miterlimit
 // Id: stroke_miterlimit
-// Method: StrokeMiterlimit
+// MethodPublic: StrokeMiterlimit
+// MethodPrivate: StrokeMiterlimit
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_AT_LEAST_ONE
 // Pref: ""
 // ParseVariant: VARIANT_HN
@@ -2848,7 +3073,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-opacity
 // Id: stroke_opacity
-// Method: StrokeOpacity
+// MethodPublic: StrokeOpacity
+// MethodPrivate: StrokeOpacity
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HN | VARIANT_KEYWORD
@@ -2860,7 +3086,8 @@ internal partial class nsCssPropList
 //
 // Name: stroke-width
 // Id: stroke_width
-// Method: StrokeWidth
+// MethodPublic: StrokeWidth
+// MethodPrivate: StrokeWidth
 // Flags: CSS_PROPERTY_PARSE_VALUE | CSS_PROPERTY_VALUE_NONNEGATIVE
 // Pref: ""
 // ParseVariant: VARIANT_HLPN | VARIANT_KEYWORD
@@ -2872,7 +3099,8 @@ internal partial class nsCssPropList
 //
 // Name: text-anchor
 // Id: text_anchor
-// Method: TextAnchor
+// MethodPublic: TextAnchor
+// MethodPrivate: TextAnchor
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2884,7 +3112,8 @@ internal partial class nsCssPropList
 //
 // Name: text-rendering
 // Id: text_rendering
-// Method: TextRendering
+// MethodPublic: TextRendering
+// MethodPrivate: TextRendering
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2896,7 +3125,8 @@ internal partial class nsCssPropList
 //
 // Name: vector-effect
 // Id: vector_effect
-// Method: VectorEffect
+// MethodPublic: VectorEffect
+// MethodPrivate: VectorEffect
 // Flags: CSS_PROPERTY_PARSE_VALUE
 // Pref: ""
 // ParseVariant: VARIANT_HK
@@ -2908,7 +3138,8 @@ internal partial class nsCssPropList
 //
 // Name: -x-lang
 // Id: _x_lang
-// Method: Lang
+// MethodPublic: Lang
+// MethodPrivate: Lang
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE
 // Pref: ""
 // ParseVariant: 0
@@ -2920,7 +3151,8 @@ internal partial class nsCssPropList
 //
 // Name: -x-span
 // Id: _x_span
-// Method: Span
+// MethodPublic: Span
+// MethodPrivate: Span
 // Flags: CSS_PROPERTY_PARSE_INACCESSIBLE
 // Pref: ""
 // ParseVariant: 0
@@ -2929,5 +3161,3 @@ internal partial class nsCssPropList
 // StyleStructOffset: null
 // AnimType: None
 // IfDef: null
-} // class nsCssPropList
-} // namespace Alba.CsCss

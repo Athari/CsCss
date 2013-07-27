@@ -43,9 +43,6 @@ internal partial class <#=className#>
     } // GenerateSource
 #>
 <#+
-    string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
-    string sArgs = @"(?:[^()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
-
     string ConvertSource (string source) {
         return source
 

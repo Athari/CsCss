@@ -1,0 +1,104 @@
+﻿<#+
+    IList<CssProp> _cssProps;
+
+    void LoadCssProps () {
+        Regex reSourceMain = new Regex(@"(?s)#endif /\* !defined\(CSS_PROP\) \*/(.*)#ifdef USED_CSS_PROP");
+
+        string source = LoadText("nsCSSPropList.h");
+        string sourceMain = source.ReMatchGet(reSourceMain);
+
+        _cssProps = GetCssPropsFromSource(sourceMain).ToList();
+    }
+
+    IEnumerable<CssProp> GetCssPropsFromSource (string source) {
+
+        string[] CssPropDefineShortcuts = new string [] {
+            "Font", "Color", "Background", "List", "Position", "Text", "TextReset", "Display", "Visibility", "Content", "Quotes",
+            "UserInterface", "UIReset", "Table", "TableBorder", "Margin", "Padding", "Border", "Outline", "XUL", "Column", "SVG", "SVGReset"
+        };
+
+        source = source
+
+            // whitespace
+            .ReReplace(@"\r", "")
+
+            // comments remove
+            .ReReplace(@"//.*", "")
+
+            // specific preprocessor
+            .ReReplace(@"CSS_PROP_DOMPROP_PREFIXED\((\w+)\)", "CSS_PROP_PUBLIC_OR_PRIVATE(Moz$1,$1)")
+            .ReReplace(@"CSS_PROP_PUBLIC_OR_PRIVATE\((\w+), *(\w+)\)", "$1|$2")
+            .ReReplace(@"offsetof\((\w+), *(\w+)\)", "$1.$2")
+
+            // common preprocessor
+            .ReReplace(@"#include .*", "")
+            .ReReplace(@"#undef .*", "")
+            .ReReplace(@"#ifdef (\w+)", "#if $1")
+            .ReReplace(@"#ifndef (\w+)", "#if !$1")
+            .ReReplace(@"using .*", "")
+
+            // whitespace
+            .ReReplace(@"\n\s*;\n", "\n")
+            .ReReplace(@"\n{3,}", "\n\n")
+            .Trim()
+            ;
+
+        foreach (var shortcut in CssPropDefineShortcuts)
+            source = source.ReReplace(
+                @"CSS_PROP_#NAME#\($,$,$,$,$,$,$,$,$\)"
+                    .Replace("#NAME#", shortcut.ToUpper())
+                    .Replace(",", ", *\n")
+                    .Replace("$", "(" + sArgs + ")"),
+                "CSS_PROP($1,\n$2,\n$3,\n$4,\n$5,\n$6,\n$7,\n    #NAME#,\n$8,\n$9)"
+                    .Replace("#NAME#", shortcut));
+
+        foreach (Match m in source.ReMatches(
+                @"(?x)CSS_PROP\(
+                    (?<Name>$), (?<Id>$), (?<Method>$), (?<Flags>$), (?<Pref>$), (?<ParseVariant>$), (?<KwTable>$),
+                    (?<StyleStruct>$), (?<StyleStructOffset>$), (?<AnimType>$)
+                \)".Replace(",", @",\ *\n").Replace("$", sArgs))) {
+            var prop = new CssProp {
+                Name = m.Get("Name").Trim(),
+                Id = m.Get("Id").Trim(),
+                MethodPublic = m.Get("Method").Trim(),
+                Flags = m.Get("Flags").ReReplace(@"\s+", " ").Trim(),
+                Pref = m.Get("Pref").Trim(),
+                ParseVariant = m.Get("ParseVariant").Trim(),
+                KwTable = m.Get("KwTable").Trim(),
+                StyleStruct = m.Get("StyleStruct").Trim(),
+                StyleStructOffset = m.Get("StyleStructOffset").Trim(),
+                AnimType = m.Get("AnimType").Replace("eStyleAnimType_", "").Trim(),
+            };
+            if (prop.MethodPublic.Contains("|")) {
+                string[] methods = prop.MethodPublic.Split('|');
+                prop.MethodPublic = methods[0];
+                prop.MethodPrivate = methods[1];
+            }
+            else
+                prop.MethodPrivate = prop.MethodPublic;
+            if (prop.KwTable == "nullptr")
+                prop.KwTable = null;
+            if (prop.StyleStructOffset == "CSS_PROP_NO_OFFSET")
+                prop.StyleStructOffset = null;
+            int posMacro = source.LastIndexOf('#', m.Index);
+            if (posMacro != -1) {
+                string macro = source.Substring(posMacro, source.IndexOf('\n', posMacro) - posMacro);
+                if (macro.StartsWith("#if "))
+                    prop.IfDef = macro.Substring(4);
+            }
+            yield return prop;
+        }
+        //WriteLine(source);
+    }
+
+    IEnumerable<CssProp> GetCssProps () {
+        if (_cssProps == null)
+            LoadCssProps();
+        return _cssProps;
+    }
+
+    class CssProp
+    {
+        public string Name, Id, MethodPublic, MethodPrivate, Flags, Pref, ParseVariant, KwTable, StyleStruct, StyleStructOffset, AnimType, IfDef;
+    }
+#>
