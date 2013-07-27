@@ -6,18 +6,22 @@
 // Generated file. Do not edit manually.
 //
 
-<# foreach (CssProp prop in GetCssProps()) { #>
+<# foreach (CssPropBase prop in GetCssPropsAll()) { #>
 //
+// Kind: <#= prop.GetType().Name #>
 // Name: <#= prop.Name #>
 // Id: <#= prop.Id #>
 // MethodPublic: <#= prop.MethodPublic #>
 // MethodPrivate: <#= prop.MethodPrivate #>
 // Flags: <#= prop.Flags #>
 // Pref: <#= prop.Pref #>
-// ParseVariant: <#= prop.ParseVariant #>
-// KwTable: <#= prop.KwTable ?? "null" #>
-// StyleStruct: <#= prop.StyleStruct #>
-// StyleStructOffset: <#= prop.StyleStructOffset ?? "null" #>
-// AnimType: <#= prop.AnimType #>
-// IfDef: <#= prop.IfDef ?? "null" #>
-<# } #>
+<# var propn = prop as CssProp; #>
+<# if (propn != null) { #>
+// ParseVariant: <#= propn.ParseVariant #>
+// KwTable: <#= propn.KwTable ?? "null" #>
+// StyleStruct: <#= propn.StyleStruct #>
+// StyleStructOffset: <#= propn.StyleStructOffset ?? "null" #>
+// AnimType: <#= propn.AnimType #>
+// IfDef: <#= propn.IfDef ?? "null" #>
+<# } /* if (propn != null) */ #>
+<# } /* foreach (CssPropBase prop in GetCssProps()) */ #>

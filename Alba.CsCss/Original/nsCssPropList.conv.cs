@@ -3,6 +3,7 @@
 //
 
 //
+// Kind: CssProp
 // Name: -moz-appearance
 // Id: appearance
 // MethodPublic: MozAppearance
@@ -16,6 +17,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-outline-radius
+// Id: _moz_outline_radius
+// MethodPublic: MozOutlineRadius
+// MethodPrivate: OutlineRadius
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: -moz-outline-radius-topleft
 // Id: _moz_outline_radius_topLeft
 // MethodPublic: MozOutlineRadiusTopleft
@@ -29,6 +39,7 @@
 // AnimType: Corner_TopLeft
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-outline-radius-topright
 // Id: _moz_outline_radius_topRight
 // MethodPublic: MozOutlineRadiusTopright
@@ -42,6 +53,7 @@
 // AnimType: Corner_TopRight
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-outline-radius-bottomright
 // Id: _moz_outline_radius_bottomRight
 // MethodPublic: MozOutlineRadiusBottomright
@@ -55,6 +67,7 @@
 // AnimType: Corner_BottomRight
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-outline-radius-bottomleft
 // Id: _moz_outline_radius_bottomLeft
 // MethodPublic: MozOutlineRadiusBottomleft
@@ -68,6 +81,7 @@
 // AnimType: Corner_BottomLeft
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-tab-size
 // Id: _moz_tab_size
 // MethodPublic: MozTabSize
@@ -81,6 +95,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -x-system-font
 // Id: _x_system_font
 // MethodPublic: MozSystemFont
@@ -94,6 +109,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: animation
+// Id: animation
+// MethodPublic: Animation
+// MethodPrivate: Animation
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: animation-delay
 // Id: animation_delay
 // MethodPublic: AnimationDelay
@@ -107,6 +131,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-direction
 // Id: animation_direction
 // MethodPublic: AnimationDirection
@@ -120,6 +145,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-duration
 // Id: animation_duration
 // MethodPublic: AnimationDuration
@@ -133,6 +159,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-fill-mode
 // Id: animation_fill_mode
 // MethodPublic: AnimationFillMode
@@ -146,6 +173,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-iteration-count
 // Id: animation_iteration_count
 // MethodPublic: AnimationIterationCount
@@ -159,6 +187,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-name
 // Id: animation_name
 // MethodPublic: AnimationName
@@ -172,6 +201,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-play-state
 // Id: animation_play_state
 // MethodPublic: AnimationPlayState
@@ -185,6 +215,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: animation-timing-function
 // Id: animation_timing_function
 // MethodPublic: AnimationTimingFunction
@@ -198,6 +229,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: background
+// Id: background
+// MethodPublic: Background
+// MethodPrivate: Background
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: background-attachment
 // Id: background_attachment
 // MethodPublic: BackgroundAttachment
@@ -211,6 +251,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-clip
 // Id: background_clip
 // MethodPublic: BackgroundClip
@@ -224,6 +265,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-color
 // Id: background_color
 // MethodPublic: BackgroundColor
@@ -237,6 +279,7 @@
 // AnimType: Color
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-image
 // Id: background_image
 // MethodPublic: BackgroundImage
@@ -250,6 +293,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-background-inline-policy
 // Id: _moz_background_inline_policy
 // MethodPublic: MozBackgroundInlinePolicy
@@ -263,6 +307,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-origin
 // Id: background_origin
 // MethodPublic: BackgroundOrigin
@@ -276,6 +321,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-position
 // Id: background_position
 // MethodPublic: BackgroundPosition
@@ -289,6 +335,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-repeat
 // Id: background_repeat
 // MethodPublic: BackgroundRepeat
@@ -302,6 +349,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: background-size
 // Id: background_size
 // MethodPublic: BackgroundSize
@@ -315,6 +363,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-binding
 // Id: binding
 // MethodPublic: MozBinding
@@ -328,6 +377,23 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border
+// Id: border
+// MethodPublic: Border
+// MethodPrivate: Border
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: border-bottom
+// Id: border_bottom
+// MethodPublic: BorderBottom
+// MethodPrivate: BorderBottom
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-bottom-color
 // Id: border_bottom_color
 // MethodPublic: BorderBottomColor
@@ -341,6 +407,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-border-bottom-colors
 // Id: border_bottom_colors
 // MethodPublic: MozBorderBottomColors
@@ -354,6 +421,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-bottom-style
 // Id: border_bottom_style
 // MethodPublic: BorderBottomStyle
@@ -367,6 +435,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-bottom-width
 // Id: border_bottom_width
 // MethodPublic: BorderBottomWidth
@@ -380,6 +449,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-collapse
 // Id: border_collapse
 // MethodPublic: BorderCollapse
@@ -393,6 +463,31 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border-color
+// Id: border_color
+// MethodPublic: BorderColor
+// MethodPrivate: BorderColor
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: -moz-border-end
+// Id: border_end
+// MethodPublic: MozBorderEnd
+// MethodPrivate: BorderEnd
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: -moz-border-end-color
+// Id: border_end_color
+// MethodPublic: MozBorderEndColor
+// MethodPrivate: BorderEndColor
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-end-color-value
 // Id: border_end_color_value
 // MethodPublic: BorderEndColorValue
@@ -406,6 +501,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-border-end-style
+// Id: border_end_style
+// MethodPublic: MozBorderEndStyle
+// MethodPrivate: BorderEndStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-end-style-value
 // Id: border_end_style_value
 // MethodPublic: BorderEndStyleValue
@@ -419,6 +523,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-border-end-width
+// Id: border_end_width
+// MethodPublic: MozBorderEndWidth
+// MethodPrivate: BorderEndWidth
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-end-width-value
 // Id: border_end_width_value
 // MethodPublic: BorderEndWidthValue
@@ -432,6 +545,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: border-image
+// Id: border_image
+// MethodPublic: BorderImage
+// MethodPrivate: BorderImage
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-image-source
 // Id: border_image_source
 // MethodPublic: BorderImageSource
@@ -445,6 +567,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-image-slice
 // Id: border_image_slice
 // MethodPublic: BorderImageSlice
@@ -458,6 +581,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-image-width
 // Id: border_image_width
 // MethodPublic: BorderImageWidth
@@ -471,6 +595,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-image-outset
 // Id: border_image_outset
 // MethodPublic: BorderImageOutset
@@ -484,6 +609,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-image-repeat
 // Id: border_image_repeat
 // MethodPublic: BorderImageRepeat
@@ -497,6 +623,23 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border-left
+// Id: border_left
+// MethodPublic: BorderLeft
+// MethodPrivate: BorderLeft
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: border-left-color
+// Id: border_left_color
+// MethodPublic: BorderLeftColor
+// MethodPrivate: BorderLeftColor
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-left-color-value
 // Id: border_left_color_value
 // MethodPublic: BorderLeftColorValue
@@ -510,6 +653,7 @@
 // AnimType: Custom
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-color-ltr-source
 // Id: border_left_color_ltr_source
 // MethodPublic: BorderLeftColorLTRSource
@@ -523,6 +667,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-color-rtl-source
 // Id: border_left_color_rtl_source
 // MethodPublic: BorderLeftColorRTLSource
@@ -536,6 +681,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: -moz-border-left-colors
 // Id: border_left_colors
 // MethodPublic: MozBorderLeftColors
@@ -549,6 +695,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border-left-style
+// Id: border_left_style
+// MethodPublic: BorderLeftStyle
+// MethodPrivate: BorderLeftStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-left-style-value
 // Id: border_left_style_value
 // MethodPublic: BorderLeftStyleValue
@@ -562,6 +717,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-style-ltr-source
 // Id: border_left_style_ltr_source
 // MethodPublic: BorderLeftStyleLTRSource
@@ -575,6 +731,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-style-rtl-source
 // Id: border_left_style_rtl_source
 // MethodPublic: BorderLeftStyleRTLSource
@@ -588,6 +745,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: border-left-width
+// Id: border_left_width
+// MethodPublic: BorderLeftWidth
+// MethodPrivate: BorderLeftWidth
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-left-width-value
 // Id: border_left_width_value
 // MethodPublic: BorderLeftWidthValue
@@ -601,6 +767,7 @@
 // AnimType: Custom
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-width-ltr-source
 // Id: border_left_width_ltr_source
 // MethodPublic: BorderLeftWidthLTRSource
@@ -614,6 +781,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-left-width-rtl-source
 // Id: border_left_width_rtl_source
 // MethodPublic: BorderLeftWidthRTLSource
@@ -627,6 +795,23 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: border-right
+// Id: border_right
+// MethodPublic: BorderRight
+// MethodPrivate: BorderRight
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: border-right-color
+// Id: border_right_color
+// MethodPublic: BorderRightColor
+// MethodPrivate: BorderRightColor
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_HASHLESS_COLOR_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-right-color-value
 // Id: border_right_color_value
 // MethodPublic: BorderRightColorValue
@@ -640,6 +825,7 @@
 // AnimType: Custom
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-color-ltr-source
 // Id: border_right_color_ltr_source
 // MethodPublic: BorderRightColorLTRSource
@@ -653,6 +839,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-color-rtl-source
 // Id: border_right_color_rtl_source
 // MethodPublic: BorderRightColorRTLSource
@@ -666,6 +853,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: -moz-border-right-colors
 // Id: border_right_colors
 // MethodPublic: MozBorderRightColors
@@ -679,6 +867,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border-right-style
+// Id: border_right_style
+// MethodPublic: BorderRightStyle
+// MethodPrivate: BorderRightStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-right-style-value
 // Id: border_right_style_value
 // MethodPublic: BorderRightStyleValue
@@ -692,6 +889,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-style-ltr-source
 // Id: border_right_style_ltr_source
 // MethodPublic: BorderRightStyleLTRSource
@@ -705,6 +903,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-style-rtl-source
 // Id: border_right_style_rtl_source
 // MethodPublic: BorderRightStyleRTLSource
@@ -718,6 +917,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: border-right-width
+// Id: border_right_width
+// MethodPublic: BorderRightWidth
+// MethodPrivate: BorderRightWidth
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-right-width-value
 // Id: border_right_width_value
 // MethodPublic: BorderRightWidthValue
@@ -731,6 +939,7 @@
 // AnimType: Custom
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-width-ltr-source
 // Id: border_right_width_ltr_source
 // MethodPublic: BorderRightWidthLTRSource
@@ -744,6 +953,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-right-width-rtl-source
 // Id: border_right_width_rtl_source
 // MethodPublic: BorderRightWidthRTLSource
@@ -757,6 +967,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: border-spacing
 // Id: border_spacing
 // MethodPublic: BorderSpacing
@@ -770,6 +981,23 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-border-start
+// Id: border_start
+// MethodPublic: MozBorderStart
+// MethodPrivate: BorderStart
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: -moz-border-start-color
+// Id: border_start_color
+// MethodPublic: MozBorderStartColor
+// MethodPrivate: BorderStartColor
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-start-color-value
 // Id: border_start_color_value
 // MethodPublic: BorderStartColorValue
@@ -783,6 +1011,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-border-start-style
+// Id: border_start_style
+// MethodPublic: MozBorderStartStyle
+// MethodPrivate: BorderStartStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-start-style-value
 // Id: border_start_style_value
 // MethodPublic: BorderStartStyleValue
@@ -796,6 +1033,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-border-start-width
+// Id: border_start_width
+// MethodPublic: MozBorderStartWidth
+// MethodPrivate: BorderStartWidth
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-start-width-value
 // Id: border_start_width_value
 // MethodPublic: BorderStartWidthValue
@@ -809,6 +1055,23 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: border-style
+// Id: border_style
+// MethodPublic: BorderStyle
+// MethodPrivate: BorderStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: border-top
+// Id: border_top
+// MethodPublic: BorderTop
+// MethodPrivate: BorderTop
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-top-color
 // Id: border_top_color
 // MethodPublic: BorderTopColor
@@ -822,6 +1085,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-border-top-colors
 // Id: border_top_colors
 // MethodPublic: MozBorderTopColors
@@ -835,6 +1099,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-top-style
 // Id: border_top_style
 // MethodPublic: BorderTopStyle
@@ -848,6 +1113,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-top-width
 // Id: border_top_width
 // MethodPublic: BorderTopWidth
@@ -861,6 +1127,23 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: border-width
+// Id: border_width
+// MethodPublic: BorderWidth
+// MethodPrivate: BorderWidth
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssPropShort
+// Name: border-radius
+// Id: border_radius
+// MethodPublic: BorderRadius
+// MethodPrivate: BorderRadius
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: border-top-left-radius
 // Id: border_top_left_radius
 // MethodPublic: BorderTopLeftRadius
@@ -874,6 +1157,7 @@
 // AnimType: Corner_TopLeft
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-top-right-radius
 // Id: border_top_right_radius
 // MethodPublic: BorderTopRightRadius
@@ -887,6 +1171,7 @@
 // AnimType: Corner_TopRight
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-bottom-right-radius
 // Id: border_bottom_right_radius
 // MethodPublic: BorderBottomRightRadius
@@ -900,6 +1185,7 @@
 // AnimType: Corner_BottomRight
 // IfDef: null
 //
+// Kind: CssProp
 // Name: border-bottom-left-radius
 // Id: border_bottom_left_radius
 // MethodPublic: BorderBottomLeftRadius
@@ -913,6 +1199,7 @@
 // AnimType: Corner_BottomLeft
 // IfDef: null
 //
+// Kind: CssProp
 // Name: bottom
 // Id: bottom
 // MethodPublic: Bottom
@@ -926,6 +1213,7 @@
 // AnimType: Sides_Bottom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: box-shadow
 // Id: box_shadow
 // MethodPublic: BoxShadow
@@ -939,6 +1227,7 @@
 // AnimType: Shadow
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-sizing
 // Id: box_sizing
 // MethodPublic: MozBoxSizing
@@ -952,6 +1241,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: caption-side
 // Id: caption_side
 // MethodPublic: CaptionSide
@@ -965,6 +1255,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: clear
 // Id: clear
 // MethodPublic: Clear
@@ -978,6 +1269,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: clip
 // Id: clip
 // MethodPublic: Clip
@@ -991,6 +1283,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: color
 // Id: color
 // MethodPublic: Color
@@ -1004,6 +1297,15 @@
 // AnimType: Color
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-columns
+// Id: _moz_columns
+// MethodPublic: MozColumns
+// MethodPrivate: Columns
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: -moz-column-count
 // Id: _moz_column_count
 // MethodPublic: MozColumnCount
@@ -1017,6 +1319,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-column-fill
 // Id: _moz_column_fill
 // MethodPublic: MozColumnFill
@@ -1030,6 +1333,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-column-width
 // Id: _moz_column_width
 // MethodPublic: MozColumnWidth
@@ -1043,6 +1347,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-column-gap
 // Id: _moz_column_gap
 // MethodPublic: MozColumnGap
@@ -1056,6 +1361,15 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-column-rule
+// Id: _moz_column_rule
+// MethodPublic: MozColumnRule
+// MethodPrivate: ColumnRule
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: -moz-column-rule-color
 // Id: _moz_column_rule_color
 // MethodPublic: MozColumnRuleColor
@@ -1069,6 +1383,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-column-rule-style
 // Id: _moz_column_rule_style
 // MethodPublic: MozColumnRuleStyle
@@ -1082,6 +1397,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-column-rule-width
 // Id: _moz_column_rule_width
 // MethodPublic: MozColumnRuleWidth
@@ -1095,6 +1411,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: content
 // Id: content
 // MethodPublic: Content
@@ -1108,6 +1425,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: counter-increment
 // Id: counter_increment
 // MethodPublic: CounterIncrement
@@ -1121,6 +1439,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: counter-reset
 // Id: counter_reset
 // MethodPublic: CounterReset
@@ -1134,6 +1453,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: cursor
 // Id: cursor
 // MethodPublic: Cursor
@@ -1147,6 +1467,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: direction
 // Id: direction
 // MethodPublic: Direction
@@ -1160,6 +1481,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: display
 // Id: display
 // MethodPublic: Display
@@ -1173,6 +1495,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: empty-cells
 // Id: empty_cells
 // MethodPublic: EmptyCells
@@ -1186,6 +1509,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: align-items
 // Id: align_items
 // MethodPublic: AlignItems
@@ -1199,6 +1523,7 @@
 // AnimType: EnumU8
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: align-self
 // Id: align_self
 // MethodPublic: AlignSelf
@@ -1212,6 +1537,15 @@
 // AnimType: EnumU8
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssPropShort
+// Name: flex
+// Id: flex
+// MethodPublic: Flex
+// MethodPrivate: Flex
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: "layout.css.flexbox.enabled"
+//
+// Kind: CssProp
 // Name: flex-basis
 // Id: flex_basis
 // MethodPublic: FlexBasis
@@ -1225,6 +1559,7 @@
 // AnimType: Coord
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: flex-direction
 // Id: flex_direction
 // MethodPublic: FlexDirection
@@ -1238,6 +1573,7 @@
 // AnimType: EnumU8
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: flex-grow
 // Id: flex_grow
 // MethodPublic: FlexGrow
@@ -1251,6 +1587,7 @@
 // AnimType: float
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: flex-shrink
 // Id: flex_shrink
 // MethodPublic: FlexShrink
@@ -1264,6 +1601,7 @@
 // AnimType: float
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: order
 // Id: order
 // MethodPublic: Order
@@ -1277,6 +1615,7 @@
 // AnimType: Custom
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: justify-content
 // Id: justify_content
 // MethodPublic: JustifyContent
@@ -1290,6 +1629,7 @@
 // AnimType: EnumU8
 // IfDef: MOZ_FLEXBOX
 //
+// Kind: CssProp
 // Name: float
 // Id: float
 // MethodPublic: CssFloat
@@ -1303,6 +1643,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-float-edge
 // Id: float_edge
 // MethodPublic: MozFloatEdge
@@ -1316,6 +1657,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: font
+// Id: font
+// MethodPublic: Font
+// MethodPrivate: Font
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: font-family
 // Id: font_family
 // MethodPublic: FontFamily
@@ -1329,6 +1679,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-font-feature-settings
 // Id: font_feature_settings
 // MethodPublic: MozFontFeatureSettings
@@ -1342,6 +1693,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-font-language-override
 // Id: font_language_override
 // MethodPublic: MozFontLanguageOverride
@@ -1355,6 +1707,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-size
 // Id: font_size
 // MethodPublic: FontSize
@@ -1368,6 +1721,7 @@
 // AnimType: nscoord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-size-adjust
 // Id: font_size_adjust
 // MethodPublic: FontSizeAdjust
@@ -1381,6 +1735,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-stretch
 // Id: font_stretch
 // MethodPublic: FontStretch
@@ -1394,6 +1749,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-style
 // Id: font_style
 // MethodPublic: FontStyle
@@ -1407,6 +1763,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-variant
 // Id: font_variant
 // MethodPublic: FontVariant
@@ -1420,6 +1777,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: font-weight
 // Id: font_weight
 // MethodPublic: FontWeight
@@ -1433,6 +1791,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-force-broken-image-icon
 // Id: force_broken_image_icon
 // MethodPublic: MozForceBrokenImageIcon
@@ -1446,6 +1805,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: height
 // Id: height
 // MethodPublic: Height
@@ -1459,6 +1819,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-image-region
 // Id: image_region
 // MethodPublic: MozImageRegion
@@ -1472,6 +1833,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: ime-mode
 // Id: ime_mode
 // MethodPublic: ImeMode
@@ -1485,6 +1847,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: left
 // Id: left
 // MethodPublic: Left
@@ -1498,6 +1861,7 @@
 // AnimType: Sides_Left
 // IfDef: null
 //
+// Kind: CssProp
 // Name: letter-spacing
 // Id: letter_spacing
 // MethodPublic: LetterSpacing
@@ -1511,6 +1875,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: line-height
 // Id: line_height
 // MethodPublic: LineHeight
@@ -1524,6 +1889,15 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: list-style
+// Id: list_style
+// MethodPublic: ListStyle
+// MethodPrivate: ListStyle
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: list-style-image
 // Id: list_style_image
 // MethodPublic: ListStyleImage
@@ -1537,6 +1911,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: list-style-position
 // Id: list_style_position
 // MethodPublic: ListStylePosition
@@ -1550,6 +1925,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: list-style-type
 // Id: list_style_type
 // MethodPublic: ListStyleType
@@ -1563,6 +1939,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: margin
+// Id: margin
+// MethodPublic: Margin
+// MethodPrivate: Margin
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
+// Pref: ""
+//
+// Kind: CssProp
 // Name: margin-bottom
 // Id: margin_bottom
 // MethodPublic: MarginBottom
@@ -1576,6 +1961,15 @@
 // AnimType: Sides_Bottom
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-margin-end
+// Id: margin_end
+// MethodPublic: MozMarginEnd
+// MethodPrivate: MarginEnd
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
+// Pref: ""
+//
+// Kind: CssProp
 // Name: margin-end-value
 // Id: margin_end_value
 // MethodPublic: MarginEndValue
@@ -1589,6 +1983,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: margin-left
+// Id: margin_left
+// MethodPublic: MarginLeft
+// MethodPrivate: MarginLeft
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
+// Pref: ""
+//
+// Kind: CssProp
 // Name: margin-left-value
 // Id: margin_left_value
 // MethodPublic: MarginLeftValue
@@ -1602,6 +2005,7 @@
 // AnimType: Sides_Left
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: margin-left-ltr-source
 // Id: margin_left_ltr_source
 // MethodPublic: MarginLeftLTRSource
@@ -1615,6 +2019,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: margin-left-rtl-source
 // Id: margin_left_rtl_source
 // MethodPublic: MarginLeftRTLSource
@@ -1628,6 +2033,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: margin-right
+// Id: margin_right
+// MethodPublic: MarginRight
+// MethodPrivate: MarginRight
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
+// Pref: ""
+//
+// Kind: CssProp
 // Name: margin-right-value
 // Id: margin_right_value
 // MethodPublic: MarginRightValue
@@ -1641,6 +2055,7 @@
 // AnimType: Sides_Right
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: margin-right-ltr-source
 // Id: margin_right_ltr_source
 // MethodPublic: MarginRightLTRSource
@@ -1654,6 +2069,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: margin-right-rtl-source
 // Id: margin_right_rtl_source
 // MethodPublic: MarginRightRTLSource
@@ -1667,6 +2083,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-margin-start
+// Id: margin_start
+// MethodPublic: MozMarginStart
+// MethodPrivate: MarginStart
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_APPLIES_TO_PAGE_RULE
+// Pref: ""
+//
+// Kind: CssProp
 // Name: margin-start-value
 // Id: margin_start_value
 // MethodPublic: MarginStartValue
@@ -1680,6 +2105,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: margin-top
 // Id: margin_top
 // MethodPublic: MarginTop
@@ -1693,6 +2119,7 @@
 // AnimType: Sides_Top
 // IfDef: null
 //
+// Kind: CssProp
 // Name: marker-offset
 // Id: marker_offset
 // MethodPublic: MarkerOffset
@@ -1706,6 +2133,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: max-height
 // Id: max_height
 // MethodPublic: MaxHeight
@@ -1719,6 +2147,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: max-width
 // Id: max_width
 // MethodPublic: MaxWidth
@@ -1732,6 +2161,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: min-height
 // Id: min_height
 // MethodPublic: MinHeight
@@ -1745,6 +2175,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: min-width
 // Id: min_width
 // MethodPublic: MinWidth
@@ -1758,6 +2189,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: opacity
 // Id: opacity
 // MethodPublic: Opacity
@@ -1771,6 +2203,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-orient
 // Id: orient
 // MethodPublic: MozOrient
@@ -1784,6 +2217,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: outline
+// Id: outline
+// MethodPublic: Outline
+// MethodPrivate: Outline
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: outline-color
 // Id: outline_color
 // MethodPublic: OutlineColor
@@ -1797,6 +2239,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: outline-style
 // Id: outline_style
 // MethodPublic: OutlineStyle
@@ -1810,6 +2253,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: outline-width
 // Id: outline_width
 // MethodPublic: OutlineWidth
@@ -1823,6 +2267,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: outline-offset
 // Id: outline_offset
 // MethodPublic: OutlineOffset
@@ -1836,6 +2281,15 @@
 // AnimType: nscoord
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: overflow
+// Id: overflow
+// MethodPublic: Overflow
+// MethodPrivate: Overflow
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: overflow-x
 // Id: overflow_x
 // MethodPublic: OverflowX
@@ -1849,6 +2303,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: overflow-y
 // Id: overflow_y
 // MethodPublic: OverflowY
@@ -1862,6 +2317,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: padding
+// Id: padding
+// MethodPublic: Padding
+// MethodPrivate: Padding
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: padding-bottom
 // Id: padding_bottom
 // MethodPublic: PaddingBottom
@@ -1875,6 +2339,15 @@
 // AnimType: Sides_Bottom
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-padding-end
+// Id: padding_end
+// MethodPublic: MozPaddingEnd
+// MethodPrivate: PaddingEnd
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: padding-end-value
 // Id: padding_end_value
 // MethodPublic: PaddingEndValue
@@ -1888,6 +2361,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: padding-left
+// Id: padding_left
+// MethodPublic: PaddingLeft
+// MethodPrivate: PaddingLeft
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: padding-left-value
 // Id: padding_left_value
 // MethodPublic: PaddingLeftValue
@@ -1901,6 +2383,7 @@
 // AnimType: Sides_Left
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: padding-left-ltr-source
 // Id: padding_left_ltr_source
 // MethodPublic: PaddingLeftLTRSource
@@ -1914,6 +2397,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: padding-left-rtl-source
 // Id: padding_left_rtl_source
 // MethodPublic: PaddingLeftRTLSource
@@ -1927,6 +2411,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: padding-right
+// Id: padding_right
+// MethodPublic: PaddingRight
+// MethodPrivate: PaddingRight
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_UNITLESS_LENGTH_QUIRK
+// Pref: ""
+//
+// Kind: CssProp
 // Name: padding-right-value
 // Id: padding_right_value
 // MethodPublic: PaddingRightValue
@@ -1940,6 +2433,7 @@
 // AnimType: Sides_Right
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: padding-right-ltr-source
 // Id: padding_right_ltr_source
 // MethodPublic: PaddingRightLTRSource
@@ -1953,6 +2447,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: padding-right-rtl-source
 // Id: padding_right_rtl_source
 // MethodPublic: PaddingRightRTLSource
@@ -1966,6 +2461,15 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssPropShort
+// Name: -moz-padding-start
+// Id: padding_start
+// MethodPublic: MozPaddingStart
+// MethodPrivate: PaddingStart
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: padding-start-value
 // Id: padding_start_value
 // MethodPublic: PaddingStartValue
@@ -1979,6 +2483,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: padding-top
 // Id: padding_top
 // MethodPublic: PaddingTop
@@ -1992,6 +2497,7 @@
 // AnimType: Sides_Top
 // IfDef: null
 //
+// Kind: CssProp
 // Name: page-break-after
 // Id: page_break_after
 // MethodPublic: PageBreakAfter
@@ -2005,6 +2511,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: page-break-before
 // Id: page_break_before
 // MethodPublic: PageBreakBefore
@@ -2018,6 +2525,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: page-break-inside
 // Id: page_break_inside
 // MethodPublic: PageBreakInside
@@ -2031,6 +2539,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: paint-order
 // Id: paint_order
 // MethodPublic: PaintOrder
@@ -2044,6 +2553,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: pointer-events
 // Id: pointer_events
 // MethodPublic: PointerEvents
@@ -2057,6 +2567,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: position
 // Id: position
 // MethodPublic: Position
@@ -2070,6 +2581,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: quotes
 // Id: quotes
 // MethodPublic: Quotes
@@ -2083,6 +2595,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: resize
 // Id: resize
 // MethodPublic: Resize
@@ -2096,6 +2609,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: right
 // Id: right
 // MethodPublic: Right
@@ -2109,6 +2623,7 @@
 // AnimType: Sides_Right
 // IfDef: null
 //
+// Kind: CssProp
 // Name: table-layout
 // Id: table_layout
 // MethodPublic: TableLayout
@@ -2122,6 +2637,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-align
 // Id: text_align
 // MethodPublic: TextAlign
@@ -2135,6 +2651,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-text-align-last
 // Id: text_align_last
 // MethodPublic: MozTextAlignLast
@@ -2148,6 +2665,15 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: text-decoration
+// Id: text_decoration
+// MethodPublic: TextDecoration
+// MethodPrivate: TextDecoration
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: -moz-text-blink
 // Id: text_blink
 // MethodPublic: MozTextBlink
@@ -2161,6 +2687,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-text-decoration-color
 // Id: text_decoration_color
 // MethodPublic: MozTextDecorationColor
@@ -2174,6 +2701,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-text-decoration-line
 // Id: text_decoration_line
 // MethodPublic: MozTextDecorationLine
@@ -2187,6 +2715,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-text-decoration-style
 // Id: text_decoration_style
 // MethodPublic: MozTextDecorationStyle
@@ -2200,6 +2729,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-indent
 // Id: text_indent
 // MethodPublic: TextIndent
@@ -2213,6 +2743,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-overflow
 // Id: text_overflow
 // MethodPublic: TextOverflow
@@ -2226,6 +2757,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-shadow
 // Id: text_shadow
 // MethodPublic: TextShadow
@@ -2239,6 +2771,7 @@
 // AnimType: Shadow
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-text-size-adjust
 // Id: text_size_adjust
 // MethodPublic: MozTextSizeAdjust
@@ -2252,6 +2785,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-transform
 // Id: text_transform
 // MethodPublic: TextTransform
@@ -2265,6 +2799,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transform
 // Id: transform
 // MethodPublic: Transform
@@ -2278,6 +2813,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transform-origin
 // Id: transform_origin
 // MethodPublic: TransformOrigin
@@ -2291,6 +2827,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: perspective-origin
 // Id: perspective_origin
 // MethodPublic: PerspectiveOrigin
@@ -2304,6 +2841,7 @@
 // AnimType: Custom
 // IfDef: null
 //
+// Kind: CssProp
 // Name: perspective
 // Id: perspective
 // MethodPublic: Perspective
@@ -2317,6 +2855,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transform-style
 // Id: transform_style
 // MethodPublic: TransformStyle
@@ -2330,6 +2869,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: backface-visibility
 // Id: backface_visibility
 // MethodPublic: BackfaceVisibility
@@ -2343,6 +2883,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: top
 // Id: top
 // MethodPublic: Top
@@ -2356,6 +2897,15 @@
 // AnimType: Sides_Top
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: transition
+// Id: transition
+// MethodPublic: Transition
+// MethodPrivate: Transition
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: transition-delay
 // Id: transition_delay
 // MethodPublic: TransitionDelay
@@ -2369,6 +2919,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transition-duration
 // Id: transition_duration
 // MethodPublic: TransitionDuration
@@ -2382,6 +2933,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transition-property
 // Id: transition_property
 // MethodPublic: TransitionProperty
@@ -2395,6 +2947,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: transition-timing-function
 // Id: transition_timing_function
 // MethodPublic: TransitionTimingFunction
@@ -2408,6 +2961,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: unicode-bidi
 // Id: unicode_bidi
 // MethodPublic: UnicodeBidi
@@ -2421,6 +2975,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-user-focus
 // Id: user_focus
 // MethodPublic: MozUserFocus
@@ -2434,6 +2989,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-user-input
 // Id: user_input
 // MethodPublic: MozUserInput
@@ -2447,6 +3003,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-user-modify
 // Id: user_modify
 // MethodPublic: MozUserModify
@@ -2460,6 +3017,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-user-select
 // Id: user_select
 // MethodPublic: MozUserSelect
@@ -2473,6 +3031,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: vertical-align
 // Id: vertical_align
 // MethodPublic: VerticalAlign
@@ -2486,6 +3045,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: visibility
 // Id: visibility
 // MethodPublic: Visibility
@@ -2499,6 +3059,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: white-space
 // Id: white_space
 // MethodPublic: WhiteSpace
@@ -2512,6 +3073,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: width
 // Id: width
 // MethodPublic: Width
@@ -2525,6 +3087,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-window-shadow
 // Id: _moz_window_shadow
 // MethodPublic: MozWindowShadow
@@ -2538,6 +3101,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: word-break
 // Id: word_break
 // MethodPublic: WordBreak
@@ -2551,6 +3115,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: word-spacing
 // Id: word_spacing
 // MethodPublic: WordSpacing
@@ -2564,6 +3129,7 @@
 // AnimType: nscoord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: word-wrap
 // Id: word_wrap
 // MethodPublic: WordWrap
@@ -2577,6 +3143,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-hyphens
 // Id: hyphens
 // MethodPublic: MozHyphens
@@ -2590,6 +3157,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: z-index
 // Id: z_index
 // MethodPublic: ZIndex
@@ -2603,6 +3171,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-align
 // Id: box_align
 // MethodPublic: MozBoxAlign
@@ -2616,6 +3185,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-direction
 // Id: box_direction
 // MethodPublic: MozBoxDirection
@@ -2629,6 +3199,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-flex
 // Id: box_flex
 // MethodPublic: MozBoxFlex
@@ -2642,6 +3213,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-orient
 // Id: box_orient
 // MethodPublic: MozBoxOrient
@@ -2655,6 +3227,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-pack
 // Id: box_pack
 // MethodPublic: MozBoxPack
@@ -2668,6 +3241,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-box-ordinal-group
 // Id: box_ordinal_group
 // MethodPublic: MozBoxOrdinalGroup
@@ -2681,6 +3255,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-stack-sizing
 // Id: stack_sizing
 // MethodPublic: MozStackSizing
@@ -2694,6 +3269,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -moz-script-level
 // Id: script_level
 // MethodPublic: ScriptLevel
@@ -2707,6 +3283,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: -moz-script-size-multiplier
 // Id: script_size_multiplier
 // MethodPublic: ScriptSizeMultiplier
@@ -2720,6 +3297,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: -moz-script-min-size
 // Id: script_min_size
 // MethodPublic: ScriptMinSize
@@ -2733,6 +3311,7 @@
 // AnimType: None
 // IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
+// Kind: CssProp
 // Name: clip-path
 // Id: clip_path
 // MethodPublic: ClipPath
@@ -2746,6 +3325,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: clip-rule
 // Id: clip_rule
 // MethodPublic: ClipRule
@@ -2759,6 +3339,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: color-interpolation
 // Id: color_interpolation
 // MethodPublic: ColorInterpolation
@@ -2772,6 +3353,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: color-interpolation-filters
 // Id: color_interpolation_filters
 // MethodPublic: ColorInterpolationFilters
@@ -2785,6 +3367,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: dominant-baseline
 // Id: dominant_baseline
 // MethodPublic: DominantBaseline
@@ -2798,6 +3381,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: fill
 // Id: fill
 // MethodPublic: Fill
@@ -2811,6 +3395,7 @@
 // AnimType: PaintServer
 // IfDef: null
 //
+// Kind: CssProp
 // Name: fill-opacity
 // Id: fill_opacity
 // MethodPublic: FillOpacity
@@ -2824,6 +3409,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: fill-rule
 // Id: fill_rule
 // MethodPublic: FillRule
@@ -2837,6 +3423,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: filter
 // Id: filter
 // MethodPublic: Filter
@@ -2850,6 +3437,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: flood-color
 // Id: flood_color
 // MethodPublic: FloodColor
@@ -2863,6 +3451,7 @@
 // AnimType: Color
 // IfDef: null
 //
+// Kind: CssProp
 // Name: flood-opacity
 // Id: flood_opacity
 // MethodPublic: FloodOpacity
@@ -2876,6 +3465,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: image-rendering
 // Id: image_rendering
 // MethodPublic: ImageRendering
@@ -2889,6 +3479,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: lighting-color
 // Id: lighting_color
 // MethodPublic: LightingColor
@@ -2902,6 +3493,15 @@
 // AnimType: Color
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: marker
+// Id: marker
+// MethodPublic: Marker
+// MethodPrivate: Marker
+// Flags: CSS_PROPERTY_PARSE_FUNCTION
+// Pref: ""
+//
+// Kind: CssProp
 // Name: marker-end
 // Id: marker_end
 // MethodPublic: MarkerEnd
@@ -2915,6 +3515,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: marker-mid
 // Id: marker_mid
 // MethodPublic: MarkerMid
@@ -2928,6 +3529,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: marker-start
 // Id: marker_start
 // MethodPublic: MarkerStart
@@ -2941,6 +3543,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: mask
 // Id: mask
 // MethodPublic: Mask
@@ -2954,6 +3557,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: mask-type
 // Id: mask_type
 // MethodPublic: MaskType
@@ -2967,6 +3571,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: shape-rendering
 // Id: shape_rendering
 // MethodPublic: ShapeRendering
@@ -2980,6 +3585,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stop-color
 // Id: stop_color
 // MethodPublic: StopColor
@@ -2993,6 +3599,7 @@
 // AnimType: Color
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stop-opacity
 // Id: stop_opacity
 // MethodPublic: StopOpacity
@@ -3006,6 +3613,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke
 // Id: stroke
 // MethodPublic: Stroke
@@ -3019,6 +3627,7 @@
 // AnimType: PaintServer
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-dashoffset
 // Id: stroke_dashoffset
 // MethodPublic: StrokeDashoffset
@@ -3032,6 +3641,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-linecap
 // Id: stroke_linecap
 // MethodPublic: StrokeLinecap
@@ -3045,6 +3655,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-linejoin
 // Id: stroke_linejoin
 // MethodPublic: StrokeLinejoin
@@ -3058,6 +3669,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-miterlimit
 // Id: stroke_miterlimit
 // MethodPublic: StrokeMiterlimit
@@ -3071,6 +3683,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-opacity
 // Id: stroke_opacity
 // MethodPublic: StrokeOpacity
@@ -3084,6 +3697,7 @@
 // AnimType: float
 // IfDef: null
 //
+// Kind: CssProp
 // Name: stroke-width
 // Id: stroke_width
 // MethodPublic: StrokeWidth
@@ -3097,6 +3711,7 @@
 // AnimType: Coord
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-anchor
 // Id: text_anchor
 // MethodPublic: TextAnchor
@@ -3110,6 +3725,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: text-rendering
 // Id: text_rendering
 // MethodPublic: TextRendering
@@ -3123,6 +3739,7 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssProp
 // Name: vector-effect
 // Id: vector_effect
 // MethodPublic: VectorEffect
@@ -3136,6 +3753,15 @@
 // AnimType: EnumU8
 // IfDef: null
 //
+// Kind: CssPropShort
+// Name: -moz-transform
+// Id: _moz_transform
+// MethodPublic: MozTransform
+// MethodPrivate: MozTransform
+// Flags: CSS_PROPERTY_PARSE_FUNCTION | CSS_PROPERTY_IS_ALIAS
+// Pref: "layout.css.prefixes.transforms"
+//
+// Kind: CssProp
 // Name: -x-lang
 // Id: _x_lang
 // MethodPublic: Lang
@@ -3149,6 +3775,7 @@
 // AnimType: None
 // IfDef: null
 //
+// Kind: CssProp
 // Name: -x-span
 // Id: _x_span
 // MethodPublic: Span
