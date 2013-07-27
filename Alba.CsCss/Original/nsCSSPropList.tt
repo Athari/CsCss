@@ -1,12 +1,20 @@
 <#@ template hostspecific="true" debug="true" #>
-<#@ output extension="conv.cs" #>
+<#@ output extension="/" #>
 <#@ include file="..\T4\Common.ttinclude" #>
 <#@ include file="nsCSSPropList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    T4.GenerateFile("nsCSSPropList.txt", () => GenerateCssPropListText());
+    T4.GenerateFile("nsCSSProperty.cs", () => GenerateCssProperty());
+    T4.Process();
+#>
+
+<#+ void GenerateCssPropListText () { #>
 //
 // Generated file. Do not edit manually.
 //
 
-<# foreach (CssPropBase prop in GetCssPropsAll()) { #>
+<#+ foreach (CssPropBase prop in GetCssPropsAll()) { #>
 //
 // Kind: <#= prop.GetType().Name #>
 // Name: <#= prop.Name #>
@@ -15,13 +23,49 @@
 // MethodPrivate: <#= prop.MethodPrivate #>
 // Flags: <#= prop.Flags #>
 // Pref: <#= prop.Pref #>
-<# var propn = prop as CssProp; #>
-<# if (propn != null) { #>
+<#+ var propn = prop as CssProp; #>
+<#+ if (propn != null) { #>
 // ParseVariant: <#= propn.ParseVariant #>
 // KwTable: <#= propn.KwTable ?? "null" #>
 // StyleStruct: <#= propn.StyleStruct #>
 // StyleStructOffset: <#= propn.StyleStructOffset ?? "null" #>
 // AnimType: <#= propn.AnimType #>
 // IfDef: <#= propn.IfDef ?? "null" #>
-<# } /* if (propn != null) */ #>
-<# } /* foreach (CssPropBase prop in GetCssProps()) */ #>
+<#+ } /* if (propn != null) */ #>
+<#+ } /* foreach (CssPropBase prop in GetCssProps()) */ #>
+<#+ } /* void GenerateCssPropListText */ #>
+
+<#+ void GenerateCssProperty () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.ComponentModel;
+
+namespace Alba.CsCss
+{
+    enum nsCSSProperty {
+        UNKNOWN = -1,
+<#+   foreach (CssProp prop in GetCssProps()) { #>
+        <#= prop.Id != "float" ? prop.Id : "@float" #>,
+<#+   } #>
+        COUNT_no_shorthands,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        COUNT_DUMMY = COUNT_no_shorthands - 1,
+<#+   foreach (CssPropShort prop in GetCssPropsShort()) { #>
+        <#= prop.Id #>,
+<#+   } #>
+        COUNT,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        COUNT_DUMMY2 = COUNT - 1,
+        // TODO #include "nsCSSPropAliasList.h"
+        COUNT_with_aliases,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        COUNT_DUMMY3 = COUNT_with_aliases - 1,
+        Extra_no_properties,
+        Extra_all_properties,
+        Extra_x_none_value,
+        Extra_x_auto_value,
+    } // enum nsCSSProperty
+} // namespace Alba.CsCss
+<#+ } /* void GenerateCssProperty */ #>
