@@ -1,0 +1,36 @@
+﻿<#+
+    IList<CssPropAlias> _cssPropAliases;
+
+    void LoadCssPropAliases () {
+        string source = LoadText("nsCSSPropAliasList.h");
+        _cssPropAliases = GetCssPropAliasesFromSource(source).ToList();
+    }
+
+    IEnumerable<CssPropAlias> GetCssPropAliasesFromSource (string source) {
+
+        foreach (Match m in source.ReMatches(
+                @"(?x)CSS_PROP_ALIAS\(
+                    (?<Name>$), (?<Id>$), (?<Method>$), (?<Pref>$)
+                \)".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var prop = new CssPropAlias {
+                Name = m.Get("Name").Trim(),
+                Id = m.Get("Id").Trim(),
+                Method = m.Get("Method").Trim(),
+                Pref = m.Get("Pref").Trim(),
+            };
+            yield return prop;
+        }
+        //WriteLine(source);
+    }
+
+    IEnumerable<CssPropAlias> GetCssPropAliases () {
+        if (_cssPropAliases == null)
+            LoadCssPropAliases();
+        return _cssPropAliases;
+    }
+
+    class CssPropAlias
+    {
+        public string Name, Id, Method, Pref;
+    }
+#>
