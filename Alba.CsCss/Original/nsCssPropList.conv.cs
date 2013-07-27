@@ -24,6 +24,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-outline-radius-topleft
 // Id: _moz_outline_radius_topLeft
@@ -35,6 +36,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineRadius
 // AnimType: Corner_TopLeft
+// IfDef: null
 //
 // Name: -moz-outline-radius-topright
 // Id: _moz_outline_radius_topRight
@@ -46,6 +48,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineRadius
 // AnimType: Corner_TopRight
+// IfDef: null
 //
 // Name: -moz-outline-radius-bottomright
 // Id: _moz_outline_radius_bottomRight
@@ -57,6 +60,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineRadius
 // AnimType: Corner_BottomRight
+// IfDef: null
 //
 // Name: -moz-outline-radius-bottomleft
 // Id: _moz_outline_radius_bottomLeft
@@ -68,6 +72,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineRadius
 // AnimType: Corner_BottomLeft
+// IfDef: null
 //
 // Name: -moz-tab-size
 // Id: _moz_tab_size
@@ -79,6 +84,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mTabSize
 // AnimType: None
+// IfDef: null
 //
 // Name: -x-system-font
 // Id: _x_system_font
@@ -90,6 +96,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: animation-delay
 // Id: animation_delay
@@ -101,6 +108,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-direction
 // Id: animation_direction
@@ -112,6 +120,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-duration
 // Id: animation_duration
@@ -123,6 +132,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-fill-mode
 // Id: animation_fill_mode
@@ -134,6 +144,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-iteration-count
 // Id: animation_iteration_count
@@ -145,6 +156,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-name
 // Id: animation_name
@@ -156,6 +168,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-play-state
 // Id: animation_play_state
@@ -167,6 +180,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: animation-timing-function
 // Id: animation_timing_function
@@ -178,6 +192,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-attachment
 // Id: background_attachment
@@ -189,6 +204,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-clip
 // Id: background_clip
@@ -200,6 +216,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-color
 // Id: background_color
@@ -211,6 +228,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: nsStyleBackground.mBackgroundColor
 // AnimType: Color
+// IfDef: null
 //
 // Name: background-image
 // Id: background_image
@@ -222,6 +240,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-background-inline-policy
 // Id: _moz_background_inline_policy
@@ -233,6 +252,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-origin
 // Id: background_origin
@@ -244,6 +264,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-position
 // Id: background_position
@@ -255,6 +276,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: background-repeat
 // Id: background_repeat
@@ -266,6 +288,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: background-size
 // Id: background_size
@@ -277,6 +300,7 @@ internal partial class nsCssPropList
 // StyleStruct: Background
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-binding
 // Id: binding
@@ -288,6 +312,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-bottom-color
 // Id: border_bottom_color
@@ -299,6 +324,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-border-bottom-colors
 // Id: border_bottom_colors
@@ -310,6 +336,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-bottom-style
 // Id: border_bottom_style
@@ -321,6 +348,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-bottom-width
 // Id: border_bottom_width
@@ -332,6 +360,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: border-collapse
 // Id: border_collapse
@@ -343,6 +372,7 @@ internal partial class nsCssPropList
 // StyleStruct: TableBorder
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-end-color-value
 // Id: border_end_color_value
@@ -354,6 +384,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-end-style-value
 // Id: border_end_style_value
@@ -365,6 +396,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-end-width-value
 // Id: border_end_width_value
@@ -376,6 +408,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-image-source
 // Id: border_image_source
@@ -387,6 +420,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-image-slice
 // Id: border_image_slice
@@ -398,6 +432,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-image-width
 // Id: border_image_width
@@ -409,6 +444,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-image-outset
 // Id: border_image_outset
@@ -420,6 +456,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-image-repeat
 // Id: border_image_repeat
@@ -431,6 +468,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-left-color-value
 // Id: border_left_color_value
@@ -442,6 +480,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-color-ltr-source
 // Id: border_left_color_ltr_source
@@ -453,6 +492,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-color-rtl-source
 // Id: border_left_color_rtl_source
@@ -464,6 +504,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: -moz-border-left-colors
 // Id: border_left_colors
@@ -475,6 +516,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-left-style-value
 // Id: border_left_style_value
@@ -486,6 +528,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-style-ltr-source
 // Id: border_left_style_ltr_source
@@ -497,6 +540,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-style-rtl-source
 // Id: border_left_style_rtl_source
@@ -508,6 +552,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-width-value
 // Id: border_left_width_value
@@ -519,6 +564,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-width-ltr-source
 // Id: border_left_width_ltr_source
@@ -530,6 +576,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-left-width-rtl-source
 // Id: border_left_width_rtl_source
@@ -541,6 +588,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-color-value
 // Id: border_right_color_value
@@ -552,6 +600,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-color-ltr-source
 // Id: border_right_color_ltr_source
@@ -563,6 +612,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-color-rtl-source
 // Id: border_right_color_rtl_source
@@ -574,6 +624,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: -moz-border-right-colors
 // Id: border_right_colors
@@ -585,6 +636,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-right-style-value
 // Id: border_right_style_value
@@ -596,6 +648,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-style-ltr-source
 // Id: border_right_style_ltr_source
@@ -607,6 +660,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-style-rtl-source
 // Id: border_right_style_rtl_source
@@ -618,6 +672,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-width-value
 // Id: border_right_width_value
@@ -629,6 +684,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-width-ltr-source
 // Id: border_right_width_ltr_source
@@ -640,6 +696,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-right-width-rtl-source
 // Id: border_right_width_rtl_source
@@ -651,6 +708,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-spacing
 // Id: border_spacing
@@ -662,6 +720,7 @@ internal partial class nsCssPropList
 // StyleStruct: TableBorder
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: border-start-color-value
 // Id: border_start_color_value
@@ -673,6 +732,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-start-style-value
 // Id: border_start_style_value
@@ -684,6 +744,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-start-width-value
 // Id: border_start_width_value
@@ -695,6 +756,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: border-top-color
 // Id: border_top_color
@@ -706,6 +768,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-border-top-colors
 // Id: border_top_colors
@@ -717,6 +780,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-top-style
 // Id: border_top_style
@@ -728,6 +792,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: border-top-width
 // Id: border_top_width
@@ -739,6 +804,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: border-top-left-radius
 // Id: border_top_left_radius
@@ -750,6 +816,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: nsStyleBorder.mBorderRadius
 // AnimType: Corner_TopLeft
+// IfDef: null
 //
 // Name: border-top-right-radius
 // Id: border_top_right_radius
@@ -761,6 +828,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: nsStyleBorder.mBorderRadius
 // AnimType: Corner_TopRight
+// IfDef: null
 //
 // Name: border-bottom-right-radius
 // Id: border_bottom_right_radius
@@ -772,6 +840,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: nsStyleBorder.mBorderRadius
 // AnimType: Corner_BottomRight
+// IfDef: null
 //
 // Name: border-bottom-left-radius
 // Id: border_bottom_left_radius
@@ -783,6 +852,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: nsStyleBorder.mBorderRadius
 // AnimType: Corner_BottomLeft
+// IfDef: null
 //
 // Name: bottom
 // Id: bottom
@@ -794,6 +864,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mOffset
 // AnimType: Sides_Bottom
+// IfDef: null
 //
 // Name: box-shadow
 // Id: box_shadow
@@ -805,6 +876,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: nsStyleBorder.mBoxShadow
 // AnimType: Shadow
+// IfDef: null
 //
 // Name: -moz-box-sizing
 // Id: box_sizing
@@ -816,6 +888,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: caption-side
 // Id: caption_side
@@ -827,6 +900,7 @@ internal partial class nsCssPropList
 // StyleStruct: TableBorder
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: clear
 // Id: clear
@@ -838,6 +912,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: clip
 // Id: clip
@@ -849,6 +924,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mClip
 // AnimType: Custom
+// IfDef: null
 //
 // Name: color
 // Id: color
@@ -860,6 +936,7 @@ internal partial class nsCssPropList
 // StyleStruct: Color
 // StyleStructOffset: nsStyleColor.mColor
 // AnimType: Color
+// IfDef: null
 //
 // Name: -moz-column-count
 // Id: _moz_column_count
@@ -871,6 +948,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: nsStyleColumn.mColumnCount
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-column-fill
 // Id: _moz_column_fill
@@ -882,6 +960,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-column-width
 // Id: _moz_column_width
@@ -893,6 +972,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: nsStyleColumn.mColumnWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: -moz-column-gap
 // Id: _moz_column_gap
@@ -904,6 +984,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: nsStyleColumn.mColumnGap
 // AnimType: Coord
+// IfDef: null
 //
 // Name: -moz-column-rule-color
 // Id: _moz_column_rule_color
@@ -915,6 +996,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-column-rule-style
 // Id: _moz_column_rule_style
@@ -926,6 +1008,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-column-rule-width
 // Id: _moz_column_rule_width
@@ -937,6 +1020,7 @@ internal partial class nsCssPropList
 // StyleStruct: Column
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: content
 // Id: content
@@ -948,6 +1032,7 @@ internal partial class nsCssPropList
 // StyleStruct: Content
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: counter-increment
 // Id: counter_increment
@@ -959,6 +1044,7 @@ internal partial class nsCssPropList
 // StyleStruct: Content
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: counter-reset
 // Id: counter_reset
@@ -970,6 +1056,7 @@ internal partial class nsCssPropList
 // StyleStruct: Content
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: cursor
 // Id: cursor
@@ -981,6 +1068,7 @@ internal partial class nsCssPropList
 // StyleStruct: UserInterface
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: direction
 // Id: direction
@@ -992,6 +1080,7 @@ internal partial class nsCssPropList
 // StyleStruct: Visibility
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: display
 // Id: display
@@ -1003,6 +1092,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mDisplay
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: empty-cells
 // Id: empty_cells
@@ -1014,6 +1104,7 @@ internal partial class nsCssPropList
 // StyleStruct: TableBorder
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: align-items
 // Id: align_items
@@ -1025,6 +1116,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mAlignItems
 // AnimType: EnumU8
+// IfDef: MOZ_FLEXBOX
 //
 // Name: align-self
 // Id: align_self
@@ -1036,6 +1128,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mAlignSelf
 // AnimType: EnumU8
+// IfDef: MOZ_FLEXBOX
 //
 // Name: flex-basis
 // Id: flex_basis
@@ -1047,6 +1140,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mFlexBasis
 // AnimType: Coord
+// IfDef: MOZ_FLEXBOX
 //
 // Name: flex-direction
 // Id: flex_direction
@@ -1058,6 +1152,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mFlexDirection
 // AnimType: EnumU8
+// IfDef: MOZ_FLEXBOX
 //
 // Name: flex-grow
 // Id: flex_grow
@@ -1069,6 +1164,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mFlexGrow
 // AnimType: float
+// IfDef: MOZ_FLEXBOX
 //
 // Name: flex-shrink
 // Id: flex_shrink
@@ -1080,6 +1176,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mFlexShrink
 // AnimType: float
+// IfDef: MOZ_FLEXBOX
 //
 // Name: order
 // Id: order
@@ -1091,6 +1188,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mOrder
 // AnimType: Custom
+// IfDef: MOZ_FLEXBOX
 //
 // Name: justify-content
 // Id: justify_content
@@ -1102,6 +1200,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mJustifyContent
 // AnimType: EnumU8
+// IfDef: MOZ_FLEXBOX
 //
 // Name: float
 // Id: float
@@ -1113,6 +1212,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-float-edge
 // Id: float_edge
@@ -1124,6 +1224,7 @@ internal partial class nsCssPropList
 // StyleStruct: Border
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: font-family
 // Id: font_family
@@ -1135,6 +1236,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-font-feature-settings
 // Id: font_feature_settings
@@ -1146,6 +1248,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-font-language-override
 // Id: font_language_override
@@ -1157,6 +1260,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: font-size
 // Id: font_size
@@ -1168,6 +1272,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: nsStyleFont.mSize
 // AnimType: nscoord
+// IfDef: null
 //
 // Name: font-size-adjust
 // Id: font_size_adjust
@@ -1179,6 +1284,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: offsetof(nsStyleFont, mFont.sizeAdjust)
 // AnimType: float
+// IfDef: null
 //
 // Name: font-stretch
 // Id: font_stretch
@@ -1190,6 +1296,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: offsetof(nsStyleFont, mFont.stretch)
 // AnimType: Custom
+// IfDef: null
 //
 // Name: font-style
 // Id: font_style
@@ -1201,6 +1308,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: offsetof(nsStyleFont, mFont.style)
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: font-variant
 // Id: font_variant
@@ -1212,6 +1320,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: offsetof(nsStyleFont, mFont.variant)
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: font-weight
 // Id: font_weight
@@ -1223,6 +1332,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: offsetof(nsStyleFont, mFont.weight)
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-force-broken-image-icon
 // Id: force_broken_image_icon
@@ -1234,6 +1344,7 @@ internal partial class nsCssPropList
 // StyleStruct: UIReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: height
 // Id: height
@@ -1245,6 +1356,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mHeight
 // AnimType: Coord
+// IfDef: null
 //
 // Name: -moz-image-region
 // Id: image_region
@@ -1256,6 +1368,7 @@ internal partial class nsCssPropList
 // StyleStruct: List
 // StyleStructOffset: nsStyleList.mImageRegion
 // AnimType: Custom
+// IfDef: null
 //
 // Name: ime-mode
 // Id: ime_mode
@@ -1267,6 +1380,7 @@ internal partial class nsCssPropList
 // StyleStruct: UIReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: left
 // Id: left
@@ -1278,6 +1392,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mOffset
 // AnimType: Sides_Left
+// IfDef: null
 //
 // Name: letter-spacing
 // Id: letter_spacing
@@ -1289,6 +1404,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mLetterSpacing
 // AnimType: Coord
+// IfDef: null
 //
 // Name: line-height
 // Id: line_height
@@ -1300,6 +1416,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mLineHeight
 // AnimType: Coord
+// IfDef: null
 //
 // Name: list-style-image
 // Id: list_style_image
@@ -1311,6 +1428,7 @@ internal partial class nsCssPropList
 // StyleStruct: List
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: list-style-position
 // Id: list_style_position
@@ -1322,6 +1440,7 @@ internal partial class nsCssPropList
 // StyleStruct: List
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: list-style-type
 // Id: list_style_type
@@ -1333,6 +1452,7 @@ internal partial class nsCssPropList
 // StyleStruct: List
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: margin-bottom
 // Id: margin_bottom
@@ -1344,6 +1464,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: nsStyleMargin.mMargin
 // AnimType: Sides_Bottom
+// IfDef: null
 //
 // Name: margin-end-value
 // Id: margin_end_value
@@ -1355,6 +1476,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-left-value
 // Id: margin_left_value
@@ -1366,6 +1488,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: nsStyleMargin.mMargin
 // AnimType: Sides_Left
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-left-ltr-source
 // Id: margin_left_ltr_source
@@ -1377,6 +1500,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-left-rtl-source
 // Id: margin_left_rtl_source
@@ -1388,6 +1512,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-right-value
 // Id: margin_right_value
@@ -1399,6 +1524,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: nsStyleMargin.mMargin
 // AnimType: Sides_Right
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-right-ltr-source
 // Id: margin_right_ltr_source
@@ -1410,6 +1536,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-right-rtl-source
 // Id: margin_right_rtl_source
@@ -1421,6 +1548,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-start-value
 // Id: margin_start_value
@@ -1432,6 +1560,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: margin-top
 // Id: margin_top
@@ -1443,6 +1572,7 @@ internal partial class nsCssPropList
 // StyleStruct: Margin
 // StyleStructOffset: nsStyleMargin.mMargin
 // AnimType: Sides_Top
+// IfDef: null
 //
 // Name: marker-offset
 // Id: marker_offset
@@ -1454,6 +1584,7 @@ internal partial class nsCssPropList
 // StyleStruct: Content
 // StyleStructOffset: nsStyleContent.mMarkerOffset
 // AnimType: Coord
+// IfDef: null
 //
 // Name: max-height
 // Id: max_height
@@ -1465,6 +1596,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mMaxHeight
 // AnimType: Coord
+// IfDef: null
 //
 // Name: max-width
 // Id: max_width
@@ -1476,6 +1608,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mMaxWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: min-height
 // Id: min_height
@@ -1487,6 +1620,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mMinHeight
 // AnimType: Coord
+// IfDef: null
 //
 // Name: min-width
 // Id: min_width
@@ -1498,6 +1632,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mMinWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: opacity
 // Id: opacity
@@ -1509,6 +1644,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mOpacity
 // AnimType: float
+// IfDef: null
 //
 // Name: -moz-orient
 // Id: orient
@@ -1520,6 +1656,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: outline-color
 // Id: outline_color
@@ -1531,6 +1668,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: outline-style
 // Id: outline_style
@@ -1542,6 +1680,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: outline-width
 // Id: outline_width
@@ -1553,6 +1692,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: outline-offset
 // Id: outline_offset
@@ -1564,6 +1704,7 @@ internal partial class nsCssPropList
 // StyleStruct: Outline
 // StyleStructOffset: nsStyleOutline.mOutlineOffset
 // AnimType: nscoord
+// IfDef: null
 //
 // Name: overflow-x
 // Id: overflow_x
@@ -1575,6 +1716,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: overflow-y
 // Id: overflow_y
@@ -1586,6 +1728,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: padding-bottom
 // Id: padding_bottom
@@ -1597,6 +1740,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: nsStylePadding.mPadding
 // AnimType: Sides_Bottom
+// IfDef: null
 //
 // Name: padding-end-value
 // Id: padding_end_value
@@ -1608,6 +1752,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-left-value
 // Id: padding_left_value
@@ -1619,6 +1764,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: nsStylePadding.mPadding
 // AnimType: Sides_Left
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-left-ltr-source
 // Id: padding_left_ltr_source
@@ -1630,6 +1776,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-left-rtl-source
 // Id: padding_left_rtl_source
@@ -1641,6 +1788,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-right-value
 // Id: padding_right_value
@@ -1652,6 +1800,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: nsStylePadding.mPadding
 // AnimType: Sides_Right
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-right-ltr-source
 // Id: padding_right_ltr_source
@@ -1663,6 +1812,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-right-rtl-source
 // Id: padding_right_rtl_source
@@ -1674,6 +1824,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-start-value
 // Id: padding_start_value
@@ -1685,6 +1836,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: padding-top
 // Id: padding_top
@@ -1696,6 +1848,7 @@ internal partial class nsCssPropList
 // StyleStruct: Padding
 // StyleStructOffset: nsStylePadding.mPadding
 // AnimType: Sides_Top
+// IfDef: null
 //
 // Name: page-break-after
 // Id: page_break_after
@@ -1707,6 +1860,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: page-break-before
 // Id: page_break_before
@@ -1718,6 +1872,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: page-break-inside
 // Id: page_break_inside
@@ -1729,6 +1884,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: paint-order
 // Id: paint_order
@@ -1740,6 +1896,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: pointer-events
 // Id: pointer_events
@@ -1751,6 +1908,7 @@ internal partial class nsCssPropList
 // StyleStruct: Visibility
 // StyleStructOffset: nsStyleVisibility.mPointerEvents
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: position
 // Id: position
@@ -1762,6 +1920,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: quotes
 // Id: quotes
@@ -1773,6 +1932,7 @@ internal partial class nsCssPropList
 // StyleStruct: Quotes
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: resize
 // Id: resize
@@ -1784,6 +1944,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: right
 // Id: right
@@ -1795,6 +1956,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mOffset
 // AnimType: Sides_Right
+// IfDef: null
 //
 // Name: table-layout
 // Id: table_layout
@@ -1806,6 +1968,7 @@ internal partial class nsCssPropList
 // StyleStruct: Table
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: text-align
 // Id: text_align
@@ -1817,6 +1980,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-text-align-last
 // Id: text_align_last
@@ -1828,6 +1992,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mTextAlignLast
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-text-blink
 // Id: text_blink
@@ -1839,6 +2004,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: nsStyleTextReset.mTextBlink
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: -moz-text-decoration-color
 // Id: text_decoration_color
@@ -1850,6 +2016,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: -moz-text-decoration-line
 // Id: text_decoration_line
@@ -1861,6 +2028,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: nsStyleTextReset.mTextDecorationLine
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: -moz-text-decoration-style
 // Id: text_decoration_style
@@ -1872,6 +2040,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: text-indent
 // Id: text_indent
@@ -1883,6 +2052,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mTextIndent
 // AnimType: Coord
+// IfDef: null
 //
 // Name: text-overflow
 // Id: text_overflow
@@ -1894,6 +2064,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: nsStyleTextReset.mTextOverflow
 // AnimType: None
+// IfDef: null
 //
 // Name: text-shadow
 // Id: text_shadow
@@ -1905,6 +2076,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mTextShadow
 // AnimType: Shadow
+// IfDef: null
 //
 // Name: -moz-text-size-adjust
 // Id: text_size_adjust
@@ -1916,6 +2088,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: text-transform
 // Id: text_transform
@@ -1927,6 +2100,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: transform
 // Id: transform
@@ -1938,6 +2112,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mSpecifiedTransform
 // AnimType: Custom
+// IfDef: null
 //
 // Name: transform-origin
 // Id: transform_origin
@@ -1949,6 +2124,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: perspective-origin
 // Id: perspective_origin
@@ -1960,6 +2136,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: Custom
+// IfDef: null
 //
 // Name: perspective
 // Id: perspective
@@ -1971,6 +2148,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mChildPerspective
 // AnimType: Coord
+// IfDef: null
 //
 // Name: transform-style
 // Id: transform_style
@@ -1982,6 +2160,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: backface-visibility
 // Id: backface_visibility
@@ -1993,6 +2172,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: nsStyleDisplay.mBackfaceVisibility
 // AnimType: None
+// IfDef: null
 //
 // Name: top
 // Id: top
@@ -2004,6 +2184,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mOffset
 // AnimType: Sides_Top
+// IfDef: null
 //
 // Name: transition-delay
 // Id: transition_delay
@@ -2015,6 +2196,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: transition-duration
 // Id: transition_duration
@@ -2026,6 +2208,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: transition-property
 // Id: transition_property
@@ -2037,6 +2220,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: transition-timing-function
 // Id: transition_timing_function
@@ -2048,6 +2232,7 @@ internal partial class nsCssPropList
 // StyleStruct: Display
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: unicode-bidi
 // Id: unicode_bidi
@@ -2059,6 +2244,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-user-focus
 // Id: user_focus
@@ -2070,6 +2256,7 @@ internal partial class nsCssPropList
 // StyleStruct: UserInterface
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-user-input
 // Id: user_input
@@ -2081,6 +2268,7 @@ internal partial class nsCssPropList
 // StyleStruct: UserInterface
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-user-modify
 // Id: user_modify
@@ -2092,6 +2280,7 @@ internal partial class nsCssPropList
 // StyleStruct: UserInterface
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-user-select
 // Id: user_select
@@ -2103,6 +2292,7 @@ internal partial class nsCssPropList
 // StyleStruct: UIReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: vertical-align
 // Id: vertical_align
@@ -2114,6 +2304,7 @@ internal partial class nsCssPropList
 // StyleStruct: TextReset
 // StyleStructOffset: nsStyleTextReset.mVerticalAlign
 // AnimType: Coord
+// IfDef: null
 //
 // Name: visibility
 // Id: visibility
@@ -2125,6 +2316,7 @@ internal partial class nsCssPropList
 // StyleStruct: Visibility
 // StyleStructOffset: nsStyleVisibility.mVisible
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: white-space
 // Id: white_space
@@ -2136,6 +2328,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: width
 // Id: width
@@ -2147,6 +2340,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: -moz-window-shadow
 // Id: _moz_window_shadow
@@ -2158,6 +2352,7 @@ internal partial class nsCssPropList
 // StyleStruct: UIReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: word-break
 // Id: word_break
@@ -2169,6 +2364,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mWordBreak
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: word-spacing
 // Id: word_spacing
@@ -2180,6 +2376,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: nsStyleText.mWordSpacing
 // AnimType: nscoord
+// IfDef: null
 //
 // Name: word-wrap
 // Id: word_wrap
@@ -2191,6 +2388,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-hyphens
 // Id: hyphens
@@ -2202,6 +2400,7 @@ internal partial class nsCssPropList
 // StyleStruct: Text
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: z-index
 // Id: z_index
@@ -2213,6 +2412,7 @@ internal partial class nsCssPropList
 // StyleStruct: Position
 // StyleStructOffset: nsStylePosition.mZIndex
 // AnimType: Coord
+// IfDef: null
 //
 // Name: -moz-box-align
 // Id: box_align
@@ -2224,6 +2424,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-box-direction
 // Id: box_direction
@@ -2235,6 +2436,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-box-flex
 // Id: box_flex
@@ -2246,6 +2448,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: nsStyleXUL.mBoxFlex
 // AnimType: float
+// IfDef: null
 //
 // Name: -moz-box-orient
 // Id: box_orient
@@ -2257,6 +2460,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-box-pack
 // Id: box_pack
@@ -2268,6 +2472,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-box-ordinal-group
 // Id: box_ordinal_group
@@ -2279,6 +2484,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-stack-sizing
 // Id: stack_sizing
@@ -2290,6 +2496,7 @@ internal partial class nsCssPropList
 // StyleStruct: XUL
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -moz-script-level
 // Id: script_level
@@ -2301,6 +2508,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: -moz-script-size-multiplier
 // Id: script_size_multiplier
@@ -2312,6 +2520,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: -moz-script-min-size
 // Id: script_min_size
@@ -2323,6 +2532,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: !CSS_PROP_LIST_EXCLUDE_INTERNAL
 //
 // Name: clip-path
 // Id: clip_path
@@ -2334,6 +2544,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: clip-rule
 // Id: clip_rule
@@ -2345,6 +2556,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mClipRule
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: color-interpolation
 // Id: color_interpolation
@@ -2356,6 +2568,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mColorInterpolation
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: color-interpolation-filters
 // Id: color_interpolation_filters
@@ -2367,6 +2580,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mColorInterpolationFilters
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: dominant-baseline
 // Id: dominant_baseline
@@ -2378,6 +2592,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mDominantBaseline
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: fill
 // Id: fill
@@ -2389,6 +2604,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mFill
 // AnimType: PaintServer
+// IfDef: null
 //
 // Name: fill-opacity
 // Id: fill_opacity
@@ -2400,6 +2616,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mFillOpacity
 // AnimType: float
+// IfDef: null
 //
 // Name: fill-rule
 // Id: fill_rule
@@ -2411,6 +2628,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mFillRule
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: filter
 // Id: filter
@@ -2422,6 +2640,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: flood-color
 // Id: flood_color
@@ -2433,6 +2652,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mFloodColor
 // AnimType: Color
+// IfDef: null
 //
 // Name: flood-opacity
 // Id: flood_opacity
@@ -2444,6 +2664,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mFloodOpacity
 // AnimType: float
+// IfDef: null
 //
 // Name: image-rendering
 // Id: image_rendering
@@ -2455,6 +2676,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mImageRendering
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: lighting-color
 // Id: lighting_color
@@ -2466,6 +2688,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mLightingColor
 // AnimType: Color
+// IfDef: null
 //
 // Name: marker-end
 // Id: marker_end
@@ -2477,6 +2700,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: marker-mid
 // Id: marker_mid
@@ -2488,6 +2712,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: marker-start
 // Id: marker_start
@@ -2499,6 +2724,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: mask
 // Id: mask
@@ -2510,6 +2736,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: mask-type
 // Id: mask_type
@@ -2521,6 +2748,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mMaskType
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: shape-rendering
 // Id: shape_rendering
@@ -2532,6 +2760,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mShapeRendering
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: stop-color
 // Id: stop_color
@@ -2543,6 +2772,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mStopColor
 // AnimType: Color
+// IfDef: null
 //
 // Name: stop-opacity
 // Id: stop_opacity
@@ -2554,6 +2784,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mStopOpacity
 // AnimType: float
+// IfDef: null
 //
 // Name: stroke
 // Id: stroke
@@ -2565,6 +2796,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStroke
 // AnimType: PaintServer
+// IfDef: null
 //
 // Name: stroke-dashoffset
 // Id: stroke_dashoffset
@@ -2576,6 +2808,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeDashoffset
 // AnimType: Coord
+// IfDef: null
 //
 // Name: stroke-linecap
 // Id: stroke_linecap
@@ -2587,6 +2820,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeLinecap
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: stroke-linejoin
 // Id: stroke_linejoin
@@ -2598,6 +2832,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeLinejoin
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: stroke-miterlimit
 // Id: stroke_miterlimit
@@ -2609,6 +2844,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeMiterlimit
 // AnimType: float
+// IfDef: null
 //
 // Name: stroke-opacity
 // Id: stroke_opacity
@@ -2620,6 +2856,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeOpacity
 // AnimType: float
+// IfDef: null
 //
 // Name: stroke-width
 // Id: stroke_width
@@ -2631,6 +2868,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mStrokeWidth
 // AnimType: Coord
+// IfDef: null
 //
 // Name: text-anchor
 // Id: text_anchor
@@ -2642,6 +2880,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mTextAnchor
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: text-rendering
 // Id: text_rendering
@@ -2653,6 +2892,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVG
 // StyleStructOffset: nsStyleSVG.mTextRendering
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: vector-effect
 // Id: vector_effect
@@ -2664,6 +2904,7 @@ internal partial class nsCssPropList
 // StyleStruct: SVGReset
 // StyleStructOffset: nsStyleSVGReset.mVectorEffect
 // AnimType: EnumU8
+// IfDef: null
 //
 // Name: -x-lang
 // Id: _x_lang
@@ -2675,6 +2916,7 @@ internal partial class nsCssPropList
 // StyleStruct: Font
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 //
 // Name: -x-span
 // Id: _x_span
@@ -2686,5 +2928,6 @@ internal partial class nsCssPropList
 // StyleStruct: Table
 // StyleStructOffset: null
 // AnimType: None
+// IfDef: null
 } // class nsCssPropList
 } // namespace Alba.CsCss

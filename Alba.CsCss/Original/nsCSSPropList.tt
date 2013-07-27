@@ -43,6 +43,7 @@ internal partial class nsCssPropList
 // StyleStruct: <#= prop.StyleStruct #>
 // StyleStructOffset: <#= prop.StyleStructOffset ?? "null" #>
 // AnimType: <#= prop.AnimType #>
+// IfDef: <#= prop.IfDef ?? "null" #>
 <#+ } #>
 } // class nsCssPropList
 } // namespace Alba.CsCss
@@ -117,6 +118,12 @@ internal partial class nsCssPropList
                 prop.KwTable = null;
             if (prop.StyleStructOffset == "CSS_PROP_NO_OFFSET")
                 prop.StyleStructOffset = null;
+            int posMacro = source.LastIndexOf('#', m.Index);
+            if (posMacro != -1) {
+                string macro = source.Substring(posMacro, source.IndexOf('\n', posMacro) - posMacro);
+                if (macro.StartsWith("#if "))
+                    prop.IfDef = macro.Substring(4);
+            }
             yield return prop;
         }
         //WriteLine(source);
@@ -124,6 +131,6 @@ internal partial class nsCssPropList
 
     class CssProp
     {
-        public string Name, Id, Method, Flags, Pref, ParseVariant, KwTable, StyleStruct, StyleStructOffset, AnimType;
+        public string Name, Id, Method, Flags, Pref, ParseVariant, KwTable, StyleStruct, StyleStructOffset, AnimType, IfDef;
     }
 #>
