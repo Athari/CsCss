@@ -4,7 +4,7 @@ using int16_t = System.Int16;
 
 namespace Alba.CsCss.Gfx
 {
-    internal partial struct nsFont
+    internal partial class nsFont
     {
         // IDs for generic fonts
         // NOTE: 0, 1 are reserved for the special IDs of the default variable
@@ -63,7 +63,7 @@ namespace Alba.CsCss.Gfx
         public string languageOverride;
 
         public nsFont (string name, uint8_t style, uint8_t systemFont, uint8_t variant, uint8_t decorations, uint16_t weight, int16_t stretch,
-            nscoord size, float sizeAdjust = 0, string languageOverride = null) : this()
+            nscoord size, float sizeAdjust = 0, string languageOverride = null)
         {
             this.name = name;
             this.style = style;

@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MOZ_FLEXBOX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,7 +25,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;MOZ_FLEXBOX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -70,6 +70,9 @@
     <Compile Include="Original\nsCSSToken.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
+    <Compile Include="Original\nsStyle.conv.cs">
+      <DependentUpon>nsStyleConsts.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +116,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSScanner.cpp</DependentUpon>
     </None>
+    <None Include="Original\nsStyleConsts.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsStyleConsts.h</DependentUpon>
+    </None>
     <None Include="T4\Common.ttinclude" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +153,12 @@
     <None Include="Gfx\Original\gfxFontConstants.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>gfxFontConstants.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Original\nsStyleConsts.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsStyleConsts.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />

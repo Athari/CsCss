@@ -1,0 +1,82 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsStyle.conv.cs", () => GenerateStyleConsts(source));
+    T4.Process();
+#>
+<#+
+    void GenerateStyleConsts (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+using Alba.CsCss.Gfx;
+
+namespace Alba.CsCss
+{
+    internal partial class nsStyle
+    {
+<#=     ConvertStyleConstsSource(source).Indent(8) #>
+    } // class nsStyle
+} // namespace Alba.CsCss
+<#+
+    } // GenerateStyleConsts
+#>
+<#+
+    string ConvertStyleConstsSource (string source) {
+        return source
+
+            // whitespace
+            .ReReplace(@"\r", "")
+
+            // specific methods removal
+            .ReReplace(@"(?s)static inline mozilla::css::Side operator\+\+\(mozilla::css::Side& side, int\).*?\n}\n", "")
+
+            // specific preprocessor
+            .ReReplace(@".*nsStyleConsts_h___.*", "") // header guard
+            .ReReplace(@"(?s)#define (NS_SIDE_|NS_FOR_|NS_HALF_|NS_FULL_).*?(?<!\\)\n", "") // remove problematic defines
+            .ReReplace(@"(?imnx)^
+                             \#define \ +
+                             NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
+                             (?<IntValue>\(? (-?\d+ | 0x[0-9a-f]+ | 1<<\d+) \)?) \ *? # NN or 0xHH or 1<<N in optional brackets
+                             (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
+                        "public const int ${Name} = ${IntValue};${Remainder}")
+            .ReReplace(@"(?imnx)^
+                             \#define \ +
+                             NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
+                             (?<FloatValue>\(? -?\d*\.\d+f \)?) \ *?                  # N.NNf in optional brackets
+                             (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
+                        "public const float ${Name} = ${FloatValue};${Remainder}")
+            .ReReplace(@"(?mnx)^
+                             \#define \ +
+                             NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
+                             \(? (                                                    # aliased constant name(s)
+                                 NS_(STYLE_)? (?<NamesValue>\w+ (\ *\|\ *)? )         # aliased constant name ending with optional | operator
+                             )+ \)? \ *?
+                             (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
+                        m => {
+                            string name = m.Get("Name"), namesValue = m.GetConcat("NamesValue"), remainder = m.Get("Remainder");
+                            namesValue = namesValue.ReReplace(@"^FONT_", "nsFont.");
+                            return "public const int {0} = {1};{2}".Fmt(name, namesValue, remainder);
+                        })
+
+            // common preprocessor
+            .ReReplace(@"#include .*", "")
+            .ReReplace(@"#undef .*", "")
+            .ReReplace(@"#ifdef (\w+)", "#if $1")
+            .ReReplace(@"#ifndef (\w+)", "#if !$1")
+            .ReReplace(@"using .*", "")
+
+            // whitespace
+            .ReReplace(@"\n\s*;\n", "\n")
+            .ReReplace(@"\n{3,}", "\n\n")
+            .ReReplace(@"\n", "\r\n")
+            .Trim()
+            ;
+    }
+#>

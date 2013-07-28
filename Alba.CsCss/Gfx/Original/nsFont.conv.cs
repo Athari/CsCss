@@ -4,7 +4,7 @@
 
 namespace Alba.CsCss.Gfx
 {
-    internal partial struct nsFont
+    internal partial class nsFont
     {
         public const int STYLE_NORMAL =            0;
         public const int STYLE_ITALIC =            1;

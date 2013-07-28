@@ -15,7 +15,7 @@
 
 namespace Alba.CsCss.Gfx
 {
-    internal partial struct nsFont
+    internal partial class nsFont
     {
 <#+   foreach (Match m in source.ReMatches(@"#define NS_FONT_(?<Name>\w+) (?<Value>.*)")) { #>
         public const int <#=m.Get("Name")#> = <#=m.Get("Value")#>;
