@@ -54,9 +54,11 @@
     <Compile Include="Gfx\Original\nsFont.conv.cs">
       <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gfx\Side.cs" />
     <Compile Include="nsCSSScanner.cs" />
     <Compile Include="nsCSSToken.cs" />
     <Compile Include="nsCSSTokenType.cs" />
+    <Compile Include="nsStyle.cs" />
     <Compile Include="nsStyleUtil.cs" />
     <Compile Include="Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
