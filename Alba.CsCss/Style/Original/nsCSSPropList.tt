@@ -1,6 +1,6 @@
 <#@ template hostspecific="true" debug="true" #>
 <#@ output extension="/" #>
-<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
 <#@ include file="nsCSSPropList.ttinclude" #>
 <#@ include file="nsCSSPropAliasList.ttinclude" #>
 <#
@@ -43,7 +43,7 @@
 
 using System.ComponentModel;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal enum nsCSSProperty {
         UNKNOWN = -1,

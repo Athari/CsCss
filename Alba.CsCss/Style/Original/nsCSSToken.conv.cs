@@ -14,7 +14,7 @@ using uint8_t = System.SByte;
 using uint32_t = System.Int32;
 using PRUnichar = System.Char;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
 internal partial class nsCSSToken
 {

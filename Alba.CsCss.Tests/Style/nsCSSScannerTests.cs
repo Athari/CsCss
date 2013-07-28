@@ -1,8 +1,9 @@
 ﻿using System;
+using Alba.CsCss.Style;
 using Alba.Framework.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Alba.CsCss.Tests
+namespace Alba.CsCss.Tests.Style
 {
     [TestClass]
     public class nsCSSScannerTests

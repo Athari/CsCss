@@ -1,6 +1,6 @@
 <#@ template hostspecific="true" debug="true" #>
 <#@ output extension="/" #>
-<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
 <#@ include file="nsCSSPropAliasList.ttinclude" #>
 <#
     var T4 = GetT4();

@@ -1,4 +1,4 @@
-﻿namespace Alba.CsCss
+﻿namespace Alba.CsCss.Style
 {
     // Token types; in close but not perfect correspondence to the token
     // categorization in section 4.1.1 of CSS2.1.  (The deviations are all

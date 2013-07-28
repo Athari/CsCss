@@ -1,6 +1,6 @@
 <#@ template hostspecific="true" debug="true" #>
 <#@ output extension="/" #>
-<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
 <#
     string source = LoadText(ext: "h");
 
@@ -17,7 +17,7 @@
 
 using Alba.CsCss.Gfx;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal partial class nsStyle
     {

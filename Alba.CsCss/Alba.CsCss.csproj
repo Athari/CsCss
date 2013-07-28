@@ -35,7 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorReporter.cs" />
+    <Compile Include="Style\ErrorReporter.cs" />
     <Compile Include="Extensions\DictionaryExts.cs" />
     <Compile Include="Extensions\EnumerableExts.cs" />
     <Compile Include="Extensions\StringBuilderExts.cs" />
@@ -57,31 +57,31 @@
       <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>
     <Compile Include="Gfx\Side.cs" />
-    <Compile Include="nsCSSKeywords.cs" />
-    <Compile Include="nsCSSScanner.cs" />
-    <Compile Include="nsCSSToken.cs" />
-    <Compile Include="nsCSSTokenType.cs" />
-    <Compile Include="nsStyle.cs" />
-    <Compile Include="nsStyleUtil.cs" />
-    <Compile Include="Original\nsCSSFontDesc.g.cs">
+    <Compile Include="Style\nsCSSKeywords.cs" />
+    <Compile Include="Style\nsCSSScanner.cs" />
+    <Compile Include="Style\nsCSSToken.cs" />
+    <Compile Include="Style\nsCSSTokenType.cs" />
+    <Compile Include="Style\nsStyle.cs" />
+    <Compile Include="Style\nsStyleUtil.cs" />
+    <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsCSSKeyword.g.cs">
+    <Compile Include="Style\Original\nsCSSKeyword.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsCSSKeywords.g.cs">
+    <Compile Include="Style\Original\nsCSSKeywords.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsCSSProperty.g.cs">
+    <Compile Include="Style\Original\nsCSSProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsCSSScanner.conv.cs">
+    <Compile Include="Style\Original\nsCSSScanner.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsCSSToken.conv.cs">
+    <Compile Include="Style\Original\nsCSSToken.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
-    <Compile Include="Original\nsStyle.conv.cs">
+    <Compile Include="Style\Original\nsStyle.conv.cs">
       <DependentUpon>nsStyleConsts.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,41 +100,41 @@
       <DependentUpon>nsColorNameList.h</DependentUpon>
     </None>
     <None Include="Gfx\Original\nsColorNameList.ttinclude" />
-    <None Include="Original\nsCSSFontDescList.tt">
+    <None Include="Style\Original\nsCSSFontDescList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSFontDescList.h</DependentUpon>
     </None>
-    <None Include="Original\nsCSSFontDescList.ttinclude" />
-    <None Include="Original\nsCSSKeywordList.tt">
+    <None Include="Style\Original\nsCSSFontDescList.ttinclude" />
+    <None Include="Style\Original\nsCSSKeywordList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSKeywordList.h</DependentUpon>
     </None>
-    <None Include="Original\nsCSSKeywordList.ttinclude" />
-    <None Include="Original\nsCSSPropAliasList.tt">
+    <None Include="Style\Original\nsCSSKeywordList.ttinclude" />
+    <None Include="Style\Original\nsCSSPropAliasList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSPropAliasList.h</DependentUpon>
     </None>
-    <None Include="Original\nsCSSPropAliasList.ttinclude" />
-    <None Include="Original\nsCSSPropList.tt">
+    <None Include="Style\Original\nsCSSPropAliasList.ttinclude" />
+    <None Include="Style\Original\nsCSSPropList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSPropList.h</DependentUpon>
     </None>
-    <None Include="Original\nsCSSPropList.ttinclude" />
-    <None Include="Original\nsCSSScanner.tt">
+    <None Include="Style\Original\nsCSSPropList.ttinclude" />
+    <None Include="Style\Original\nsCSSScanner.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSScanner.cpp</DependentUpon>
     </None>
-    <None Include="Original\nsStyleConsts.tt">
+    <None Include="Style\Original\nsStyleConsts.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,19 +147,19 @@
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsColorNameList.tt</LastGenOutput>
     </None>
-    <None Include="Original\nsCSSFontDescList.h">
+    <None Include="Style\Original\nsCSSFontDescList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSFontDescList.tt</LastGenOutput>
     </None>
-    <None Include="Original\nsCSSPropAliasList.h">
+    <None Include="Style\Original\nsCSSPropAliasList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropAliasList.tt</LastGenOutput>
     </None>
-    <None Include="Original\nsCSSPropList.h">
+    <None Include="Style\Original\nsCSSPropList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSPropList.tt</LastGenOutput>
     </None>
-    <None Include="Original\nsCSSScanner.cpp">
+    <None Include="Style\Original\nsCSSScanner.cpp">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSScanner.tt</LastGenOutput>
     </None>
@@ -174,13 +174,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Original\nsStyleConsts.h">
+    <None Include="Style\Original\nsStyleConsts.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsStyleConsts.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Original\nsCSSKeywordList.h">
+    <None Include="Style\Original\nsCSSKeywordList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSKeywordList.tt</LastGenOutput>
     </None>

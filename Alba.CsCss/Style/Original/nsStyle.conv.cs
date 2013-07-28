@@ -4,7 +4,7 @@
 
 using Alba.CsCss.Gfx;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal partial class nsStyle
     {

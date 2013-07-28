@@ -2,7 +2,7 @@
 // Generated file. Do not edit manually.
 //
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal enum nsCSSFontDesc
     {

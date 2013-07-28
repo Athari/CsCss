@@ -1,6 +1,6 @@
 <#@ template hostspecific="true" debug="true" #>
 <#@ output extension="/" #>
-<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
 <#@ include file="nsCSSKeywordList.ttinclude" #>
 <#
     var T4 = GetT4();
@@ -27,7 +27,7 @@
 // Generated file. Do not edit manually.
 //
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal enum nsCSSKeyword
     {
@@ -45,7 +45,7 @@ namespace Alba.CsCss
 // Generated file. Do not edit manually.
 //
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal partial class nsCSSKeywords
     {

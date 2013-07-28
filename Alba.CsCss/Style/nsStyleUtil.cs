@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal class nsStyleUtil
     {

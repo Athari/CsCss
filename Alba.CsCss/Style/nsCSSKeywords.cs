@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Alba.CsCss.Extensions;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal partial class nsCSSKeywords
     {

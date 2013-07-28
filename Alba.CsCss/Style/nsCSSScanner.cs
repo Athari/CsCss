@@ -1,29 +1,29 @@
-﻿using System.Text;
-using uint32_t = System.Int32;
+﻿using System;
+using System.Text;
 
-namespace Alba.CsCss
+namespace Alba.CsCss.Style
 {
     internal partial class nsCSSScanner
     {
         private readonly string mBuffer;
-        private uint32_t mOffset;
-        private readonly uint32_t mCount;
+        private Int32 mOffset;
+        private readonly Int32 mCount;
 
-        private uint32_t mLineNumber;
-        private uint32_t mLineOffset;
+        private Int32 mLineNumber;
+        private Int32 mLineOffset;
 
-        private uint32_t mTokenLineNumber;
-        private uint32_t mTokenLineOffset;
-        private uint32_t mTokenOffset;
+        private Int32 mTokenLineNumber;
+        private Int32 mTokenLineOffset;
+        private Int32 mTokenOffset;
 
-        private uint32_t mRecordStartOffset;
+        private Int32 mRecordStartOffset;
 
         private ErrorReporter mReporter;
 
         private bool mSVGMode;
         private bool mRecording;
 
-        internal nsCSSScanner (string aBuffer, uint32_t aLineNumber)
+        internal nsCSSScanner (string aBuffer, Int32 aLineNumber)
         {
             mBuffer = aBuffer;
             mCount = aBuffer.Length;
@@ -46,12 +46,12 @@ namespace Alba.CsCss
             mSVGMode = aSVGMode;
         }
 
-        internal uint32_t GetLineNumber ()
+        internal Int32 GetLineNumber ()
         {
             return mTokenLineNumber;
         }
 
-        internal uint32_t GetColumnLineNumber ()
+        internal Int32 GetColumnLineNumber ()
         {
             return mTokenOffset - mTokenLineOffset;
         }
@@ -64,7 +64,7 @@ namespace Alba.CsCss
 
         internal string GetCurrentLine ()
         {
-            uint32_t end = mTokenOffset;
+            Int32 end = mTokenOffset;
             while (end < mCount && !IsVertSpace(mBuffer[end])) {
                 end++;
             }

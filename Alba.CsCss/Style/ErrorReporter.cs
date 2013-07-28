@@ -1,4 +1,4 @@
-﻿namespace Alba.CsCss
+﻿namespace Alba.CsCss.Style
 {
     internal class ErrorReporter
     {
