@@ -1,0 +1,28 @@
+﻿<#+
+    IList<CssKeyword> _cssKeywords;
+
+    IEnumerable<CssKeyword> GetCssKeywordsFromSource (string source) {
+
+        foreach (Match m in source.ReMatches(
+                @"(?mx)^CSS_KEY\(
+                    (?<Name>$), (?<Id>$)
+                \)".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var desc = new CssKeyword {
+                Name = m.Get("Name").Trim(),
+                Id = m.Get("Id").Trim(),
+            };
+            yield return desc;
+        }
+    }
+
+    IEnumerable<CssKeyword> GetCssKeywords () {
+        if (_cssKeywords == null)
+            _cssKeywords = GetCssKeywordsFromSource(LoadText("nsCSSKeywordList.h")).ToList();
+        return _cssKeywords;
+    }
+
+    class CssKeyword
+    {
+        public string Name, Id;
+    }
+#>

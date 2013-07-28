@@ -1,0 +1,59 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\T4\Common.ttinclude" #>
+<#@ include file="nsCSSKeywordList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    //T4.GenerateFile("nsCSSKeywordList.g.txt", () => GenerateCssKeywordListText());
+    T4.GenerateFile("nsCSSKeyword.g.cs", () => GenerateCssKeyword());
+    T4.GenerateFile("nsCSSKeywords.g.cs", () => GenerateCssKeywords());
+    T4.Process();
+#>
+
+<#+ void GenerateCssKeywordListText () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+<#+ foreach (CssKeyword key in GetCssKeywords()) { #>
+//
+// Name: <#= key.Name #>
+// Id: <#= key.Id #>
+<#+ } #>
+<#+ } /* void GenerateCssKeywordListText */ #>
+
+<#+ void GenerateCssKeyword () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss
+{
+    internal enum nsCSSKeyword
+    {
+        UNKNOWN = -1,
+<#+   foreach (CssKeyword key in GetCssKeywords()) { #>
+        <#=ToCsId(key.Id)#>,
+<#+   } #>
+        COUNT
+    }
+}
+<#+ } /* void GenerateCssKeyword */ #>
+
+<#+ void GenerateCssKeywords () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss
+{
+    internal partial class nsCSSKeywords
+    {
+        private static readonly string[] kCSSRawKeywords = {
+<#+       foreach (CssKeyword key in GetCssKeywords()) { #>
+            "<#=key.Name#>",
+<#+       } #>
+        };
+    }
+}
+<#+ } /* void GenerateCssKeywords */ #>
