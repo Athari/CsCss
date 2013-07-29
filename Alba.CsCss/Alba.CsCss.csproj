@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Gfx\Side.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
+    <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="Style\Original\nsCSSProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsCSSPropH.conv.cs">
+      <DependentUpon>nsCSSPropsH.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsCSSScanner.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
@@ -85,6 +89,9 @@
       <DependentUpon>nsStyleConsts.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
+      <DependentUpon>nsCSSPropsH.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Gfx\Original\gfxFontConstants.tt">
@@ -128,6 +135,18 @@
       <DependentUpon>nsCSSPropList.h</DependentUpon>
     </None>
     <None Include="Style\Original\nsCSSPropList.ttinclude" />
+    <None Include="Style\Original\nsCSSProps.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSProps.cpp</DependentUpon>
+    </None>
+    <None Include="Style\Original\nsCSSPropsH.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSPropsH.h</DependentUpon>
+    </None>
     <None Include="Style\Original\nsCSSScanner.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -183,6 +202,18 @@
     <None Include="Style\Original\nsCSSKeywordList.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSKeywordList.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\nsCSSPropsH.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSPropsH.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\nsCSSProps.cpp">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSProps.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
