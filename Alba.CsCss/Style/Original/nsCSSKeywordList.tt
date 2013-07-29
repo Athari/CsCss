@@ -33,7 +33,7 @@ namespace Alba.CsCss.Style
     {
         UNKNOWN = -1,
 <#+   foreach (CssKeyword key in GetCssKeywords()) { #>
-        <#=ToCsId(key.Id)#>,
+        <#=ToId(key.Id)#>,
 <#+   } #>
         COUNT
     }

@@ -48,7 +48,7 @@ namespace Alba.CsCss.Style
     internal enum nsCSSProperty {
         UNKNOWN = -1,
 <#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
-        <#= ToCsId(prop.Id) #>,
+        <#= ToId(prop.Id) #>,
 <#+   } #>
         COUNT_no_shorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]

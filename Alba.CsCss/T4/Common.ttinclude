@@ -17,7 +17,7 @@
         "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
     }.ToSet();
 
-    string ToCsId (string name) {
+    string ToId (string name) {
         return CSharpKeywords.Contains(name) ? "@" + name : name;
     }
 #>

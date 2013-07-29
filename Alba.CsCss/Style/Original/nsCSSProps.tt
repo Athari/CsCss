@@ -1,0 +1,77 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+    source = source
+        // whitespace
+        .ReReplace(@"\r", "")
+        // common preprocessor
+        .ReReplace(@"\\\n", "");
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsCSSProp.Defines.conv.cs", () => GenerateCssPropDefines(source));
+    T4.GenerateFile("nsStyleAnimType.conv.cs", () => GenerateStyleAnimType(source));
+    T4.Process();
+#>
+<#+
+    void GenerateCssPropDefines (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSProps
+    {
+<#+   foreach (string line in ConvertCssPropDefines(source)) { #>
+        <#=line#>
+<#+   } #>
+    } // class nsCSSProps
+} // namespace Alba.CsCss.Style
+<#+
+    } // GenerateCssPropDefines
+#>
+<#+
+    void GenerateStyleAnimType (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    internal enum nsStyleAnimType
+    {
+<#=     source.ReMatchGet(@"(?s)enum nsStyleAnimType {\n(.*?)\n}").Replace("eStyleAnimType_", "").Replace("float", "@float").Indent(6).NormalizeWhitespace() #>
+    }
+} // namespace Alba.CsCss.Style
+<#+
+    } // GenerateStyleAnimType
+#>
+<#+
+    IEnumerable<string> ConvertCssPropDefines (string source)
+    {
+        foreach (Match m in source.ReMatches(
+            @"(?imnx)^
+                \#define \ +
+                CSS_PROPERTY_ (?<Name>\w+) \ +                            # constant name with prefix removed
+                (?<IntValue>\(? (-?\d+ | 0x[0-9a-f]+ | \d<<\d+) \)?) \ *? # NN or 0xHH or N<<N in optional brackets
+                (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment"))
+            yield return m.Result("public const int ${Name} = ${IntValue};${Remainder}");
+
+        foreach (Match m in source.ReMatches(
+            @"(?mnx)^
+                \#define \ +
+                CSS_PROPERTY_ (?<Name>\w+) \ +                            # constant name with prefix removed
+                \(? (                                                     # aliased constant name(s)
+                    CSS_PROPERTY_ (?<NamesValue>\w+ (\ *\|\ *)? )         # aliased constant name ending with optional | operator
+                )+ \)? \ *?
+                (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment")) {
+            string name = m.Get("Name"), namesValue = m.GetConcat("NamesValue"), remainder = m.Get("Remainder");
+            namesValue = namesValue.ReReplace(@"^FONT_", "nsFont.");
+            yield return "public const int {0} = {1};{2}".Fmt(name, namesValue, remainder);
+        }
+    }
+#>
