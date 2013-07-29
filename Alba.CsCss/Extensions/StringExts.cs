@@ -8,5 +8,10 @@ namespace Alba.CsCss.Extensions
         {
             return string.Equals(@this, value, StringComparison.Ordinal);
         }
+
+        public static char First (this string @this)
+        {
+            return @this.Length > 0 ? @this[0] : '\0';
+        }
     }
 }

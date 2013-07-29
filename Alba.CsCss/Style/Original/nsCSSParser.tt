@@ -24,6 +24,7 @@
 // ReSharper disable EmptyStatement
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Extensions;
@@ -66,7 +67,13 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_RELEASE\((\w+)\)", "$1 = null")
             //.ReReplace(@"(?s)MOZ_(?:UN)?LIKELY\((" + sArgs + @")\)", "$1")
             //.ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
+            .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|PRUnichar)\((.*?)\)", "$1")
+            .ReReplace(@"(?:nsRefPtr|nsCOMPtr|nsAutoPtr|already_AddRefed)<([\w:]+)>", "$1")
+            .ReReplace(@"InfallibleTArray<([\w:]+)>[*&]?", "List<$1>")
 
+            // specific preprocessor
+            .ReReplace(@"OUTPUT_ERROR\(\)", "mReporter.OutputError()")
+            .ReReplace(@"CLEAR_ERROR\(\)", "mReporter.ClearError()")
             // specific methods removal
             //.ReReplace(@"(?s)nsCSSScanner::nsCSSScanner\(StringBuilder aBuffer, uint32_t aLineNumber\).*?\n}\n", "")
             //.ReReplace(@"(?s)nsCSSScanner::~nsCSSScanner\(\).*?\n}\n", "")
@@ -77,24 +84,31 @@ namespace Alba.CsCss.Style
             //.Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
             // specific members access
             .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
-            .ReReplace(@"&(aScanner|aReporter|mToken)", "$1")
+            .ReReplace(@"&(aScanner|aReporter|mToken|mData)", "$1")
+            .ReReplace(@"\*(aResult|aChanged|aQuery|aHitStop)", "$1")
             .ReReplace(@"&(equal)", "out $1")
             // specific classes
-            .ReReplace(@"(?n)(mozilla::)?(css::)?(?<Name>nsCSSToken|nsCSSStyleSheet|nsIPrincipal|ErrorReporter|Rule)[*&]?", "${Name}")
+            .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(?<Name>"+
+                            "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
+                            "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|Declaration"+
+                        ")(?<Space> )?[*&]?", "${Name}${Space}")
+            .ReReplace(@"(?n)(?<Name>bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery)(?<Space> )?\*", "ref ${Name}${Space}")
             .Replace(@"nsIURI*", "Uri")
-            .Replace(@"const nsAString&", "string")
+            .ReReplace(@"(const )?(nsString|nsAString|nsSubstring|nsAutoString)[*&]?", "string")
             .Replace(@"nsCSSScanner&", "nsCSSScanner")
             .Replace(@"mozilla::css::Loader*", "CssLoader")
             .Replace(@"css::ErrorReporter&", "ErrorReporter")
+            .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"(?n)(mozilla::)?(css::)?(?<Type>ErrorReporter|nsCSSScanner) +(?<Var>\w+)\((?<Args>"+sArgs+@")\)", "var ${Var} = new ${Type}(${Args})")
-            //.Replace(@"Append(&mBuffer[mOffset]", "Append(mBuffer, mOffset")
             // specific enums
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
-            .ReReplace(@"e(CSSSection)_(\w+)", "ns$1.$2")
+            .ReReplace(@"e(CSSSection|ParseDeclaration|CSSProperty)_(\w+)", "ns$1.$2")
+            .ReReplace(@"eCSSProperty(Alias)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             // specific expressions
             .ReReplace(@"!(mScanner)", "$1 == null")
-            .ReReplace(@"if \((mSheet|lastRule)\)", "if ($1 != null)")
-            .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI)\)\)", "if ($1 == null)")
+            .ReReplace(@"if \((mSheet|lastRule|declaration)\)", "if ($1 != null)")
+            .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
             //.Replace(@"static const uint8_t gLexTable[] =", "private static readonly uint8_t[] gLexTable =")
             //.Replace(@"AppendUCS4ToUTF16(ENSURE_VALID_CHAR(val), aOutput)", "aOutput.Append(val)")
             //.Replace(@"aToken.mSymbol = Peek()", "aToken.mSymbol = (char)Peek()") // Peek returns int
@@ -116,6 +130,7 @@ namespace Alba.CsCss.Style
             //.Replace(@"INT32_MIN", "Int32.MinValue")
             // common c++
             .ReReplace(@"\bnullptr\b", "null")
+            .ReReplace(@"(?<Spec>const|static) (?<Type>\w+) (?<Var>\w+)\[\] = {", "${Spec} ${Type}[] ${Var} = new ${Type}[] {")
             //.ReReplace(@"static const", "private const")
             //.ReReplace(@"\) const\n", ")\n") // const functions
             //.ReReplace(@"inline", "")
@@ -125,8 +140,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"::", ".")
 
             // common preprocessor
-            //.ReReplace(@"#include .*", "")
-            //.ReReplace(@"#undef .*", "")
+            .ReReplace(@"#(include|define|undef) .*", "")
             .ReReplace(@"#ifdef (\w+)", "#if $1")
             //.ReReplace(@"using .*", "")
 

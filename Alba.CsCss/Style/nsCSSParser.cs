@@ -61,6 +61,18 @@ namespace Alba.CsCss.Style
             return mParsingCompoundProperty;
         }
 
+        private static void AppendRuleToSheet (Rule aRule, nsCSSParser aParser)
+        {
+            aParser.AppendRule(aRule);
+        }
+
+        private static bool StringBeginsWith (string str, string value)
+        {
+            return str.StartsWith(value);
+        }
+
+        internal delegate void RuleAppendFunc (Rule aRule, void* aData);
+
         private enum nsSelectorParsingStatus
         {
             // we have parsed a selector and we saw a token that cannot be
@@ -73,6 +85,7 @@ namespace Alba.CsCss.Style
             Error
         };
 
+        [Flags]
         private enum nsParseDeclaration
         {
             InBraces = 1 << 0,
@@ -164,10 +177,13 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsCSSExpandedDataBlock
-    {}
+    {
+        public void AssertInitialState ()
+        {}
 
-    internal class GroupRule
-    {}
+        public void ClearProperty (nsCSSProperty aPropId)
+        {}
+    }
 
     internal class nsXMLNameSpaceMap
     {}
@@ -207,10 +223,64 @@ namespace Alba.CsCss.Style
     internal class nsIPrincipal
     {}
 
+    internal class nsIAtom
+    {}
+
+    internal class nsMediaList
+    {}
+
+    internal class nsMediaQuery
+    {}
+
+    internal class nsCSSSelectorList
+    {}
+
+    internal class nsCSSValue
+    {}
+
     internal class Rule
     {
         public static int CHARSET_RULE;
         public static int IMPORT_RULE;
         public static int NAMESPACE_RULE;
+    }
+
+    internal class StyleRule
+    {}
+
+    internal class GroupRule
+    {}
+
+    internal class CharsetRule
+    {}
+
+    internal class MediaRule
+    {}
+
+    internal class DocumentRule
+    {
+        internal class URL
+        {}
+    }
+
+    internal class CSSSupportsRule
+    {}
+
+    internal class nsCSSPageRule
+    {}
+
+    internal class nsCSSKeyframeRule
+    {}
+
+    internal class nsCSSKeyframesRule
+    {}
+
+    internal class Declaration
+    {
+        public void ClearData ()
+        {}
+
+        public void CompressFrom (nsCSSExpandedDataBlock mData)
+        {}
     }
 }

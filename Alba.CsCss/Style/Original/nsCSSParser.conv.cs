@@ -8,6 +8,7 @@
 // ReSharper disable EmptyStatement
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Extensions;
@@ -146,7 +147,7 @@ namespace Alba.CsCss.Style
           for (;;) {
             // Get next non-whitespace token
             if (!GetToken(true)) {
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               break;
             }
             if (nsCSSTokenType.HTMLComment == tk.mType) {
@@ -176,9 +177,9 @@ namespace Alba.CsCss.Style
         static bool
         NonMozillaVendorIdentifier(string ident)
         {
-          return (ident.First() == PRUnichar('-') &&
-                  !StringBeginsWith(ident, NS_LITERAL_STRING("-moz-"))) ||
-                 ident.First() == PRUnichar('_');
+          return (ident.First() == '-' &&
+                  !StringBeginsWith(ident, "-moz-")) ||
+                 ident.First() == '_';
         
         }
         
@@ -186,9 +187,9 @@ namespace Alba.CsCss.Style
                                            Uri          aDocURI,
                                            Uri          aBaseURI,
                                            nsIPrincipal    aNodePrincipal,
-                                           css.StyleRule* aResult)
+                                           ref StyleRule aResult)
         {
-          if (!(aNodePrincipal)) throw new ArgumentException("Must have principal here!");
+          if (aNodePrincipal == null) throw new ArgumentException("Must have principal here!");
           if (aBaseURI == null) throw new ArgumentException("need base URI");
         
           // XXX line number?
@@ -210,17 +211,17 @@ namespace Alba.CsCss.Style
             haveBraces = false;
           }
         
-          uint32_t parseFlags = eParseDeclaration_AllowImportant;
+          nsParseDeclaration parseFlags = nsParseDeclaration.AllowImportant;
           if (haveBraces) {
-            parseFlags |= eParseDeclaration_InBraces;
+            parseFlags |= nsParseDeclaration.InBraces;
           }
         
-          css.Declaration* declaration = ParseDeclarationBlock(parseFlags);
-          if (declaration) {
+          Declaration declaration = ParseDeclarationBlock(parseFlags);
+          if (declaration != null) {
             // Create a style rule for the declaration
-            NS_ADDREF(*aResult = new css.StyleRule(null, declaration));
+            aResult = new StyleRule(null, declaration);
           } else {
-            *aResult = null;
+            aResult = null;
           }
         
           ReleaseScanner();
@@ -233,10 +234,10 @@ namespace Alba.CsCss.Style
                                          Uri           aSheetURI,
                                          Uri           aBaseURI,
                                          nsIPrincipal     aSheetPrincipal,
-                                         css.Declaration* aDeclaration,
-                                         bool*           aChanged)
+                                         Declaration aDeclaration,
+                                         ref bool           aChanged)
         {
-          *aChanged = false;
+          aChanged = false;
         
           if (aSheetPrincipal == null) throw new ArgumentException("Must have principal here!");
         
@@ -249,12 +250,12 @@ namespace Alba.CsCss.Style
           mData.AssertInitialState();
           aDeclaration.ClearData();
           // We could check if it was already empty, but...
-          *aChanged = true;
+          aChanged = true;
         
           for (;;) {
             // If we cleared the old decl, then we want to be calling
             // ValueAppended as we parse.
-            if (!ParseDeclaration(aDeclaration, eParseDeclaration_AllowImportant,
+            if (!ParseDeclaration(aDeclaration, nsParseDeclaration.AllowImportant,
                                   true, aChanged)) {
               if (!SkipDeclaration(false)) {
                 break;
@@ -262,7 +263,7 @@ namespace Alba.CsCss.Style
             }
           }
         
-          aDeclaration.CompressFrom(&mData);
+          aDeclaration.CompressFrom(mData);
           ReleaseScanner();
           return NS_OK;
         }
@@ -271,12 +272,12 @@ namespace Alba.CsCss.Style
                                  Uri                 aSheetURI,
                                  Uri                 aBaseURI,
                                  nsIPrincipal           aSheetPrincipal,
-                                 Rule*             aResult)
+                                 ref Rule             aResult)
         {
           if (aSheetPrincipal == null) throw new ArgumentException("Must have principal here!");
           if (aBaseURI == null) throw new ArgumentException("need base URI");
         
-          *aResult = null;
+          aResult = null;
         
           var scanner = new nsCSSScanner(aRule, 0);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aSheetURI);
@@ -289,7 +290,7 @@ namespace Alba.CsCss.Style
           nsresult rv = NS_OK;
           if (!GetToken(true)) {
             REPORT_UNEXPECTED(PEParseRuleWSOnly);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             rv = NS_ERROR_DOM_SYNTAX_ERR;
           } else {
             if (nsCSSTokenType.AtKeyword == tk.mType) {
@@ -300,15 +301,15 @@ namespace Alba.CsCss.Style
               ParseRuleSet(AssignRuleToPointer, aResult);
             }
         
-            if (*aResult && GetToken(true)) {
+            if (aResult && GetToken(true)) {
               // garbage after rule
               REPORT_UNEXPECTED_TOKEN(PERuleTrailing);
-              NS_RELEASE(*aResult);
+              NS_RELEASE(aResult);
             }
         
-            if (!*aResult) {
+            if (!aResult) {
               rv = NS_ERROR_DOM_SYNTAX_ERR;
-              OUTPUT_ERROR();
+              mReporter.OutputError();
             }
           }
         
@@ -320,19 +321,19 @@ namespace Alba.CsCss.Style
         #if _MSC_VER
         #pragma optimize( "", off )
         #endif
-        internal nsresult ParseProperty(const nsCSSProperty aPropID,
+        internal nsresult ParseProperty(nsCSSProperty aPropID,
                                      string aPropValue,
                                      Uri aSheetURI,
                                      Uri aBaseURI,
                                      nsIPrincipal aSheetPrincipal,
-                                     css.Declaration* aDeclaration,
-                                     bool* aChanged,
+                                     Declaration aDeclaration,
+                                     ref bool aChanged,
                                      bool aIsImportant,
                                      bool aIsSVGMode)
         {
           if (aSheetPrincipal == null) throw new ArgumentException("Must have principal here!");
           if (aBaseURI == null) throw new ArgumentException("need base URI");
-          if (!(aDeclaration)) throw new ArgumentException("Need declaration to parse into!");
+          if (aDeclaration == null) throw new ArgumentException("Need declaration to parse into!");
         
           mData.AssertInitialState();
           mTempData.AssertInitialState();
@@ -344,14 +345,14 @@ namespace Alba.CsCss.Style
           mSection = nsCSSSection.General;
           scanner.SetSVGMode(aIsSVGMode);
         
-          *aChanged = false;
+          aChanged = false;
         
           // Check for unknown or preffed off properties
-          if (eCSSProperty_UNKNOWN == aPropID || !nsCSSProps.IsEnabled(aPropID)) {
+          if (nsCSSProperty.UNKNOWN == aPropID || !nsCSSProps.IsEnabled(aPropID)) {
             NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
             REPORT_UNEXPECTED_P(PEUnknownProperty, propName);
             REPORT_UNEXPECTED(PEDeclDropped);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             ReleaseScanner();
             return NS_OK;
           }
@@ -367,7 +368,7 @@ namespace Alba.CsCss.Style
             NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
             REPORT_UNEXPECTED_P(PEValueParsingError, propName);
             REPORT_UNEXPECTED(PEDeclDropped);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             mTempData.ClearProperty(aPropID);
           } else {
         
@@ -380,12 +381,12 @@ namespace Alba.CsCss.Style
             if (!aDeclaration.TryReplaceValue(aPropID, aIsImportant, mTempData,
                                                aChanged)) {
               // Do it the slow way
-              aDeclaration.ExpandTo(&mData);
-              *aChanged = mData.TransferFromBlock(mTempData, aPropID, aIsImportant,
+              aDeclaration.ExpandTo(mData);
+              aChanged = mData.TransferFromBlock(mTempData, aPropID, aIsImportant,
                                                   true, false, aDeclaration);
-              aDeclaration.CompressFrom(&mData);
+              aDeclaration.CompressFrom(mData);
             }
-            CLEAR_ERROR();
+            mReporter.ClearError();
           }
         
           mTempData.AssertInitialState();
@@ -397,10 +398,10 @@ namespace Alba.CsCss.Style
         #pragma optimize( "", on )
         #endif
         
-        internal nsresult ParseMediaList(const nsSubstring& aBuffer,
+        internal nsresult ParseMediaList(string aBuffer,
                                       Uri aURI, // for error reporting
                                       uint32_t aLineNumber, // for error reporting
-                                      nsMediaList* aMediaList,
+                                      nsMediaList aMediaList,
                                       bool aHTMLMode)
         {
           // XXX Are there cases where the caller wants to keep what it already
@@ -431,17 +432,17 @@ namespace Alba.CsCss.Style
           Debug.Assert(parsedOK, "GatherMedia returned false; we probably want to avoid "
                                  "trashing aMediaList");
         
-          CLEAR_ERROR();
+          mReporter.ClearError();
           ReleaseScanner();
           mHTMLMediaMode = false;
         
           return NS_OK;
         }
         
-        internal bool ParseColorString(const nsSubstring& aBuffer,
+        internal bool ParseColorString(string aBuffer,
                                         Uri aURI, // for error reporting
                                         uint32_t aLineNumber, // for error reporting
-                                        nsCSSValue& aValue)
+                                        nsCSSValue aValue)
         {
           var scanner = new nsCSSScanner(aBuffer, aLineNumber);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
@@ -449,21 +450,21 @@ namespace Alba.CsCss.Style
         
           // Parse a color, and check that there's nothing else after it.
           bool colorParsed = ParseColor(aValue) && !GetToken(true);
-          OUTPUT_ERROR();
+          mReporter.OutputError();
           ReleaseScanner();
           return colorParsed;
         }
         
-        internal nsresult ParseSelectorString(const nsSubstring& aSelectorString,
+        internal nsresult ParseSelectorString(string aSelectorString,
                                            Uri aURI, // for error reporting
                                            uint32_t aLineNumber, // for error reporting
-                                           nsCSSSelectorList **aSelectorList)
+                                           ref nsCSSSelectorList aSelectorList)
         {
           var scanner = new nsCSSScanner(aSelectorString, aLineNumber);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
           InitScanner(scanner, reporter, aURI, aURI, null);
         
-          bool success = ParseSelectorList(*aSelectorList, PRUnichar(0));
+          bool success = ParseSelectorList(*aSelectorList, 0);
         
           // We deliberately do not call OUTPUT_ERROR here, because all our
           // callers map a failure return to a JS exception, and if that JS
@@ -473,7 +474,7 @@ namespace Alba.CsCss.Style
           // the exception, so that if it _isn't_ caught we can report them
           // along with the usual uncaught-exception message, but we don't
           // have any way to do that at present; see bug 631621.
-          CLEAR_ERROR();
+          mReporter.ClearError();
           ReleaseScanner();
         
           if (success) {
@@ -486,7 +487,7 @@ namespace Alba.CsCss.Style
           return NS_ERROR_DOM_SYNTAX_ERR;
         }
         
-        internal already_AddRefed<nsCSSKeyframeRule> ParseKeyframeRule(const nsSubstring&  aBuffer,
+        internal nsCSSKeyframeRule ParseKeyframeRule(string  aBuffer,
                                          Uri             aURI,
                                          uint32_t            aLineNumber)
         {
@@ -494,22 +495,22 @@ namespace Alba.CsCss.Style
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
           InitScanner(scanner, reporter, aURI, aURI, null);
         
-          nsRefPtr<nsCSSKeyframeRule> result = ParseKeyframeRule();
+          nsCSSKeyframeRule result = ParseKeyframeRule();
           if (GetToken(true)) {
             // extra garbage at the end
             result = null;
           }
         
-          OUTPUT_ERROR();
+          mReporter.OutputError();
           ReleaseScanner();
         
           return result.forget();
         }
         
-        internal bool ParseKeyframeSelectorString(const nsSubstring& aSelectorString,
+        internal bool ParseKeyframeSelectorString(string aSelectorString,
                                                    Uri aURI, // for error reporting
                                                    uint32_t aLineNumber, // for error reporting
-                                                   InfallibleTArray<float>& aSelectorList)
+                                                   List<float> aSelectorList)
         {
           NS_ABORT_IF_FALSE(aSelectorList.IsEmpty(), "given list should start empty");
         
@@ -521,7 +522,7 @@ namespace Alba.CsCss.Style
                          // must consume entire input string
                          !GetToken(true);
         
-          OUTPUT_ERROR();
+          mReporter.OutputError();
           ReleaseScanner();
         
           if (success) {
@@ -541,7 +542,7 @@ namespace Alba.CsCss.Style
         {
           nsCSSProperty propID = nsCSSProps.LookupProperty(aProperty,
                                                             nsCSSProps.eEnabled);
-          if (propID == eCSSProperty_UNKNOWN) {
+          if (propID == nsCSSProperty.UNKNOWN) {
             return false;
           }
         
@@ -552,7 +553,7 @@ namespace Alba.CsCss.Style
         
           bool parsedOK = ParseProperty(propID) && !GetToken(true);
         
-          CLEAR_ERROR();
+          mReporter.ClearError();
           ReleaseScanner();
         
           mTempData.ClearProperty(propID);
@@ -574,7 +575,7 @@ namespace Alba.CsCss.Style
           bool conditionMet;
           bool parsedOK = ParseSupportsCondition(conditionMet) && !GetToken(true);
         
-          CLEAR_ERROR();
+          mReporter.ClearError();
           ReleaseScanner();
         
           return parsedOK && conditionMet;
@@ -656,7 +657,7 @@ namespace Alba.CsCss.Style
         
         // Parses the priority suffix on a property, which at present may be
         internal // either '!important' or nothing. PriorityParsingStatus
-        CSSParserImpl.ParsePriority()
+        ParsePriority()
         {
           if (!GetToken(true)) {
             return ePriority_None; // properties may end with EOF
@@ -682,7 +683,7 @@ namespace Alba.CsCss.Style
           return ePriority_Important;
         }
         
-        internal nsSubstring* NextIdent()
+        internal string NextIdent()
         {
           // XXX Error reporting?
           if (!GetToken(true)) {
@@ -734,54 +735,54 @@ namespace Alba.CsCss.Style
         {
         
           nsCSSSection newSection;
-          bool (CSSParserImpl.*parseFunc)(RuleAppendFunc, void*);
+          bool (*parseFunc)(RuleAppendFunc, void*);
         
           if ((mSection <= nsCSSSection.Charset) &&
               (mToken.mIdent.LowerCaseEqualsLiteral("charset"))) {
-            parseFunc = &CSSParserImpl.ParseCharsetRule;
+            parseFunc = ParseCharsetRule;
             newSection = nsCSSSection.Import;  // only one charset allowed
         
           } else if ((mSection <= nsCSSSection.Import) &&
                      mToken.mIdent.LowerCaseEqualsLiteral("import")) {
-            parseFunc = &CSSParserImpl.ParseImportRule;
+            parseFunc = ParseImportRule;
             newSection = nsCSSSection.Import;
         
           } else if ((mSection <= nsCSSSection.NameSpace) &&
                      mToken.mIdent.LowerCaseEqualsLiteral("namespace")) {
-            parseFunc = &CSSParserImpl.ParseNameSpaceRule;
+            parseFunc = ParseNameSpaceRule;
             newSection = nsCSSSection.NameSpace;
         
           } else if (mToken.mIdent.LowerCaseEqualsLiteral("media")) {
-            parseFunc = &CSSParserImpl.ParseMediaRule;
+            parseFunc = ParseMediaRule;
             newSection = nsCSSSection.General;
         
           } else if (mToken.mIdent.LowerCaseEqualsLiteral("-moz-document")) {
-            parseFunc = &CSSParserImpl.ParseMozDocumentRule;
+            parseFunc = ParseMozDocumentRule;
             newSection = nsCSSSection.General;
         
           } else if (mToken.mIdent.LowerCaseEqualsLiteral("font-face")) {
-            parseFunc = &CSSParserImpl.ParseFontFaceRule;
+            parseFunc = ParseFontFaceRule;
             newSection = nsCSSSection.General;
         
           } else if (mToken.mIdent.LowerCaseEqualsLiteral("page")) {
-            parseFunc = &CSSParserImpl.ParsePageRule;
+            parseFunc = ParsePageRule;
             newSection = nsCSSSection.General;
         
-          } else if ((nsCSSProps.IsEnabled(eCSSPropertyAlias_MozAnimation) &&
+          } else if ((nsCSSProps.IsEnabled(nsCSSProperty.Alias_MozAnimation) &&
                       mToken.mIdent.LowerCaseEqualsLiteral("-moz-keyframes")) ||
                      mToken.mIdent.LowerCaseEqualsLiteral("keyframes")) {
-            parseFunc = &CSSParserImpl.ParseKeyframesRule;
+            parseFunc = ParseKeyframesRule;
             newSection = nsCSSSection.General;
         
           } else if (mToken.mIdent.LowerCaseEqualsLiteral("supports") &&
                      CSSSupportsRule.PrefEnabled()) {
-            parseFunc = &CSSParserImpl.ParseSupportsRule;
+            parseFunc = ParseSupportsRule;
             newSection = nsCSSSection.General;
         
           } else {
             if (!NonMozillaVendorIdentifier(mToken.mIdent)) {
               REPORT_UNEXPECTED_TOKEN(PEUnknownAtRule);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
             }
             // Skip over unsupported at rule, don't advance section
             return SkipAtRule(aInAtRule);
@@ -789,14 +790,14 @@ namespace Alba.CsCss.Style
         
           // Inside of @-rules, only the rules that can occur anywhere
           // are allowed.
-          bool unnestable = aInAtRule && newSection != nsCSSSection.General;
+          bool unnestable = aInAtRule & newSection != nsCSSSection.General;
           if (unnestable) {
             REPORT_UNEXPECTED_TOKEN(PEGroupRuleNestedAtRule);
           }
           
           if (unnestable || !(this.*parseFunc)(aAppendFunc, aData)) {
             // Skip over invalid at rule, don't advance section
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             return SkipAtRule(aInAtRule);
           }
         
@@ -822,19 +823,19 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsAutoString charset = mToken.mIdent;
+          string charset = mToken.mIdent;
         
           if (!ExpectSymbol(';', true)) {
             return false;
           }
         
-          nsRefPtr<css.CharsetRule> rule = new css.CharsetRule(charset);
+          CharsetRule rule = new CharsetRule(charset);
           (*aAppendFunc)(rule, aData);
         
           return true;
         }
         
-        internal bool ParseURLOrString(nsString& aURL)
+        internal bool ParseURLOrString(string aURL)
         {
           if (!GetToken(true)) {
             return false;
@@ -848,17 +849,17 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseMediaQuery(bool aInAtRule,
-                                       nsMediaQuery **aQuery,
-                                       bool *aHitStop)
+                                       nsMediaQuery aQuery,
+                                       bool aHitStop)
         {
-          *aQuery = null;
-          *aHitStop = false;
+          aQuery = null;
+          aHitStop = false;
         
           // "If the comma-separated list is the empty list it is assumed to
           // specify the media query 'all'."  (css3-mediaqueries, section
           // "Media Queries")
           if (!GetToken(true)) {
-            *aHitStop = true;
+            aHitStop = true;
             // expected termination by EOF
             if (!aInAtRule)
               return true;
@@ -868,16 +869,16 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &&
+          if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &
               (mToken.mSymbol == ';' || mToken.mSymbol == '{' || mToken.mSymbol == '}' )) {
-            *aHitStop = true;
+            aHitStop = true;
             UngetToken();
             return true;
           }
           UngetToken();
         
-          nsMediaQuery* query = new nsMediaQuery;
-          *aQuery = query;
+          nsMediaQuery query = new nsMediaQuery;
+          aQuery = query;
         
           if (ExpectSymbol('(', true)) {
             // we got an expression without a media type
@@ -886,11 +887,11 @@ namespace Alba.CsCss.Style
             query.SetTypeOmitted();
             // Just parse the first expression here.
             if (!ParseMediaQueryExpression(query)) {
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               query.SetHadUnknownExpression();
             }
           } else {
-            nsCOMPtr<nsIAtom> mediaType;
+            nsIAtom mediaType;
             bool gotNotOrOnly = false;
             for (;;) {
               if (!GetToken(true)) {
@@ -922,7 +923,7 @@ namespace Alba.CsCss.Style
         
           for (;;) {
             if (!GetToken(true)) {
-              *aHitStop = true;
+              aHitStop = true;
               // expected termination by EOF
               if (!aInAtRule)
                 break;
@@ -932,9 +933,9 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &&
+            if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &
                 (mToken.mSymbol == ';' || mToken.mSymbol == '{' || mToken.mSymbol == '}')) {
-              *aHitStop = true;
+              aHitStop = true;
               UngetToken();
               break;
             }
@@ -949,7 +950,7 @@ namespace Alba.CsCss.Style
               return false;
             }
             if (!ParseMediaQueryExpression(query)) {
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               query.SetHadUnknownExpression();
             }
           }
@@ -958,28 +959,28 @@ namespace Alba.CsCss.Style
         
         // Returns false only when there is a low-level error in the scanner
         // (out-of-memory).
-        internal bool GatherMedia(nsMediaList* aMedia,
+        internal bool GatherMedia(nsMediaList aMedia,
                                    bool aInAtRule)
         {
           for (;;) {
-            nsAutoPtr<nsMediaQuery> query;
+            nsMediaQuery query;
             bool hitStop;
             if (!ParseMediaQuery(aInAtRule, getter_Transfers(query),
                                  &hitStop)) {
               Debug.Assert(!hitStop, "should return true when hit stop");
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               if (query) {
                 query.SetHadUnknownExpression();
               }
               if (aInAtRule) {
                 const PRUnichar stopChars[] =
-                  { PRUnichar(','), PRUnichar('{'), PRUnichar(';'), PRUnichar('}'), PRUnichar(0) };
+                  { ',', '{', ';', '}', 0 };
                 SkipUntilOneOf(stopChars);
               } else {
                 SkipUntil(',');
               }
               // Rely on SkipUntilOneOf leaving mToken around as the last token read.
-              if (mToken.mType == nsCSSTokenType.Symbol && aInAtRule &&
+              if (mToken.mType == nsCSSTokenType.Symbol && aInAtRule &
                   (mToken.mSymbol == '{' || mToken.mSymbol == ';'  || mToken.mSymbol == '}')) {
                 UngetToken();
                 hitStop = true;
@@ -995,7 +996,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseMediaQueryExpression(nsMediaQuery* aQuery)
+        internal bool ParseMediaQueryExpression(nsMediaQuery aQuery)
         {
           if (!ExpectSymbol('(', true)) {
             REPORT_UNEXPECTED_TOKEN(PEMQExpectedExpressionStart);
@@ -1017,10 +1018,10 @@ namespace Alba.CsCss.Style
           // case insensitive from CSS - must be lower cased
           nsContentUtils.ASCIIToLower(mToken.mIdent);
           const PRUnichar *featureString;
-          if (StringBeginsWith(mToken.mIdent, NS_LITERAL_STRING("min-"))) {
+          if (StringBeginsWith(mToken.mIdent, "min-")) {
             expr.mRange = nsMediaExpression.eMin;
             featureString = mToken.mIdent.get() + 4;
-          } else if (StringBeginsWith(mToken.mIdent, NS_LITERAL_STRING("max-"))) {
+          } else if (StringBeginsWith(mToken.mIdent, "max-")) {
             expr.mRange = nsMediaExpression.eMax;
             featureString = mToken.mIdent.get() + 4;
           } else {
@@ -1028,7 +1029,7 @@ namespace Alba.CsCss.Style
             featureString = mToken.mIdent.get();
           }
         
-          nsCOMPtr<nsIAtom> mediaFeatureAtom = do_GetAtom(featureString);
+          nsIAtom mediaFeatureAtom = do_GetAtom(featureString);
           if (!mediaFeatureAtom) {
             NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
           }
@@ -1086,7 +1087,7 @@ namespace Alba.CsCss.Style
               {
                 // Two integers separated by '/', with optional whitespace on
                 // either side of the '/'.
-                nsRefPtr<nsCSSValue.Array> a = nsCSSValue.Array.Create(2);
+                nsCSSValue.Array a = nsCSSValue.Array.Create(2);
                 expr.mValue.SetArrayValue(a, eCSSUnit_Array);
                 // We don't bother with ParseNonNegativeVariant since we have to
                 // check for != 0 as well; no need to worry about the UngetToken
@@ -1140,9 +1141,9 @@ namespace Alba.CsCss.Style
         // Parse a CSS2 import rule: "@import STRING | URL [medium [, medium]]"
         internal bool ParseImportRule(RuleAppendFunc aAppendFunc, void* aData)
         {
-          nsRefPtr<nsMediaList> media = new nsMediaList();
+          nsMediaList media = new nsMediaList();
         
-          nsAutoString url;
+          string url;
           if (!ParseURLOrString(url)) {
             REPORT_UNEXPECTED_TOKEN(PEImportNotURI);
             return false;
@@ -1165,16 +1166,16 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal void ProcessImport(const nsString& aURLSpec,
-                                     nsMediaList* aMedia,
+        internal void ProcessImport(string aURLSpec,
+                                     nsMediaList aMedia,
                                      RuleAppendFunc aAppendFunc,
                                      void* aData)
         {
-          nsRefPtr<css.ImportRule> rule = new css.ImportRule(aMedia, aURLSpec);
+          css.ImportRule rule = new css.ImportRule(aMedia, aURLSpec);
           (*aAppendFunc)(rule, aData);
         
           // Diagnose bad URIs even if we don't have a child loader.
-          nsCOMPtr<nsIURI> url;
+          nsIURI url;
           // Charset will be deduced from mBaseURI, which is more or less correct.
           nsresult rv = NS_NewURI(getter_AddRefs(url), aURLSpec, null, mBaseURI);
         
@@ -1182,7 +1183,7 @@ namespace Alba.CsCss.Style
             if (rv == NS_ERROR_MALFORMED_URI) {
               // import url is bad
               REPORT_UNEXPECTED_P(PEImportBadURI, aURLSpec);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
             }
             return;
           }
@@ -1193,7 +1194,7 @@ namespace Alba.CsCss.Style
         }
         
         // Parse the {} part of an @media or @-moz-document rule.
-        internal bool ParseGroupRule(css.GroupRule aRule,
+        internal bool ParseGroupRule(GroupRule aRule,
                                       RuleAppendFunc aAppendFunc,
                                       void* aData)
         {
@@ -1238,11 +1239,11 @@ namespace Alba.CsCss.Style
         // Parse a CSS2 media rule: "@media medium [, medium] { ... }"
         internal bool ParseMediaRule(RuleAppendFunc aAppendFunc, void* aData)
         {
-          nsRefPtr<nsMediaList> media = new nsMediaList();
+          nsMediaList media = new nsMediaList();
         
           if (GatherMedia(media, true)) {
             // XXXbz this could use better error reporting throughout the method
-            nsRefPtr<css.MediaRule> rule = new css.MediaRule();
+            MediaRule rule = new MediaRule();
             // Append first, so when we do SetMedia() the rule
             // knows what its stylesheet is.
             if (ParseGroupRule(rule, aAppendFunc, aData)) {
@@ -1259,8 +1260,8 @@ namespace Alba.CsCss.Style
         // url(), url-prefix(), or domain().
         internal bool ParseMozDocumentRule(RuleAppendFunc aAppendFunc, void* aData)
         {
-          css.DocumentRule.URL *urls = null;
-          css.DocumentRule.URL **next = &urls;
+          DocumentRule.URL *urls = null;
+          DocumentRule.URL **next = &urls;
           do {
             if (!GetToken(true)) {
               REPORT_UNEXPECTED_EOF(PEMozDocRuleEOF);
@@ -1278,16 +1279,16 @@ namespace Alba.CsCss.Style
               delete urls;
               return false;
             }
-            css.DocumentRule.URL *cur = *next = new css.DocumentRule.URL;
+            DocumentRule.URL *cur = *next = new DocumentRule.URL;
             next = &cur.next;
             if (mToken.mType == nsCSSTokenType.URL) {
-              cur.func = css.DocumentRule.eURL;
+              cur.func = DocumentRule.eURL;
               CopyUTF16toUTF8(mToken.mIdent, cur.url);
             } else if (mToken.mIdent.LowerCaseEqualsLiteral("regexp")) {
               // regexp() is different from url-prefix() and domain() (but
               // probably the way they *should* have been* in that it requires a
               // string argument, and doesn't try to behave like url().
-              cur.func = css.DocumentRule.eRegExp;
+              cur.func = DocumentRule.eRegExp;
               GetToken(true);
               // copy before we know it's valid (but before ExpectSymbol changes
               // mToken.mIdent)
@@ -1300,9 +1301,9 @@ namespace Alba.CsCss.Style
               }
             } else {
               if (mToken.mIdent.LowerCaseEqualsLiteral("url-prefix")) {
-                cur.func = css.DocumentRule.eURLPrefix;
+                cur.func = DocumentRule.eURLPrefix;
               } else if (mToken.mIdent.LowerCaseEqualsLiteral("domain")) {
-                cur.func = css.DocumentRule.eDomain;
+                cur.func = DocumentRule.eDomain;
               }
         
               Debug.Assert(!mHavePushBack, "mustn't have pushback at this point");
@@ -1320,7 +1321,7 @@ namespace Alba.CsCss.Style
             }
           } while (ExpectSymbol(',', true));
         
-          nsRefPtr<css.DocumentRule> rule = new css.DocumentRule();
+          DocumentRule rule = new DocumentRule();
           rule.SetURLs(urls);
         
           return ParseGroupRule(rule, aAppendFunc, aData);
@@ -1334,8 +1335,8 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsAutoString  prefix;
-          nsAutoString  url;
+          string  prefix;
+          string  url;
         
           if (nsCSSTokenType.Ident == mToken.mType) {
             prefix = mToken.mIdent;
@@ -1357,12 +1358,12 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal void ProcessNameSpace(const nsString& aPrefix,
-                                        const nsString& aURLSpec,
+        internal void ProcessNameSpace(string aPrefix,
+                                        string aURLSpec,
                                         RuleAppendFunc aAppendFunc,
                                         void* aData)
         {
-          nsCOMPtr<nsIAtom> prefix;
+          nsIAtom prefix;
         
           if (!aPrefix.IsEmpty()) {
             prefix = do_GetAtom(aPrefix);
@@ -1371,7 +1372,7 @@ namespace Alba.CsCss.Style
             }
           }
         
-          nsRefPtr<css.NameSpaceRule> rule = new css.NameSpaceRule(prefix, aURLSpec);
+          css.NameSpaceRule rule = new css.NameSpaceRule(prefix, aURLSpec);
           (*aAppendFunc)(rule, aData);
         
           // If this was the first namespace rule encountered, it will trigger
@@ -1390,7 +1391,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsRefPtr<nsCSSFontFaceRule> rule(new nsCSSFontFaceRule());
+          nsCSSFontFaceRule rule(new nsCSSFontFaceRule());
         
           for (;;) {
             if (!GetToken(true)) {
@@ -1408,7 +1409,7 @@ namespace Alba.CsCss.Style
         
             if (!ParseFontDescriptor(rule)) {
               REPORT_UNEXPECTED(PEDeclSkipped);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               if (!SkipDeclaration(true))
                 break;
             }
@@ -1440,10 +1441,10 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsString descName = mToken.mIdent;
+          string descName = mToken.mIdent;
           if (!ExpectSymbol(':', true)) {
             REPORT_UNEXPECTED_TOKEN(PEParseDeclarationNoColon);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             return false;
           }
         
@@ -1485,21 +1486,21 @@ namespace Alba.CsCss.Style
             UngetToken();
             return false;
           }
-          nsString name(mToken.mIdent);
+          string name(mToken.mIdent);
         
           if (!ExpectSymbol('{', true)) {
             REPORT_UNEXPECTED_TOKEN(PEKeyframeBrace);
             return false;
           }
         
-          nsRefPtr<nsCSSKeyframesRule> rule = new nsCSSKeyframesRule(name);
+          nsCSSKeyframesRule rule = new nsCSSKeyframesRule(name);
         
           while (!ExpectSymbol('}', true)) {
-            nsRefPtr<nsCSSKeyframeRule> kid = ParseKeyframeRule();
+            nsCSSKeyframeRule kid = ParseKeyframeRule();
             if (kid) {
               rule.AppendStyleRule(kid);
             } else {
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               SkipRuleSet(true);
             }
           }
@@ -1511,14 +1512,14 @@ namespace Alba.CsCss.Style
         internal bool ParsePageRule(RuleAppendFunc aAppendFunc, void* aData)
         {
           // TODO: There can be page selectors after @page such as ":first", ":left".
-          uint32_t parseFlags = eParseDeclaration_InBraces |
-                                eParseDeclaration_AllowImportant;
+          nsParseDeclaration parseFlags = nsParseDeclaration.InBraces |
+                                nsParseDeclaration.AllowImportant;
         
           // Forbid viewport units in @page rules. See bug 811391.
           NS_ABORT_IF_FALSE(mViewportUnitsEnabled,
                             "Viewport units should be enabled outside of @page rules.");
           mViewportUnitsEnabled = false;
-          nsAutoPtr<css.Declaration> declaration(
+          Declaration declaration(
                                         ParseDeclarationBlock(parseFlags,
                                                               eCSSContext_Page));
           mViewportUnitsEnabled = true;
@@ -1528,35 +1529,35 @@ namespace Alba.CsCss.Style
           }
         
           // Takes ownership of declaration.
-          nsRefPtr<nsCSSPageRule> rule = new nsCSSPageRule(declaration);
+          nsCSSPageRule rule = new nsCSSPageRule(declaration);
         
           (*aAppendFunc)(rule, aData);
           return true;
         }
         
-        internal already_AddRefed<nsCSSKeyframeRule> ParseKeyframeRule()
+        internal nsCSSKeyframeRule ParseKeyframeRule()
         {
-          InfallibleTArray<float> selectorList;
+          List<float> selectorList;
           if (!ParseKeyframeSelectorList(selectorList)) {
             REPORT_UNEXPECTED(PEBadSelectorKeyframeRuleIgnored);
             return null;
           }
         
           // Ignore !important in keyframe rules
-          uint32_t parseFlags = eParseDeclaration_InBraces;
-          nsAutoPtr<css.Declaration> declaration(ParseDeclarationBlock(parseFlags));
+          nsParseDeclaration parseFlags = nsParseDeclaration.InBraces;
+          Declaration declaration(ParseDeclarationBlock(parseFlags));
           if (!declaration) {
             return null;
           }
         
           // Takes ownership of declaration, and steals contents of selectorList.
-          nsRefPtr<nsCSSKeyframeRule> rule =
+          nsCSSKeyframeRule rule =
             new nsCSSKeyframeRule(selectorList, declaration);
         
           return rule.forget();
         }
         
-        internal bool ParseKeyframeSelectorList(InfallibleTArray<float>& aSelectorList)
+        internal bool ParseKeyframeSelectorList(List<float> aSelectorList)
         {
           for (;;) {
             if (!GetToken(true)) {
@@ -1598,7 +1599,7 @@ namespace Alba.CsCss.Style
         internal bool ParseSupportsRule(RuleAppendFunc aAppendFunc, void* aProcessData)
         {
           bool conditionMet = false;
-          nsString condition;
+          string condition;
         
           mScanner.StartRecording();
           bool parsed = ParseSupportsCondition(conditionMet);
@@ -1629,7 +1630,7 @@ namespace Alba.CsCss.Style
           // errors don't get reported.
           nsAutoFailingSupportsRule failing(this, conditionMet);
         
-          nsRefPtr<css.GroupRule> rule = new CSSSupportsRule(conditionMet, condition);
+          GroupRule rule = new CSSSupportsRule(conditionMet, condition);
           return ParseGroupRule(rule, aAppendFunc, aProcessData);
         }
         
@@ -1755,7 +1756,7 @@ namespace Alba.CsCss.Style
         
           if (mToken.mType == nsCSSTokenType.Ident) {
             if (!mToken.mIdent.LowerCaseEqualsLiteral("not")) {
-              nsAutoString propertyName = mToken.mIdent;
+              string propertyName = mToken.mIdent;
               if (!ExpectSymbol(':', true)) {
                 return false;
               }
@@ -1767,7 +1768,7 @@ namespace Alba.CsCss.Style
         
               nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
                                                                 nsCSSProps.eEnabled);
-              if (propID == eCSSProperty_UNKNOWN) {
+              if (propID == nsCSSProperty.UNKNOWN) {
                 aConditionMet = false;
                 SkipUntil(')');
                 UngetToken();
@@ -1826,7 +1827,7 @@ namespace Alba.CsCss.Style
         //   ;
         internal bool ParseSupportsConditionTermsAfterOperator(
                                  bool& aConditionMet,
-                                 CSSParserImpl.SupportsConditionTermOperator aOperator)
+                                 SupportsConditionTermOperator aOperator)
         {
           if (!RequireWhitespace()) {
             REPORT_UNEXPECTED(PESupportsWhitespaceRequired);
@@ -1980,7 +1981,7 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal void PushGroup(css.GroupRule aRule)
+        internal void PushGroup(GroupRule aRule)
         {
           mGroupStack.AppendElement(aRule);
         }
@@ -2008,21 +2009,21 @@ namespace Alba.CsCss.Style
                                     bool aInsideBraces)
         {
           // First get the list of selectors for the rule
-          nsCSSSelectorList* slist = null;
+          nsCSSSelectorList slist = null;
           uint32_t linenum = mScanner.GetLineNumber();
-          if (! ParseSelectorList(slist, PRUnichar('{'))) {
+          if (! ParseSelectorList(slist, '{')) {
             REPORT_UNEXPECTED(PEBadSelectorRSIgnored);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             SkipRuleSet(aInsideBraces);
             return false;
           }
           Debug.Assert(null != slist, "null selector list");
-          CLEAR_ERROR();
+          mReporter.ClearError();
         
           // Next parse the declaration block
-          uint32_t parseFlags = eParseDeclaration_InBraces |
-                                eParseDeclaration_AllowImportant;
-          css.Declaration* declaration = ParseDeclarationBlock(parseFlags);
+          nsParseDeclaration parseFlags = nsParseDeclaration.InBraces |
+                                nsParseDeclaration.AllowImportant;
+          Declaration declaration = ParseDeclarationBlock(parseFlags);
           if (null == declaration) {
             delete slist;
             return false;
@@ -2037,17 +2038,17 @@ namespace Alba.CsCss.Style
         
           // Translate the selector list and declaration block into style data
         
-          nsRefPtr<css.StyleRule> rule = new css.StyleRule(slist, declaration);
+          StyleRule rule = new StyleRule(slist, declaration);
           rule.SetLineNumber(linenum);
           (*aAppendFunc)(rule, aData);
         
           return true;
         }
         
-        internal bool ParseSelectorList(nsCSSSelectorList*& aListHead,
+        internal bool ParseSelectorList(nsCSSSelectorList& aListHead,
                                          PRUnichar aStopChar)
         {
-          nsCSSSelectorList* list = null;
+          nsCSSSelectorList list = null;
           if (! ParseSelectorGroup(list)) {
             // must have at least one selector group
             aListHead = null;
@@ -2061,7 +2062,7 @@ namespace Alba.CsCss.Style
           nsCSSToken tk = mToken;
           for (;;) {
             if (! GetToken(true)) {
-              if (aStopChar == PRUnichar(0)) {
+              if (aStopChar == 0) {
                 return true;
               }
         
@@ -2071,7 +2072,7 @@ namespace Alba.CsCss.Style
         
             if (nsCSSTokenType.Symbol == tk.mType) {
               if (',' == tk.mSymbol) {
-                nsCSSSelectorList* newList = null;
+                nsCSSSelectorList newList = null;
                 // Another selector group must follow
                 if (! ParseSelectorGroup(newList)) {
                   break;
@@ -2080,7 +2081,7 @@ namespace Alba.CsCss.Style
                 list.mNext = newList;
                 list = newList;
                 continue;
-              } else if (aStopChar == tk.mSymbol && aStopChar != PRUnichar(0)) {
+              } else if (aStopChar == tk.mSymbol && aStopChar != 0) {
                 UngetToken();
                 return true;
               }
@@ -2106,10 +2107,10 @@ namespace Alba.CsCss.Style
                         (aSelector.mPseudoClassList == null));
         }
         
-        internal bool ParseSelectorGroup(nsCSSSelectorList*& aList)
+        internal bool ParseSelectorGroup(nsCSSSelectorList& aList)
         {
           PRUnichar combinator = 0;
-          nsAutoPtr<nsCSSSelectorList> list(new nsCSSSelectorList());
+          nsCSSSelectorList list(new nsCSSSelectorList());
         
           for (;;) {
             if (!ParseSelector(list, combinator)) {
@@ -2121,12 +2122,12 @@ namespace Alba.CsCss.Style
               break; // EOF ok here
             }
         
-            combinator = PRUnichar(0);
+            combinator = 0;
             if (mToken.mType == nsCSSTokenType.Whitespace) {
               if (!GetToken(true)) {
                 break; // EOF ok here
               }
-              combinator = PRUnichar(' ');
+              combinator = ' ';
             }
         
             if (mToken.mType != nsCSSTokenType.Symbol) {
@@ -2153,18 +2154,10 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        #define SEL_MASK_NSPACE   0x01
-        #define SEL_MASK_ELEM     0x02
-        #define SEL_MASK_ID       0x04
-        #define SEL_MASK_CLASS    0x08
-        #define SEL_MASK_ATTRIB   0x10
-        #define SEL_MASK_PCLASS   0x20
-        #define SEL_MASK_PELEM    0x40
-        
         //
         // Parses an ID selector #name
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParseIDSelector(int32_t&       aDataMask,
+        ParseIDSelector(int32_t&       aDataMask,
                                        nsCSSSelector& aSelector)
         {
           Debug.Assert(!mToken.mIdent.IsEmpty(),
@@ -2177,7 +2170,7 @@ namespace Alba.CsCss.Style
         //
         // Parses a class selector .name
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParseClassSelector(int32_t&       aDataMask,
+        ParseClassSelector(int32_t&       aDataMask,
                                           nsCSSSelector& aSelector)
         {
           if (! GetToken(false)) { // get ident
@@ -2200,11 +2193,11 @@ namespace Alba.CsCss.Style
         // Parse a type element selector or a universal selector
         // namespace|type or namespace|* or *|* or *
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParseTypeOrUniversalSelector(int32_t&       aDataMask,
+        ParseTypeOrUniversalSelector(int32_t&       aDataMask,
                                                     nsCSSSelector& aSelector,
                                                     bool           aIsNegated)
         {
-          nsAutoString buffer;
+          string buffer;
           if (mToken.IsSymbol('*')) {  // universal element selector, or universal namespace
             if (ExpectSymbol('|', false)) {  // was namespace
               aDataMask |= SEL_MASK_NSPACE;
@@ -2318,7 +2311,7 @@ namespace Alba.CsCss.Style
         // Parse attribute selectors [attr], [attr=value], [attr|=value],
         // [attr~=value], [attr^=value], [attr$=value] and [attr*=value]
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParseAttributeSelector(int32_t&       aDataMask,
+        ParseAttributeSelector(int32_t&       aDataMask,
                                               nsCSSSelector& aSelector)
         {
           if (! GetToken(true)) { // premature EOF
@@ -2327,7 +2320,7 @@ namespace Alba.CsCss.Style
           }
         
           int32_t nameSpaceID = kNameSpaceID_None;
-          nsAutoString  attr;
+          string  attr;
           if (mToken.IsSymbol('*')) { // wildcard namespace
             nameSpaceID = kNameSpaceID_Unknown;
             if (ExpectSymbol('|', false)) {
@@ -2435,7 +2428,7 @@ namespace Alba.CsCss.Style
                 return eSelectorParsingStatus_Error;
               }
               if ((nsCSSTokenType.Ident == mToken.mType) || (nsCSSTokenType.String == mToken.mType)) {
-                nsAutoString  value(mToken.mIdent);
+                string  value(mToken.mIdent);
                 if (! GetToken(true)) { // premature EOF
                   REPORT_UNEXPECTED_EOF(PEAttSelCloseEOF);
                   return eSelectorParsingStatus_Error;
@@ -2536,7 +2529,7 @@ namespace Alba.CsCss.Style
         //
         // Parse pseudo-classes and pseudo-elements
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParsePseudoSelector(int32_t&       aDataMask,
+        ParsePseudoSelector(int32_t&       aDataMask,
                                            nsCSSSelector& aSelector,
                                            bool           aIsNegated,
                                            nsIAtom**      aPseudoElement,
@@ -2573,11 +2566,11 @@ namespace Alba.CsCss.Style
         
           // OK, now we know we have an mIdent.  Atomize it.  All the atoms, for
           // pseudo-classes as well as pseudo-elements, start with a single ':'.
-          nsAutoString buffer;
-          buffer.Append(PRUnichar(':'));
+          string buffer;
+          buffer.Append(':');
           buffer.Append(mToken.mIdent);
           nsContentUtils.ASCIIToLower(buffer);
-          nsCOMPtr<nsIAtom> pseudo = do_GetAtom(buffer);
+          nsIAtom pseudo = do_GetAtom(buffer);
           if (!pseudo) {
             NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
           }
@@ -2728,7 +2721,7 @@ namespace Alba.CsCss.Style
         
             if (0 == (aDataMask & SEL_MASK_PELEM)) {
               aDataMask |= SEL_MASK_PELEM;
-              NS_ADDREF(*aPseudoElement = pseudo);
+              *aPseudoElement = pseudo;
               *aPseudoElementType = pseudoElementType;
         
         #if MOZ_XUL
@@ -2779,7 +2772,7 @@ namespace Alba.CsCss.Style
         //
         // Parse the argument of a negation pseudo-class :not()
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParseNegatedSimpleSelector(int32_t&       aDataMask,
+        ParseNegatedSimpleSelector(int32_t&       aDataMask,
                                                   nsCSSSelector& aSelector)
         {
           if (! GetToken(true)) { // premature eof
@@ -2851,7 +2844,7 @@ namespace Alba.CsCss.Style
         //
         // Parse the argument of a pseudo-class that has an ident arg
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParsePseudoClassWithIdentArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithIdentArg(nsCSSSelector& aSelector,
                                                     nsCSSPseudoClasses.Type aType)
         {
           if (! GetToken(true)) { // premature eof
@@ -2888,7 +2881,7 @@ namespace Alba.CsCss.Style
           return eSelectorParsingStatus_Continue;
         }
         internal  nsSelectorParsingStatus
-        CSSParserImpl.ParsePseudoClassWithNthPairArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithNthPairArg(nsCSSSelector& aSelector,
                                                       nsCSSPseudoClasses.Type aType)
         {
           int32_t numbers[2] = { 0, 0 };
@@ -2909,9 +2902,9 @@ namespace Alba.CsCss.Style
             // The easiest way to deal with that is to push everything from the
             // minus on back onto the scanner's pushback buffer.
             uint32_t truncAt = 0;
-            if (StringBeginsWith(mToken.mIdent, NS_LITERAL_STRING("n-"))) {
+            if (StringBeginsWith(mToken.mIdent, "n-")) {
               truncAt = 1;
-            } else if (StringBeginsWith(mToken.mIdent, NS_LITERAL_STRING("-n-"))) {
+            } else if (StringBeginsWith(mToken.mIdent, "-n-")) {
               truncAt = 2;
             }
             if (truncAt != 0) {
@@ -3008,17 +3001,17 @@ namespace Alba.CsCss.Style
         // Such selector lists cannot contain combinators, but can contain
         // anything that goes between a pair of combinators.
         internal // nsSelectorParsingStatus
-        CSSParserImpl.ParsePseudoClassWithSelectorListArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithSelectorListArg(nsCSSSelector& aSelector,
                                                            nsCSSPseudoClasses.Type aType)
         {
-          nsAutoPtr<nsCSSSelectorList> slist;
-          if (! ParseSelectorList(*getter_Transfers(slist), PRUnichar(')'))) {
+          nsCSSSelectorList slist;
+          if (! ParseSelectorList(*getter_Transfers(slist), ''))) {
             return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
           }
         
           // Check that none of the selectors in the list have combinators or
           // pseudo-elements.
-          for (nsCSSSelectorList *l = slist; l; l = l.mNext) {
+          for (nsCSSSelectorList l = slist; l; l = l.mNext) {
             nsCSSSelector *s = l.mSelectors;
             if (s.mNext || s.IsPseudoElement()) {
               return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
@@ -3041,7 +3034,7 @@ namespace Alba.CsCss.Style
          * This is the format for selectors:
          * operator? [[namespace |]? element_name]? [ ID | class | attrib | pseudo ]*
          */
-        internal bool ParseSelector(nsCSSSelectorList* aList,
+        internal bool ParseSelector(nsCSSSelectorList aList,
                                      PRUnichar aPrevCombinator)
         {
           if (! GetToken(true)) {
@@ -3050,8 +3043,8 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSSelector* selector = aList.AddSelector(aPrevCombinator);
-          nsCOMPtr<nsIAtom> pseudoElement;
-          nsAutoPtr<nsAtomList> pseudoElementArgs;
+          nsIAtom pseudoElement;
+          nsAtomList pseudoElementArgs;
           nsCSSPseudoElements.Type pseudoElementType =
             nsCSSPseudoElements.ePseudo_NotPseudoElement;
         
@@ -3138,20 +3131,20 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal css.Declaration* ParseDeclarationBlock(uint32_t aFlags, nsCSSContextType aContext)
+        internal Declaration ParseDeclarationBlock(uint32_t aFlags, nsCSSContextType aContext)
         {
-          bool checkForBraces = (aFlags & eParseDeclaration_InBraces) != 0;
+          bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
           if (checkForBraces) {
             if (!ExpectSymbol('{', true)) {
               REPORT_UNEXPECTED_TOKEN(PEBadDeclBlockStart);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
               return null;
             }
           }
-          css.Declaration* declaration = new css.Declaration();
+          Declaration declaration = new Declaration();
           mData.AssertInitialState();
-          if (declaration) {
+          if (declaration != null) {
             for (;;) {
               bool changed;
               if (!ParseDeclaration(declaration, aFlags, true, &changed, aContext)) {
@@ -3167,18 +3160,15 @@ namespace Alba.CsCss.Style
                 // the next declaration.
               }
             }
-            declaration.CompressFrom(&mData);
+            declaration.CompressFrom(mData);
           }
           return declaration;
         }
         
         // The types to pass to ParseColorComponent.  These correspond to the
         // various datatypes that can go within rgb().
-        #define COLOR_TYPE_UNKNOWN 0
-        #define COLOR_TYPE_INTEGERS 1
-        #define COLOR_TYPE_PERCENTAGES 2
         
-        internal bool ParseColor(nsCSSValue& aValue)
+        internal bool ParseColor(nsCSSValue aValue)
         {
           if (!GetToken(true)) {
             REPORT_UNEXPECTED_EOF(PEColorEOF);
@@ -3287,7 +3277,7 @@ namespace Alba.CsCss.Style
             // Note: This is a hack for Nav compatibility.  Do not attempt to
             // simplify it by hacking into the ncCSSScanner.  This would be very
             // bad.
-            nsAutoString str;
+            string str;
             char buffer[20];
             switch (tk.mType) {
               case nsCSSTokenType.Ident:
@@ -3304,7 +3294,7 @@ namespace Alba.CsCss.Style
               case nsCSSTokenType.Dimension:
                 if (tk.mIdent.Length() <= 6) {
                   PR_snprintf(buffer, sizeof(buffer), "%06.0f", tk.mNumber);
-                  nsAutoString temp;
+                  string temp;
                   temp.AssignWithConversion(buffer);
                   temp.Right(str, 6 - tk.mIdent.Length());
                   str.Append(tk.mIdent);
@@ -3524,22 +3514,22 @@ namespace Alba.CsCss.Style
         
         //----------------------------------------------------------------------
         
-        internal bool ParseDeclaration(css.Declaration* aDeclaration,
+        internal bool ParseDeclaration(Declaration aDeclaration,
                                         uint32_t aFlags,
                                         bool aMustCallValueAppended,
-                                        bool* aChanged,
+                                        ref bool aChanged,
                                         nsCSSContextType aContext)
         {
           NS_PRECONDITION(aContext == eCSSContext_General ||
                           aContext == eCSSContext_Page,
                           "Must be page or general context");
-          bool checkForBraces = (aFlags & eParseDeclaration_InBraces) != 0;
+          bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
           mTempData.AssertInitialState();
         
           // Get property name
           nsCSSToken tk = mToken;
-          nsAutoString propertyName;
+          string propertyName;
           for (;;) {
             if (!GetToken(true)) {
               if (checkForBraces) {
@@ -3553,7 +3543,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(':', true)) {
                 REPORT_UNEXPECTED_TOKEN(PEParseDeclarationNoColon);
                 REPORT_UNEXPECTED(PEDeclDropped);
-                OUTPUT_ERROR();
+                mReporter.OutputError();
                 return false;
               }
               break;
@@ -3566,7 +3556,7 @@ namespace Alba.CsCss.Style
             if (!tk.IsSymbol('}')) {
               REPORT_UNEXPECTED_TOKEN(PEParseDeclarationDeclExpected);
               REPORT_UNEXPECTED(PEDeclSkipped);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
             }
             // Not a declaration...
             UngetToken();
@@ -3580,13 +3570,13 @@ namespace Alba.CsCss.Style
           // Map property name to its ID and then parse the property
           nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
                                                             nsCSSProps.eEnabled);
-          if (eCSSProperty_UNKNOWN == propID ||
+          if (nsCSSProperty.UNKNOWN == propID ||
              (aContext == eCSSContext_Page &&
               !nsCSSProps.PropHasFlags(propID, CSS_PROPERTY_APPLIES_TO_PAGE_RULE))) { // unknown property
             if (!NonMozillaVendorIdentifier(propertyName)) {
               REPORT_UNEXPECTED_P(PEUnknownProperty, propertyName);
               REPORT_UNEXPECTED(PEDeclDropped);
-              OUTPUT_ERROR();
+              mReporter.OutputError();
             }
         
             return false;
@@ -3595,16 +3585,16 @@ namespace Alba.CsCss.Style
             // XXX Much better to put stuff in the value parsers instead...
             REPORT_UNEXPECTED_P(PEValueParsingError, propertyName);
             REPORT_UNEXPECTED(PEDeclDropped);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             mTempData.ClearProperty(propID);
             mTempData.AssertInitialState();
             return false;
           }
-          CLEAR_ERROR();
+          mReporter.ClearError();
         
           // Look for "!important".
           PriorityParsingStatus status;
-          if ((aFlags & eParseDeclaration_AllowImportant) != 0) {
+          if ((aFlags & nsParseDeclaration.AllowImportant) != 0) {
             status = ParsePriority();
           }
           else {
@@ -3636,71 +3626,71 @@ namespace Alba.CsCss.Style
               REPORT_UNEXPECTED_TOKEN(PEBadDeclEnd);
             }
             REPORT_UNEXPECTED(PEDeclDropped);
-            OUTPUT_ERROR();
+            mReporter.OutputError();
             mTempData.ClearProperty(propID);
             mTempData.AssertInitialState();
             return false;
           }
         
-          *aChanged |= mData.TransferFromBlock(mTempData, propID,
+          aChanged |= mData.TransferFromBlock(mTempData, propID,
                                                status == ePriority_Important,
                                                false, aMustCallValueAppended,
                                                aDeclaration);
           return true;
         }
         
-        static const nsCSSProperty kBorderTopIDs[] = {
-          eCSSProperty_border_top_width,
-          eCSSProperty_border_top_style,
-          eCSSProperty_border_top_color
+        static nsCSSProperty[] kBorderTopIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_top_width,
+          nsCSSProperty.border_top_style,
+          nsCSSProperty.border_top_color
         };
-        static const nsCSSProperty kBorderRightIDs[] = {
-          eCSSProperty_border_right_width_value,
-          eCSSProperty_border_right_style_value,
-          eCSSProperty_border_right_color_value,
-          eCSSProperty_border_right_width,
-          eCSSProperty_border_right_style,
-          eCSSProperty_border_right_color
+        static nsCSSProperty[] kBorderRightIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_right_color_value,
+          nsCSSProperty.border_right_width,
+          nsCSSProperty.border_right_style,
+          nsCSSProperty.border_right_color
         };
-        static const nsCSSProperty kBorderBottomIDs[] = {
-          eCSSProperty_border_bottom_width,
-          eCSSProperty_border_bottom_style,
-          eCSSProperty_border_bottom_color
+        static nsCSSProperty[] kBorderBottomIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_bottom_width,
+          nsCSSProperty.border_bottom_style,
+          nsCSSProperty.border_bottom_color
         };
-        static const nsCSSProperty kBorderLeftIDs[] = {
-          eCSSProperty_border_left_width_value,
-          eCSSProperty_border_left_style_value,
-          eCSSProperty_border_left_color_value,
-          eCSSProperty_border_left_width,
-          eCSSProperty_border_left_style,
-          eCSSProperty_border_left_color
+        static nsCSSProperty[] kBorderLeftIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_left_width_value,
+          nsCSSProperty.border_left_style_value,
+          nsCSSProperty.border_left_color_value,
+          nsCSSProperty.border_left_width,
+          nsCSSProperty.border_left_style,
+          nsCSSProperty.border_left_color
         };
-        static const nsCSSProperty kBorderStartIDs[] = {
-          eCSSProperty_border_start_width_value,
-          eCSSProperty_border_start_style_value,
-          eCSSProperty_border_start_color_value,
-          eCSSProperty_border_start_width,
-          eCSSProperty_border_start_style,
-          eCSSProperty_border_start_color
+        static nsCSSProperty[] kBorderStartIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_start_width_value,
+          nsCSSProperty.border_start_style_value,
+          nsCSSProperty.border_start_color_value,
+          nsCSSProperty.border_start_width,
+          nsCSSProperty.border_start_style,
+          nsCSSProperty.border_start_color
         };
-        static const nsCSSProperty kBorderEndIDs[] = {
-          eCSSProperty_border_end_width_value,
-          eCSSProperty_border_end_style_value,
-          eCSSProperty_border_end_color_value,
-          eCSSProperty_border_end_width,
-          eCSSProperty_border_end_style,
-          eCSSProperty_border_end_color
+        static nsCSSProperty[] kBorderEndIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_end_width_value,
+          nsCSSProperty.border_end_style_value,
+          nsCSSProperty.border_end_color_value,
+          nsCSSProperty.border_end_width,
+          nsCSSProperty.border_end_style,
+          nsCSSProperty.border_end_color
         };
-        static const nsCSSProperty kColumnRuleIDs[] = {
-          eCSSProperty__moz_column_rule_width,
-          eCSSProperty__moz_column_rule_style,
-          eCSSProperty__moz_column_rule_color
+        static nsCSSProperty[] kColumnRuleIDs = new nsCSSProperty[] {
+          nsCSSProperty._moz_column_rule_width,
+          nsCSSProperty._moz_column_rule_style,
+          nsCSSProperty._moz_column_rule_color
         };
         
-        internal bool ParseEnum(nsCSSValue& aValue,
+        internal bool ParseEnum(nsCSSValue aValue,
                                  const int32_t aKeywordTable[])
         {
-          nsSubstring* ident = NextIdent();
+          string ident = NextIdent();
           if (null == ident) {
             return false;
           }
@@ -3726,9 +3716,7 @@ namespace Alba.CsCss.Style
           int32_t type;
         };
         
-        #define STR_WITH_LEN(_str)   _str, sizeof(_str) - 1
-        
-        const UnitInfo UnitData[] = {
+        const UnitInfo[] UnitData = new UnitInfo[] {
           { STR_WITH_LEN("px"), eCSSUnit_Pixel, VARIANT_LENGTH },
           { STR_WITH_LEN("em"), eCSSUnit_EM, VARIANT_LENGTH },
           { STR_WITH_LEN("ex"), eCSSUnit_XHeight, VARIANT_LENGTH },
@@ -3754,12 +3742,10 @@ namespace Alba.CsCss.Style
           { STR_WITH_LEN("ms"), eCSSUnit_Milliseconds, VARIANT_TIME }
         };
         
-        #undef STR_WITH_LEN
-        
-        internal bool TranslateDimension(nsCSSValue& aValue,
+        internal bool TranslateDimension(nsCSSValue aValue,
                                           int32_t aVariantMask,
                                           float aNumber,
-                                          const nsString& aUnit)
+                                          string aUnit)
         {
           nsCSSUnit units;
           int32_t   type = 0;
@@ -3817,13 +3803,12 @@ namespace Alba.CsCss.Style
         // because calc() parsing, as proposed, drops range restrictions inside
         // the calc() expression and clamps the result of the calculation to the
         // range.
-        #define VARIANT_ALL_NONNUMERIC   VARIANT_KEYWORD |   VARIANT_COLOR |   VARIANT_URL |   VARIANT_STRING |   VARIANT_COUNTER |   VARIANT_ATTR |   VARIANT_IDENTIFIER |   VARIANT_IDENTIFIER_NO_INHERIT |   VARIANT_AUTO |   VARIANT_INHERIT |   VARIANT_NONE |   VARIANT_NORMAL |   VARIANT_SYSFONT |   VARIANT_GRADIENT |   VARIANT_TIMING_FUNCTION |   VARIANT_ALL |   VARIANT_CALC
         
         // Note that callers passing VARIANT_CALC in aVariantMask will get
         // full-range parsing inside the calc() expression, and the code that
         // computes the calc will be required to clamp the resulting value to an
         // appropriate range.
-        internal bool ParseNonNegativeVariant(nsCSSValue& aValue,
+        internal bool ParseNonNegativeVariant(nsCSSValue aValue,
                                                int32_t aVariantMask,
                                                const int32_t aKeywordTable[])
         {
@@ -3864,7 +3849,7 @@ namespace Alba.CsCss.Style
         // full-range parsing inside the calc() expression, and the code that
         // computes the calc will be required to clamp the resulting value to an
         // appropriate range.
-        internal bool ParseOneOrLargerVariant(nsCSSValue& aValue,
+        internal bool ParseOneOrLargerVariant(nsCSSValue aValue,
                                                int32_t aVariantMask,
                                                const int32_t aKeywordTable[])
         {
@@ -3893,7 +3878,7 @@ namespace Alba.CsCss.Style
         }
         
         // Assigns to aValue iff it returns true.
-        internal bool ParseVariant(nsCSSValue& aValue,
+        internal bool ParseVariant(nsCSSValue aValue,
                                     int32_t aVariantMask,
                                     const int32_t aKeywordTable[])
         {
@@ -4038,12 +4023,12 @@ namespace Alba.CsCss.Style
             // a generated gradient
             nsDependentString tmp(tk.mIdent, 0);
             bool isLegacy = false;
-            if (StringBeginsWith(tmp, NS_LITERAL_STRING("-moz-"))) {
+            if (StringBeginsWith(tmp, "-moz-")) {
               tmp.Rebind(tmp, 5);
               isLegacy = true;
             }
             bool isRepeating = false;
-            if (StringBeginsWith(tmp, NS_LITERAL_STRING("repeating-"))) {
+            if (StringBeginsWith(tmp, "repeating-")) {
               tmp.Rebind(tmp, 10);
               isRepeating = true;
             }
@@ -4088,7 +4073,7 @@ namespace Alba.CsCss.Style
           }
           if (((aVariantMask & VARIANT_STRING) != 0) &&
               (nsCSSTokenType.String == tk.mType)) {
-            nsAutoString  buffer;
+            string  buffer;
             buffer.Append(tk.mIdent);
             aValue.SetStringValue(buffer, eCSSUnit_String);
             return true;
@@ -4146,7 +4131,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseCounter(nsCSSValue& aValue)
+        internal bool ParseCounter(nsCSSValue aValue)
         {
           nsCSSUnit unit = (mToken.mIdent.LowerCaseEqualsLiteral("counter") ?
                             eCSSUnit_Counter : eCSSUnit_Counters);
@@ -4161,7 +4146,7 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            nsRefPtr<nsCSSValue.Array> val =
+            nsCSSValue.Array val =
               nsCSSValue.Array.Create(unit == eCSSUnit_Counter ? 2 : 3);
         
             val.Item(0).SetStringValue(mToken.mIdent, eCSSUnit_Ident);
@@ -4210,22 +4195,22 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseAttr(nsCSSValue& aValue)
+        internal bool ParseAttr(nsCSSValue aValue)
         {
           if (!GetToken(true)) {
             return false;
           }
         
-          nsAutoString attr;
+          string attr;
           if (nsCSSTokenType.Ident == mToken.mType) {  // attr name or namespace
-            nsAutoString  holdIdent(mToken.mIdent);
+            string  holdIdent(mToken.mIdent);
             if (ExpectSymbol('|', false)) {  // namespace
               int32_t nameSpaceID = GetNamespaceIdForPrefix(holdIdent);
               if (nameSpaceID == kNameSpaceID_Unknown) {
                 return false;
               }
               attr.AppendInt(nameSpaceID, 10);
-              attr.Append(PRUnichar('|'));
+              attr.Append('|');
               if (! GetToken(false)) {
                 REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
                 return false;
@@ -4275,7 +4260,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool SetValueToURL(nsCSSValue& aValue, const nsString& aURL)
+        internal bool SetValueToURL(nsCSSValue aValue, string aURL)
         {
           if (!mSheetPrincipal) {
             NS_NOTREACHED("Codepaths that expect to parse URLs MUST pass in an "
@@ -4283,7 +4268,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsRefPtr<nsStringBuffer> buffer(nsCSSValue.BufferFromString(aURL));
+          stringBuffer buffer(nsCSSValue.BufferFromString(aURL));
         
           // Note: urlVal retains its own reference to |buffer|.
           mozilla.css.URLValue *urlVal =
@@ -4296,7 +4281,7 @@ namespace Alba.CsCss.Style
          * Parse the arguments of -moz-image-rect() function.
          * -moz-image-rect(<uri>, <top>, <right>, <bottom>, <left>)
          */
-        internal bool ParseImageRect(nsCSSValue& aImage)
+        internal bool ParseImageRect(nsCSSValue aImage)
         {
           // A non-iterative for loop to break out when an error occurs.
           for (;;) {
@@ -4306,13 +4291,13 @@ namespace Alba.CsCss.Style
               newFunction.InitFunction(eCSSKeyword__moz_image_rect, kNumArgs);
         
             // func.Item(0) is reserved for the function name.
-            nsCSSValue& url    = func.Item(1);
-            nsCSSValue& top    = func.Item(2);
-            nsCSSValue& right  = func.Item(3);
-            nsCSSValue& bottom = func.Item(4);
-            nsCSSValue& left   = func.Item(5);
+            nsCSSValue url    = func.Item(1);
+            nsCSSValue top    = func.Item(2);
+            nsCSSValue right  = func.Item(3);
+            nsCSSValue bottom = func.Item(4);
+            nsCSSValue left   = func.Item(5);
         
-            nsAutoString urlString;
+            string urlString;
             if (!ParseURLOrString(urlString) ||
                 !SetValueToURL(url, urlString) ||
                 !ExpectSymbol(',', true)) {
@@ -4339,7 +4324,7 @@ namespace Alba.CsCss.Style
         }
         
         // <element>: -moz-element(# <element_id> )
-        internal bool ParseElement(nsCSSValue& aValue)
+        internal bool ParseElement(nsCSSValue aValue)
         {
           // A non-iterative for loop to break out when an error occurs.
           for (;;) {
@@ -4372,17 +4357,17 @@ namespace Alba.CsCss.Style
           // First check for inherit / initial
           nsCSSValue tmpVal;
           if (ParseVariant(tmpVal, VARIANT_INHERIT, null)) {
-            AppendValue(eCSSProperty_flex_grow, tmpVal);
-            AppendValue(eCSSProperty_flex_shrink, tmpVal);
-            AppendValue(eCSSProperty_flex_basis, tmpVal);
+            AppendValue(nsCSSProperty.flex_grow, tmpVal);
+            AppendValue(nsCSSProperty.flex_shrink, tmpVal);
+            AppendValue(nsCSSProperty.flex_basis, tmpVal);
             return true;
           }
         
           // Next, check for 'none' == '0 0 auto'
           if (ParseVariant(tmpVal, VARIANT_NONE, null)) {
-            AppendValue(eCSSProperty_flex_grow, nsCSSValue(0.0f, eCSSUnit_Number));
-            AppendValue(eCSSProperty_flex_shrink, nsCSSValue(0.0f, eCSSUnit_Number));
-            AppendValue(eCSSProperty_flex_basis, nsCSSValue(eCSSUnit_Auto));
+            AppendValue(nsCSSProperty.flex_grow, nsCSSValue(0.0f, eCSSUnit_Number));
+            AppendValue(nsCSSProperty.flex_shrink, nsCSSValue(0.0f, eCSSUnit_Number));
+            AppendValue(nsCSSProperty.flex_basis, nsCSSValue(eCSSUnit_Auto));
             return true;
           }
         
@@ -4409,7 +4394,7 @@ namespace Alba.CsCss.Style
           // More details in each section below.
         
           uint32_t flexBasisVariantMask =
-            (nsCSSProps.ParserVariant(eCSSProperty_flex_basis) & ~(VARIANT_INHERIT));
+            (nsCSSProps.ParserVariant(nsCSSProperty.flex_basis) & ~(VARIANT_INHERIT));
         
           // (a) Parse first component. It can be either be a 'flex-basis' value or a
           // 'flex-grow' value, so we use the flex-basis-specific variant mask, along
@@ -4475,9 +4460,9 @@ namespace Alba.CsCss.Style
             }
           }
         
-          AppendValue(eCSSProperty_flex_grow,   flexGrow);
-          AppendValue(eCSSProperty_flex_shrink, flexShrink);
-          AppendValue(eCSSProperty_flex_basis,  flexBasis);
+          AppendValue(nsCSSProperty.flex_grow,   flexGrow);
+          AppendValue(nsCSSProperty.flex_shrink, flexShrink);
+          AppendValue(nsCSSProperty.flex_basis,  flexBasis);
         
           return true;
         }
@@ -4519,10 +4504,10 @@ namespace Alba.CsCss.Style
         //               | farthest-corner | contain | cover
         //
         // <color-stops> : <color-stop> , <color-stop> [, <color-stop>]*
-        internal bool ParseLinearGradient(nsCSSValue& aValue, bool aIsRepeating,
+        internal bool ParseLinearGradient(nsCSSValue aValue, bool aIsRepeating,
                                            bool aIsLegacy)
         {
-          nsRefPtr<nsCSSValueGradient> cssGradient
+          nsCSSValueGradient cssGradient
             = new nsCSSValueGradient(false, aIsRepeating);
         
           if (!GetToken(true)) {
@@ -4539,8 +4524,8 @@ namespace Alba.CsCss.Style
             }
         
             // [ to [left | right] || [top | bottom] ] ,
-            const nsCSSValue& xValue = cssGradient.mBgPos.mXValue;
-            const nsCSSValue& yValue = cssGradient.mBgPos.mYValue;
+            nsCSSValue xValue = cssGradient.mBgPos.mXValue;
+            nsCSSValue yValue = cssGradient.mBgPos.mYValue;
             if (xValue.GetUnit() != eCSSUnit_Enumerated ||
                 !(xValue.GetIntValue() & (NS_STYLE_BG_POSITION_LEFT |
                                           NS_STYLE_BG_POSITION_CENTER |
@@ -4575,7 +4560,7 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSTokenType ty = mToken.mType;
-          nsString id = mToken.mIdent;
+          string id = mToken.mIdent;
           UngetToken();
         
           // <legacy-gradient-line>
@@ -4608,10 +4593,10 @@ namespace Alba.CsCss.Style
           return ParseGradientColorStops(cssGradient, aValue);
         }
         
-        internal bool ParseRadialGradient(nsCSSValue& aValue, bool aIsRepeating,
+        internal bool ParseRadialGradient(nsCSSValue aValue, bool aIsRepeating,
                                            bool aIsLegacy)
         {
-          nsRefPtr<nsCSSValueGradient> cssGradient
+          nsCSSValueGradient cssGradient
             = new nsCSSValueGradient(true, aIsRepeating);
         
           // [ <shape> || <size> ]
@@ -4685,7 +4670,7 @@ namespace Alba.CsCss.Style
           Debug.Assert(!cssGradient.mIsExplicitSize);
         
           nsCSSTokenType ty = mToken.mType;
-          nsString id = mToken.mIdent;
+          string id = mToken.mIdent;
           UngetToken();
         
           // <legacy-gradient-line>
@@ -4748,8 +4733,8 @@ namespace Alba.CsCss.Style
           return ParseGradientColorStops(cssGradient, aValue);
         }
         
-        internal bool IsLegacyGradientLine(const nsCSSTokenType& aType,
-                                            const nsString& aId)
+        internal bool IsLegacyGradientLine(nsCSSTokenType& aType,
+                                            string aId)
         {
           // N.B. ParseBoxPositionValues is not guaranteed to put back
           // everything it scanned if it fails, so we must only call it
@@ -4799,7 +4784,7 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseGradientColorStops(nsCSSValueGradient* aGradient,
-                                               nsCSSValue& aValue)
+                                               nsCSSValue aValue)
         {
           // At least two color stops are required
           if (!ParseColorStop(aGradient) ||
@@ -4827,7 +4812,7 @@ namespace Alba.CsCss.Style
         }
         
         internal int32_t ParseChoice(nsCSSValue aValues[],
-                                   const nsCSSProperty aPropIDs[], int32_t aNumIDs)
+                                   nsCSSProperty aPropIDs[], int32_t aNumIDs)
         {
           int32_t found = 0;
           nsAutoParseCompoundProperty compound(this);
@@ -4884,7 +4869,7 @@ namespace Alba.CsCss.Style
           return found;
         }
         
-        internal void AppendValue(nsCSSProperty aPropID, const nsCSSValue& aValue)
+        internal void AppendValue(nsCSSProperty aPropID, nsCSSValue aValue)
         {
           mTempData.AddLonghandProperty(aPropID, aValue);
         }
@@ -4894,7 +4879,7 @@ namespace Alba.CsCss.Style
          * than 4 values are provided a standard mapping is used to replicate
          * existing values.
          */
-        internal bool ParseBoxProperties(const nsCSSProperty aPropIDs[])
+        internal bool ParseBoxProperties(nsCSSProperty aPropIDs[])
         {
           // Get up to four values for the property
           int32_t count = 0;
@@ -4938,7 +4923,7 @@ namespace Alba.CsCss.Style
         // Similar to ParseBoxProperties, except there is only one property
         // with the result as its value, not four. Requires values be nonnegative.
         internal bool ParseGroupedBoxProperty(int32_t aVariantMask,
-                                               /** outparam */ nsCSSValue& aValue)
+                                               /** outparam */ nsCSSValue aValue)
         {
           nsCSSRect& result = aValue.SetRectValue();
         
@@ -4971,8 +4956,8 @@ namespace Alba.CsCss.Style
         internal bool ParseDirectionalBoxProperty(nsCSSProperty aProperty,
                                                    int32_t aSourceType)
         {
-          const nsCSSProperty* subprops = nsCSSProps.SubpropertyEntryFor(aProperty);
-          Debug.Assert(subprops[3] == eCSSProperty_UNKNOWN,
+          nsCSSProperty subprops = nsCSSProps.SubpropertyEntryFor(aProperty);
+          Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                        "not box property with physical vs. logical cascading");
           nsCSSValue value;
           if (!ParseSingleValueProperty(value, subprops[0]) ||
@@ -5009,7 +4994,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseBoxCornerRadii(const nsCSSProperty aPropIDs[])
+        internal bool ParseBoxCornerRadii(nsCSSProperty aPropIDs[])
         {
           // Rectangles are used as scratch storage.
           // top => top-left, right => top-right,
@@ -5068,8 +5053,8 @@ namespace Alba.CsCss.Style
           }
         
           NS_FOR_CSS_SIDES(side) {
-            nsCSSValue& x = dimenX.*nsCSSRect.sides[side];
-            nsCSSValue& y = dimenY.*nsCSSRect.sides[side];
+            nsCSSValue x = dimenX.*nsCSSRect.sides[side];
+            nsCSSValue y = dimenY.*nsCSSRect.sides[side];
         
             if (x == y) {
               AppendValue(aPropIDs[side], x);
@@ -5083,35 +5068,35 @@ namespace Alba.CsCss.Style
         }
         
         // These must be in CSS order (top,right,bottom,left) for indexing to work
-        static const nsCSSProperty kBorderStyleIDs[] = {
-          eCSSProperty_border_top_style,
-          eCSSProperty_border_right_style_value,
-          eCSSProperty_border_bottom_style,
-          eCSSProperty_border_left_style_value
+        static nsCSSProperty[] kBorderStyleIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_top_style,
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_bottom_style,
+          nsCSSProperty.border_left_style_value
         };
-        static const nsCSSProperty kBorderWidthIDs[] = {
-          eCSSProperty_border_top_width,
-          eCSSProperty_border_right_width_value,
-          eCSSProperty_border_bottom_width,
-          eCSSProperty_border_left_width_value
+        static nsCSSProperty[] kBorderWidthIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_top_width,
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_bottom_width,
+          nsCSSProperty.border_left_width_value
         };
-        static const nsCSSProperty kBorderColorIDs[] = {
-          eCSSProperty_border_top_color,
-          eCSSProperty_border_right_color_value,
-          eCSSProperty_border_bottom_color,
-          eCSSProperty_border_left_color_value
+        static nsCSSProperty[] kBorderColorIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_top_color,
+          nsCSSProperty.border_right_color_value,
+          nsCSSProperty.border_bottom_color,
+          nsCSSProperty.border_left_color_value
         };
-        static const nsCSSProperty kBorderRadiusIDs[] = {
-          eCSSProperty_border_top_left_radius,
-          eCSSProperty_border_top_right_radius,
-          eCSSProperty_border_bottom_right_radius,
-          eCSSProperty_border_bottom_left_radius
+        static nsCSSProperty[] kBorderRadiusIDs = new nsCSSProperty[] {
+          nsCSSProperty.border_top_left_radius,
+          nsCSSProperty.border_top_right_radius,
+          nsCSSProperty.border_bottom_right_radius,
+          nsCSSProperty.border_bottom_left_radius
         };
-        static const nsCSSProperty kOutlineRadiusIDs[] = {
-          eCSSProperty__moz_outline_radius_topLeft,
-          eCSSProperty__moz_outline_radius_topRight,
-          eCSSProperty__moz_outline_radius_bottomRight,
-          eCSSProperty__moz_outline_radius_bottomLeft
+        static nsCSSProperty[] kOutlineRadiusIDs = new nsCSSProperty[] {
+          nsCSSProperty._moz_outline_radius_topLeft,
+          nsCSSProperty._moz_outline_radius_topRight,
+          nsCSSProperty._moz_outline_radius_bottomRight,
+          nsCSSProperty._moz_outline_radius_bottomLeft
         };
         
         internal bool ParseProperty(nsCSSProperty aPropID)
@@ -5128,7 +5113,7 @@ namespace Alba.CsCss.Style
               nsCSSProps.PropHasFlags(aPropID, CSS_PROPERTY_UNITLESS_LENGTH_QUIRK);
           }
         
-          Debug.Assert(aPropID < eCSSProperty_COUNT, "index out of range");
+          Debug.Assert(aPropID < nsCSSProperty.COUNT, "index out of range");
           bool result;
           switch (nsCSSProps.PropertyParseType(aPropID)) {
             case CSS_PROPERTY_PARSE_INACCESSIBLE: {
@@ -5178,193 +5163,193 @@ namespace Alba.CsCss.Style
         internal bool ParsePropertyByFunction(nsCSSProperty aPropID)
         {
           switch (aPropID) {  // handle shorthand or multiple properties
-          case eCSSProperty_background:
+          case nsCSSProperty.background:
             return ParseBackground();
-          case eCSSProperty_background_repeat:
+          case nsCSSProperty.background_repeat:
             return ParseBackgroundRepeat();
-          case eCSSProperty_background_position:
+          case nsCSSProperty.background_position:
             return ParseBackgroundPosition();
-          case eCSSProperty_background_size:
+          case nsCSSProperty.background_size:
             return ParseBackgroundSize();
-          case eCSSProperty_border:
+          case nsCSSProperty.border:
             return ParseBorderSide(kBorderTopIDs, true);
-          case eCSSProperty_border_color:
+          case nsCSSProperty.border_color:
             return ParseBorderColor();
-          case eCSSProperty_border_spacing:
+          case nsCSSProperty.border_spacing:
             return ParseBorderSpacing();
-          case eCSSProperty_border_style:
+          case nsCSSProperty.border_style:
             return ParseBorderStyle();
-          case eCSSProperty_border_bottom:
+          case nsCSSProperty.border_bottom:
             return ParseBorderSide(kBorderBottomIDs, false);
-          case eCSSProperty_border_end:
+          case nsCSSProperty.border_end:
             return ParseDirectionalBorderSide(kBorderEndIDs,
                                               NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_left:
+          case nsCSSProperty.border_left:
             return ParseDirectionalBorderSide(kBorderLeftIDs,
                                               NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_right:
+          case nsCSSProperty.border_right:
             return ParseDirectionalBorderSide(kBorderRightIDs,
                                               NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_start:
+          case nsCSSProperty.border_start:
             return ParseDirectionalBorderSide(kBorderStartIDs,
                                               NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_top:
+          case nsCSSProperty.border_top:
             return ParseBorderSide(kBorderTopIDs, false);
-          case eCSSProperty_border_bottom_colors:
-          case eCSSProperty_border_left_colors:
-          case eCSSProperty_border_right_colors:
-          case eCSSProperty_border_top_colors:
+          case nsCSSProperty.border_bottom_colors:
+          case nsCSSProperty.border_left_colors:
+          case nsCSSProperty.border_right_colors:
+          case nsCSSProperty.border_top_colors:
             return ParseBorderColors(aPropID);
-          case eCSSProperty_border_image_slice:
+          case nsCSSProperty.border_image_slice:
             return ParseBorderImageSlice(true, null);
-          case eCSSProperty_border_image_width:
+          case nsCSSProperty.border_image_width:
             return ParseBorderImageWidth(true);
-          case eCSSProperty_border_image_outset:
+          case nsCSSProperty.border_image_outset:
             return ParseBorderImageOutset(true);
-          case eCSSProperty_border_image_repeat:
+          case nsCSSProperty.border_image_repeat:
             return ParseBorderImageRepeat(true);
-          case eCSSProperty_border_image:
+          case nsCSSProperty.border_image:
             return ParseBorderImage();
-          case eCSSProperty_border_width:
+          case nsCSSProperty.border_width:
             return ParseBorderWidth();
-          case eCSSProperty_border_end_color:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_end_color,
+          case nsCSSProperty.border_end_color:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_end_color,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_left_color:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_left_color,
+          case nsCSSProperty.border_left_color:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_left_color,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_right_color:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_right_color,
+          case nsCSSProperty.border_right_color:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_right_color,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_start_color:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_start_color,
+          case nsCSSProperty.border_start_color:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_start_color,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_end_width:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_end_width,
+          case nsCSSProperty.border_end_width:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_end_width,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_left_width:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_left_width,
+          case nsCSSProperty.border_left_width:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_left_width,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_right_width:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_right_width,
+          case nsCSSProperty.border_right_width:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_right_width,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_start_width:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_start_width,
+          case nsCSSProperty.border_start_width:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_start_width,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_end_style:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_end_style,
+          case nsCSSProperty.border_end_style:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_end_style,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_left_style:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_left_style,
+          case nsCSSProperty.border_left_style:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_left_style,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_right_style:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_right_style,
+          case nsCSSProperty.border_right_style:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_right_style,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_border_start_style:
-            return ParseDirectionalBoxProperty(eCSSProperty_border_start_style,
+          case nsCSSProperty.border_start_style:
+            return ParseDirectionalBoxProperty(nsCSSProperty.border_start_style,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_border_radius:
+          case nsCSSProperty.border_radius:
             return ParseBoxCornerRadii(kBorderRadiusIDs);
-          case eCSSProperty__moz_outline_radius:
+          case nsCSSProperty._moz_outline_radius:
             return ParseBoxCornerRadii(kOutlineRadiusIDs);
         
-          case eCSSProperty_border_top_left_radius:
-          case eCSSProperty_border_top_right_radius:
-          case eCSSProperty_border_bottom_right_radius:
-          case eCSSProperty_border_bottom_left_radius:
-          case eCSSProperty__moz_outline_radius_topLeft:
-          case eCSSProperty__moz_outline_radius_topRight:
-          case eCSSProperty__moz_outline_radius_bottomRight:
-          case eCSSProperty__moz_outline_radius_bottomLeft:
+          case nsCSSProperty.border_top_left_radius:
+          case nsCSSProperty.border_top_right_radius:
+          case nsCSSProperty.border_bottom_right_radius:
+          case nsCSSProperty.border_bottom_left_radius:
+          case nsCSSProperty._moz_outline_radius_topLeft:
+          case nsCSSProperty._moz_outline_radius_topRight:
+          case nsCSSProperty._moz_outline_radius_bottomRight:
+          case nsCSSProperty._moz_outline_radius_bottomLeft:
             return ParseBoxCornerRadius(aPropID);
         
-          case eCSSProperty_box_shadow:
-          case eCSSProperty_text_shadow:
+          case nsCSSProperty.box_shadow:
+          case nsCSSProperty.text_shadow:
             return ParseShadowList(aPropID);
         
-          case eCSSProperty_clip:
-            return ParseRect(eCSSProperty_clip);
-          case eCSSProperty__moz_columns:
+          case nsCSSProperty.clip:
+            return ParseRect(nsCSSProperty.clip);
+          case nsCSSProperty._moz_columns:
             return ParseColumns();
-          case eCSSProperty__moz_column_rule:
+          case nsCSSProperty._moz_column_rule:
             return ParseBorderSide(kColumnRuleIDs, false);
-          case eCSSProperty_content:
+          case nsCSSProperty.content:
             return ParseContent();
-          case eCSSProperty_counter_increment:
-          case eCSSProperty_counter_reset:
+          case nsCSSProperty.counter_increment:
+          case nsCSSProperty.counter_reset:
             return ParseCounterData(aPropID);
-          case eCSSProperty_cursor:
+          case nsCSSProperty.cursor:
             return ParseCursor();
         #if MOZ_FLEXBOX
-          case eCSSProperty_flex:
+          case nsCSSProperty.flex:
             return ParseFlex();
         #endif // MOZ_FLEXBOX
-          case eCSSProperty_font:
+          case nsCSSProperty.font:
             return ParseFont();
-          case eCSSProperty_image_region:
-            return ParseRect(eCSSProperty_image_region);
-          case eCSSProperty_list_style:
+          case nsCSSProperty.image_region:
+            return ParseRect(nsCSSProperty.image_region);
+          case nsCSSProperty.list_style:
             return ParseListStyle();
-          case eCSSProperty_margin:
+          case nsCSSProperty.margin:
             return ParseMargin();
-          case eCSSProperty_margin_end:
-            return ParseDirectionalBoxProperty(eCSSProperty_margin_end,
+          case nsCSSProperty.margin_end:
+            return ParseDirectionalBoxProperty(nsCSSProperty.margin_end,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_margin_left:
-            return ParseDirectionalBoxProperty(eCSSProperty_margin_left,
+          case nsCSSProperty.margin_left:
+            return ParseDirectionalBoxProperty(nsCSSProperty.margin_left,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_margin_right:
-            return ParseDirectionalBoxProperty(eCSSProperty_margin_right,
+          case nsCSSProperty.margin_right:
+            return ParseDirectionalBoxProperty(nsCSSProperty.margin_right,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_margin_start:
-            return ParseDirectionalBoxProperty(eCSSProperty_margin_start,
+          case nsCSSProperty.margin_start:
+            return ParseDirectionalBoxProperty(nsCSSProperty.margin_start,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_outline:
+          case nsCSSProperty.outline:
             return ParseOutline();
-          case eCSSProperty_overflow:
+          case nsCSSProperty.overflow:
             return ParseOverflow();
-          case eCSSProperty_padding:
+          case nsCSSProperty.padding:
             return ParsePadding();
-          case eCSSProperty_padding_end:
-            return ParseDirectionalBoxProperty(eCSSProperty_padding_end,
+          case nsCSSProperty.padding_end:
+            return ParseDirectionalBoxProperty(nsCSSProperty.padding_end,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_padding_left:
-            return ParseDirectionalBoxProperty(eCSSProperty_padding_left,
+          case nsCSSProperty.padding_left:
+            return ParseDirectionalBoxProperty(nsCSSProperty.padding_left,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_padding_right:
-            return ParseDirectionalBoxProperty(eCSSProperty_padding_right,
+          case nsCSSProperty.padding_right:
+            return ParseDirectionalBoxProperty(nsCSSProperty.padding_right,
                                                NS_BOXPROP_SOURCE_PHYSICAL);
-          case eCSSProperty_padding_start:
-            return ParseDirectionalBoxProperty(eCSSProperty_padding_start,
+          case nsCSSProperty.padding_start:
+            return ParseDirectionalBoxProperty(nsCSSProperty.padding_start,
                                                NS_BOXPROP_SOURCE_LOGICAL);
-          case eCSSProperty_quotes:
+          case nsCSSProperty.quotes:
             return ParseQuotes();
-          case eCSSProperty_size:
+          case nsCSSProperty.size:
             return ParseSize();
-          case eCSSProperty_text_decoration:
+          case nsCSSProperty.text_decoration:
             return ParseTextDecoration();
-          case eCSSProperty_transform:
+          case nsCSSProperty.transform:
             return ParseTransform(false);
-          case eCSSProperty__moz_transform:
+          case nsCSSProperty._moz_transform:
             return ParseTransform(true);
-          case eCSSProperty_transform_origin:
+          case nsCSSProperty.transform_origin:
             return ParseTransformOrigin(false);
-          case eCSSProperty_perspective_origin:
+          case nsCSSProperty.perspective_origin:
             return ParseTransformOrigin(true);
-          case eCSSProperty_transition:
+          case nsCSSProperty.transition:
             return ParseTransition();
-          case eCSSProperty_animation:
+          case nsCSSProperty.animation:
             return ParseAnimation();
-          case eCSSProperty_transition_property:
+          case nsCSSProperty.transition_property:
             return ParseTransitionProperty();
-          case eCSSProperty_fill:
-          case eCSSProperty_stroke:
+          case nsCSSProperty.fill:
+          case nsCSSProperty.stroke:
             return ParsePaint(aPropID);
-          case eCSSProperty_stroke_dasharray:
+          case nsCSSProperty.stroke_dasharray:
             return ParseDasharray();
-          case eCSSProperty_marker:
+          case nsCSSProperty.marker:
             return ParseMarker();
-          case eCSSProperty_paint_order:
+          case nsCSSProperty.paint_order:
             return ParsePaintOrder();
           default:
             NS_ABORT_IF_FALSE(false, "should not be called");
@@ -5373,17 +5358,8 @@ namespace Alba.CsCss.Style
         }
         
         // Bits used in determining which background position info we have
-        #define BG_CENTER  NS_STYLE_BG_POSITION_CENTER
-        #define BG_TOP     NS_STYLE_BG_POSITION_TOP
-        #define BG_BOTTOM  NS_STYLE_BG_POSITION_BOTTOM
-        #define BG_LEFT    NS_STYLE_BG_POSITION_LEFT
-        #define BG_RIGHT   NS_STYLE_BG_POSITION_RIGHT
-        #define BG_CTB    (BG_CENTER | BG_TOP | BG_BOTTOM)
-        #define BG_TB     (BG_TOP | BG_BOTTOM)
-        #define BG_CLR    (BG_CENTER | BG_LEFT | BG_RIGHT)
-        #define BG_LR     (BG_LEFT | BG_RIGHT)
         
-        internal bool ParseSingleValueProperty(nsCSSValue& aValue,
+        internal bool ParseSingleValueProperty(nsCSSValue aValue,
                                                 nsCSSProperty aPropID)
         {
           if (aPropID == eCSSPropertyExtra_x_none_value) {
@@ -5394,24 +5370,24 @@ namespace Alba.CsCss.Style
             return ParseVariant(aValue, VARIANT_AUTO | VARIANT_INHERIT, null);
           }
         
-          if (aPropID < 0 || aPropID >= eCSSProperty_COUNT_no_shorthands) {
+          if (aPropID < 0 || aPropID >= nsCSSProperty.COUNT_no_shorthands) {
             NS_ABORT_IF_FALSE(false, "not a single value property");
             return false;
           }
         
           if (nsCSSProps.PropHasFlags(aPropID, CSS_PROPERTY_VALUE_PARSER_FUNCTION)) {
             switch (aPropID) {
-              case eCSSProperty_font_family:
+              case nsCSSProperty.font_family:
                 return ParseFamily(aValue);
-              case eCSSProperty_font_feature_settings:
+              case nsCSSProperty.font_feature_settings:
                 return ParseFontFeatureSettings(aValue);
-              case eCSSProperty_font_weight:
+              case nsCSSProperty.font_weight:
                 return ParseFontWeight(aValue);
-              case eCSSProperty_marks:
+              case nsCSSProperty.marks:
                 return ParseMarks(aValue);
-              case eCSSProperty_text_decoration_line:
+              case nsCSSProperty.text_decoration_line:
                 return ParseTextDecorationLine(aValue);
-              case eCSSProperty_text_overflow:
+              case nsCSSProperty.text_overflow:
                 return ParseTextOverflow(aValue);
               default:
                 NS_ABORT_IF_FALSE(false, "should not reach here");
@@ -5428,7 +5404,7 @@ namespace Alba.CsCss.Style
           // We only allow 'script-level' when unsafe rules are enabled, because
           // otherwise it could interfere with rulenode optimizations if used in
           // a non-MathML-enabled document.
-          if (aPropID == eCSSProperty_script_level && !mUnsafeRulesEnabled)
+          if (aPropID == nsCSSProperty.script_level && !mUnsafeRulesEnabled)
             return false;
         
           const int32_t *kwtable = nsCSSProps.kKeywordTableTable[aPropID];
@@ -5446,13 +5422,13 @@ namespace Alba.CsCss.Style
         
         // nsFont.EnumerateFamilies callback for ParseFontDescriptorValue
         struct NS_STACK_CLASS ExtractFirstFamilyData {
-          nsAutoString mFamilyName;
+          string mFamilyName;
           bool mGood;
           ExtractFirstFamilyData() : mFamilyName(), mGood(false) {}
         };
         
         static bool
-        ExtractFirstFamily(const nsString& aFamily,
+        ExtractFirstFamily(string aFamily,
                            bool aGeneric,
                            void* aData)
         {
@@ -5469,7 +5445,7 @@ namespace Alba.CsCss.Style
         // font-descriptor: descriptor ':' value ';'
         // caller has advanced mToken to point at the descriptor
         internal bool ParseFontDescriptorValue(nsCSSFontDesc aDescID,
-                                                nsCSSValue& aValue)
+                                                nsCSSValue aValue)
         {
           switch (aDescID) {
             // These four are similar to the properties of the same name,
@@ -5481,7 +5457,7 @@ namespace Alba.CsCss.Style
         
             // the style parameters to the nsFont constructor are ignored,
             // because it's only being used to call EnumerateFamilies
-            nsAutoString valueStr;
+            string valueStr;
             aValue.GetStringValue(valueStr);
             nsFont font(valueStr, 0, 0, 0, 0, 0, 0);
             ExtractFirstFamilyData dat;
@@ -5534,11 +5510,11 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal void InitBoxPropsAsPhysical(const nsCSSProperty *aSourceProperties)
+        internal void InitBoxPropsAsPhysical(nsCSSProperty aSourceProperties)
         {
           nsCSSValue physical(NS_BOXPROP_SOURCE_PHYSICAL, eCSSUnit_Enumerated);
-          for (const nsCSSProperty *prop = aSourceProperties;
-               *prop != eCSSProperty_UNKNOWN; ++prop) {
+          for (nsCSSProperty prop = aSourceProperties;
+               *prop != nsCSSProperty.UNKNOWN; ++prop) {
             AppendValue(*prop, physical);
           }
         }
@@ -5580,9 +5556,9 @@ namespace Alba.CsCss.Style
             if (!ExpectEndProperty()) {
               return false;
             }
-            for (const nsCSSProperty* subprops =
-                   nsCSSProps.SubpropertyEntryFor(eCSSProperty_background);
-                 *subprops != eCSSProperty_UNKNOWN; ++subprops) {
+            for (nsCSSProperty subprops =
+                   nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background);
+                 *subprops != nsCSSProperty.UNKNOWN; ++subprops) {
               AppendValue(*subprops, color);
             }
             return true;
@@ -5633,19 +5609,19 @@ namespace Alba.CsCss.Style
             color.SetColorValue(NS_RGBA(0,0,0,0));
           }
         
-          AppendValue(eCSSProperty_background_image,      image);
-          AppendValue(eCSSProperty_background_repeat,     repeat);
-          AppendValue(eCSSProperty_background_attachment, attachment);
-          AppendValue(eCSSProperty_background_clip,       clip);
-          AppendValue(eCSSProperty_background_origin,     origin);
-          AppendValue(eCSSProperty_background_position,   position);
-          AppendValue(eCSSProperty_background_size,       size);
-          AppendValue(eCSSProperty_background_color,      color);
+          AppendValue(nsCSSProperty.background_image,      image);
+          AppendValue(nsCSSProperty.background_repeat,     repeat);
+          AppendValue(nsCSSProperty.background_attachment, attachment);
+          AppendValue(nsCSSProperty.background_clip,       clip);
+          AppendValue(nsCSSProperty.background_origin,     origin);
+          AppendValue(nsCSSProperty.background_position,   position);
+          AppendValue(nsCSSProperty.background_size,       size);
+          AppendValue(nsCSSProperty.background_color,      color);
           return true;
         }
         
         // Parse one item of the background shorthand property.
-        internal bool ParseBackgroundItem(CSSParserImpl.BackgroundParseState& aState)
+        internal bool ParseBackgroundItem(BackgroundParseState& aState)
         
         {
           // Fill in the values that the shorthand will set if we don't find
@@ -5660,7 +5636,7 @@ namespace Alba.CsCss.Style
                                            eCSSUnit_Enumerated);
           aState.mOrigin.mValue.SetIntValue(NS_STYLE_BG_ORIGIN_PADDING,
                                              eCSSUnit_Enumerated);
-          nsRefPtr<nsCSSValue.Array> positionArr = nsCSSValue.Array.Create(4);
+          nsCSSValue.Array positionArr = nsCSSValue.Array.Create(4);
           aState.mPosition.mValue.SetArrayValue(positionArr, eCSSUnit_Array);
           positionArr.Item(1).SetPercentValue(0.0f);
           positionArr.Item(3).SetPercentValue(0.0f);
@@ -5696,7 +5672,7 @@ namespace Alba.CsCss.Style
                   return false;
                 haveImage = true;
                 if (!ParseSingleValueProperty(aState.mImage.mValue,
-                                              eCSSProperty_background_image)) {
+                                              nsCSSProperty.background_image)) {
                   NS_NOTREACHED("should be able to parse");
                   return false;
                 }
@@ -5706,7 +5682,7 @@ namespace Alba.CsCss.Style
                   return false;
                 haveAttach = true;
                 if (!ParseSingleValueProperty(aState.mAttachment.mValue,
-                                              eCSSProperty_background_attachment)) {
+                                              nsCSSProperty.background_attachment)) {
                   NS_NOTREACHED("should be able to parse");
                   return false;
                 }
@@ -5744,7 +5720,7 @@ namespace Alba.CsCss.Style
                   return false;
                 haveOrigin = true;
                 if (!ParseSingleValueProperty(aState.mOrigin.mValue,
-                                              eCSSProperty_background_origin)) {
+                                              nsCSSProperty.background_origin)) {
                   NS_NOTREACHED("should be able to parse");
                   return false;
                 }
@@ -5754,10 +5730,10 @@ namespace Alba.CsCss.Style
         
                 // 'background-clip' and 'background-origin' use the same keyword table
                 Debug.Assert(nsCSSProps.kKeywordTableTable[
-                             eCSSProperty_background_origin] ==
+                             nsCSSProperty.background_origin] ==
                            nsCSSProps.kBackgroundOriginKTable);
                 Debug.Assert(nsCSSProps.kKeywordTableTable[
-                             eCSSProperty_background_clip] ==
+                             nsCSSProperty.background_clip] ==
                            nsCSSProps.kBackgroundOriginKTable);
                 MOZ_STATIC_ASSERT(NS_STYLE_BG_CLIP_BORDER ==
                                   NS_STYLE_BG_ORIGIN_BORDER &&
@@ -5768,7 +5744,7 @@ namespace Alba.CsCss.Style
                                   "bg-clip and bg-origin style constants must agree");
         
                 if (!ParseSingleValueProperty(aState.mClip.mValue,
-                                              eCSSProperty_background_clip)) {
+                                              nsCSSProperty.background_clip)) {
                   // When exactly one <box> value is set, it is used for both
                   // 'background-origin' and 'background-clip'.
                   // See assertions above showing these values are compatible.
@@ -5779,7 +5755,7 @@ namespace Alba.CsCss.Style
                   return false;
                 haveColor = true;
                 if (!ParseSingleValueProperty(aState.mColor,
-                                              eCSSProperty_background_color)) {
+                                              nsCSSProperty.background_color)) {
                   return false;
                 }
               }
@@ -5799,7 +5775,7 @@ namespace Alba.CsCss.Style
                 return false;
               haveImage = true;
               if (!ParseSingleValueProperty(aState.mImage.mValue,
-                                            eCSSProperty_background_image)) {
+                                            nsCSSProperty.background_image)) {
                 return false;
               }
             } else if (tt == nsCSSTokenType.Dimension ||
@@ -5829,7 +5805,7 @@ namespace Alba.CsCss.Style
               // Note: This parses 'inherit' and 'initial', but
               // we've already checked for them, so it's ok.
               if (!ParseSingleValueProperty(aState.mColor,
-                                            eCSSProperty_background_color)) {
+                                            nsCSSProperty.background_color)) {
                 return false;
               }
             }
@@ -5901,14 +5877,14 @@ namespace Alba.CsCss.Style
             }
           }
         
-          AppendValue(eCSSProperty_background_repeat, value);
+          AppendValue(nsCSSProperty.background_repeat, value);
           return true;
         }
         
         internal bool ParseBackgroundRepeatValues(nsCSSValuePair& aValue) 
         {
-          nsCSSValue& xValue = aValue.mXValue;
-          nsCSSValue& yValue = aValue.mYValue;
+          nsCSSValue xValue = aValue.mXValue;
+          nsCSSValue yValue = aValue.mYValue;
           
           if (ParseEnum(xValue, nsCSSProps.kBackgroundRepeatKTable)) {
             int32_t value = xValue.GetIntValue();
@@ -5956,7 +5932,7 @@ namespace Alba.CsCss.Style
               item = item.mNext;
             }
           }
-          AppendValue(eCSSProperty_background_position, value);
+          AppendValue(nsCSSProperty.background_position, value);
           return true;
         }
         
@@ -5976,12 +5952,12 @@ namespace Alba.CsCss.Style
          * @param aAllowExplicitCenter If true, 'center' is a legal value
          * @return Whether or not the operation succeeded.
          */
-        bool CSSParserImpl.ParseBoxPositionValues(nsCSSValuePair &aOut,
+        bool ParseBoxPositionValues(nsCSSValuePair &aOut,
                                                    bool aAcceptsInherit,
                                                    bool aAllowExplicitCenter)
         {
           // First try a percentage or a length value
-          nsCSSValue &xValue = aOut.mXValue,
+          nsCSSValue xValue = aOut.mXValue,
                      &yValue = aOut.mYValue;
           int32_t variantMask =
             (aAcceptsInherit ? VARIANT_INHERIT : 0) | VARIANT_LP | VARIANT_CALC;
@@ -6060,7 +6036,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        bool CSSParserImpl.ParseBackgroundPositionValues(nsCSSValue& aOut,
+        bool ParseBackgroundPositionValues(nsCSSValue aOut,
                                                           bool aAcceptsInherit)
         {
           // css3-background allows positions to be defined as offsets
@@ -6073,11 +6049,11 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          nsRefPtr<nsCSSValue.Array> value = nsCSSValue.Array.Create(4);
+          nsCSSValue.Array value = nsCSSValue.Array.Create(4);
           aOut.SetArrayValue(value, eCSSUnit_Array);
         
           // The following clarifies organisation of the array.
-          nsCSSValue &xEdge   = value.Item(0),
+          nsCSSValue xEdge   = value.Item(0),
                      &xOffset = value.Item(1),
                      &yEdge   = value.Item(2),
                      &yOffset = value.Item(3);
@@ -6274,7 +6250,7 @@ namespace Alba.CsCss.Style
               item = item.mNext;
             }
           }
-          AppendValue(eCSSProperty_background_size, value);
+          AppendValue(nsCSSProperty.background_size, value);
           return true;
         }
         
@@ -6288,11 +6264,11 @@ namespace Alba.CsCss.Style
          * @param aOut The nsCSSValuePair in which to place the result.
          * @return Whether or not the operation succeeded.
          */
-        #define BG_SIZE_VARIANT (VARIANT_LP | VARIANT_AUTO | VARIANT_CALC)
-        bool CSSParserImpl.ParseBackgroundSizeValues(nsCSSValuePair &aOut)
+        
+        bool ParseBackgroundSizeValues(nsCSSValuePair &aOut)
         {
           // First try a percentage or a length value
-          nsCSSValue &xValue = aOut.mXValue,
+          nsCSSValue xValue = aOut.mXValue,
                      &yValue = aOut.mYValue;
           if (ParseNonNegativeVariant(xValue, BG_SIZE_VARIANT, null)) {
             // We have one percentage/length/calc/auto. Get the optional second
@@ -6314,16 +6290,15 @@ namespace Alba.CsCss.Style
           yValue.Reset();
           return true;
         }
-        #undef BG_SIZE_VARIANT
         
         internal bool ParseBorderColor()
         {
-          static const nsCSSProperty kBorderColorSources[] = {
-            eCSSProperty_border_left_color_ltr_source,
-            eCSSProperty_border_left_color_rtl_source,
-            eCSSProperty_border_right_color_ltr_source,
-            eCSSProperty_border_right_color_rtl_source,
-            eCSSProperty_UNKNOWN
+          static nsCSSProperty[] kBorderColorSources = new nsCSSProperty[] {
+            nsCSSProperty.border_left_color_ltr_source,
+            nsCSSProperty.border_left_color_rtl_source,
+            nsCSSProperty.border_right_color_ltr_source,
+            nsCSSProperty.border_right_color_rtl_source,
+            nsCSSProperty.UNKNOWN
           };
         
           // do this now, in case 4 values weren't specified
@@ -6336,7 +6311,7 @@ namespace Alba.CsCss.Style
           // border-image-source: none
           nsCSSValue source;
           source.SetNoneValue();
-          AppendValue(eCSSProperty_border_image_source, source);
+          AppendValue(nsCSSProperty.border_image_source, source);
         
           // border-image-slice: 100%
           nsCSSValue sliceBoxValue;
@@ -6345,19 +6320,19 @@ namespace Alba.CsCss.Style
           nsCSSValue slice;
           nsCSSValueList* sliceList = slice.SetListValue();
           sliceList.mValue = sliceBoxValue;
-          AppendValue(eCSSProperty_border_image_slice, slice);
+          AppendValue(nsCSSProperty.border_image_slice, slice);
         
           // border-image-width: 1
           nsCSSValue width;
           nsCSSRect& widthBox = width.SetRectValue();
           widthBox.SetAllSidesTo(nsCSSValue(1.0f, eCSSUnit_Number));
-          AppendValue(eCSSProperty_border_image_width, width);
+          AppendValue(nsCSSProperty.border_image_width, width);
         
           // border-image-outset: 0
           nsCSSValue outset;
           nsCSSRect& outsetBox = outset.SetRectValue();
           outsetBox.SetAllSidesTo(nsCSSValue(0.0f, eCSSUnit_Number));
-          AppendValue(eCSSProperty_border_image_outset, outset);
+          AppendValue(nsCSSProperty.border_image_outset, outset);
         
           // border-image-repeat: repeat
           nsCSSValue repeat;
@@ -6365,11 +6340,11 @@ namespace Alba.CsCss.Style
           repeatPair.SetBothValuesTo(nsCSSValue(NS_STYLE_BORDER_IMAGE_REPEAT_STRETCH,
                                                 eCSSUnit_Enumerated));
           repeat.SetPairValue(&repeatPair);
-          AppendValue(eCSSProperty_border_image_repeat, repeat);
+          AppendValue(nsCSSProperty.border_image_repeat, repeat);
         }
         
         internal bool ParseBorderImageSlice(bool aAcceptsInherit,
-                                             bool* aConsumedTokens)
+                                             ref bool aConsumedTokens)
         {
           // border-image-slice: initial | [<number>|<percentage>]{1,4} && fill?
           nsCSSValue value;
@@ -6380,7 +6355,7 @@ namespace Alba.CsCss.Style
         
           if (aAcceptsInherit && ParseVariant(value, VARIANT_INHERIT, null)) {
             // Keyword "inherit" can not be mixed, so we are done.
-            AppendValue(eCSSProperty_border_image_slice, value);
+            AppendValue(nsCSSProperty.border_image_slice, value);
             return true;
           }
         
@@ -6416,7 +6391,7 @@ namespace Alba.CsCss.Style
             borderImageSlice.mNext.mValue = imageSliceFillValue;
           }
         
-          AppendValue(eCSSProperty_border_image_slice, value);
+          AppendValue(nsCSSProperty.border_image_slice, value);
           return true;
         }
         
@@ -6427,7 +6402,7 @@ namespace Alba.CsCss.Style
         
           if (aAcceptsInherit && ParseVariant(value, VARIANT_INHERIT, null)) {
             // Keyword "inherit" can no be mixed, so we are done.
-            AppendValue(eCSSProperty_border_image_width, value);
+            AppendValue(nsCSSProperty.border_image_width, value);
             return true;
           }
         
@@ -6436,7 +6411,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          AppendValue(eCSSProperty_border_image_width, value);
+          AppendValue(nsCSSProperty.border_image_width, value);
           return true;
         }
         
@@ -6447,7 +6422,7 @@ namespace Alba.CsCss.Style
         
           if (aAcceptsInherit && ParseVariant(value, VARIANT_INHERIT, null)) {
             // Keyword "inherit" can not be mixed, so we are done.
-            AppendValue(eCSSProperty_border_image_outset, value);
+            AppendValue(nsCSSProperty.border_image_outset, value);
             return true;
           }
         
@@ -6456,7 +6431,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          AppendValue(eCSSProperty_border_image_outset, value);
+          AppendValue(nsCSSProperty.border_image_outset, value);
           return true;
         }
         
@@ -6465,7 +6440,7 @@ namespace Alba.CsCss.Style
           nsCSSValue value;
           if (aAcceptsInherit && ParseVariant(value, VARIANT_INHERIT, null)) {
             // Keyword "inherit" can not be mixed, so we are done.
-            AppendValue(eCSSProperty_border_image_repeat, value);
+            AppendValue(nsCSSProperty.border_image_repeat, value);
             return true;
           }
         
@@ -6480,7 +6455,7 @@ namespace Alba.CsCss.Style
           }
         
           value.SetPairValue(&result);
-          AppendValue(eCSSProperty_border_image_repeat, value);
+          AppendValue(nsCSSProperty.border_image_repeat, value);
           return true;
         }
         
@@ -6497,11 +6472,11 @@ namespace Alba.CsCss.Style
         
           nsCSSValue value;
           if (ParseVariant(value, VARIANT_INHERIT, null)) {
-            AppendValue(eCSSProperty_border_image_source, value);
-            AppendValue(eCSSProperty_border_image_slice, value);
-            AppendValue(eCSSProperty_border_image_width, value);
-            AppendValue(eCSSProperty_border_image_outset, value);
-            AppendValue(eCSSProperty_border_image_repeat, value);
+            AppendValue(nsCSSProperty.border_image_source, value);
+            AppendValue(nsCSSProperty.border_image_slice, value);
+            AppendValue(nsCSSProperty.border_image_width, value);
+            AppendValue(nsCSSProperty.border_image_outset, value);
+            AppendValue(nsCSSProperty.border_image_repeat, value);
             // Keyword "inherit" (and "initial") can't be mixed, so we are done.
             return true;
           }
@@ -6524,7 +6499,7 @@ namespace Alba.CsCss.Style
           while (!CheckEndProperty()) {
             // <border-image-source>
             if (!foundSource && ParseVariant(imageSourceValue, VARIANT_UO, null)) {
-              AppendValue(eCSSProperty_border_image_source, imageSourceValue);
+              AppendValue(nsCSSProperty.border_image_source, imageSourceValue);
               foundSource = true;
               continue;
             }
@@ -6595,16 +6570,16 @@ namespace Alba.CsCss.Style
           }
         
           if (yValue == xValue || yValue.GetUnit() == eCSSUnit_Null) {
-            AppendValue(eCSSProperty_border_spacing, xValue);
+            AppendValue(nsCSSProperty.border_spacing, xValue);
           } else {
             nsCSSValue pair;
             pair.SetPairValue(xValue, yValue);
-            AppendValue(eCSSProperty_border_spacing, pair);
+            AppendValue(nsCSSProperty.border_spacing, pair);
           }
           return true;
         }
         
-        internal bool ParseBorderSide(const nsCSSProperty aPropIDs[],
+        internal bool ParseBorderSide(nsCSSProperty aPropIDs[],
                                        bool aSetAllSides)
         {
           const int32_t numProps = 3;
@@ -6626,20 +6601,20 @@ namespace Alba.CsCss.Style
           }
         
           if (aSetAllSides) {
-            static const nsCSSProperty kBorderSources[] = {
-              eCSSProperty_border_left_color_ltr_source,
-              eCSSProperty_border_left_color_rtl_source,
-              eCSSProperty_border_right_color_ltr_source,
-              eCSSProperty_border_right_color_rtl_source,
-              eCSSProperty_border_left_style_ltr_source,
-              eCSSProperty_border_left_style_rtl_source,
-              eCSSProperty_border_right_style_ltr_source,
-              eCSSProperty_border_right_style_rtl_source,
-              eCSSProperty_border_left_width_ltr_source,
-              eCSSProperty_border_left_width_rtl_source,
-              eCSSProperty_border_right_width_ltr_source,
-              eCSSProperty_border_right_width_rtl_source,
-              eCSSProperty_UNKNOWN
+            static nsCSSProperty[] kBorderSources = new nsCSSProperty[] {
+              nsCSSProperty.border_left_color_ltr_source,
+              nsCSSProperty.border_left_color_rtl_source,
+              nsCSSProperty.border_right_color_ltr_source,
+              nsCSSProperty.border_right_color_rtl_source,
+              nsCSSProperty.border_left_style_ltr_source,
+              nsCSSProperty.border_left_style_rtl_source,
+              nsCSSProperty.border_right_style_ltr_source,
+              nsCSSProperty.border_right_style_rtl_source,
+              nsCSSProperty.border_left_width_ltr_source,
+              nsCSSProperty.border_left_width_rtl_source,
+              nsCSSProperty.border_right_width_ltr_source,
+              nsCSSProperty.border_right_width_rtl_source,
+              nsCSSProperty.UNKNOWN
             };
         
             InitBoxPropsAsPhysical(kBorderSources);
@@ -6652,11 +6627,11 @@ namespace Alba.CsCss.Style
               AppendValue(kBorderColorIDs[index], values[2]);
             }
         
-            static const nsCSSProperty kBorderColorsProps[] = {
-              eCSSProperty_border_top_colors,
-              eCSSProperty_border_right_colors,
-              eCSSProperty_border_bottom_colors,
-              eCSSProperty_border_left_colors
+            static nsCSSProperty[] kBorderColorsProps = new nsCSSProperty[] {
+              nsCSSProperty.border_top_colors,
+              nsCSSProperty.border_right_colors,
+              nsCSSProperty.border_bottom_colors,
+              nsCSSProperty.border_left_colors
             };
         
             // Set the other properties that the border shorthand sets to their
@@ -6667,11 +6642,11 @@ namespace Alba.CsCss.Style
             case eCSSUnit_Initial:
               extraValue = values[0];
               // Set value of border-image properties to initial/inherit
-              AppendValue(eCSSProperty_border_image_source, extraValue);
-              AppendValue(eCSSProperty_border_image_slice, extraValue);
-              AppendValue(eCSSProperty_border_image_width, extraValue);
-              AppendValue(eCSSProperty_border_image_outset, extraValue);
-              AppendValue(eCSSProperty_border_image_repeat, extraValue);
+              AppendValue(nsCSSProperty.border_image_source, extraValue);
+              AppendValue(nsCSSProperty.border_image_slice, extraValue);
+              AppendValue(nsCSSProperty.border_image_width, extraValue);
+              AppendValue(nsCSSProperty.border_image_outset, extraValue);
+              AppendValue(nsCSSProperty.border_image_repeat, extraValue);
               break;
             default:
               extraValue.SetNoneValue();
@@ -6691,7 +6666,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseDirectionalBorderSide(const nsCSSProperty aPropIDs[],
+        internal bool ParseDirectionalBorderSide(nsCSSProperty aPropIDs[],
                                                   int32_t aSourceType)
         {
           const int32_t numProps = 3;
@@ -6712,9 +6687,9 @@ namespace Alba.CsCss.Style
             values[2].SetIntValue(NS_STYLE_COLOR_MOZ_USE_TEXT_COLOR, eCSSUnit_Enumerated);
           }
           for (int32_t index = 0; index < numProps; index++) {
-            const nsCSSProperty* subprops =
+            nsCSSProperty subprops =
               nsCSSProps.SubpropertyEntryFor(aPropIDs[index + numProps]);
-            Debug.Assert(subprops[3] == eCSSProperty_UNKNOWN,
+            Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                          "not box property with physical vs. logical cascading");
             AppendValue(subprops[0], values[index]);
             nsCSSValue typeVal(aSourceType, eCSSUnit_Enumerated);
@@ -6726,12 +6701,12 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderStyle()
         {
-          static const nsCSSProperty kBorderStyleSources[] = {
-            eCSSProperty_border_left_style_ltr_source,
-            eCSSProperty_border_left_style_rtl_source,
-            eCSSProperty_border_right_style_ltr_source,
-            eCSSProperty_border_right_style_rtl_source,
-            eCSSProperty_UNKNOWN
+          static nsCSSProperty[] kBorderStyleSources = new nsCSSProperty[] {
+            nsCSSProperty.border_left_style_ltr_source,
+            nsCSSProperty.border_left_style_rtl_source,
+            nsCSSProperty.border_right_style_ltr_source,
+            nsCSSProperty.border_right_style_rtl_source,
+            nsCSSProperty.UNKNOWN
           };
         
           // do this now, in case 4 values weren't specified
@@ -6741,12 +6716,12 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderWidth()
         {
-          static const nsCSSProperty kBorderWidthSources[] = {
-            eCSSProperty_border_left_width_ltr_source,
-            eCSSProperty_border_left_width_rtl_source,
-            eCSSProperty_border_right_width_ltr_source,
-            eCSSProperty_border_right_width_rtl_source,
-            eCSSProperty_UNKNOWN
+          static nsCSSProperty[] kBorderWidthSources = new nsCSSProperty[] {
+            nsCSSProperty.border_left_width_ltr_source,
+            nsCSSProperty.border_left_width_rtl_source,
+            nsCSSProperty.border_right_width_ltr_source,
+            nsCSSProperty.border_right_width_rtl_source,
+            nsCSSProperty.UNKNOWN
           };
         
           // do this now, in case 4 values weren't specified
@@ -6781,7 +6756,7 @@ namespace Alba.CsCss.Style
         }
         
         // Parse the top level of a calc() expression.
-        internal bool ParseCalc(nsCSSValue &aValue, int32_t aVariantMask)
+        internal bool ParseCalc(nsCSSValue aValue, int32_t aVariantMask)
         {
           // Parsing calc expressions requires, in a number of cases, looking
           // for a token that is *either* a value of the property or a number.
@@ -6796,7 +6771,7 @@ namespace Alba.CsCss.Style
           // One-iteration loop so we can break to the error-handling case.
           do {
             // The toplevel of a calc() is always an nsCSSValue.Array of length 1.
-            nsRefPtr<nsCSSValue.Array> arr = nsCSSValue.Array.Create(1);
+            nsCSSValue.Array arr = nsCSSValue.Array.Create(1);
         
             if (!ParseCalcAdditiveExpression(arr.Item(0), aVariantMask))
               break;
@@ -6827,11 +6802,11 @@ namespace Alba.CsCss.Style
         //    removing VARIANT_NUMBER or removing all other bits.
         // It does so iteratively, but builds the correct recursive
         // data structure.
-        internal bool ParseCalcAdditiveExpression(nsCSSValue& aValue,
+        internal bool ParseCalcAdditiveExpression(nsCSSValue aValue,
                                                    int32_t& aVariantMask)
         {
           NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
-          nsCSSValue *storage = &aValue;
+          nsCSSValue storage = &aValue;
           for (;;) {
             bool haveWS;
             if (!ParseCalcMultiplicativeExpression(*storage, aVariantMask, &haveWS))
@@ -6851,7 +6826,7 @@ namespace Alba.CsCss.Style
             if (!RequireWhitespace())
               return false;
         
-            nsRefPtr<nsCSSValue.Array> arr = nsCSSValue.Array.Create(2);
+            nsCSSValue.Array arr = nsCSSValue.Array.Create(2);
             arr.Item(0) = aValue;
             storage = &arr.Item(1);
             aValue.SetArrayValue(arr, unit);
@@ -6861,13 +6836,13 @@ namespace Alba.CsCss.Style
         struct ReduceNumberCalcOps : public mozilla.css.BasicFloatCalcOps,
                                      public mozilla.css.CSSValueInputCalcOps
         {
-          result_type ComputeLeafValue(const nsCSSValue& aValue)
+          result_type ComputeLeafValue(nsCSSValue aValue)
           {
             NS_ABORT_IF_FALSE(aValue.GetUnit() == eCSSUnit_Number, "unexpected unit");
             return aValue.GetFloatValue();
           }
         
-          float ComputeNumber(const nsCSSValue& aValue)
+          float ComputeNumber(nsCSSValue aValue)
           {
             return mozilla.css.ComputeCalc(aValue, *this);
           }
@@ -6886,15 +6861,15 @@ namespace Alba.CsCss.Style
         // This function always consumes *trailing* whitespace when it returns
         // true; whether there was any such whitespace is returned in the
         // aHadFinalWS parameter.
-        internal bool ParseCalcMultiplicativeExpression(nsCSSValue& aValue,
+        internal bool ParseCalcMultiplicativeExpression(nsCSSValue aValue,
                                                          int32_t& aVariantMask,
-                                                         bool *aHadFinalWS)
+                                                         ref bool aHadFinalWS)
         {
           NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
           bool gotValue = false; // already got the part with the unit
           bool afterDivision = false;
         
-          nsCSSValue *storage = &aValue;
+          nsCSSValue storage = &aValue;
           for (;;) {
             int32_t variantMask;
             if (afterDivision || gotValue) {
@@ -6926,7 +6901,7 @@ namespace Alba.CsCss.Style
                 // not simplified by the check above).
                 NS_ABORT_IF_FALSE(storage == &aValue.GetArrayValue().Item(1),
                                   "unexpected relationship to current storage");
-                nsCSSValue &leftValue = aValue.GetArrayValue().Item(0);
+                nsCSSValue leftValue = aValue.GetArrayValue().Item(0);
                 ReduceNumberCalcOps ops;
                 float number = mozilla.css.ComputeCalc(leftValue, ops);
                 leftValue.SetFloatValue(number, eCSSUnit_Number);
@@ -6951,7 +6926,7 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            nsRefPtr<nsCSSValue.Array> arr = nsCSSValue.Array.Create(2);
+            nsCSSValue.Array arr = nsCSSValue.Array.Create(2);
             arr.Item(0) = aValue;
             storage = &arr.Item(1);
             aValue.SetArrayValue(arr, unit);
@@ -6983,7 +6958,7 @@ namespace Alba.CsCss.Style
         //    whichever one of the productions matches ***and modifies
         //    aVariantMask*** to reflect which one it has parsed by either
         //    removing VARIANT_NUMBER or removing all other bits.
-        internal bool ParseCalcTerm(nsCSSValue& aValue, int32_t& aVariantMask)
+        internal bool ParseCalcTerm(nsCSSValue aValue, int32_t& aVariantMask)
         {
           NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
           if (!GetToken(true))
@@ -7112,10 +7087,10 @@ namespace Alba.CsCss.Style
           // If the fake "auto" value is found, and one of the real values isn't,
           // that means the fake auto value is meant for the real value we didn't
           // find.
-          static const nsCSSProperty columnIDs[] = {
+          static nsCSSProperty[] columnIDs = new nsCSSProperty[] {
             eCSSPropertyExtra_x_auto_value,
-            eCSSProperty__moz_column_count,
-            eCSSProperty__moz_column_width
+            nsCSSProperty._moz_column_count,
+            nsCSSProperty._moz_column_width
           };
           const int32_t numProps = NS_ARRAY_LENGTH(columnIDs);
         
@@ -7146,12 +7121,11 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        #define VARIANT_CONTENT (VARIANT_STRING | VARIANT_URL | VARIANT_COUNTER | VARIANT_ATTR |                          VARIANT_KEYWORD)
         internal bool ParseContent()
         {
           // We need to divide the 'content' keywords into two classes for
           // ParseVariant's sake, so we can't just use nsCSSProps.kContentKTable.
-          static const int32_t kContentListKWs[] = {
+          static const int32_t[] kContentListKWs = new int32_t[] {
             eCSSKeyword_open_quote, NS_STYLE_CONTENT_OPEN_QUOTE,
             eCSSKeyword_close_quote, NS_STYLE_CONTENT_CLOSE_QUOTE,
             eCSSKeyword_no_open_quote, NS_STYLE_CONTENT_NO_OPEN_QUOTE,
@@ -7159,7 +7133,7 @@ namespace Alba.CsCss.Style
             eCSSKeyword_UNKNOWN,-1
           };
         
-          static const int32_t kContentSolitaryKWs[] = {
+          static const int32_t[] kContentSolitaryKWs = new int32_t[] {
             eCSSKeyword__moz_alt_content, NS_STYLE_CONTENT_ALT_CONTENT,
             eCSSKeyword_UNKNOWN,-1
           };
@@ -7195,7 +7169,7 @@ namespace Alba.CsCss.Style
               cur = cur.mNext;
             }
           }
-          AppendValue(eCSSProperty_content, value);
+          AppendValue(nsCSSProperty.content, value);
           return true;
         }
         
@@ -7254,7 +7228,7 @@ namespace Alba.CsCss.Style
               }
         
               // We have a URL, so make a value array with three values.
-              nsRefPtr<nsCSSValue.Array> val = nsCSSValue.Array.Create(3);
+              nsCSSValue.Array val = nsCSSValue.Array.Create(3);
               val.Item(0) = cur.mValue;
         
               // Parse optional x and y position of cursor hotspot (css3-ui).
@@ -7273,16 +7247,16 @@ namespace Alba.CsCss.Style
               cur = cur.mNext;
             }
           }
-          AppendValue(eCSSProperty_cursor, value);
+          AppendValue(nsCSSProperty.cursor, value);
           return true;
         }
         
         internal bool ParseFont()
         {
-          static const nsCSSProperty fontIDs[] = {
-            eCSSProperty_font_style,
-            eCSSProperty_font_variant,
-            eCSSProperty_font_weight
+          static nsCSSProperty[] fontIDs = new nsCSSProperty[] {
+            nsCSSProperty.font_style,
+            nsCSSProperty.font_variant,
+            nsCSSProperty.font_weight
           };
         
           nsCSSValue  family;
@@ -7290,31 +7264,31 @@ namespace Alba.CsCss.Style
             if (ExpectEndProperty()) {
               if (eCSSUnit_Inherit == family.GetUnit() ||
                   eCSSUnit_Initial == family.GetUnit()) {
-                AppendValue(eCSSProperty__x_system_font, nsCSSValue(eCSSUnit_None));
-                AppendValue(eCSSProperty_font_family, family);
-                AppendValue(eCSSProperty_font_style, family);
-                AppendValue(eCSSProperty_font_variant, family);
-                AppendValue(eCSSProperty_font_weight, family);
-                AppendValue(eCSSProperty_font_size, family);
-                AppendValue(eCSSProperty_line_height, family);
-                AppendValue(eCSSProperty_font_stretch, family);
-                AppendValue(eCSSProperty_font_size_adjust, family);
-                AppendValue(eCSSProperty_font_feature_settings, family);
-                AppendValue(eCSSProperty_font_language_override, family);
+                AppendValue(nsCSSProperty._x_system_font, nsCSSValue(eCSSUnit_None));
+                AppendValue(nsCSSProperty.font_family, family);
+                AppendValue(nsCSSProperty.font_style, family);
+                AppendValue(nsCSSProperty.font_variant, family);
+                AppendValue(nsCSSProperty.font_weight, family);
+                AppendValue(nsCSSProperty.font_size, family);
+                AppendValue(nsCSSProperty.line_height, family);
+                AppendValue(nsCSSProperty.font_stretch, family);
+                AppendValue(nsCSSProperty.font_size_adjust, family);
+                AppendValue(nsCSSProperty.font_feature_settings, family);
+                AppendValue(nsCSSProperty.font_language_override, family);
               }
               else {
-                AppendValue(eCSSProperty__x_system_font, family);
+                AppendValue(nsCSSProperty._x_system_font, family);
                 nsCSSValue systemFont(eCSSUnit_System_Font);
-                AppendValue(eCSSProperty_font_family, systemFont);
-                AppendValue(eCSSProperty_font_style, systemFont);
-                AppendValue(eCSSProperty_font_variant, systemFont);
-                AppendValue(eCSSProperty_font_weight, systemFont);
-                AppendValue(eCSSProperty_font_size, systemFont);
-                AppendValue(eCSSProperty_line_height, systemFont);
-                AppendValue(eCSSProperty_font_stretch, systemFont);
-                AppendValue(eCSSProperty_font_size_adjust, systemFont);
-                AppendValue(eCSSProperty_font_feature_settings, systemFont);
-                AppendValue(eCSSProperty_font_language_override, systemFont);
+                AppendValue(nsCSSProperty.font_family, systemFont);
+                AppendValue(nsCSSProperty.font_style, systemFont);
+                AppendValue(nsCSSProperty.font_variant, systemFont);
+                AppendValue(nsCSSProperty.font_weight, systemFont);
+                AppendValue(nsCSSProperty.font_size, systemFont);
+                AppendValue(nsCSSProperty.line_height, systemFont);
+                AppendValue(nsCSSProperty.font_stretch, systemFont);
+                AppendValue(nsCSSProperty.font_size_adjust, systemFont);
+                AppendValue(nsCSSProperty.font_feature_settings, systemFont);
+                AppendValue(nsCSSProperty.font_language_override, systemFont);
               }
               return true;
             }
@@ -7366,25 +7340,25 @@ namespace Alba.CsCss.Style
           if (ParseFamily(family)) {
             if ((eCSSUnit_Inherit != family.GetUnit()) && (eCSSUnit_Initial != family.GetUnit()) &&
                 ExpectEndProperty()) {
-              AppendValue(eCSSProperty__x_system_font, nsCSSValue(eCSSUnit_None));
-              AppendValue(eCSSProperty_font_family, family);
-              AppendValue(eCSSProperty_font_style, values[0]);
-              AppendValue(eCSSProperty_font_variant, values[1]);
-              AppendValue(eCSSProperty_font_weight, values[2]);
-              AppendValue(eCSSProperty_font_size, size);
-              AppendValue(eCSSProperty_line_height, lineHeight);
-              AppendValue(eCSSProperty_font_stretch,
+              AppendValue(nsCSSProperty._x_system_font, nsCSSValue(eCSSUnit_None));
+              AppendValue(nsCSSProperty.font_family, family);
+              AppendValue(nsCSSProperty.font_style, values[0]);
+              AppendValue(nsCSSProperty.font_variant, values[1]);
+              AppendValue(nsCSSProperty.font_weight, values[2]);
+              AppendValue(nsCSSProperty.font_size, size);
+              AppendValue(nsCSSProperty.line_height, lineHeight);
+              AppendValue(nsCSSProperty.font_stretch,
                           nsCSSValue(NS_FONT_STRETCH_NORMAL, eCSSUnit_Enumerated));
-              AppendValue(eCSSProperty_font_size_adjust, nsCSSValue(eCSSUnit_None));
-              AppendValue(eCSSProperty_font_feature_settings, nsCSSValue(eCSSUnit_Normal));
-              AppendValue(eCSSProperty_font_language_override, nsCSSValue(eCSSUnit_Normal));
+              AppendValue(nsCSSProperty.font_size_adjust, nsCSSValue(eCSSUnit_None));
+              AppendValue(nsCSSProperty.font_feature_settings, nsCSSValue(eCSSUnit_Normal));
+              AppendValue(nsCSSProperty.font_language_override, nsCSSValue(eCSSUnit_Normal));
               return true;
             }
           }
           return false;
         }
         
-        internal bool ParseFontWeight(nsCSSValue& aValue)
+        internal bool ParseFontWeight(nsCSSValue aValue)
         {
           if (ParseVariant(aValue, VARIANT_HKI | VARIANT_SYSFONT,
                            nsCSSProps.kFontWeightKTable)) {
@@ -7404,7 +7378,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseOneFamily(nsAString& aFamily, bool& aOneKeyword)
+        internal bool ParseOneFamily(string aFamily, bool& aOneKeyword)
         {
           if (!GetToken(true))
             return false;
@@ -7430,7 +7404,7 @@ namespace Alba.CsCss.Style
         
                 UngetToken();
                 if (nsCSSTokenType.Ident == tk.mType)
-                  aFamily.Append(PRUnichar(' '));
+                  aFamily.Append(' ');
                 else
                   break;
               } else {
@@ -7452,9 +7426,9 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal bool ParseFamily(nsCSSValue& aValue)
+        internal bool ParseFamily(nsCSSValue aValue)
         {
-          nsAutoString family;
+          string family;
           bool single;
         
           // keywords only have meaning in the first position
@@ -7488,9 +7462,9 @@ namespace Alba.CsCss.Style
             if (!ExpectSymbol(',', true))
               break;
         
-            family.Append(PRUnichar(','));
+            family.Append(',');
         
-            nsAutoString nextFamily;
+            string nextFamily;
             if (!ParseOneFamily(nextFamily, single))
               return false;
         
@@ -7524,10 +7498,10 @@ namespace Alba.CsCss.Style
         // uri-src: uri [ 'format(' string ( ',' string )* ')' ]
         // local-src: 'local(' ( string | ident ) ')'
         
-        internal bool ParseFontSrc(nsCSSValue& aValue)
+        internal bool ParseFontSrc(nsCSSValue aValue)
         {
-          // could we maybe turn nsCSSValue.Array into InfallibleTArray<nsCSSValue>?
-          InfallibleTArray<nsCSSValue> values;
+          // could we maybe turn nsCSSValue.Array into List<nsCSSValue>?
+          List<nsCSSValue> values;
           nsCSSValue cur;
           for (;;) {
             if (!GetToken(true))
@@ -7547,7 +7521,7 @@ namespace Alba.CsCss.Style
               // assuming that the appropriate production is a single
               // <family-name>, possibly surrounded by whitespace.
         
-              nsAutoString family;
+              string family;
               bool single;
               if (!ParseOneFamily(family, single)) {
                 SkipUntil(')');
@@ -7582,7 +7556,7 @@ namespace Alba.CsCss.Style
           if (values.Length() == 0)
             return false;
         
-          nsRefPtr<nsCSSValue.Array> srcVals
+          nsCSSValue.Array srcVals
             = nsCSSValue.Array.Create(values.Length());
         
           uint32_t i;
@@ -7592,7 +7566,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseFontSrcFormat(InfallibleTArray<nsCSSValue> & values)
+        internal bool ParseFontSrcFormat(List<nsCSSValue> & values)
         {
           if (!GetToken(true))
             return true; // EOF harmless here
@@ -7625,9 +7599,9 @@ namespace Alba.CsCss.Style
         }
         
         // font-ranges: urange ( ',' urange )*
-        internal bool ParseFontRanges(nsCSSValue& aValue)
+        internal bool ParseFontRanges(nsCSSValue aValue)
         {
-          InfallibleTArray<uint32_t> ranges;
+          List<uint32_t> ranges;
           for (;;) {
             if (!GetToken(true))
               break;
@@ -7663,7 +7637,7 @@ namespace Alba.CsCss.Style
           if (ranges.Length() == 0)
             return false;
         
-          nsRefPtr<nsCSSValue.Array> srcVals
+          nsCSSValue.Array srcVals
             = nsCSSValue.Array.Create(ranges.Length());
         
           for (uint32_t i = 0; i < ranges.Length(); i++)
@@ -7681,10 +7655,9 @@ namespace Alba.CsCss.Style
         // pair value is always x = string, y = int
         
         // font feature tags must be four ASCII characters
-        #define FEATURE_TAG_LENGTH   4
         
         static bool
-        ValidFontFeatureTag(const nsString& aTag)
+        ValidFontFeatureTag(string aTag)
         {
           if (aTag.Length() != FEATURE_TAG_LENGTH) {
             return false;
@@ -7699,7 +7672,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseFontFeatureSettings(nsCSSValue& aValue)
+        internal bool ParseFontFeatureSettings(nsCSSValue aValue)
         {
           if (ParseVariant(aValue, VARIANT_INHERIT | VARIANT_NORMAL, null)) {
             return true;
@@ -7758,11 +7731,11 @@ namespace Alba.CsCss.Style
           // 'none' as the value of either but still allow another value for
           // either, we need to ensure that the first 'none' we find gets
           // allocated to a dummy property instead.
-          static const nsCSSProperty listStyleIDs[] = {
+          static nsCSSProperty[] listStyleIDs = new nsCSSProperty[] {
             eCSSPropertyExtra_x_none_value,
-            eCSSProperty_list_style_type,
-            eCSSProperty_list_style_position,
-            eCSSProperty_list_style_image
+            nsCSSProperty.list_style_type,
+            nsCSSProperty.list_style_position,
+            nsCSSProperty.list_style_image
           };
         
           nsCSSValue values[NS_ARRAY_LENGTH(listStyleIDs)];
@@ -7810,18 +7783,18 @@ namespace Alba.CsCss.Style
         
         internal bool ParseMargin()
         {
-          static const nsCSSProperty kMarginSideIDs[] = {
-            eCSSProperty_margin_top,
-            eCSSProperty_margin_right_value,
-            eCSSProperty_margin_bottom,
-            eCSSProperty_margin_left_value
+          static nsCSSProperty[] kMarginSideIDs = new nsCSSProperty[] {
+            nsCSSProperty.margin_top,
+            nsCSSProperty.margin_right_value,
+            nsCSSProperty.margin_bottom,
+            nsCSSProperty.margin_left_value
           };
-          static const nsCSSProperty kMarginSources[] = {
-            eCSSProperty_margin_left_ltr_source,
-            eCSSProperty_margin_left_rtl_source,
-            eCSSProperty_margin_right_ltr_source,
-            eCSSProperty_margin_right_rtl_source,
-            eCSSProperty_UNKNOWN
+          static nsCSSProperty[] kMarginSources = new nsCSSProperty[] {
+            nsCSSProperty.margin_left_ltr_source,
+            nsCSSProperty.margin_left_rtl_source,
+            nsCSSProperty.margin_right_ltr_source,
+            nsCSSProperty.margin_right_rtl_source,
+            nsCSSProperty.UNKNOWN
           };
         
           // do this now, in case 4 values weren't specified
@@ -7829,7 +7802,7 @@ namespace Alba.CsCss.Style
           return ParseBoxProperties(kMarginSideIDs);
         }
         
-        internal bool ParseMarks(nsCSSValue& aValue)
+        internal bool ParseMarks(nsCSSValue aValue)
         {
           if (ParseVariant(aValue, VARIANT_HK, nsCSSProps.kPageMarksKTable)) {
             if (eCSSUnit_Enumerated == aValue.GetUnit()) {
@@ -7855,10 +7828,10 @@ namespace Alba.CsCss.Style
         internal bool ParseOutline()
         {
           const int32_t numProps = 3;
-          static const nsCSSProperty kOutlineIDs[] = {
-            eCSSProperty_outline_color,
-            eCSSProperty_outline_style,
-            eCSSProperty_outline_width
+          static nsCSSProperty[] kOutlineIDs = new nsCSSProperty[] {
+            nsCSSProperty.outline_color,
+            nsCSSProperty.outline_style,
+            nsCSSProperty.outline_width
           };
         
           nsCSSValue  values[numProps];
@@ -7906,25 +7879,25 @@ namespace Alba.CsCss.Style
                 overflowY.SetIntValue(NS_STYLE_OVERFLOW_SCROLL, eCSSUnit_Enumerated);
                 break;
             }
-          AppendValue(eCSSProperty_overflow_x, overflowX);
-          AppendValue(eCSSProperty_overflow_y, overflowY);
+          AppendValue(nsCSSProperty.overflow_x, overflowX);
+          AppendValue(nsCSSProperty.overflow_y, overflowY);
           return true;
         }
         
         internal bool ParsePadding()
         {
-          static const nsCSSProperty kPaddingSideIDs[] = {
-            eCSSProperty_padding_top,
-            eCSSProperty_padding_right_value,
-            eCSSProperty_padding_bottom,
-            eCSSProperty_padding_left_value
+          static nsCSSProperty[] kPaddingSideIDs = new nsCSSProperty[] {
+            nsCSSProperty.padding_top,
+            nsCSSProperty.padding_right_value,
+            nsCSSProperty.padding_bottom,
+            nsCSSProperty.padding_left_value
           };
-          static const nsCSSProperty kPaddingSources[] = {
-            eCSSProperty_padding_left_ltr_source,
-            eCSSProperty_padding_left_rtl_source,
-            eCSSProperty_padding_right_ltr_source,
-            eCSSProperty_padding_right_rtl_source,
-            eCSSProperty_UNKNOWN
+          static nsCSSProperty[] kPaddingSources = new nsCSSProperty[] {
+            nsCSSProperty.padding_left_ltr_source,
+            nsCSSProperty.padding_left_rtl_source,
+            nsCSSProperty.padding_right_ltr_source,
+            nsCSSProperty.padding_right_rtl_source,
+            nsCSSProperty.UNKNOWN
           };
         
           // do this now, in case 4 values weren't specified
@@ -7962,7 +7935,7 @@ namespace Alba.CsCss.Style
               quotes = quotes.mNext;
             }
           }
-          AppendValue(eCSSProperty_quotes, value);
+          AppendValue(nsCSSProperty.quotes, value);
           return true;
         }
         
@@ -7980,11 +7953,11 @@ namespace Alba.CsCss.Style
           }
         
           if (width == height || height.GetUnit() == eCSSUnit_Null) {
-            AppendValue(eCSSProperty_size, width);
+            AppendValue(nsCSSProperty.size, width);
           } else {
             nsCSSValue pair;
             pair.SetPairValue(width, height);
-            AppendValue(eCSSProperty_size, pair);
+            AppendValue(nsCSSProperty.size, pair);
           }
           return true;
         }
@@ -8007,7 +7980,7 @@ namespace Alba.CsCss.Style
                              eDecorationBlink | eDecorationPrefAnchors),
                             "text decoration constants need to be bitmasks");
         
-          static const int32_t kTextDecorationKTable[] = {
+          static const int32_t[] kTextDecorationKTable = new int32_t[] {
             eCSSKeyword_none,                   eDecorationNone,
             eCSSKeyword_underline,              eDecorationUnderline,
             eCSSKeyword_overline,               eDecorationOverline,
@@ -8067,15 +8040,15 @@ namespace Alba.CsCss.Style
               break;
           }
         
-          AppendValue(eCSSProperty_text_blink, blink);
-          AppendValue(eCSSProperty_text_decoration_line, line);
-          AppendValue(eCSSProperty_text_decoration_color, color);
-          AppendValue(eCSSProperty_text_decoration_style, style);
+          AppendValue(nsCSSProperty.text_blink, blink);
+          AppendValue(nsCSSProperty.text_decoration_line, line);
+          AppendValue(nsCSSProperty.text_decoration_color, color);
+          AppendValue(nsCSSProperty.text_decoration_style, style);
         
           return true;
         }
         
-        internal bool ParseTextDecorationLine(nsCSSValue& aValue)
+        internal bool ParseTextDecorationLine(nsCSSValue aValue)
         {
           if (ParseVariant(aValue, VARIANT_HK, nsCSSProps.kTextDecorationLineKTable)) {
             if (eCSSUnit_Enumerated == aValue.GetUnit()) {
@@ -8107,7 +8080,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseTextOverflow(nsCSSValue& aValue)
+        internal bool ParseTextOverflow(nsCSSValue aValue)
         {
           if (ParseVariant(aValue, VARIANT_INHERIT, null)) {
             // 'inherit' and 'initial' must be alone
@@ -8138,7 +8111,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFunctionInternals(const int32_t aVariantMask[],
                                               uint16_t aMinElems,
                                               uint16_t aMaxElems,
-                                              InfallibleTArray<nsCSSValue> &aOutput)
+                                              List<nsCSSValue> &aOutput)
         {
           for (uint16_t index = 0; index < aMaxElems; ++index) {
             nsCSSValue newValue;
@@ -8178,12 +8151,12 @@ namespace Alba.CsCss.Style
          *        this many elements will result in the function failing.
          * @param aValue (out) The value that was parsed.
          */
-        internal bool ParseFunction(const nsString &aFunction,
+        internal bool ParseFunction(string &aFunction,
                                      const int32_t aAllowedTypes[],
                                      uint16_t aMinElems, uint16_t aMaxElems,
-                                     nsCSSValue &aValue)
+                                     nsCSSValue aValue)
         {
-          typedef InfallibleTArray<nsCSSValue>.size_type arrlen_t;
+          typedef List<nsCSSValue>.size_type arrlen_t;
         
           /* 2^16 - 2, so that if we have 2^16 - 2 transforms, we have 2^16 - 1
            * elements stored in the the nsCSSValue.Array.
@@ -8194,12 +8167,12 @@ namespace Alba.CsCss.Style
            * mToken.mIdent, which is going to get overwritten during the course of this
            * function.
            */
-          nsString functionName(aFunction);
+          string functionName(aFunction);
         
           /* Read in a list of values as an array, failing if we can't or if
            * it's out of bounds.
            */
-          InfallibleTArray<nsCSSValue> foundValues;
+          List<nsCSSValue> foundValues;
           if (!ParseFunctionInternals(aAllowedTypes, aMinElems, aMaxElems,
                                       foundValues))
             return false;
@@ -8211,7 +8184,7 @@ namespace Alba.CsCss.Style
            */
           uint16_t numElements = (foundValues.Length() <= MAX_ALLOWED_ELEMS ?
                                   foundValues.Length() + 1 : MAX_ALLOWED_ELEMS);
-          nsRefPtr<nsCSSValue.Array> convertedArray =
+          nsCSSValue.Array convertedArray =
             nsCSSValue.Array.Create(numElements);
         
           /* Copy things over. */
@@ -8429,7 +8402,7 @@ namespace Alba.CsCss.Style
          * error if something goes wrong.
          */
         internal bool ParseSingleTransform(bool aIsPrefixed,
-                                            nsCSSValue& aValue, bool& aIs3D)
+                                            nsCSSValue aValue, bool& aIs3D)
         {
           if (!GetToken(true))
             return false;
@@ -8456,20 +8429,20 @@ namespace Alba.CsCss.Style
             case eCSSKeyword_scalex:
             case eCSSKeyword_skewx:
             case eCSSKeyword_translatex:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, PRUnichar('X'));
+              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'X');
               break;
         
             case eCSSKeyword_rotatey:
             case eCSSKeyword_scaley:
             case eCSSKeyword_skewy:
             case eCSSKeyword_translatey:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, PRUnichar('Y'));
+              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'Y');
               break;
         
             case eCSSKeyword_rotatez:
             case eCSSKeyword_scalez:
             case eCSSKeyword_translatez:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, PRUnichar('Z'));
+              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'Z');
               break;
         
             default:
@@ -8482,7 +8455,7 @@ namespace Alba.CsCss.Style
         /* Parses a transform property list by continuously reading in properties
          * and constructing a matrix from it.
          */
-        bool CSSParserImpl.ParseTransform(bool aIsPrefixed)
+        bool ParseTransform(bool aIsPrefixed)
         {
           nsCSSValue value;
           if (ParseVariant(value, VARIANT_INHERIT | VARIANT_NONE, null)) {
@@ -8507,22 +8480,22 @@ namespace Alba.CsCss.Style
               cur = cur.mNext;
             }
           }
-          AppendValue(eCSSProperty_transform, value);
+          AppendValue(nsCSSProperty.transform, value);
           return true;
         }
         
-        bool CSSParserImpl.ParseTransformOrigin(bool aPerspective)
+        bool ParseTransformOrigin(bool aPerspective)
         {
           nsCSSValuePair position;
           if (!ParseBoxPositionValues(position, true))
             return false;
         
-          nsCSSProperty prop = eCSSProperty_transform_origin;
+          nsCSSProperty prop = nsCSSProperty.transform_origin;
           if (aPerspective) {
             if (!ExpectEndProperty()) {
               return false;
             }
-            prop = eCSSProperty_perspective_origin;
+            prop = nsCSSProperty.perspective_origin;
           }
         
           // Unlike many other uses of pairs, this position should always be stored
@@ -8591,18 +8564,18 @@ namespace Alba.CsCss.Style
               cur = cur.mNext;
             }
           }
-          AppendValue(eCSSProperty_transition_property, value);
+          AppendValue(nsCSSProperty.transition_property, value);
           return true;
         }
         
-        internal bool ParseTransitionTimingFunctionValues(nsCSSValue& aValue)
+        internal bool ParseTransitionTimingFunctionValues(nsCSSValue aValue)
         {
           Debug.Assert(!mHavePushBack &&
                        mToken.mType == nsCSSTokenType.Function &&
                        mToken.mIdent.LowerCaseEqualsLiteral("cubic-bezier"),
                        "unexpected initial state");
         
-          nsRefPtr<nsCSSValue.Array> val = nsCSSValue.Array.Create(4);
+          nsCSSValue.Array val = nsCSSValue.Array.Create(4);
         
           float x1, x2, y1, y2;
           if (!ParseTransitionTimingFunctionValueComponent(x1, ',', true) ||
@@ -8643,14 +8616,14 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseTransitionStepTimingFunctionValues(nsCSSValue& aValue)
+        internal bool ParseTransitionStepTimingFunctionValues(nsCSSValue aValue)
         {
           Debug.Assert(!mHavePushBack &&
                        mToken.mType == nsCSSTokenType.Function &&
                        mToken.mIdent.LowerCaseEqualsLiteral("steps"),
                        "unexpected initial state");
         
-          nsRefPtr<nsCSSValue.Array> val = nsCSSValue.Array.Create(2);
+          nsCSSValue.Array val = nsCSSValue.Array.Create(2);
         
           if (!ParseOneOrLargerVariant(val.Item(0), VARIANT_INTEGER, null)) {
             return false;
@@ -8685,9 +8658,9 @@ namespace Alba.CsCss.Style
         }
         
         static nsCSSValueList*
-        AppendValueToList(nsCSSValue& aContainer,
+        AppendValueToList(nsCSSValue aContainer,
                           nsCSSValueList* aTail,
-                          const nsCSSValue& aValue)
+                          nsCSSValue aValue)
         {
           nsCSSValueList* entry;
           if (aContainer.GetUnit() == eCSSUnit_Null) {
@@ -8703,10 +8676,10 @@ namespace Alba.CsCss.Style
           return entry;
         }
         internal  ParseAnimationOrTransitionShorthandResult
-        CSSParserImpl.ParseAnimationOrTransitionShorthand(
-                         const nsCSSProperty* aProperties,
-                         const nsCSSValue* aInitialValues,
-                         nsCSSValue* aValues,
+        ParseAnimationOrTransitionShorthand(
+                         nsCSSProperty aProperties,
+                         nsCSSValue aInitialValues,
+                         nsCSSValue aValues,
                          size_t aNumProperties)
         {
           nsCSSValue tempValue;
@@ -8787,18 +8760,18 @@ namespace Alba.CsCss.Style
         
         internal bool ParseTransition()
         {
-          static const nsCSSProperty kTransitionProperties[] = {
-            eCSSProperty_transition_duration,
-            eCSSProperty_transition_timing_function,
+          static nsCSSProperty[] kTransitionProperties = new nsCSSProperty[] {
+            nsCSSProperty.transition_duration,
+            nsCSSProperty.transition_timing_function,
             // Must check 'transition-delay' after 'transition-duration', since
             // that's our assumption about what the spec means for the shorthand
             // syntax (the first time given is the duration, and the second
             // given is the delay).
-            eCSSProperty_transition_delay,
+            nsCSSProperty.transition_delay,
             // Must check 'transition-property' after
             // 'transition-timing-function' since 'transition-property' accepts
             // any keyword.
-            eCSSProperty_transition_property
+            nsCSSProperty.transition_property
           };
           static const uint32_t numProps = NS_ARRAY_LENGTH(kTransitionProperties);
           // this is a shorthand property that accepts -property, -delay,
@@ -8829,12 +8802,12 @@ namespace Alba.CsCss.Style
           //     we should check it without the -moz- prefix).
           {
             NS_ABORT_IF_FALSE(kTransitionProperties[3] ==
-                                eCSSProperty_transition_property,
+                                nsCSSProperty.transition_property,
                               "array index mismatch");
             nsCSSValueList *l = values[3].GetListValue();
             bool multipleItems = !!l.mNext;
             do {
-              const nsCSSValue& val = l.mValue;
+              nsCSSValue val = l.mValue;
               if (val.GetUnit() == eCSSUnit_None) {
                 if (multipleItems) {
                   // This is a syntax error.
@@ -8863,22 +8836,22 @@ namespace Alba.CsCss.Style
         
         internal bool ParseAnimation()
         {
-          static const nsCSSProperty kAnimationProperties[] = {
-            eCSSProperty_animation_duration,
-            eCSSProperty_animation_timing_function,
+          static nsCSSProperty[] kAnimationProperties = new nsCSSProperty[] {
+            nsCSSProperty.animation_duration,
+            nsCSSProperty.animation_timing_function,
             // Must check 'animation-delay' after 'animation-duration', since
             // that's our assumption about what the spec means for the shorthand
             // syntax (the first time given is the duration, and the second
             // given is the delay).
-            eCSSProperty_animation_delay,
-            eCSSProperty_animation_direction,
-            eCSSProperty_animation_fill_mode,
-            eCSSProperty_animation_iteration_count,
+            nsCSSProperty.animation_delay,
+            nsCSSProperty.animation_direction,
+            nsCSSProperty.animation_fill_mode,
+            nsCSSProperty.animation_iteration_count,
             // Must check 'animation-name' after 'animation-timing-function',
             // 'animation-direction', 'animation-fill-mode',
             // 'animation-iteration-count', and 'animation-play-state' since
             // 'animation-name' accepts any keyword.
-            eCSSProperty_animation_name
+            nsCSSProperty.animation_name
           };
           static const uint32_t numProps = NS_ARRAY_LENGTH(kAnimationProperties);
           // this is a shorthand property that accepts -property, -delay,
@@ -8911,7 +8884,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseShadowItem(nsCSSValue& aValue, bool aIsBoxShadow)
+        internal bool ParseShadowItem(nsCSSValue aValue, bool aIsBoxShadow)
         {
           // A shadow list item is an array, with entries in this sequence:
           enum {
@@ -8923,7 +8896,7 @@ namespace Alba.CsCss.Style
             IndexInset    // only for box-shadow
           };
         
-          nsRefPtr<nsCSSValue.Array> val = nsCSSValue.Array.Create(6);
+          nsCSSValue.Array val = nsCSSValue.Array.Create(6);
         
           if (aIsBoxShadow) {
             // Optional inset keyword (ignore errors)
@@ -8995,7 +8968,7 @@ namespace Alba.CsCss.Style
         internal bool ParseShadowList(nsCSSProperty aProperty)
         {
           nsAutoParseCompoundProperty compound(this);
-          bool isBoxShadow = aProperty == eCSSProperty_box_shadow;
+          bool isBoxShadow = aProperty == nsCSSProperty.box_shadow;
         
           nsCSSValue value;
           if (ParseVariant(value, VARIANT_INHERIT | VARIANT_NONE, null)) {
@@ -9023,14 +8996,14 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal int32_t GetNamespaceIdForPrefix(const nsString& aPrefix)
+        internal int32_t GetNamespaceIdForPrefix(string aPrefix)
         {
           if (!(!aPrefix.IsEmpty())) throw new ArgumentException("Must have a prefix here");
         
           int32_t nameSpaceID = kNameSpaceID_Unknown;
           if (mNameSpaceMap) {
             // user-specified identifiers are case-sensitive (bug 416106)
-            nsCOMPtr<nsIAtom> prefix = do_GetAtom(aPrefix);
+            nsIAtom prefix = do_GetAtom(aPrefix);
             if (!prefix) {
               NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
             }
@@ -9106,18 +9079,18 @@ namespace Alba.CsCss.Style
               cur = cur.mNext;
             }
           }
-          AppendValue(eCSSProperty_stroke_dasharray, value);
+          AppendValue(nsCSSProperty.stroke_dasharray, value);
           return true;
         }
         
         internal bool ParseMarker()
         {
           nsCSSValue marker;
-          if (ParseSingleValueProperty(marker, eCSSProperty_marker_end)) {
+          if (ParseSingleValueProperty(marker, nsCSSProperty.marker_end)) {
             if (ExpectEndProperty()) {
-              AppendValue(eCSSProperty_marker_end, marker);
-              AppendValue(eCSSProperty_marker_mid, marker);
-              AppendValue(eCSSProperty_marker_start, marker);
+              AppendValue(nsCSSProperty.marker_end, marker);
+              AppendValue(nsCSSProperty.marker_mid, marker);
+              AppendValue(nsCSSProperty.marker_start, marker);
               return true;
             }
           }
@@ -9130,7 +9103,7 @@ namespace Alba.CsCss.Style
             ((1 << NS_STYLE_PAINT_ORDER_BITWIDTH) > NS_STYLE_PAINT_ORDER_LAST_VALUE,
              "bitfield width insufficient for paint-order constants");
         
-          static const int32_t kPaintOrderKTable[] = {
+          static const int32_t[] kPaintOrderKTable = new int32_t[] {
             eCSSKeyword_normal,  NS_STYLE_PAINT_ORDER_NORMAL,
             eCSSKeyword_fill,    NS_STYLE_PAINT_ORDER_FILL,
             eCSSKeyword_stroke,  NS_STYLE_PAINT_ORDER_STROKE,
@@ -9206,7 +9179,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          AppendValue(eCSSProperty_paint_order, value);
+          AppendValue(nsCSSProperty.paint_order, value);
           return true;
         }
     }
