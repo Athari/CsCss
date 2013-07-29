@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Gfx\Side.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
+    <Compile Include="Style\nsCSSParser.cs" />
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
@@ -72,6 +73,9 @@
     </Compile>
     <Compile Include="Style\Original\nsCSSKeywords.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\nsCSSParser.conv.cs">
+      <DependentUpon>nsCSSParser.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsCSSProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
@@ -121,6 +125,12 @@
       <DependentUpon>nsCSSKeywordList.h</DependentUpon>
     </None>
     <None Include="Style\Original\nsCSSKeywordList.ttinclude" />
+    <None Include="Style\Original\nsCSSParser.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSParser.cpp</DependentUpon>
+    </None>
     <None Include="Style\Original\nsCSSPropAliasList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -215,6 +225,15 @@
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSProps.tt</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\nsCSSParser.cpp">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSParser.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Base\" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
