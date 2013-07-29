@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Alba.CsCss.Extensions
 {
@@ -12,6 +13,11 @@ namespace Alba.CsCss.Extensions
             foreach (string str in @this)
                 dic.Add(str, i++);
             return dic;
+        }
+
+        public static bool IsEmpty<T> (this IEnumerable<T> @this)
+        {
+            return !@this.Any();
         }
     }
 }

@@ -35,6 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ListExts.cs" />
     <Compile Include="Style\ErrorReporter.cs" />
     <Compile Include="Extensions\DictionaryExts.cs" />
     <Compile Include="Extensions\EnumerableExts.cs" />

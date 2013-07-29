@@ -9,12 +9,27 @@ namespace Alba.CsCss.Style
             // TODO
         }
 
-        internal void ReportUnexpectedEOF (string str)
+        public void ReportUnexpected (string str)
         {
             // TODO
         }
 
-        internal void ReportUnexpected (string str, nsCSSToken token)
+        public void ReportUnexpected (char str)
+        {
+            // TODO
+        }
+
+        public void ReportUnexpected (string str, nsCSSToken token)
+        {
+            // TODO
+        }
+
+        public void ReportUnexpected (string str, string name)
+        {
+            // TODO
+        }
+
+        public void ReportUnexpectedEOF (string str)
         {
             // TODO
         }

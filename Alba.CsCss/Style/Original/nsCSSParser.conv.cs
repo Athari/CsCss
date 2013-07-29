@@ -16,7 +16,6 @@ using Alba.CsCss.Extensions;
 using int32_t = System.Int32;
 using uint8_t = System.SByte;
 using uint32_t = System.Int32;
-using PRUnichar = System.Char;
 using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
@@ -289,7 +288,7 @@ namespace Alba.CsCss.Style
           // Get first non-whitespace token
           nsresult rv = NS_OK;
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED(PEParseRuleWSOnly);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseRuleWSOnly"); };
             mReporter.OutputError();
             rv = NS_ERROR_DOM_SYNTAX_ERR;
           } else {
@@ -303,8 +302,8 @@ namespace Alba.CsCss.Style
         
             if (aResult && GetToken(true)) {
               // garbage after rule
-              REPORT_UNEXPECTED_TOKEN(PERuleTrailing);
-              NS_RELEASE(aResult);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PERuleTrailing", mToken); };
+              aResult = null;
             }
         
             if (!aResult) {
@@ -319,7 +318,7 @@ namespace Alba.CsCss.Style
         
         // See Bug 723197
         #if _MSC_VER
-        #pragma optimize( "", off )
+        #pragma optimize( , off )
         #endif
         internal nsresult ParseProperty(nsCSSProperty aPropID,
                                      string aPropValue,
@@ -350,8 +349,8 @@ namespace Alba.CsCss.Style
           // Check for unknown or preffed off properties
           if (nsCSSProperty.UNKNOWN == aPropID || !nsCSSProps.IsEnabled(aPropID)) {
             NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
-            REPORT_UNEXPECTED_P(PEUnknownProperty, propName);
-            REPORT_UNEXPECTED(PEDeclDropped);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownProperty", propName); };
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
             ReleaseScanner();
             return NS_OK;
@@ -360,14 +359,14 @@ namespace Alba.CsCss.Style
           bool parsedOK = ParseProperty(aPropID);
           // We should now be at EOF
           if (parsedOK && GetToken(true)) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectEndValue);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectEndValue", mToken); };
             parsedOK = false;
           }
         
           if (!parsedOK) {
             NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
-            REPORT_UNEXPECTED_P(PEValueParsingError, propName);
-            REPORT_UNEXPECTED(PEDeclDropped);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", propName); };
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
             mTempData.ClearProperty(aPropID);
           } else {
@@ -395,7 +394,7 @@ namespace Alba.CsCss.Style
           return NS_OK;
         }
         #if _MSC_VER
-        #pragma optimize( "", on )
+        #pragma optimize( , on )
         #endif
         
         internal nsresult ParseMediaList(string aBuffer,
@@ -429,8 +428,7 @@ namespace Alba.CsCss.Style
           // precedence of commas and paretheses.)
         
           DebugOnly<bool> parsedOK = GatherMedia(aMediaList, false);
-          Debug.Assert(parsedOK, "GatherMedia returned false; we probably want to avoid "
-                                 "trashing aMediaList");
+          Debug.Assert(parsedOK, "GatherMedia returned false; we probably want to avoid trashing aMediaList");
         
           mReporter.ClearError();
           ReleaseScanner();
@@ -512,7 +510,7 @@ namespace Alba.CsCss.Style
                                                    uint32_t aLineNumber, // for error reporting
                                                    List<float> aSelectorList)
         {
-          NS_ABORT_IF_FALSE(aSelectorList.IsEmpty(), "given list should start empty");
+          Debug.Assert(aSelectorList.IsEmpty(), "given list should start empty");
         
           var scanner = new nsCSSScanner(aSelectorString, aLineNumber);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
@@ -600,7 +598,7 @@ namespace Alba.CsCss.Style
           mHavePushBack = true;
         }
         
-        internal bool ExpectSymbol(PRUnichar aSymbol,
+        internal bool ExpectSymbol(char aSymbol,
                                     bool aSkipWS)
         {
           if (!GetToken(aSkipWS)) {
@@ -610,7 +608,7 @@ namespace Alba.CsCss.Style
             // Do still issue a diagnostic, to aid debugging.
             if (aSymbol == ')' || aSymbol == ']' ||
                 aSymbol == '}' || aSymbol == ';') {
-              REPORT_UNEXPECTED_EOF_CHAR(aSymbol);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected(aSymbol); };
               return true;
             }
             else
@@ -651,7 +649,7 @@ namespace Alba.CsCss.Style
             return true;
         
           // If we're here, we read something incorrect, so we should report it.
-          REPORT_UNEXPECTED_TOKEN(PEExpectEndValue);
+          { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectEndValue", mToken); };
           return false;
         }
         
@@ -660,27 +658,27 @@ namespace Alba.CsCss.Style
         ParsePriority()
         {
           if (!GetToken(true)) {
-            return ePriority_None; // properties may end with EOF
+            return PriorityParsingStatus.None; // properties may end with EOF
           }
           if (!mToken.IsSymbol('!')) {
             UngetToken();
-            return ePriority_None; // dunno what it is, but it's not a priority
+            return PriorityParsingStatus.None; // dunno what it is, but it's not a priority
           }
         
           if (!GetToken(true)) {
             // EOF is not ok after !
-            REPORT_UNEXPECTED_EOF(PEImportantEOF);
-            return ePriority_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportantEOF"); };
+            return PriorityParsingStatus.Error;
           }
         
           if (mToken.mType != nsCSSTokenType.Ident ||
               !mToken.mIdent.LowerCaseEqualsLiteral("important")) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedImportant);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedImportant", mToken); };
             UngetToken();
-            return ePriority_Error;
+            return PriorityParsingStatus.Error;
           }
         
-          return ePriority_Important;
+          return PriorityParsingStatus.Important;
         }
         
         internal string NextIdent()
@@ -700,11 +698,11 @@ namespace Alba.CsCss.Style
         {
           for (;;) {
             if (!GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PESkipAtRuleEOF2);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESkipAtRuleEOF2"); };
               return false;
             }
             if (nsCSSTokenType.Symbol == mToken.mType) {
-              PRUnichar symbol = mToken.mSymbol;
+              char symbol = mToken.mSymbol;
               if (symbol == ';') {
                 break;
               }
@@ -781,7 +779,7 @@ namespace Alba.CsCss.Style
         
           } else {
             if (!NonMozillaVendorIdentifier(mToken.mIdent)) {
-              REPORT_UNEXPECTED_TOKEN(PEUnknownAtRule);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownAtRule", mToken); };
               mReporter.OutputError();
             }
             // Skip over unsupported at rule, don't advance section
@@ -790,9 +788,9 @@ namespace Alba.CsCss.Style
         
           // Inside of @-rules, only the rules that can occur anywhere
           // are allowed.
-          bool unnestable = aInAtRule & newSection != nsCSSSection.General;
+          bool unnestable = aInAtref Rule  newSection != nsCSSSection.General;
           if (unnestable) {
-            REPORT_UNEXPECTED_TOKEN(PEGroupRuleNestedAtRule);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGroupRuleNestedAtRule", mToken); };
           }
           
           if (unnestable || !(this.*parseFunc)(aAppendFunc, aData)) {
@@ -813,13 +811,13 @@ namespace Alba.CsCss.Style
                                         void* aData)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PECharsetRuleEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PECharsetRuleEOF"); };
             return false;
           }
         
           if (nsCSSTokenType.String != mToken.mType) {
             UngetToken();
-            REPORT_UNEXPECTED_TOKEN(PECharsetRuleNotString);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PECharsetRuleNotString", mToken); };
             return false;
           }
         
@@ -830,7 +828,7 @@ namespace Alba.CsCss.Style
           }
         
           CharsetRule rule = new CharsetRule(charset);
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
         
           return true;
         }
@@ -865,11 +863,11 @@ namespace Alba.CsCss.Style
               return true;
         
             // unexpected termination by EOF
-            REPORT_UNEXPECTED_EOF(PEGatherMediaEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaEOF"); };
             return true;
           }
         
-          if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &
+          if (nsCSSTokenType.Symbol == mToken.mType && aInAtref Rule 
               (mToken.mSymbol == ';' || mToken.mSymbol == '{' || mToken.mSymbol == '}' )) {
             aHitStop = true;
             UngetToken();
@@ -877,7 +875,7 @@ namespace Alba.CsCss.Style
           }
           UngetToken();
         
-          nsMediaQuery query = new nsMediaQuery;
+          nsMediaQuery query = new nsMediaQuery();
           aQuery = query;
         
           if (ExpectSymbol('(', true)) {
@@ -895,11 +893,11 @@ namespace Alba.CsCss.Style
             bool gotNotOrOnly = false;
             for (;;) {
               if (!GetToken(true)) {
-                REPORT_UNEXPECTED_EOF(PEGatherMediaEOF);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaEOF"); };
                 return false;
               }
               if (nsCSSTokenType.Ident != mToken.mType) {
-                REPORT_UNEXPECTED_TOKEN(PEGatherMediaNotIdent);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaNotIdent", mToken); };
                 UngetToken();
                 return false;
               }
@@ -907,7 +905,7 @@ namespace Alba.CsCss.Style
               nsContentUtils.ASCIIToLower(mToken.mIdent);
               mediaType = do_GetAtom(mToken.mIdent);
               if (!mediaType) {
-                NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
+                Debug.Fail("do_GetAtom failed - out of memory?");
               }
               if (gotNotOrOnly ||
                   (mediaType != nsGkAtoms._not && mediaType != nsGkAtoms.only))
@@ -929,11 +927,11 @@ namespace Alba.CsCss.Style
                 break;
         
               // unexpected termination by EOF
-              REPORT_UNEXPECTED_EOF(PEGatherMediaEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaEOF"); };
               break;
             }
         
-            if (nsCSSTokenType.Symbol == mToken.mType && aInAtRule &
+            if (nsCSSTokenType.Symbol == mToken.mType && aInAtref Rule 
                 (mToken.mSymbol == ';' || mToken.mSymbol == '{' || mToken.mSymbol == '}')) {
               aHitStop = true;
               UngetToken();
@@ -945,7 +943,7 @@ namespace Alba.CsCss.Style
             }
             if (nsCSSTokenType.Ident != mToken.mType ||
                 !mToken.mIdent.LowerCaseEqualsLiteral("and")) {
-              REPORT_UNEXPECTED_TOKEN(PEGatherMediaNotComma);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaNotComma", mToken); };
               UngetToken();
               return false;
             }
@@ -969,24 +967,24 @@ namespace Alba.CsCss.Style
                                  &hitStop)) {
               Debug.Assert(!hitStop, "should return true when hit stop");
               mReporter.OutputError();
-              if (query) {
+              if (query != null) {
                 query.SetHadUnknownExpression();
               }
               if (aInAtRule) {
-                const PRUnichar stopChars[] =
+                const char stopChars[] =
                   { ',', '{', ';', '}', 0 };
                 SkipUntilOneOf(stopChars);
               } else {
                 SkipUntil(',');
               }
               // Rely on SkipUntilOneOf leaving mToken around as the last token read.
-              if (mToken.mType == nsCSSTokenType.Symbol && aInAtRule &
+              if (mToken.mType == nsCSSTokenType.Symbol && aInAtref Rule 
                   (mToken.mSymbol == '{' || mToken.mSymbol == ';'  || mToken.mSymbol == '}')) {
                 UngetToken();
                 hitStop = true;
               }
             }
-            if (query) {
+            if (query != null) {
               aMedia.AppendQuery(query);
             }
             if (hitStop) {
@@ -999,25 +997,25 @@ namespace Alba.CsCss.Style
         internal bool ParseMediaQueryExpression(nsMediaQuery aQuery)
         {
           if (!ExpectSymbol('(', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEMQExpectedExpressionStart);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedExpressionStart", mToken); };
             return false;
           }
           if (! GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEMQExpressionEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpressionEOF"); };
             return false;
           }
           if (nsCSSTokenType.Ident != mToken.mType) {
-            REPORT_UNEXPECTED_TOKEN(PEMQExpectedFeatureName);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
             UngetToken();
             SkipUntil(')');
             return false;
           }
         
-          nsMediaExpression *expr = aQuery.NewExpression();
+          nsMediaExpression expr = aQuery.NewExpression();
         
           // case insensitive from CSS - must be lower cased
           nsContentUtils.ASCIIToLower(mToken.mIdent);
-          const PRUnichar *featureString;
+          string featureString;
           if (StringBeginsWith(mToken.mIdent, "min-")) {
             expr.mRange = nsMediaExpression.eMin;
             featureString = mToken.mIdent.get() + 4;
@@ -1030,10 +1028,10 @@ namespace Alba.CsCss.Style
           }
         
           nsIAtom mediaFeatureAtom = do_GetAtom(featureString);
-          if (!mediaFeatureAtom) {
-            NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
+          if (mediaFeatureAtom == null) {
+            Debug.Fail("do_GetAtom failed - out of memory?");
           }
-          const nsMediaFeature *feature = nsMediaFeatures.features;
+          nsMediaFeature feature = nsMediaFeatures.features;
           for (; feature.mName; ++feature) {
             if (*(feature.mName) == mediaFeatureAtom) {
               break;
@@ -1042,7 +1040,7 @@ namespace Alba.CsCss.Style
           if (!feature.mName ||
               (expr.mRange != nsMediaExpression.eEqual &&
                feature.mRangeType != nsMediaFeature.eMinMaxAllowed)) {
-            REPORT_UNEXPECTED_TOKEN(PEMQExpectedFeatureName);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
             SkipUntil(')');
             return false;
           }
@@ -1052,7 +1050,7 @@ namespace Alba.CsCss.Style
             // Query expressions for any feature can be given without a value.
             // However, min/max prefixes are not allowed.
             if (expr.mRange != nsMediaExpression.eEqual) {
-              REPORT_UNEXPECTED(PEMQNoMinMaxWithoutValue);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQNoMinMaxWithoutValue"); };
               return false;
             }
             expr.mValue.Reset();
@@ -1060,7 +1058,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!mToken.IsSymbol(':')) {
-            REPORT_UNEXPECTED_TOKEN(PEMQExpectedFeatureNameEnd);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureNameEnd", mToken); };
             UngetToken();
             SkipUntil(')');
             return false;
@@ -1130,7 +1128,7 @@ namespace Alba.CsCss.Style
               break;
           }
           if (!rv || !ExpectSymbol(')', true)) {
-            REPORT_UNEXPECTED(PEMQExpectedFeatureValue);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureValue"); };
             SkipUntil(')');
             return false;
           }
@@ -1145,14 +1143,14 @@ namespace Alba.CsCss.Style
         
           string url;
           if (!ParseURLOrString(url)) {
-            REPORT_UNEXPECTED_TOKEN(PEImportNotURI);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportNotURI", mToken); };
             return false;
           }
         
           if (!ExpectSymbol(';', true)) {
             if (!GatherMedia(media, true) ||
                 !ExpectSymbol(';', true)) {
-              REPORT_UNEXPECTED_TOKEN(PEImportUnexpected);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportUnexpected", mToken); };
               // don't advance section, simply ignore invalid @import
               return false;
             }
@@ -1171,24 +1169,24 @@ namespace Alba.CsCss.Style
                                      RuleAppendFunc aAppendFunc,
                                      void* aData)
         {
-          css.ImportRule rule = new css.ImportRule(aMedia, aURLSpec);
-          (*aAppendFunc)(rule, aData);
+          ImportRule rule = new ImportRule(aMedia, aURLSpec);
+          aAppendFunc(rule, aData);
         
           // Diagnose bad URIs even if we don't have a child loader.
-          nsIURI url;
+          Uri url;
           // Charset will be deduced from mBaseURI, which is more or less correct.
           nsresult rv = NS_NewURI(getter_AddRefs(url), aURLSpec, null, mBaseURI);
         
           if ((((rv) & 0x80000000) != 0)) {
             if (rv == NS_ERROR_MALFORMED_URI) {
               // import url is bad
-              REPORT_UNEXPECTED_P(PEImportBadURI, aURLSpec);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportBadURI", aURLSpec); };
               mReporter.OutputError();
             }
             return;
           }
         
-          if (mChildLoader) {
+          if (mChildLoader != null) {
             mChildLoader.LoadChildSheet(mSheet, url, aMedia, rule);
           }
         }
@@ -1211,7 +1209,7 @@ namespace Alba.CsCss.Style
           for (;;) {
             // Get next non-whitespace token
             if (! GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PEGroupRuleEOF2);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGroupRuleEOF2"); };
               break;
             }
             if (mToken.IsSymbol('}')) { // done!
@@ -1232,7 +1230,7 @@ namespace Alba.CsCss.Style
             mSection = holdSection;
             return false;
           }
-          (*aAppendFunc)(aRule, aData);
+          aAppendFunc(aRule, aData);
           return true;
         }
         
@@ -1264,7 +1262,7 @@ namespace Alba.CsCss.Style
           DocumentRule.URL **next = &urls;
           do {
             if (!GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PEMozDocRuleEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleEOF"); };
               delete urls;
               return false;
             }
@@ -1274,7 +1272,7 @@ namespace Alba.CsCss.Style
                    (mToken.mIdent.LowerCaseEqualsLiteral("url-prefix") ||
                     mToken.mIdent.LowerCaseEqualsLiteral("domain") ||
                     mToken.mIdent.LowerCaseEqualsLiteral("regexp"))))) {
-              REPORT_UNEXPECTED_TOKEN(PEMozDocRuleBadFunc);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleBadFunc", mToken); };
               UngetToken();
               delete urls;
               return false;
@@ -1294,7 +1292,7 @@ namespace Alba.CsCss.Style
               // mToken.mIdent)
               CopyUTF16toUTF8(mToken.mIdent, cur.url);
               if (nsCSSTokenType.String != mToken.mType || !ExpectSymbol(')', true)) {
-                REPORT_UNEXPECTED_TOKEN(PEMozDocRuleNotString);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleNotString", mToken); };
                 SkipUntil(')');
                 delete urls;
                 return false;
@@ -1308,7 +1306,7 @@ namespace Alba.CsCss.Style
         
               Debug.Assert(!mHavePushBack, "mustn't have pushback at this point");
               if (mScanner == null.NextURL(mToken) || mToken.mType != nsCSSTokenType.URL) {
-                REPORT_UNEXPECTED_TOKEN(PEMozDocRuleNotURI);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleNotURI", mToken); };
                 SkipUntil(')');
                 delete urls;
                 return false;
@@ -1331,7 +1329,7 @@ namespace Alba.CsCss.Style
         internal bool ParseNameSpaceRule(RuleAppendFunc aAppendFunc, void* aData)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEAtNSPrefixEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAtNSPrefixEOF"); };
             return false;
           }
         
@@ -1347,9 +1345,9 @@ namespace Alba.CsCss.Style
         
           if (!ParseURLOrString(url) || !ExpectSymbol(';', true)) {
             if (mHavePushBack) {
-              REPORT_UNEXPECTED_TOKEN(PEAtNSUnexpected);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAtNSUnexpected", mToken); };
             } else {
-              REPORT_UNEXPECTED_EOF(PEAtNSURIEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAtNSURIEOF"); };
             }
             return false;
           }
@@ -1368,12 +1366,12 @@ namespace Alba.CsCss.Style
           if (!aPrefix.IsEmpty()) {
             prefix = do_GetAtom(aPrefix);
             if (!prefix) {
-              NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
+              Debug.Fail("do_GetAtom failed - out of memory?");
             }
           }
         
           css.NameSpaceRule rule = new css.NameSpaceRule(prefix, aURLSpec);
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
         
           // If this was the first namespace rule encountered, it will trigger
           // creation of a namespace map.
@@ -1387,7 +1385,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFontFaceRule(RuleAppendFunc aAppendFunc, void* aData)
         {
           if (!ExpectSymbol('{', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEBadFontBlockStart);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadFontBlockStart", mToken); };
             return false;
           }
         
@@ -1395,7 +1393,7 @@ namespace Alba.CsCss.Style
         
           for (;;) {
             if (!GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PEFontFaceEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEFontFaceEOF"); };
               break;
             }
             if (mToken.IsSymbol('}')) { // done!
@@ -1408,17 +1406,17 @@ namespace Alba.CsCss.Style
               continue;
         
             if (!ParseFontDescriptor(rule)) {
-              REPORT_UNEXPECTED(PEDeclSkipped);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclSkipped"); };
               mReporter.OutputError();
               if (!SkipDeclaration(true))
                 break;
             }
           }
           if (!ExpectSymbol('}', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEBadFontBlockEnd);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadFontBlockEnd", mToken); };
             return false;
           }
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
           return true;
         }
         
@@ -1437,13 +1435,13 @@ namespace Alba.CsCss.Style
         internal bool ParseFontDescriptor(nsCSSFontFaceRule aRule)
         {
           if (nsCSSTokenType.Ident != mToken.mType) {
-            REPORT_UNEXPECTED_TOKEN(PEFontDescExpected);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEFontDescExpected", mToken); };
             return false;
           }
         
           string descName = mToken.mIdent;
           if (!ExpectSymbol(':', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEParseDeclarationNoColon);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseDeclarationNoColon", mToken); };
             mReporter.OutputError();
             return false;
           }
@@ -1451,19 +1449,19 @@ namespace Alba.CsCss.Style
           nsCSSFontDesc descID = nsCSSProps.LookupFontDesc(descName);
           nsCSSValue value;
         
-          if (descID == eCSSFontDesc_UNKNOWN) {
+          if (descID == nsCSSFontDesc.UNKNOWN) {
             if (NonMozillaVendorIdentifier(descName)) {
               // silently skip other vendors' extensions
               SkipDeclaration(true);
               return true;
             } else {
-              REPORT_UNEXPECTED_P(PEUnknownFontDesc, descName);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownFontDesc", descName); };
               return false;
             }
           }
         
           if (!ParseFontDescriptorValue(descID, value)) {
-            REPORT_UNEXPECTED_P(PEValueParsingError, descName);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", descName); };
             return false;
           }
         
@@ -1477,19 +1475,19 @@ namespace Alba.CsCss.Style
         internal bool ParseKeyframesRule(RuleAppendFunc aAppendFunc, void* aData)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEKeyframeNameEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEKeyframeNameEOF"); };
             return false;
           }
         
           if (mToken.mType != nsCSSTokenType.Ident) {
-            REPORT_UNEXPECTED_TOKEN(PEKeyframeBadName);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEKeyframeBadName", mToken); };
             UngetToken();
             return false;
           }
           string name(mToken.mIdent);
         
           if (!ExpectSymbol('{', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEKeyframeBrace);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEKeyframeBrace", mToken); };
             return false;
           }
         
@@ -1497,7 +1495,7 @@ namespace Alba.CsCss.Style
         
           while (!ExpectSymbol('}', true)) {
             nsCSSKeyframeRule kid = ParseKeyframeRule();
-            if (kid) {
+            if (kid != null) {
               rule.AppendStyleRule(kid);
             } else {
               mReporter.OutputError();
@@ -1505,7 +1503,7 @@ namespace Alba.CsCss.Style
             }
           }
         
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
           return true;
         }
         
@@ -1516,12 +1514,12 @@ namespace Alba.CsCss.Style
                                 nsParseDeclaration.AllowImportant;
         
           // Forbid viewport units in @page rules. See bug 811391.
-          NS_ABORT_IF_FALSE(mViewportUnitsEnabled,
+          Debug.Assert(mViewportUnitsEnabled,
                             "Viewport units should be enabled outside of @page rules.");
           mViewportUnitsEnabled = false;
           Declaration declaration(
                                         ParseDeclarationBlock(parseFlags,
-                                                              eCSSContext_Page));
+                                                              nsCSSContextType.Page));
           mViewportUnitsEnabled = true;
         
           if (!declaration) {
@@ -1531,7 +1529,7 @@ namespace Alba.CsCss.Style
           // Takes ownership of declaration.
           nsCSSPageRule rule = new nsCSSPageRule(declaration);
         
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
           return true;
         }
         
@@ -1539,7 +1537,7 @@ namespace Alba.CsCss.Style
         {
           List<float> selectorList;
           if (!ParseKeyframeSelectorList(selectorList)) {
-            REPORT_UNEXPECTED(PEBadSelectorKeyframeRuleIgnored);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadSelectorKeyframeRuleIgnored"); };
             return null;
           }
         
@@ -1610,7 +1608,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!ExpectSymbol('{', true)) {
-            REPORT_UNEXPECTED_TOKEN(PESupportsGroupRuleStart);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsGroupRuleStart", mToken); };
             mScanner.StopRecording();
             return false;
           }
@@ -1624,7 +1622,7 @@ namespace Alba.CsCss.Style
           }
         
           // Remove spaces from the start and end of the recorded supports condition.
-          condition.Trim(" ", true, true, false);
+          condition.Trim(, true, true, false);
         
           // Record whether we are in a failing @supports, so that property parse
           // errors don't get reported.
@@ -1638,10 +1636,10 @@ namespace Alba.CsCss.Style
         //   : supports_condition_in_parens supports_condition_terms
         //   | supports_condition_negation
         //   ;
-        internal bool ParseSupportsCondition(bool& aConditionMet)
+        internal bool ParseSupportsCondition(ref bool aConditionMet)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PESupportsConditionStartEOF2);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionStartEOF2"); };
             return false;
           }
         
@@ -1660,28 +1658,28 @@ namespace Alba.CsCss.Style
             return ParseSupportsConditionNegation(aConditionMet);
           }
         
-          REPORT_UNEXPECTED_TOKEN(PESupportsConditionExpectedStart);
+          { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedStart", mToken); };
           return false;
         }
         
         // supports_condition_negation
         //   : 'not' S+ supports_condition_in_parens
         //   ;
-        internal bool ParseSupportsConditionNegation(bool& aConditionMet)
+        internal bool ParseSupportsConditionNegation(ref bool aConditionMet)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PESupportsConditionNotEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionNotEOF"); };
             return false;
           }
         
           if (mToken.mType != nsCSSTokenType.Ident ||
               !mToken.mIdent.LowerCaseEqualsLiteral("not")) {
-            REPORT_UNEXPECTED_TOKEN(PESupportsConditionExpectedNot);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedNot", mToken); };
             return false;
           }
         
           if (!RequireWhitespace()) {
-            REPORT_UNEXPECTED(PESupportsWhitespaceRequired);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsWhitespaceRequired"); };
             return false;
           }
         
@@ -1697,10 +1695,10 @@ namespace Alba.CsCss.Style
         //   : '(' S* supports_condition_in_parens_inside_parens ')' S*
         //   | general_enclosed
         //   ;
-        internal bool ParseSupportsConditionInParens(bool& aConditionMet)
+        internal bool ParseSupportsConditionInParens(ref bool aConditionMet)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PESupportsConditionInParensStartEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionInParensStartEOF"); };
             return false;
           }
         
@@ -1712,7 +1710,7 @@ namespace Alba.CsCss.Style
           if (mToken.mType == nsCSSTokenType.Function ||
               mToken.mType == nsCSSTokenType.Bad_URL) {
             if (!SkipUntil(')')) {
-              REPORT_UNEXPECTED_EOF(PESupportsConditionInParensEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionInParensEOF"); };
               return false;
             }
             aConditionMet = false;
@@ -1720,14 +1718,14 @@ namespace Alba.CsCss.Style
           }
         
           if (!mToken.IsSymbol('(')) {
-            REPORT_UNEXPECTED_TOKEN(PESupportsConditionExpectedOpenParenOrFunction);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedOpenParenOrFunction", mToken); };
             UngetToken();
             return false;
           }
         
           if (!ParseSupportsConditionInParensInsideParens(aConditionMet)) {
             if (!SkipUntil(')')) {
-              REPORT_UNEXPECTED_EOF(PESupportsConditionInParensEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionInParensEOF"); };
               return false;
             }
             aConditionMet = false;
@@ -1735,7 +1733,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!(ExpectSymbol(')', true))) {
-            REPORT_UNEXPECTED_TOKEN(PESupportsConditionExpectedCloseParen);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedCloseParen", mToken); };
             SkipUntil(')');
             return false;
           }
@@ -1748,7 +1746,7 @@ namespace Alba.CsCss.Style
         //   | supports_condition_negation
         //   | supports_condition_in_parens supports_condition_terms
         //   ;
-        internal bool ParseSupportsConditionInParensInsideParens(bool& aConditionMet)
+        internal bool ParseSupportsConditionInParensInsideParens(ref bool aConditionMet)
         {
           if (!GetToken(true)) {
             return false;
@@ -1774,7 +1772,7 @@ namespace Alba.CsCss.Style
                 UngetToken();
               } else {
                 aConditionMet = ParseProperty(propID) &&
-                                ParsePriority() != ePriority_Error;
+                                ParsePriority() != PriorityParsingStatus.Error;
                 if (!aConditionMet) {
                   SkipUntil(')');
                   UngetToken();
@@ -1799,7 +1797,7 @@ namespace Alba.CsCss.Style
         //   | S+ 'or' supports_condition_terms_after_operator('or')
         //   |
         //   ;
-        internal bool ParseSupportsConditionTerms(bool& aConditionMet)
+        internal bool ParseSupportsConditionTerms(ref bool aConditionMet)
         {
           if (!RequireWhitespace() || !GetToken(false)) {
             return true;
@@ -1826,15 +1824,15 @@ namespace Alba.CsCss.Style
         //   : S+ supports_condition_in_parens ( <operator> supports_condition_in_parens )*
         //   ;
         internal bool ParseSupportsConditionTermsAfterOperator(
-                                 bool& aConditionMet,
+                                 ref bool aConditionMet,
                                  SupportsConditionTermOperator aOperator)
         {
           if (!RequireWhitespace()) {
-            REPORT_UNEXPECTED(PESupportsWhitespaceRequired);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsWhitespaceRequired"); };
             return false;
           }
         
-          const char* token = aOperator == eAnd ? "and" : "or";
+          string token = aOperator == eAnd ? "and" : "or";
           for (;;) {
             bool termConditionMet = false;
             if (!ParseSupportsConditionInParens(termConditionMet)) {
@@ -1855,17 +1853,17 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal bool SkipUntil(PRUnichar aStopSymbol)
+        internal bool SkipUntil(char aStopSymbol)
         {
           nsCSSToken tk = mToken;
-          nsAutoTArray<PRUnichar, 16> stack;
+          nsAutoTArray<char, 16> stack;
           stack.AppendElement(aStopSymbol);
           for (;;) {
             if (!GetToken(true)) {
               return false;
             }
             if (nsCSSTokenType.Symbol == tk.mType) {
-              PRUnichar symbol = tk.mSymbol;
+              char symbol = tk.mSymbol;
               uint32_t stackTopIndex = stack.Length() - 1;
               if (symbol == stack.ElementAt(stackTopIndex)) {
                 stack.RemoveElementAt(stackTopIndex);
@@ -1890,7 +1888,7 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal void SkipUntilOneOf(const PRUnichar* aStopSymbolChars)
+        internal void SkipUntilOneOf(string aStopSymbolChars)
         {
           nsCSSToken tk = mToken;
           nsDependentString stopSymbolChars(aStopSymbolChars);
@@ -1899,7 +1897,7 @@ namespace Alba.CsCss.Style
               break;
             }
             if (nsCSSTokenType.Symbol == tk.mType) {
-              PRUnichar symbol = tk.mSymbol;
+              char symbol = tk.mSymbol;
               if (stopSymbolChars.FindChar(symbol) != -1) {
                 break;
               } else if ('{' == symbol) {
@@ -1922,12 +1920,12 @@ namespace Alba.CsCss.Style
           for (;;) {
             if (!GetToken(true)) {
               if (aCheckForBraces) {
-                REPORT_UNEXPECTED_EOF(PESkipDeclBraceEOF);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PESkipDeclBraceEOF"); };
               }
               return false;
             }
             if (nsCSSTokenType.Symbol == tk.mType) {
-              PRUnichar symbol = tk.mSymbol;
+              char symbol = tk.mSymbol;
               if (';' == symbol) {
                 break;
               }
@@ -1957,11 +1955,11 @@ namespace Alba.CsCss.Style
           nsCSSToken tk = mToken;
           for (;;) {
             if (!GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PESkipRSBraceEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESkipRSBraceEOF"); };
               break;
             }
             if (nsCSSTokenType.Symbol == tk.mType) {
-              PRUnichar symbol = tk.mSymbol;
+              char symbol = tk.mSymbol;
               if ('}' == symbol && aInsideBraces) {
                 // leave block closer for higher-level grammar to consume
                 UngetToken();
@@ -2012,7 +2010,7 @@ namespace Alba.CsCss.Style
           nsCSSSelectorList slist = null;
           uint32_t linenum = mScanner.GetLineNumber();
           if (! ParseSelectorList(slist, '{')) {
-            REPORT_UNEXPECTED(PEBadSelectorRSIgnored);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadSelectorRSIgnored"); };
             mReporter.OutputError();
             SkipRuleSet(aInsideBraces);
             return false;
@@ -2040,13 +2038,13 @@ namespace Alba.CsCss.Style
         
           StyleRule rule = new StyleRule(slist, declaration);
           rule.SetLineNumber(linenum);
-          (*aAppendFunc)(rule, aData);
+          aAppendFunc(rule, aData);
         
           return true;
         }
         
-        internal bool ParseSelectorList(nsCSSSelectorList& aListHead,
-                                         PRUnichar aStopChar)
+        internal bool ParseSelectorList(ref nsCSSSelectorList aListHead,
+                                         char aStopChar)
         {
           nsCSSSelectorList list = null;
           if (! ParseSelectorGroup(list)) {
@@ -2066,7 +2064,7 @@ namespace Alba.CsCss.Style
                 return true;
               }
         
-              REPORT_UNEXPECTED_EOF(PESelectorListExtraEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorListExtraEOF"); };
               break;
             }
         
@@ -2086,7 +2084,7 @@ namespace Alba.CsCss.Style
                 return true;
               }
             }
-            REPORT_UNEXPECTED_TOKEN(PESelectorListExtra);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorListExtra", mToken); };
             UngetToken();
             break;
           }
@@ -2096,7 +2094,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        static bool IsUniversalSelector(const nsCSSSelector& aSelector)
+        static bool IsUniversalSelector(nsCSSSelector aSelector)
         {
           return bool((aSelector.mNameSpace == kNameSpaceID_Unknown) &&
                         (aSelector.mLowercaseTag == null) &&
@@ -2107,9 +2105,9 @@ namespace Alba.CsCss.Style
                         (aSelector.mPseudoClassList == null));
         }
         
-        internal bool ParseSelectorGroup(nsCSSSelectorList& aList)
+        internal bool ParseSelectorGroup(ref nsCSSSelectorList aList)
         {
-          PRUnichar combinator = 0;
+          char combinator = 0;
           nsCSSSelectorList list(new nsCSSSelectorList());
         
           for (;;) {
@@ -2133,7 +2131,7 @@ namespace Alba.CsCss.Style
             if (mToken.mType != nsCSSTokenType.Symbol) {
               UngetToken(); // not a combinator
             } else {
-              PRUnichar symbol = mToken.mSymbol;
+              char symbol = mToken.mSymbol;
               if (symbol == '+' || symbol == '>' || symbol == '~') {
                 combinator = mToken.mSymbol;
               } else {
@@ -2145,7 +2143,7 @@ namespace Alba.CsCss.Style
             }
         
             if (!combinator) {
-              REPORT_UNEXPECTED_TOKEN(PESelectorListExtra);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorListExtra", mToken); };
               return false;
             }
           }
@@ -2158,35 +2156,35 @@ namespace Alba.CsCss.Style
         // Parses an ID selector #name
         internal // nsSelectorParsingStatus
         ParseIDSelector(int32_t&       aDataMask,
-                                       nsCSSSelector& aSelector)
+                                       nsCSSSelector aSelector)
         {
           Debug.Assert(!mToken.mIdent.IsEmpty(),
                        "Empty mIdent in nsCSSTokenType.ID token?");
           aDataMask |= SEL_MASK_ID;
           aSelector.AddID(mToken.mIdent);
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
         // Parses a class selector .name
         internal // nsSelectorParsingStatus
         ParseClassSelector(int32_t&       aDataMask,
-                                          nsCSSSelector& aSelector)
+                                          nsCSSSelector aSelector)
         {
           if (! GetToken(false)) { // get ident
-            REPORT_UNEXPECTED_EOF(PEClassSelEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEClassSelEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
           if (nsCSSTokenType.Ident != mToken.mType) {  // malformed selector
-            REPORT_UNEXPECTED_TOKEN(PEClassSelNotIdent);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEClassSelNotIdent", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
           aDataMask |= SEL_MASK_CLASS;
         
           aSelector.AddClass(mToken.mIdent);
         
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
@@ -2194,7 +2192,7 @@ namespace Alba.CsCss.Style
         // namespace|type or namespace|* or *|* or *
         internal // nsSelectorParsingStatus
         ParseTypeOrUniversalSelector(int32_t&       aDataMask,
-                                                    nsCSSSelector& aSelector,
+                                                    nsCSSSelector aSelector,
                                                     bool           aIsNegated)
         {
           string buffer;
@@ -2204,8 +2202,8 @@ namespace Alba.CsCss.Style
               aSelector.SetNameSpace(kNameSpaceID_Unknown); // namespace wildcard
         
               if (! GetToken(false)) {
-                REPORT_UNEXPECTED_EOF(PETypeSelEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) {  // element name
                 aDataMask |= SEL_MASK_ELEM;
@@ -2217,9 +2215,9 @@ namespace Alba.CsCss.Style
                 // don't set tag
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PETypeSelNotType);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelNotType", mToken); };
                 UngetToken();
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
             }
             else {  // was universal element selector
@@ -2228,7 +2226,7 @@ namespace Alba.CsCss.Style
               // don't set any tag in the selector
             }
             if (! GetToken(false)) {   // premature eof is ok (here!)
-              return eSelectorParsingStatus_Done;
+              return nsSelectorParsingStatus.Done;
             }
           }
           else if (nsCSSTokenType.Ident == mToken.mType) {    // element name or namespace name
@@ -2238,13 +2236,13 @@ namespace Alba.CsCss.Style
               aDataMask |= SEL_MASK_NSPACE;
               int32_t nameSpaceID = GetNamespaceIdForPrefix(buffer);
               if (nameSpaceID == kNameSpaceID_Unknown) {
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
               aSelector.SetNameSpace(nameSpaceID);
         
               if (! GetToken(false)) {
-                REPORT_UNEXPECTED_EOF(PETypeSelEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) {  // element name
                 aDataMask |= SEL_MASK_ELEM;
@@ -2255,9 +2253,9 @@ namespace Alba.CsCss.Style
                 // don't set tag
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PETypeSelNotType);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelNotType", mToken); };
                 UngetToken();
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
             }
             else {  // was element name
@@ -2267,7 +2265,7 @@ namespace Alba.CsCss.Style
               aDataMask |= SEL_MASK_ELEM;
             }
             if (! GetToken(false)) {   // premature eof is ok (here!)
-              return eSelectorParsingStatus_Done;
+              return nsSelectorParsingStatus.Done;
             }
           }
           else if (mToken.IsSymbol('|')) {  // No namespace
@@ -2276,8 +2274,8 @@ namespace Alba.CsCss.Style
         
             // get mandatory tag
             if (! GetToken(false)) {
-              REPORT_UNEXPECTED_EOF(PETypeSelEOF);
-              return eSelectorParsingStatus_Error;
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelEOF"); };
+              return nsSelectorParsingStatus.Error;
             }
             if (nsCSSTokenType.Ident == mToken.mType) {  // element name
               aDataMask |= SEL_MASK_ELEM;
@@ -2288,12 +2286,12 @@ namespace Alba.CsCss.Style
               // don't set tag
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PETypeSelNotType);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelNotType", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
             if (! GetToken(false)) {   // premature eof is ok (here!)
-              return eSelectorParsingStatus_Done;
+              return nsSelectorParsingStatus.Done;
             }
           }
           else {
@@ -2304,7 +2302,7 @@ namespace Alba.CsCss.Style
             // restore last token read in case of a negated type selector
             UngetToken();
           }
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
@@ -2312,11 +2310,11 @@ namespace Alba.CsCss.Style
         // [attr~=value], [attr^=value], [attr$=value] and [attr*=value]
         internal // nsSelectorParsingStatus
         ParseAttributeSelector(int32_t&       aDataMask,
-                                              nsCSSSelector& aSelector)
+                                              nsCSSSelector aSelector)
         {
           if (! GetToken(true)) { // premature EOF
-            REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
         
           int32_t nameSpaceID = kNameSpaceID_None;
@@ -2325,35 +2323,35 @@ namespace Alba.CsCss.Style
             nameSpaceID = kNameSpaceID_Unknown;
             if (ExpectSymbol('|', false)) {
               if (! GetToken(false)) { // premature EOF
-                REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) { // attr name
                 attr = mToken.mIdent;
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
                 UngetToken();
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
                }
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PEAttSelNoBar);
-              return eSelectorParsingStatus_Error;
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelNoBar", mToken); };
+              return nsSelectorParsingStatus.Error;
             }
           }
           else if (mToken.IsSymbol('|')) { // NO namespace
             if (! GetToken(false)) { // premature EOF
-              REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
-              return eSelectorParsingStatus_Error;
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
+              return nsSelectorParsingStatus.Error;
             }
             if (nsCSSTokenType.Ident == mToken.mType) { // attr name
               attr = mToken.mIdent;
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
           }
           else if (nsCSSTokenType.Ident == mToken.mType) { // attr name or namespace
@@ -2361,31 +2359,31 @@ namespace Alba.CsCss.Style
             if (ExpectSymbol('|', false)) {  // was a namespace
               nameSpaceID = GetNamespaceIdForPrefix(attr);
               if (nameSpaceID == kNameSpaceID_Unknown) {
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
               if (! GetToken(false)) { // premature EOF
-                REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) { // attr name
                 attr = mToken.mIdent;
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
                 UngetToken();
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
             }
           }
           else {  // malformed
-            REPORT_UNEXPECTED_TOKEN(PEAttributeNameOrNamespaceExpected);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameOrNamespaceExpected", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           if (! GetToken(true)) { // premature EOF
-            REPORT_UNEXPECTED_EOF(PEAttSelInnerEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelInnerEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
           if ((nsCSSTokenType.Symbol == mToken.mType) ||
               (nsCSSTokenType.Includes == mToken.mType) ||
@@ -2418,20 +2416,20 @@ namespace Alba.CsCss.Style
               func = NS_ATTR_FUNC_EQUALS;
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PEAttSelUnexpected);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelUnexpected", mToken); };
               UngetToken(); // bad function
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
             if (NS_ATTR_FUNC_SET != func) { // get value
               if (! GetToken(true)) { // premature EOF
-                REPORT_UNEXPECTED_EOF(PEAttSelValueEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelValueEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
               if ((nsCSSTokenType.Ident == mToken.mType) || (nsCSSTokenType.String == mToken.mType)) {
                 string  value(mToken.mIdent);
                 if (! GetToken(true)) { // premature EOF
-                  REPORT_UNEXPECTED_EOF(PEAttSelCloseEOF);
-                  return eSelectorParsingStatus_Error;
+                  { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelCloseEOF"); };
+                  return nsSelectorParsingStatus.Error;
                 }
                 if (mToken.IsSymbol(']')) {
                   bool isCaseSensitive = true;
@@ -2442,7 +2440,7 @@ namespace Alba.CsCss.Style
                   // one of the known attributes whose VALUE is
                   // case-insensitive.
                   if (nameSpaceID == kNameSpaceID_None) {
-                    static const char* caseInsensitiveHTMLAttribute[] = {
+                    static string[] caseInsensitiveHTMLAttribute = new string[] {
                       // list based on http://www.w3.org/TR/html4/
                       "lang",
                       "dir",
@@ -2494,7 +2492,7 @@ namespace Alba.CsCss.Style
                       null
                     };
                     short i = 0;
-                    const char* htmlAttr;
+                    string htmlAttr;
                     while ((htmlAttr = caseInsensitiveHTMLAttribute[i++])) {
                       if (attr.LowerCaseEqualsASCII(htmlAttr)) {
                         isCaseSensitive = false;
@@ -2506,31 +2504,31 @@ namespace Alba.CsCss.Style
                   aSelector.AddAttribute(nameSpaceID, attr, func, value, isCaseSensitive);
                 }
                 else {
-                  REPORT_UNEXPECTED_TOKEN(PEAttSelNoClose);
+                  { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelNoClose", mToken); };
                   UngetToken();
-                  return eSelectorParsingStatus_Error;
+                  return nsSelectorParsingStatus.Error;
                 }
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PEAttSelBadValue);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelBadValue", mToken); };
                 UngetToken();
-                return eSelectorParsingStatus_Error;
+                return nsSelectorParsingStatus.Error;
               }
             }
           }
           else {
-            REPORT_UNEXPECTED_TOKEN(PEAttSelUnexpected);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelUnexpected", mToken); };
             UngetToken(); // bad dog, no biscut!
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
            }
-           return eSelectorParsingStatus_Continue;
+           return nsSelectorParsingStatus.Continue;
         }
         
         //
         // Parse pseudo-classes and pseudo-elements
         internal // nsSelectorParsingStatus
         ParsePseudoSelector(int32_t&       aDataMask,
-                                           nsCSSSelector& aSelector,
+                                           nsCSSSelector aSelector,
                                            bool           aIsNegated,
                                            nsIAtom**      aPseudoElement,
                                            nsAtomList**   aPseudoElementArgs,
@@ -2539,11 +2537,10 @@ namespace Alba.CsCss.Style
           Debug.Assert(aIsNegated || (aPseudoElement && aPseudoElementArgs),
                        "expected location to store pseudo element");
           Debug.Assert(!aIsNegated || (!aPseudoElement && !aPseudoElementArgs),
-                       "negated selectors shouldn't have a place to store "
-                       "pseudo elements");
+                       "negated selectors shouldn't have a place to store pseudo elements");
           if (! GetToken(false)) { // premature eof
-            REPORT_UNEXPECTED_EOF(PEPseudoSelEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
         
           // First, find out whether we are parsing a CSS3 pseudo-element
@@ -2551,17 +2548,17 @@ namespace Alba.CsCss.Style
           if (mToken.IsSymbol(':')) {
             parsingPseudoElement = true;
             if (! GetToken(false)) { // premature eof
-              REPORT_UNEXPECTED_EOF(PEPseudoSelEOF);
-              return eSelectorParsingStatus_Error;
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelEOF"); };
+              return nsSelectorParsingStatus.Error;
             }
           }
         
           // Do some sanity-checking on the token
           if (nsCSSTokenType.Ident != mToken.mType && nsCSSTokenType.Function != mToken.mType) {
             // malformed selector
-            REPORT_UNEXPECTED_TOKEN(PEPseudoSelBadName);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelBadName", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           // OK, now we know we have an mIdent.  Atomize it.  All the atoms, for
@@ -2572,7 +2569,7 @@ namespace Alba.CsCss.Style
           nsContentUtils.ASCIIToLower(buffer);
           nsIAtom pseudo = do_GetAtom(buffer);
           if (!pseudo) {
-            NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
+            Debug.Fail("do_GetAtom failed - out of memory?");
           }
         
           // stash away some info about this pseudo so we only have to get it once.
@@ -2622,9 +2619,9 @@ namespace Alba.CsCss.Style
         
           if (!isPseudoClass && !isPseudoElement && !isAnonBox) {
             // Not a pseudo-class, not a pseudo-element.... forget it
-            REPORT_UNEXPECTED_TOKEN(PEPseudoSelUnknown);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelUnknown", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           // If it's a function token, it better be on our "ok" list, and if the name
@@ -2639,31 +2636,31 @@ namespace Alba.CsCss.Style
                nsCSSPseudoClasses.HasNthPairArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType))) {
             // There are no other function pseudos
-            REPORT_UNEXPECTED_TOKEN(PEPseudoSelNonFunc);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelNonFunc", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           // If it starts with ".", it better be a pseudo-element
           if (parsingPseudoElement &&
               !isPseudoElement &&
               !isAnonBox) {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoSelNotPE);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelNotPE", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           if (!parsingPseudoElement &&
               nsCSSPseudoClasses.ePseudoClass_notPseudo == pseudoClassType) {
             if (aIsNegated) { // :not() can't be itself negated
-              REPORT_UNEXPECTED_TOKEN(PEPseudoSelDoubleNot);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelDoubleNot", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
             // CSS 3 Negation pseudo-class takes one simple selector as argument
             nsSelectorParsingStatus parsingStatus =
               ParseNegatedSimpleSelector(aDataMask, aSelector);
-            if (eSelectorParsingStatus_Continue != parsingStatus) {
+            if (nsSelectorParsingStatus.Continue != parsingStatus) {
               return parsingStatus;
             }
           }
@@ -2680,13 +2677,13 @@ namespace Alba.CsCss.Style
                   ParsePseudoClassWithNthPairArg(aSelector, pseudoClassType);
               }
               else {
-                NS_ABORT_IF_FALSE(nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType),
+                Debug.Assert(nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType),
                                   "unexpected pseudo with function token");
                 parsingStatus = ParsePseudoClassWithSelectorListArg(aSelector,
                                                                     pseudoClassType);
               }
-              if (eSelectorParsingStatus_Continue != parsingStatus) {
-                if (eSelectorParsingStatus_Error == parsingStatus) {
+              if (nsSelectorParsingStatus.Continue != parsingStatus) {
+                if (nsSelectorParsingStatus.Error == parsingStatus) {
                   SkipUntil(')');
                 }
                 return parsingStatus;
@@ -2700,9 +2697,9 @@ namespace Alba.CsCss.Style
             // Pseudo-element.  Make some more sanity checks.
         
             if (aIsNegated) { // pseudo-elements can't be negated
-              REPORT_UNEXPECTED_TOKEN(PEPseudoSelPEInNot);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelPEInNot", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
             // CSS2 pseudo-elements and -moz-tree-* pseudo-elements are allowed
             // to have a single ':' on them.  Others (CSS3+ pseudo-elements and
@@ -2714,9 +2711,9 @@ namespace Alba.CsCss.Style
                 && !isTreePseudo
         #endif
                 ) {
-              REPORT_UNEXPECTED_TOKEN(PEPseudoSelNewStyleOnly);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelNewStyleOnly", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
         
             if (0 == (aDataMask & SEL_MASK_PELEM)) {
@@ -2731,27 +2728,27 @@ namespace Alba.CsCss.Style
                 // item in the list to the pseudoclass list.  They will be pulled
                 // from the list later along with the pseudo-element.
                 if (!ParseTreePseudoElement(aPseudoElementArgs)) {
-                  return eSelectorParsingStatus_Error;
+                  return nsSelectorParsingStatus.Error;
                 }
               }
         #endif
         
               // the next *non*whitespace token must be '{' or ',' or EOF
               if (!GetToken(true)) { // premature eof is ok (here!)
-                return eSelectorParsingStatus_Done;
+                return nsSelectorParsingStatus.Done;
               }
               if ((mToken.IsSymbol('{') || mToken.IsSymbol(','))) {
                 UngetToken();
-                return eSelectorParsingStatus_Done;
+                return nsSelectorParsingStatus.Done;
               }
-              REPORT_UNEXPECTED_TOKEN(PEPseudoSelTrailing);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelTrailing", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
             else {  // multiple pseudo elements, not legal
-              REPORT_UNEXPECTED_TOKEN(PEPseudoSelMultiplePE);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelMultiplePE", mToken); };
               UngetToken();
-              return eSelectorParsingStatus_Error;
+              return nsSelectorParsingStatus.Error;
             }
           }
         #if DEBUG
@@ -2766,23 +2763,23 @@ namespace Alba.CsCss.Style
             NS_NOTREACHED("How did this happen?");
           }
         #endif
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
         // Parse the argument of a negation pseudo-class :not()
         internal // nsSelectorParsingStatus
         ParseNegatedSimpleSelector(int32_t&       aDataMask,
-                                                  nsCSSSelector& aSelector)
+                                                  nsCSSSelector aSelector)
         {
           if (! GetToken(true)) { // premature eof
-            REPORT_UNEXPECTED_EOF(PENegationEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PENegationEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
         
           if (mToken.IsSymbol(')')) {
-            REPORT_UNEXPECTED_TOKEN(PENegationBadArg);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PENegationBadArg", mToken); };
+            return nsSelectorParsingStatus.Error;
           }
         
           // Create a new nsCSSSelector and add it to the end of
@@ -2792,8 +2789,8 @@ namespace Alba.CsCss.Style
           // This could easily change in future versions of CSS, and the only
           // thing we need to change to support that is this parsing code and the
           // serialization code for nsCSSSelector.
-          nsCSSSelector *newSel = new nsCSSSelector();
-          nsCSSSelector* negations = &aSelector;
+          nsCSSSelector newSel = new nsCSSSelector();
+          nsCSSSelector negations = &aSelector;
           while (negations.mNegations) {
             negations = negations.mNegations;
           }
@@ -2812,7 +2809,7 @@ namespace Alba.CsCss.Style
           }
           else if (mToken.IsSymbol('[')) {    // [attribute
             parsingStatus = ParseAttributeSelector(aDataMask, *newSel);
-            if (eSelectorParsingStatus_Error == parsingStatus) {
+            if (nsSelectorParsingStatus.Error == parsingStatus) {
               // Skip forward to the matching ']'
               SkipUntil(']');
             }
@@ -2821,16 +2818,16 @@ namespace Alba.CsCss.Style
             // then it should be a type element or universal selector
             parsingStatus = ParseTypeOrUniversalSelector(aDataMask, *newSel, true);
           }
-          if (eSelectorParsingStatus_Error == parsingStatus) {
-            REPORT_UNEXPECTED_TOKEN(PENegationBadInner);
+          if (nsSelectorParsingStatus.Error == parsingStatus) {
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PENegationBadInner", mToken); };
             SkipUntil(')');
             return parsingStatus;
           }
           // close the parenthesis
           if (!ExpectSymbol(')', true)) {
-            REPORT_UNEXPECTED_TOKEN(PENegationNoClose);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PENegationNoClose", mToken); };
             SkipUntil(')');
-            return eSelectorParsingStatus_Error;
+            return nsSelectorParsingStatus.Error;
           }
         
           Debug.Assert(newSel.mNameSpace == kNameSpaceID_Unknown ||
@@ -2838,24 +2835,24 @@ namespace Alba.CsCss.Style
                         !newSel.mPseudoClassList && !newSel.mAttrList),
                        "Need to fix the serialization code to deal with this");
         
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
         // Parse the argument of a pseudo-class that has an ident arg
         internal // nsSelectorParsingStatus
-        ParsePseudoClassWithIdentArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithIdentArg(nsCSSSelector aSelector,
                                                     nsCSSPseudoClasses.Type aType)
         {
           if (! GetToken(true)) { // premature eof
-            REPORT_UNEXPECTED_EOF(PEPseudoClassArgEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
           // We expect an identifier with a language abbreviation
           if (nsCSSTokenType.Ident != mToken.mType) {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotIdent);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotIdent", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
           // -moz-locale-dir and -moz-dir can only have values of 'ltr' or 'rtl'.
@@ -2864,8 +2861,8 @@ namespace Alba.CsCss.Style
             nsContentUtils.ASCIIToLower(mToken.mIdent); // case insensitive
             if (!mToken.mIdent.EqualsLiteral("ltr") &&
                 !mToken.mIdent.EqualsLiteral("rtl")) {
-              REPORT_UNEXPECTED_TOKEN(PEBadDirValue);
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDirValue", mToken); };
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
           }
         
@@ -2874,14 +2871,14 @@ namespace Alba.CsCss.Style
         
           // close the parenthesis
           if (!ExpectSymbol(')', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoClassNoClose);
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassNoClose", mToken); };
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         internal  nsSelectorParsingStatus
-        ParsePseudoClassWithNthPairArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithNthPairArg(nsCSSSelector aSelector,
                                                       nsCSSPseudoClasses.Type aType)
         {
           int32_t numbers[2] = { 0, 0 };
@@ -2891,8 +2888,8 @@ namespace Alba.CsCss.Style
           // http://lists.w3.org/Archives/Public/www-style/2008Mar/0121.html
         
           if (! GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEPseudoClassArgEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
         
           if (nsCSSTokenType.Ident == mToken.mType || nsCSSTokenType.Dimension == mToken.mType) {
@@ -2931,35 +2928,35 @@ namespace Alba.CsCss.Style
               numbers[0] = -1;
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotNth);
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
           }
           else if (nsCSSTokenType.Number == mToken.mType) {
             if (!mToken.mIntegerValid) {
-              REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotNth);
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
             numbers[1] = mToken.mInteger;
             lookForB = false;
           }
           else if (nsCSSTokenType.Dimension == mToken.mType) {
             if (!mToken.mIntegerValid || !mToken.mIdent.LowerCaseEqualsLiteral("n")) {
-              REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotNth);
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
             numbers[0] = mToken.mInteger;
           }
           // XXX If it's a ')', is that valid?  (as 0n+0)
           else {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotNth);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
             UngetToken();
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
           if (! GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEPseudoClassArgEOF);
-            return eSelectorParsingStatus_Error;
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
+            return nsSelectorParsingStatus.Error;
           }
           if (lookForB && !mToken.IsSymbol(')')) {
             // The '+' or '-' sign can optionally be separated by whitespace.
@@ -2973,27 +2970,27 @@ namespace Alba.CsCss.Style
                 sign = -1;
               }
               if (! GetToken(true)) {
-                REPORT_UNEXPECTED_EOF(PEPseudoClassArgEOF);
-                return eSelectorParsingStatus_Error;
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
+                return nsSelectorParsingStatus.Error;
               }
             }
             if (nsCSSTokenType.Number != mToken.mType ||
                 !mToken.mIntegerValid || mToken.mHasSign == haveSign) {
-              REPORT_UNEXPECTED_TOKEN(PEPseudoClassArgNotNth);
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
             numbers[1] = mToken.mInteger * sign;
             if (! GetToken(true)) {
-              REPORT_UNEXPECTED_EOF(PEPseudoClassArgEOF);
-              return eSelectorParsingStatus_Error;
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
+              return nsSelectorParsingStatus.Error;
             }
           }
           if (!mToken.IsSymbol(')')) {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoClassNoClose);
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassNoClose", mToken); };
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
           aSelector.AddPseudoClass(aType, numbers);
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         //
@@ -3001,20 +2998,20 @@ namespace Alba.CsCss.Style
         // Such selector lists cannot contain combinators, but can contain
         // anything that goes between a pair of combinators.
         internal // nsSelectorParsingStatus
-        ParsePseudoClassWithSelectorListArg(nsCSSSelector& aSelector,
+        ParsePseudoClassWithSelectorListArg(nsCSSSelector aSelector,
                                                            nsCSSPseudoClasses.Type aType)
         {
           nsCSSSelectorList slist;
           if (! ParseSelectorList(*getter_Transfers(slist), ''))) {
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
           // Check that none of the selectors in the list have combinators or
           // pseudo-elements.
           for (nsCSSSelectorList l = slist; l; l = l.mNext) {
-            nsCSSSelector *s = l.mSelectors;
+            nsCSSSelector s = l.mSelectors;
             if (s.mNext || s.IsPseudoElement()) {
-              return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+              return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
           }
         
@@ -3023,11 +3020,11 @@ namespace Alba.CsCss.Style
         
           // close the parenthesis
           if (!ExpectSymbol(')', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEPseudoClassNoClose);
-            return eSelectorParsingStatus_Error; // our caller calls SkipUntil(')')
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassNoClose", mToken); };
+            return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
-          return eSelectorParsingStatus_Continue;
+          return nsSelectorParsingStatus.Continue;
         }
         
         /**
@@ -3035,14 +3032,14 @@ namespace Alba.CsCss.Style
          * operator? [[namespace |]? element_name]? [ ID | class | attrib | pseudo ]*
          */
         internal bool ParseSelector(nsCSSSelectorList aList,
-                                     PRUnichar aPrevCombinator)
+                                     char aPrevCombinator)
         {
           if (! GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PESelectorEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorEOF"); };
             return false;
           }
         
-          nsCSSSelector* selector = aList.AddSelector(aPrevCombinator);
+          nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
           nsIAtom pseudoElement;
           nsAtomList pseudoElementArgs;
           nsCSSPseudoElements.Type pseudoElementType =
@@ -3052,7 +3049,7 @@ namespace Alba.CsCss.Style
           nsSelectorParsingStatus parsingStatus =
             ParseTypeOrUniversalSelector(dataMask, *selector, false);
         
-          while (parsingStatus == eSelectorParsingStatus_Continue) {
+          while (parsingStatus == nsSelectorParsingStatus.Continue) {
             if (nsCSSTokenType.ID == mToken.mType) { // #id
               parsingStatus = ParseIDSelector(dataMask, *selector);
             }
@@ -3067,35 +3064,35 @@ namespace Alba.CsCss.Style
             }
             else if (mToken.IsSymbol('[')) {    // [attribute
               parsingStatus = ParseAttributeSelector(dataMask, *selector);
-              if (eSelectorParsingStatus_Error == parsingStatus) {
+              if (nsSelectorParsingStatus.Error == parsingStatus) {
                 SkipUntil(']');
               }
             }
             else {  // not a selector token, we're done
-              parsingStatus = eSelectorParsingStatus_Done;
+              parsingStatus = nsSelectorParsingStatus.Done;
               UngetToken();
               break;
             }
         
-            if (parsingStatus != eSelectorParsingStatus_Continue) {
+            if (parsingStatus != nsSelectorParsingStatus.Continue) {
               break;
             }
         
             if (! GetToken(false)) { // premature eof is ok (here!)
-              parsingStatus = eSelectorParsingStatus_Done;
+              parsingStatus = nsSelectorParsingStatus.Done;
               break;
             }
           }
         
-          if (parsingStatus == eSelectorParsingStatus_Error) {
+          if (parsingStatus == nsSelectorParsingStatus.Error) {
             return false;
           }
         
           if (!dataMask) {
             if (selector.mNext) {
-              REPORT_UNEXPECTED(PESelectorGroupExtraCombinator);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorGroupExtraCombinator"); };
             } else {
-              REPORT_UNEXPECTED(PESelectorGroupNoSelector);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorGroupNoSelector"); };
             }
             return false;
           }
@@ -3104,7 +3101,7 @@ namespace Alba.CsCss.Style
             // We got an anonymous box pseudo-element; it must be the only
             // thing in this selector group.
             if (selector.mNext || !IsUniversalSelector(*selector)) {
-              REPORT_UNEXPECTED(PEAnonBoxNotAlone);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAnonBoxNotAlone"); };
               return false;
             }
         
@@ -3137,7 +3134,7 @@ namespace Alba.CsCss.Style
         
           if (checkForBraces) {
             if (!ExpectSymbol('{', true)) {
-              REPORT_UNEXPECTED_TOKEN(PEBadDeclBlockStart);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclBlockStart", mToken); };
               mReporter.OutputError();
               return null;
             }
@@ -3171,7 +3168,7 @@ namespace Alba.CsCss.Style
         internal bool ParseColor(nsCSSValue aValue)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorEOF"); };
             return false;
           }
         
@@ -3312,7 +3309,7 @@ namespace Alba.CsCss.Style
           }
         
           // It's not a color
-          REPORT_UNEXPECTED_TOKEN(PEColorNotColor);
+          { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorNotColor", mToken); };
           UngetToken();
           return false;
         }
@@ -3324,7 +3321,7 @@ namespace Alba.CsCss.Style
                                            char aStop)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorComponentEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentEOF"); };
             return false;
           }
           float value;
@@ -3338,7 +3335,7 @@ namespace Alba.CsCss.Style
               case COLOR_TYPE_INTEGERS:
                 break;
               case COLOR_TYPE_PERCENTAGES:
-                REPORT_UNEXPECTED_TOKEN(PEExpectedPercent);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedPercent", mToken); };
                 UngetToken();
                 return false;
               default:
@@ -3346,7 +3343,7 @@ namespace Alba.CsCss.Style
             }
         
             if (!mToken.mIntegerValid) {
-              REPORT_UNEXPECTED_TOKEN(PEExpectedInt);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedInt", mToken); };
               UngetToken();
               return false;
             }
@@ -3358,7 +3355,7 @@ namespace Alba.CsCss.Style
                 aType = COLOR_TYPE_PERCENTAGES;
                 break;
               case COLOR_TYPE_INTEGERS:
-                REPORT_UNEXPECTED_TOKEN(PEExpectedInt);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedInt", mToken); };
                 UngetToken();
                 return false;
               case COLOR_TYPE_PERCENTAGES:
@@ -3369,7 +3366,7 @@ namespace Alba.CsCss.Style
             value = tk.mNumber * 255.0f;
             break;
           default:
-            REPORT_UNEXPECTED_TOKEN(PEColorBadRGBContents);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorBadRGBContents", mToken); };
             UngetToken();
             return false;
           }
@@ -3379,7 +3376,7 @@ namespace Alba.CsCss.Style
             aComponent = NSToIntRound(value);
             return true;
           }
-          REPORT_UNEXPECTED_TOKEN_CHAR(PEColorComponentBadTerm, aStop);
+          { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentBadTerm", mToken, aStop); };
           return false;
         }
         
@@ -3390,11 +3387,11 @@ namespace Alba.CsCss.Style
         
           // Get the hue
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorHueEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorHueEOF"); };
             return false;
           }
           if (mToken.mType != nsCSSTokenType.Number) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedNumber);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedNumber", mToken); };
             UngetToken();
             return false;
           }
@@ -3404,17 +3401,17 @@ namespace Alba.CsCss.Style
           h = h - floor(h);
         
           if (!ExpectSymbol(',', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedComma);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedComma", mToken); };
             return false;
           }
         
           // Get the saturation
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorSaturationEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorSaturationEOF"); };
             return false;
           }
           if (mToken.mType != nsCSSTokenType.Percentage) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedPercent);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedPercent", mToken); };
             UngetToken();
             return false;
           }
@@ -3423,17 +3420,17 @@ namespace Alba.CsCss.Style
           if (s > 1.0f) s = 1.0f;
         
           if (!ExpectSymbol(',', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedComma);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedComma", mToken); };
             return false;
           }
         
           // Get the lightness
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorLightnessEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorLightnessEOF"); };
             return false;
           }
           if (mToken.mType != nsCSSTokenType.Percentage) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedPercent);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedPercent", mToken); };
             UngetToken();
             return false;
           }
@@ -3446,19 +3443,19 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          REPORT_UNEXPECTED_TOKEN_CHAR(PEColorComponentBadTerm, aStop);
+          { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentBadTerm", mToken, aStop); };
           return false;
         }
         
         internal bool ParseColorOpacity(uint8_t& aOpacity)
         {
           if (!GetToken(true)) {
-            REPORT_UNEXPECTED_EOF(PEColorOpacityEOF);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorOpacityEOF"); };
             return false;
           }
         
           if (mToken.mType != nsCSSTokenType.Number) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedNumber);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedNumber", mToken); };
             UngetToken();
             return false;
           }
@@ -3476,7 +3473,7 @@ namespace Alba.CsCss.Style
                        "FloatToColorComponent did something weird");
         
           if (!ExpectSymbol(')', true)) {
-            REPORT_UNEXPECTED_TOKEN(PEExpectedCloseParen);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedCloseParen", mToken); };
             return false;
           }
         
@@ -3520,8 +3517,8 @@ namespace Alba.CsCss.Style
                                         ref bool aChanged,
                                         nsCSSContextType aContext)
         {
-          NS_PRECONDITION(aContext == eCSSContext_General ||
-                          aContext == eCSSContext_Page,
+          NS_PRECONDITION(aContext == nsCSSContextType.General ||
+                          aContext == nsCSSContextType.Page,
                           "Must be page or general context");
           bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
@@ -3533,7 +3530,7 @@ namespace Alba.CsCss.Style
           for (;;) {
             if (!GetToken(true)) {
               if (checkForBraces) {
-                REPORT_UNEXPECTED_EOF(PEDeclEndEOF);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclEndEOF"); };
               }
               return false;
             }
@@ -3541,8 +3538,8 @@ namespace Alba.CsCss.Style
               propertyName = tk.mIdent;
               // grab the ident before the ExpectSymbol trashes the token
               if (!ExpectSymbol(':', true)) {
-                REPORT_UNEXPECTED_TOKEN(PEParseDeclarationNoColon);
-                REPORT_UNEXPECTED(PEDeclDropped);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseDeclarationNoColon", mToken); };
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
                 mReporter.OutputError();
                 return false;
               }
@@ -3554,8 +3551,8 @@ namespace Alba.CsCss.Style
             }
         
             if (!tk.IsSymbol('}')) {
-              REPORT_UNEXPECTED_TOKEN(PEParseDeclarationDeclExpected);
-              REPORT_UNEXPECTED(PEDeclSkipped);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseDeclarationDeclExpected", mToken); };
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclSkipped"); };
               mReporter.OutputError();
             }
             // Not a declaration...
@@ -3571,11 +3568,11 @@ namespace Alba.CsCss.Style
           nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
                                                             nsCSSProps.eEnabled);
           if (nsCSSProperty.UNKNOWN == propID ||
-             (aContext == eCSSContext_Page &&
+             (aContext == nsCSSContextType.Page &&
               !nsCSSProps.PropHasFlags(propID, CSS_PROPERTY_APPLIES_TO_PAGE_RULE))) { // unknown property
             if (!NonMozillaVendorIdentifier(propertyName)) {
-              REPORT_UNEXPECTED_P(PEUnknownProperty, propertyName);
-              REPORT_UNEXPECTED(PEDeclDropped);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownProperty", propertyName); };
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
               mReporter.OutputError();
             }
         
@@ -3583,8 +3580,8 @@ namespace Alba.CsCss.Style
           }
           if (! ParseProperty(propID)) {
             // XXX Much better to put stuff in the value parsers instead...
-            REPORT_UNEXPECTED_P(PEValueParsingError, propertyName);
-            REPORT_UNEXPECTED(PEDeclDropped);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", propertyName); };
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
             mTempData.ClearProperty(propID);
             mTempData.AssertInitialState();
@@ -3598,11 +3595,11 @@ namespace Alba.CsCss.Style
             status = ParsePriority();
           }
           else {
-            status = ePriority_None;
+            status = PriorityParsingStatus.None;
           }
         
           // Look for a semicolon or close brace.
-          if (status != ePriority_Error) {
+          if (status != PriorityParsingStatus.Error) {
             if (!GetToken(true)) {
               // EOF is always ok
             } else if (mToken.IsSymbol(';')) {
@@ -3611,21 +3608,21 @@ namespace Alba.CsCss.Style
               // brace is ok if checkForBraces, but don't eat it
               UngetToken();
               if (!checkForBraces) {
-                status = ePriority_Error;
+                status = PriorityParsingStatus.Error;
               }
             } else {
               UngetToken();
-              status = ePriority_Error;
+              status = PriorityParsingStatus.Error;
             }
           }
         
-          if (status == ePriority_Error) {
+          if (status == PriorityParsingStatus.Error) {
             if (checkForBraces) {
-              REPORT_UNEXPECTED_TOKEN(PEBadDeclOrRuleEnd2);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclOrRuleEnd2", mToken); };
             } else {
-              REPORT_UNEXPECTED_TOKEN(PEBadDeclEnd);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclEnd", mToken); };
             }
-            REPORT_UNEXPECTED(PEDeclDropped);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
             mTempData.ClearProperty(propID);
             mTempData.AssertInitialState();
@@ -3633,7 +3630,7 @@ namespace Alba.CsCss.Style
           }
         
           aChanged |= mData.TransferFromBlock(mTempData, propID,
-                                               status == ePriority_Important,
+                                               status == PriorityParsingStatus.Important,
                                                false, aMustCallValueAppended,
                                                aDeclaration);
           return true;
@@ -3814,7 +3811,7 @@ namespace Alba.CsCss.Style
         {
           // The variant mask must only contain non-numeric variants or the ones
           // that we specifically handle.
-          NS_ABORT_IF_FALSE((aVariantMask & ~(VARIANT_ALL_NONNUMERIC |
+          Debug.Assert((aVariantMask & ~(VARIANT_ALL_NONNUMERIC |
                                               VARIANT_NUMBER |
                                               VARIANT_LENGTH |
                                               VARIANT_PERCENT |
@@ -3855,7 +3852,7 @@ namespace Alba.CsCss.Style
         {
           // The variant mask must only contain non-numeric variants or the ones
           // that we specifically handle.
-          NS_ABORT_IF_FALSE((aVariantMask & ~(VARIANT_ALL_NONNUMERIC |
+          Debug.Assert((aVariantMask & ~(VARIANT_ALL_NONNUMERIC |
                                               VARIANT_NUMBER |
                                               VARIANT_INTEGER)) == 0,
                             "need to update code below to handle additional variants");
@@ -3891,10 +3888,9 @@ namespace Alba.CsCss.Style
           Debug.Assert(!(mUnitlessLengthQuirk && (aVariantMask & VARIANT_LENGTH)) ||
                        !(aVariantMask & VARIANT_NUMBER),
                        "can't distinguish lengths from numbers");
-          NS_ABORT_IF_FALSE(!(aVariantMask & VARIANT_IDENTIFIER) ||
+          Debug.Assert(!(aVariantMask & VARIANT_IDENTIFIER) ||
                             !(aVariantMask & VARIANT_IDENTIFIER_NO_INHERIT),
-                            "must not set both VARIANT_IDENTIFIER and "
-                            "VARIANT_IDENTIFIER_NO_INHERIT");
+                            "must not set both VARIANT_IDENTIFIER and VARIANT_IDENTIFIER_NO_INHERIT");
         
           if (!GetToken(true)) {
             return false;
@@ -4212,14 +4208,14 @@ namespace Alba.CsCss.Style
               attr.AppendInt(nameSpaceID, 10);
               attr.Append('|');
               if (! GetToken(false)) {
-                REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
                 return false;
               }
               if (nsCSSTokenType.Ident == mToken.mType) {
                 attr.Append(mToken.mIdent);
               }
               else {
-                REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
                 UngetToken();
                 return false;
               }
@@ -4230,26 +4226,26 @@ namespace Alba.CsCss.Style
           }
           else if (mToken.IsSymbol('*')) {  // namespace wildcard
             // Wildcard namespace makes no sense here and is not allowed
-            REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
             UngetToken();
             return false;
           }
           else if (mToken.IsSymbol('|')) {  // explicit NO namespace
             if (! GetToken(false)) {
-              REPORT_UNEXPECTED_EOF(PEAttributeNameEOF);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
               return false;
             }
             if (nsCSSTokenType.Ident == mToken.mType) {
               attr.Append(mToken.mIdent);
             }
             else {
-              REPORT_UNEXPECTED_TOKEN(PEAttributeNameExpected);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
               UngetToken();
               return false;
             }
           }
           else {
-            REPORT_UNEXPECTED_TOKEN(PEAttributeNameOrNamespaceExpected);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameOrNamespaceExpected", mToken); };
             UngetToken();
             return false;
           }
@@ -4263,8 +4259,7 @@ namespace Alba.CsCss.Style
         internal bool SetValueToURL(nsCSSValue aValue, string aURL)
         {
           if (!mSheetPrincipal) {
-            NS_NOTREACHED("Codepaths that expect to parse URLs MUST pass in an "
-                          "origin principal");
+            NS_NOTREACHED("Codepaths that expect to parse URLs MUST pass in an origin principal");
             return false;
           }
         
@@ -5102,9 +5097,9 @@ namespace Alba.CsCss.Style
         internal bool ParseProperty(nsCSSProperty aPropID)
         {
           // Can't use AutoRestore<bool> because it's a bitfield.
-          NS_ABORT_IF_FALSE(!mHashlessColorQuirk,
+          Debug.Assert(!mHashlessColorQuirk,
                             "hashless color quirk should not be set");
-          NS_ABORT_IF_FALSE(!mUnitlessLengthQuirk,
+          Debug.Assert(!mUnitlessLengthQuirk,
                             "unitless length quirk should not be set");
           if (mNavQuirkMode) {
             mHashlessColorQuirk =
@@ -5118,7 +5113,7 @@ namespace Alba.CsCss.Style
           switch (nsCSSProps.PropertyParseType(aPropID)) {
             case CSS_PROPERTY_PARSE_INACCESSIBLE: {
               // The user can't use these
-              REPORT_UNEXPECTED(PEInaccessibleProperty2);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEInaccessibleProperty2"); };
               result = false;
               break;
             }
@@ -5145,9 +5140,8 @@ namespace Alba.CsCss.Style
             }
             default: {
               result = false;
-              NS_ABORT_IF_FALSE(false,
-                                "Property's flags field in nsCSSPropList.h is missing "
-                                "one of the CSS_PROPERTY_PARSE_* constants");
+              Debug.Assert(false,
+                                "Property's flags field in nsCSSPropList.h is missing one of the CSS_PROPERTY_PARSE_* constants");
               break;
             }
           }
@@ -5352,7 +5346,7 @@ namespace Alba.CsCss.Style
           case nsCSSProperty.paint_order:
             return ParsePaintOrder();
           default:
-            NS_ABORT_IF_FALSE(false, "should not be called");
+            Debug.Assert(false, "should not be called");
             return false;
           }
         }
@@ -5371,7 +5365,7 @@ namespace Alba.CsCss.Style
           }
         
           if (aPropID < 0 || aPropID >= nsCSSProperty.COUNT_no_shorthands) {
-            NS_ABORT_IF_FALSE(false, "not a single value property");
+            Debug.Assert(false, "not a single value property");
             return false;
           }
         
@@ -5390,14 +5384,14 @@ namespace Alba.CsCss.Style
               case nsCSSProperty.text_overflow:
                 return ParseTextOverflow(aValue);
               default:
-                NS_ABORT_IF_FALSE(false, "should not reach here");
+                Debug.Assert(false, "should not reach here");
                 return false;
             }
           }
         
           uint32_t variant = nsCSSProps.ParserVariant(aPropID);
           if (variant == 0) {
-            NS_ABORT_IF_FALSE(false, "not a single value property");
+            Debug.Assert(false, "not a single value property");
             return false;
           }
         
@@ -5410,7 +5404,7 @@ namespace Alba.CsCss.Style
           const int32_t *kwtable = nsCSSProps.kKeywordTableTable[aPropID];
           switch (nsCSSProps.ValueRestrictions(aPropID)) {
             default:
-              NS_ABORT_IF_FALSE(false, "should not be reached");
+              Debug.Assert(false, "should not be reached");
             case 0:
               return ParseVariant(aValue, variant, kwtable);
             case CSS_PROPERTY_VALUE_NONNEGATIVE:
@@ -5450,7 +5444,7 @@ namespace Alba.CsCss.Style
           switch (aDescID) {
             // These four are similar to the properties of the same name,
             // possibly with more restrictions on the values they can take.
-          case eCSSFontDesc_Family: {
+          case nsCSSFontDesc.Family: {
             if (!ParseFamily(aValue) ||
                 aValue.GetUnit() != eCSSUnit_Families)
               return false;
@@ -5470,12 +5464,12 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          case eCSSFontDesc_Style:
+          case nsCSSFontDesc.Style:
             // property is VARIANT_HMK|VARIANT_SYSFONT
             return ParseVariant(aValue, VARIANT_KEYWORD | VARIANT_NORMAL,
                                 nsCSSProps.kFontStyleKTable);
         
-          case eCSSFontDesc_Weight:
+          case nsCSSFontDesc.Weight:
             return (ParseFontWeight(aValue) &&
                     aValue.GetUnit() != eCSSUnit_Inherit &&
                     aValue.GetUnit() != eCSSUnit_Initial &&
@@ -5483,26 +5477,26 @@ namespace Alba.CsCss.Style
                      (aValue.GetIntValue() != NS_STYLE_FONT_WEIGHT_BOLDER &&
                       aValue.GetIntValue() != NS_STYLE_FONT_WEIGHT_LIGHTER)));
         
-          case eCSSFontDesc_Stretch:
+          case nsCSSFontDesc.Stretch:
             // property is VARIANT_HK|VARIANT_SYSFONT
             return ParseVariant(aValue, VARIANT_KEYWORD,
                                 nsCSSProps.kFontStretchKTable);
         
             // These two are unique to @font-face and have their own special grammar.
-          case eCSSFontDesc_Src:
+          case nsCSSFontDesc.Src:
             return ParseFontSrc(aValue);
         
-          case eCSSFontDesc_UnicodeRange:
+          case nsCSSFontDesc.UnicodeRange:
             return ParseFontRanges(aValue);
         
-          case eCSSFontDesc_FontFeatureSettings:
+          case nsCSSFontDesc.FontFeatureSettings:
             return ParseFontFeatureSettings(aValue);
         
-          case eCSSFontDesc_FontLanguageOverride:
+          case nsCSSFontDesc.FontLanguageOverride:
             return ParseVariant(aValue, VARIANT_NORMAL | VARIANT_STRING, null);
         
-          case eCSSFontDesc_UNKNOWN:
-          case eCSSFontDesc_COUNT:
+          case nsCSSFontDesc.UNKNOWN:
+          case nsCSSFontDesc.COUNT:
             NS_NOTREACHED("bad nsCSSFontDesc code");
           }
           // explicitly do NOT have a default case to let the compiler
@@ -5580,7 +5574,7 @@ namespace Alba.CsCss.Style
             }
             // If we saw a color, this must be the last item.
             if (color.GetUnit() != eCSSUnit_Null) {
-              REPORT_UNEXPECTED_TOKEN(PEExpectEndValue);
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectEndValue", mToken); };
               return false;
             }
             // Otherwise, a comma is mandatory.
@@ -5588,19 +5582,19 @@ namespace Alba.CsCss.Style
               return false;
             }
             // Chain another entry on all the lists.
-            state.mImage.mNext = new nsCSSValueList;
+            state.mImage.mNext = new nsCSSValueList();
             state.mImage = state.mImage.mNext;
-            state.mRepeat.mNext = new nsCSSValuePairList;
+            state.mRepeat.mNext = new nsCSSValuePairList();
             state.mRepeat = state.mRepeat.mNext;
-            state.mAttachment.mNext = new nsCSSValueList;
+            state.mAttachment.mNext = new nsCSSValueList();
             state.mAttachment = state.mAttachment.mNext;
-            state.mClip.mNext = new nsCSSValueList;
+            state.mClip.mNext = new nsCSSValueList();
             state.mClip = state.mClip.mNext;
-            state.mOrigin.mNext = new nsCSSValueList;
+            state.mOrigin.mNext = new nsCSSValueList();
             state.mOrigin = state.mOrigin.mNext;
-            state.mPosition.mNext = new nsCSSValueList;
+            state.mPosition.mNext = new nsCSSValueList();
             state.mPosition = state.mPosition.mNext;
-            state.mSize.mNext = new nsCSSValuePairList;
+            state.mSize.mNext = new nsCSSValuePairList();
             state.mSize = state.mSize.mNext;
           }
         
@@ -5838,7 +5832,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(',', true)) {
                 return false;
               }
-              item.mNext = new nsCSSValueList;
+              item.mNext = new nsCSSValueList();
               item = item.mNext;
             }
           }
@@ -5872,7 +5866,7 @@ namespace Alba.CsCss.Style
               if (!ParseBackgroundRepeatValues(valuePair)) {
                 return false;
               }
-              item.mNext = new nsCSSValuePairList;
+              item.mNext = new nsCSSValuePairList();
               item = item.mNext;
             }
           }
@@ -5928,7 +5922,7 @@ namespace Alba.CsCss.Style
               if (!ParseBackgroundPositionValues(itemValue, false)) {
                 return false;
               }
-              item.mNext = new nsCSSValueList;
+              item.mNext = new nsCSSValueList();
               item = item.mNext;
             }
           }
@@ -5945,7 +5939,7 @@ namespace Alba.CsCss.Style
          **
          * Parses two values that correspond to positions in a box.  These can be
          * values corresponding to percentages of the box, raw offsets, or keywords
-         * like "top," "left center," etc.
+         * like "top,left center," etc.
          *
          * @param aOut The nsCSSValuePair in which to place the result.
          * @param aAcceptsInherit If true, 'inherit' and 'initial' are legal values
@@ -6246,7 +6240,7 @@ namespace Alba.CsCss.Style
               if (!ParseBackgroundSizeValues(valuePair)) {
                 return false;
               }
-              item.mNext = new nsCSSValuePairList;
+              item.mNext = new nsCSSValuePairList();
               item = item.mNext;
             }
           }
@@ -6387,7 +6381,7 @@ namespace Alba.CsCss.Style
         
           if (hasFill) {
             // Put the "fill" value into the list.
-            borderImageSlice.mNext = new nsCSSValueList;
+            borderImageSlice.mNext = new nsCSSValueList();
             borderImageSlice.mNext.mValue = imageSliceFillValue;
           }
         
@@ -6747,7 +6741,7 @@ namespace Alba.CsCss.Style
               if (CheckEndProperty()) {
                 break;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -6763,7 +6757,7 @@ namespace Alba.CsCss.Style
           // This can be done without lookahead when we assume that the property
           // values cannot themselves be numbers.
           Debug.Assert(!(aVariantMask & VARIANT_NUMBER), "unexpected variant mask");
-          NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
+          Debug.Assert(aVariantMask != 0, "unexpected variant mask");
         
           bool oldUnitlessLengthQuirk = mUnitlessLengthQuirk;
           mUnitlessLengthQuirk = false;
@@ -6805,7 +6799,7 @@ namespace Alba.CsCss.Style
         internal bool ParseCalcAdditiveExpression(nsCSSValue aValue,
                                                    int32_t& aVariantMask)
         {
-          NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
+          Debug.Assert(aVariantMask != 0, "unexpected variant mask");
           nsCSSValue storage = &aValue;
           for (;;) {
             bool haveWS;
@@ -6838,7 +6832,7 @@ namespace Alba.CsCss.Style
         {
           result_type ComputeLeafValue(nsCSSValue aValue)
           {
-            NS_ABORT_IF_FALSE(aValue.GetUnit() == eCSSUnit_Number, "unexpected unit");
+            Debug.Assert(aValue.GetUnit() == eCSSUnit_Number, "unexpected unit");
             return aValue.GetFloatValue();
           }
         
@@ -6865,7 +6859,7 @@ namespace Alba.CsCss.Style
                                                          int32_t& aVariantMask,
                                                          ref bool aHadFinalWS)
         {
-          NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
+          Debug.Assert(aVariantMask != 0, "unexpected variant mask");
           bool gotValue = false; // already got the part with the unit
           bool afterDivision = false;
         
@@ -6879,9 +6873,9 @@ namespace Alba.CsCss.Style
             }
             if (!ParseCalcTerm(*storage, variantMask))
               return false;
-            NS_ABORT_IF_FALSE(variantMask != 0,
+            Debug.Assert(variantMask != 0,
                               "ParseCalcTerm did not set variantMask appropriately");
-            NS_ABORT_IF_FALSE(!(variantMask & VARIANT_NUMBER) ||
+            Debug.Assert(!(variantMask & VARIANT_NUMBER) ||
                               !(variantMask & ~int32_t(VARIANT_NUMBER)),
                               "ParseCalcTerm did not set variantMask appropriately");
         
@@ -6899,7 +6893,7 @@ namespace Alba.CsCss.Style
               if (storage != &aValue) {
                 // Simplify any numbers in the Times_L position (which are
                 // not simplified by the check above).
-                NS_ABORT_IF_FALSE(storage == &aValue.GetArrayValue().Item(1),
+                Debug.Assert(storage == &aValue.GetArrayValue().Item(1),
                                   "unexpected relationship to current storage");
                 nsCSSValue leftValue = aValue.GetArrayValue().Item(0);
                 ReduceNumberCalcOps ops;
@@ -6960,7 +6954,7 @@ namespace Alba.CsCss.Style
         //    removing VARIANT_NUMBER or removing all other bits.
         internal bool ParseCalcTerm(nsCSSValue aValue, int32_t& aVariantMask)
         {
-          NS_ABORT_IF_FALSE(aVariantMask != 0, "unexpected variant mask");
+          Debug.Assert(aVariantMask != 0, "unexpected variant mask");
           if (!GetToken(true))
             return false;
           // Either an additive expression in parentheses...
@@ -7140,7 +7134,7 @@ namespace Alba.CsCss.Style
         
           // Verify that these two lists add up to the size of
           // nsCSSProps.kContentKTable.
-          NS_ABORT_IF_FALSE(nsCSSProps.kContentKTable[
+          Debug.Assert(nsCSSProps.kContentKTable[
                               ArrayLength(kContentListKWs) +
                               ArrayLength(kContentSolitaryKWs) - 4] ==
                             eCSSKeyword_UNKNOWN &&
@@ -7165,7 +7159,7 @@ namespace Alba.CsCss.Style
               if (CheckEndProperty()) {
                 break;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -7198,7 +7192,7 @@ namespace Alba.CsCss.Style
               if (!GetToken(true) || mToken.mType != nsCSSTokenType.Ident) {
                 return false;
               }
-              cur.mNext = new nsCSSValuePairList;
+              cur.mNext = new nsCSSValuePairList();
               cur = cur.mNext;
             }
           }
@@ -7243,7 +7237,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(',', true)) { // url must not be last
                 return false;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -7378,7 +7372,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseOneFamily(string aFamily, bool& aOneKeyword)
+        internal bool ParseOneFamily(string aFamily, ref bool aOneKeyword)
         {
           if (!GetToken(true))
             return false;
@@ -7650,7 +7644,7 @@ namespace Alba.CsCss.Style
         // <feature-tag-value> = <string> [ <integer> | on | off ]?
         
         // minimum - "tagx", "tagy", "tagz"
-        // edge error case - "tagx" on 1, "tagx" "tagy", "tagx" -1, "tagx" big
+        // edge error case - "tagx" on 1, "tagxtagy", "tagx" -1, "tagx" big
         
         // pair value is always x = string, y = int
         
@@ -7717,7 +7711,7 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            cur.mNext = new nsCSSValuePairList;
+            cur.mNext = new nsCSSValuePairList();
             cur = cur.mNext;
           }
         
@@ -7931,7 +7925,7 @@ namespace Alba.CsCss.Style
               if (!ParseVariant(open, VARIANT_STRING, null)) {
                 return false;
               }
-              quotes.mNext = new nsCSSValuePairList;
+              quotes.mNext = new nsCSSValuePairList();
               quotes = quotes.mNext;
             }
           }
@@ -8216,7 +8210,7 @@ namespace Alba.CsCss.Style
                                                 uint16_t &aMinElems,
                                                 uint16_t &aMaxElems,
                                                 const int32_t *& aVariantMask,
-                                                bool &aIs3D)
+                                                ref bool aIs3D)
         {
         /* These types represent the common variant masks that will be used to
            * parse out the individual functions.  The order in the enumeration
@@ -8402,7 +8396,7 @@ namespace Alba.CsCss.Style
          * error if something goes wrong.
          */
         internal bool ParseSingleTransform(bool aIsPrefixed,
-                                            nsCSSValue aValue, bool& aIs3D)
+                                            nsCSSValue aValue, ref bool aIs3D)
         {
           if (!GetToken(true))
             return false;
@@ -8476,7 +8470,7 @@ namespace Alba.CsCss.Style
               if (CheckEndProperty()) {
                 break;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -8503,7 +8497,7 @@ namespace Alba.CsCss.Style
           // a pair, and to keep the computation code simple.
           if (position.mXValue.GetUnit() == eCSSUnit_Inherit ||
               position.mXValue.GetUnit() == eCSSUnit_Initial) {
-            NS_ABORT_IF_FALSE(position.mXValue == position.mYValue,
+            Debug.Assert(position.mXValue == position.mYValue,
                               "inherit/initial only half?");
             AppendValue(prop, position.mXValue);
           } else {
@@ -8557,10 +8551,10 @@ namespace Alba.CsCss.Style
                 break;
               }
               if (!ExpectSymbol(',', true)) {
-                REPORT_UNEXPECTED_TOKEN(PEExpectedComma);
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedComma", mToken); };
                 return false;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -8664,12 +8658,12 @@ namespace Alba.CsCss.Style
         {
           nsCSSValueList* entry;
           if (aContainer.GetUnit() == eCSSUnit_Null) {
-            NS_ABORT_IF_FALSE(!aTail, "should not have an entry");
+            Debug.Assert(!aTail, "should not have an entry");
             entry = aContainer.SetListValue();
           } else {
-            NS_ABORT_IF_FALSE(!aTail.mNext, "should not have a next entry");
-            NS_ABORT_IF_FALSE(aContainer.GetUnit() == eCSSUnit_List, "not a list");
-            entry = new nsCSSValueList;
+            Debug.Assert(!aTail.mNext, "should not have a next entry");
+            Debug.Assert(aContainer.GetUnit() == eCSSUnit_List, "not a list");
+            entry = new nsCSSValueList();
             aTail.mNext = entry;
           }
           entry.mValue = aValue;
@@ -8690,11 +8684,11 @@ namespace Alba.CsCss.Style
             for (uint32_t i = 0; i < aNumProperties; ++i) {
               AppendValue(aProperties[i], tempValue);
             }
-            return eParseAnimationOrTransitionShorthand_Inherit;
+            return ParseAnimationOrTransitionShorthandResult.Inherit;
           }
         
           static const size_t maxNumProperties = 7;
-          NS_ABORT_IF_FALSE(aNumProperties <= maxNumProperties,
+          Debug.Assert(aNumProperties <= maxNumProperties,
                             "can't handle this many properties");
           nsCSSValueList *cur[maxNumProperties];
           bool parsedProperty[maxNumProperties];
@@ -8736,7 +8730,7 @@ namespace Alba.CsCss.Style
               if (!foundProperty) {
                 // We're not at a ',' or at the end of the property, but we couldn't
                 // parse any of the sub-properties, so the declaration is invalid.
-                return eParseAnimationOrTransitionShorthand_Error;
+                return ParseAnimationOrTransitionShorthandResult.Error;
               }
             }
         
@@ -8755,7 +8749,7 @@ namespace Alba.CsCss.Style
             // else we just hit a ',' so continue parsing the next compound transition
           }
         
-          return eParseAnimationOrTransitionShorthand_Values;
+          return ParseAnimationOrTransitionShorthandResult.Values;
         }
         
         internal bool ParseTransition()
@@ -8790,8 +8784,8 @@ namespace Alba.CsCss.Style
           ParseAnimationOrTransitionShorthandResult spres =
             ParseAnimationOrTransitionShorthand(kTransitionProperties,
                                                 initialValues, values, numProps);
-          if (spres != eParseAnimationOrTransitionShorthand_Values) {
-            return spres != eParseAnimationOrTransitionShorthand_Error;
+          if (spres != ParseAnimationOrTransitionShorthandResult.Values) {
+            return spres != ParseAnimationOrTransitionShorthandResult.Error;
           }
         
           // Make two checks on the list for 'transition-property':
@@ -8801,7 +8795,7 @@ namespace Alba.CsCss.Style
           //     like with counter-reset &c., where CSS 2.1 specifies 'initial', so
           //     we should check it without the -moz- prefix).
           {
-            NS_ABORT_IF_FALSE(kTransitionProperties[3] ==
+            Debug.Assert(kTransitionProperties[3] ==
                                 nsCSSProperty.transition_property,
                               "array index mismatch");
             nsCSSValueList *l = values[3].GetListValue();
@@ -8873,8 +8867,8 @@ namespace Alba.CsCss.Style
           ParseAnimationOrTransitionShorthandResult spres =
             ParseAnimationOrTransitionShorthand(kAnimationProperties,
                                                 initialValues, values, numProps);
-          if (spres != eParseAnimationOrTransitionShorthand_Values) {
-            return spres != eParseAnimationOrTransitionShorthand_Error;
+          if (spres != ParseAnimationOrTransitionShorthandResult.Values) {
+            return spres != ParseAnimationOrTransitionShorthandResult.Error;
           }
         
           // Save all parsed animation sub-properties in mTempData
@@ -8988,7 +8982,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(',', true)) {
                 return false;
               }
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }
@@ -9005,20 +8999,20 @@ namespace Alba.CsCss.Style
             // user-specified identifiers are case-sensitive (bug 416106)
             nsIAtom prefix = do_GetAtom(aPrefix);
             if (!prefix) {
-              NS_RUNTIMEABORT("do_GetAtom failed - out of memory?");
+              Debug.Fail("do_GetAtom failed - out of memory?");
             }
             nameSpaceID = mNameSpaceMap.FindNameSpaceID(prefix);
           }
           // else no declared namespaces
         
           if (nameSpaceID == kNameSpaceID_Unknown) {   // unknown prefix, dump it
-            REPORT_UNEXPECTED_P(PEUnknownNamespacePrefix, aPrefix);
+            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownNamespacePrefix", aPrefix); };
           }
         
           return nameSpaceID;
         }
         
-        internal void SetDefaultNamespaceOnSelector(nsCSSSelector& aSelector)
+        internal void SetDefaultNamespaceOnSelector(nsCSSSelector aSelector)
         {
           if (mNameSpaceMap) {
             aSelector.SetNameSpace(mNameSpaceMap.FindNameSpaceID(null));
@@ -9075,7 +9069,7 @@ namespace Alba.CsCss.Style
               // skip optional commas between elements
               (void)ExpectSymbol(',', true);
         
-              cur.mNext = new nsCSSValueList;
+              cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
             }
           }

@@ -6,6 +6,7 @@ namespace Alba.CsCss.Style
 {
     internal enum nsCSSFontDesc
     {
+        UNKNOWN,
         Family,
         Style,
         Weight,
@@ -14,5 +15,6 @@ namespace Alba.CsCss.Style
         UnicodeRange,
         FontFeatureSettings,
         FontLanguageOverride,
+        COUNT
     }
 }

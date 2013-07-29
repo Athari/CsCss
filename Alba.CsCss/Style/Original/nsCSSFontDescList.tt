@@ -30,9 +30,11 @@ namespace Alba.CsCss.Style
 {
     internal enum nsCSSFontDesc
     {
+        UNKNOWN,
 <#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
         <#= desc.Method #>,
 <#+   } #>
+        COUNT
     }
 }
 <#+ } /* void GenerateCssFontDesc */ #>

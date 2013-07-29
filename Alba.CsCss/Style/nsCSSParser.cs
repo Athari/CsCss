@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Alba.CsCss.Style
 {
@@ -94,15 +95,15 @@ namespace Alba.CsCss.Style
 
         private enum nsCSSContextType
         {
-            eCSSContext_General,
-            eCSSContext_Page
+            General,
+            Page
         };
 
         private enum PriorityParsingStatus
         {
-            ePriority_None,
-            ePriority_Important,
-            ePriority_Error
+            None,
+            Important,
+            Error
         };
 
         private enum ParseAnimationOrTransitionShorthandResult
@@ -173,7 +174,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0;
+        private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0, NS_ERROR_DOM_SYNTAX_ERR = 0, NS_ERROR_MALFORMED_URI = 0;
     }
 
     internal class nsCSSExpandedDataBlock
@@ -183,13 +184,21 @@ namespace Alba.CsCss.Style
 
         public void ClearProperty (nsCSSProperty aPropId)
         {}
+
+        public bool TransferFromBlock (nsCSSExpandedDataBlock mTempData, nsCSSProperty aPropId, bool aIsImportant, bool b, bool b1, Declaration aDeclaration)
+        {
+            return false;
+        }
     }
 
     internal class nsXMLNameSpaceMap
     {}
 
     internal class CssLoader
-    {}
+    {
+        public void LoadChildSheet (nsCSSStyleSheet mSheet, Uri url, nsMediaList aMedia, ImportRule rule)
+        {}
+    }
 
     internal class nsCSSStyleSheet
     {
@@ -218,6 +227,9 @@ namespace Alba.CsCss.Style
             lastRule = null;
             return false;
         }
+
+        public void AppendStyleRule (Rule aRule)
+        {}
     }
 
     internal class nsIPrincipal
@@ -226,14 +238,72 @@ namespace Alba.CsCss.Style
     internal class nsIAtom
     {}
 
-    internal class nsMediaList
+    internal class nsCSSSelector
     {}
 
-    internal class nsMediaQuery
+    internal class nsMediaExpression
+    {
+        public nsMediaFeature mFeature;
+    }
+
+    internal class nsMediaFeatures
     {}
+
+    internal class nsMediaFeature
+    {
+        public string mName;
+    }
+
+    internal class nsMediaList
+    {
+        public void Clear ()
+        {}
+
+        public int Count ()
+        {
+            return 0;
+        }
+
+        public void AppendQuery (nsMediaQuery query)
+        {}
+    }
+
+    internal class nsMediaQuery
+    {
+        public void SetTypeOmitted ()
+        {}
+
+        public void SetHadUnknownExpression ()
+        {}
+
+        public void SetNegated ()
+        {}
+
+        public void SetHasOnly ()
+        {}
+
+        public void SetType (object mediaType)
+        {}
+
+        public nsMediaExpression NewExpression ()
+        {
+            return null;
+        }
+    }
 
     internal class nsCSSSelectorList
     {}
+
+    internal class nsContentUtils
+    {
+        public static void ASCIIToLower (StringBuilder mIdent)
+        {}
+    }
+
+    internal class nsGkAtoms
+    {
+        public static object all, _not, only;
+    }
 
     internal class nsCSSValue
     {}
@@ -245,11 +315,17 @@ namespace Alba.CsCss.Style
         public static int NAMESPACE_RULE;
     }
 
+    internal class ImportRule
+    {}
+
     internal class StyleRule
     {}
 
     internal class GroupRule
-    {}
+    {
+        public void AppendStyleRule (Rule aRule)
+        {}
+    }
 
     internal class CharsetRule
     {}
@@ -270,10 +346,24 @@ namespace Alba.CsCss.Style
     {}
 
     internal class nsCSSKeyframeRule
-    {}
+    {
+        public nsCSSKeyframeRule forget ()
+        {
+            return null;
+        }
+    }
 
     internal class nsCSSKeyframesRule
-    {}
+    {
+        public void AppendStyleRule (nsCSSKeyframeRule kid)
+        {}
+    }
+
+    internal class nsCSSFontFaceRule
+    {
+        public void SetDesc (nsCSSFontDesc descId, nsCSSValue value)
+        {}
+    }
 
     internal class Declaration
     {
@@ -281,6 +371,17 @@ namespace Alba.CsCss.Style
         {}
 
         public void CompressFrom (nsCSSExpandedDataBlock mData)
+        {}
+
+        public void AssertMutable ()
+        {}
+
+        public bool TryReplaceValue (nsCSSProperty aPropId, bool aIsImportant, nsCSSExpandedDataBlock mTempData, bool aChanged)
+        {
+            return false;
+        }
+
+        public void ExpandTo (nsCSSExpandedDataBlock mData)
         {}
     }
 }
