@@ -1,6 +1,7 @@
 /.nuget/NuGet.exe
 /Packages
 /TestResults
+/Temp
 bin/
 obj/
 *.suo

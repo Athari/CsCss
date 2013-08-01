@@ -90,6 +90,9 @@
     <Compile Include="Style\Original\nsCSSToken.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsCSSUnit.conv.cs">
+      <DependentUpon>nsCSSValue.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsStyle.conv.cs">
       <DependentUpon>nsStyleConsts.tt</DependentUpon>
     </Compile>
@@ -164,6 +167,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsCSSScanner.cpp</DependentUpon>
     </None>
+    <None Include="Style\Original\nsCSSValue.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSValue.h</DependentUpon>
+    </None>
     <None Include="Style\Original\nsStyleConsts.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -235,6 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\nsCSSValue.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSValue.tt</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

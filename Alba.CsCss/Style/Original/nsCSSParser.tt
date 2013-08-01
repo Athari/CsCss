@@ -128,7 +128,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"ePriority_(\w+)", "PriorityParsingStatus.$1")
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
-            .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
+            .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
             .ReReplace(@"eCSSProperty(Alias)_(\w+)", "nsCSSProperty.$1_$2")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             // specific expressions
