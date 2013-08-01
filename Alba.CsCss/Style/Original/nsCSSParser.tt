@@ -8,11 +8,11 @@
     string sourceParser = source.ReMatchGet(reSourceParser);
 
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSParser.conv.cs", () => GenerateCssParser(sourceParser));
+    T4.GenerateFile("nsCSSParser.conv.cs", () => GenerateCssParser(source, sourceParser));
     T4.Process();
 #>
 <#+
-    void GenerateCssParser (string source) {
+    void GenerateCssParser (string source, string sourceParser) {
 #>
 //
 // Generated file. Do not edit manually.
@@ -22,12 +22,14 @@
 // ReSharper disable NegativeEqualityExpression
 // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
 // ReSharper disable EmptyStatement
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Extensions;
+using Alba.CsCss.Gfx;
 
 using int32_t = System.Int32;
 using uint8_t = System.SByte;
@@ -38,7 +40,11 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSParser
     {
-<#=     ConvertCssParser(source).Indent(8) #>
+<#+   foreach (string line in ConvertVariantDefines(source)) { #>
+        <#=line#>
+<#+   } #>
+
+<#=     ConvertCssParser(sourceParser).Indent(8) #>
     }
 }
 <#+
@@ -67,6 +73,8 @@ namespace Alba.CsCss.Style
                         "if (!($1)) return NS_ERROR_UNEXPECTED")
             .ReReplace(@"NS_PRECONDITION\((?<Condition>"+sArg+@"), *(?<Message>"""+sArg+@""")\)",
                         "if (!(${Condition})) throw new ArgumentException(${Message})")
+            .ReReplace(@"NS_ERROR\((?<Message>"""+sArg+@""")\)",
+                        "throw new Exception(${Message})")
             .ReReplace(@"NS_FAILED\((?<Expr>"+sArgs+@")\)",
                         "(((${Expr}) & 0x80000000) != 0)")
             .ReReplace(@"NS_SUCCEEDED\((?<Expr>"+sArgs+@")\)",
@@ -103,33 +111,34 @@ namespace Alba.CsCss.Style
             // specific methods signatures
             //.Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
             //.Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
-            // specific members access
-            .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
-            .ReReplace(@"&(aScanner|aReporter|mToken|mData)", "$1")
-            .ReReplace(@"\*(aResult|aChanged|aQuery|aHitStop)", "$1")
-            .ReReplace(@"&(equal)", "out $1")
             // specific classes
-            .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(?<Name>"+
+            .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?(?<Name>"+
                             "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
                             "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|ImportRule|Declaration|"+
-                            "nsMediaExpression|nsMediaFeature|nsCSSSelector"+
+                            "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus"+
                         ")(?<Space> )?[*&]?", "${Name}${Space}")
-            .ReReplace(@"(?n)(?<Name>bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery)(?<Space> )?[*&]", "ref ${Name}${Space}")
+            .ReReplace(@"(?n)(?<Name>u?int\d+_t|bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nscolor)(?<Space> )?[*&]", "ref ${Name}${Space}")
             .ReReplace(@"nsIURI\*?", "Uri")
             .ReReplace(@"(const )?(nsString|nsAString|nsSubstring|nsAutoString)[*&]?", "string")
             .ReReplace(@"(?n)(const )?(char)(?<Space> ?)\*", "string${Space}")
             .Replace(@"nsCSSScanner&", "nsCSSScanner")
             .Replace(@"mozilla::css::Loader*", "CssLoader")
             .Replace(@"css::ErrorReporter&", "ErrorReporter")
-            .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"(?n)(mozilla::)?(css::)?(?<Type>ErrorReporter|nsCSSScanner) +(?<Var>\w+)\((?<Args>"+sArgs+@")\)", "var ${Var} = new ${Type}(${Args})")
+            // specific members access
+            .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
+            .ReReplace(@"&?CSSParserImpl::", "")
+            .ReReplace(@"&(aScanner|aReporter|mToken|mData)", "$1")
+            .ReReplace(@"\*(aResult|aChanged|aQuery|aHitStop)", "$1")
+            .ReReplace(@"&(equal)", "out $1")
             // specific enums
+            .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|CSSKeyword|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
             .ReReplace(@"ePriority_(\w+)", "PriorityParsingStatus.$1")
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
-            .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
-            .ReReplace(@"eCSSProperty(Alias)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"eCSSProperty(Alias|Extra)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             // specific expressions
             .ReReplace(@"!(mScanner|mediaFeatureAtom)", "$1 == null")
@@ -178,5 +187,29 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\n", "\r\n")
             .Trim()
             ;
+    }
+
+    IEnumerable<string> ConvertVariantDefines (string source)
+    {
+        foreach (Match m in source.ReMatches(
+            @"(?imnx)^
+                \#define \ +
+                (?<Name>\w+) \ +                                          # constant name as-is
+                (?<IntValue>\(? (-?\d+ | 0x[0-9a-f]+ | \d<<\d+) \)?) \ *? # NN or 0xHH or N<<N in optional brackets
+                (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment"))
+            yield return m.Result("internal const int ${Name} = ${IntValue};${Remainder}");
+
+        foreach (Match m in source.ReMatches(
+            @"(?imnx)^
+                \#define \ +
+                (?<Name>\w+) \ +                                          # constant name as-is
+                \(? (                                                     # aliased constant name(s)
+                    (?<NamesValue>[a-z]\w+ (\ *\|\ *)? )                  # aliased constant name ending with optional | operator
+                )+ \)? \ *?
+                (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment")) {
+            string name = m.Get("Name"), namesValue = m.GetConcat("NamesValue"), remainder = m.Get("Remainder");
+            namesValue = namesValue.ReReplace(@"^NS_STYLE_", "nsStyle.");
+            yield return "internal const int {0} = {1};{2}".Fmt(name, namesValue, remainder);
+        }
     }
 #>

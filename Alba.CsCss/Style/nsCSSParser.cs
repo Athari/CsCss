@@ -74,7 +74,7 @@ namespace Alba.CsCss.Style
 
         internal delegate void RuleAppendFunc (Rule aRule, void* aData);
 
-        private enum nsSelectorParsingStatus
+        internal enum nsSelectorParsingStatus
         {
             // we have parsed a selector and we saw a token that cannot be
             // part of a selector:
