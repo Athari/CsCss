@@ -23,6 +23,8 @@
 // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
 // ReSharper disable EmptyStatement
 // ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable RedundantArrayCreationExpression
+// ReSharper disable RedundantExplicitArrayCreation
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,7 @@ using Alba.CsCss.Gfx;
 
 using int32_t = System.Int32;
 using uint8_t = System.SByte;
+using uint16_t = System.Int16;
 using uint32_t = System.Int32;
 using nsresult = System.UInt32; // TODO
 
@@ -64,7 +67,7 @@ namespace Alba.CsCss.Style
             //.Replace(@"MOZ_LIKELY(ch < 0 || ch == ')')", "ch < 0 || ch == ')'")
             // common mozilla
             .ReReplace(@"PRUnichar", "char")
-            //.ReReplace(@"(?s)MOZ_STATIC_ASSERT\(" + sArgs + @"\)", "")
+            .ReReplace(@"(?s)MOZ_STATIC_ASSERT\s*\(" + sArgs + @"\)", "")
             .ReReplace(@"(?:MOZ_ASSERT|NS_ASSERTION|NS_ABORT_IF_FALSE)\((" + sArgs + @")\)",
                         "Debug.Assert($1)")
             .ReReplace(@"(?:NS_RUNTIMEABORT)\((" + sArgs + @")\)",
@@ -84,6 +87,7 @@ namespace Alba.CsCss.Style
             //.ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
             .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|char)\((.*?)\)", "$1")
             .ReReplace(@"(?:nsRefPtr|nsCOMPtr|nsAutoPtr|already_AddRefed)<([\w:]+)>", "$1")
+            .ReReplace(@"(?:ArrayLength|NS_ARRAY_LENGTH)\(([\w:]+)\)", "$1.Length")
             .ReReplace(@"InfallibleTArray<([\w:]+)>[*&]?", "List<$1>")
 
             // specific preprocessor
@@ -113,10 +117,14 @@ namespace Alba.CsCss.Style
             //.Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
             // specific classes
             .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?(?<Name>"+
+                            "nsCSSValuePairList|nsCSSValueList|nsCSSRect|"+
                             "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
                             "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|ImportRule|Declaration|"+
                             "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus"+
-                        ")(?<Space> )?[*&]?", "${Name}${Space}")
+                       @")(?<Space> )?[*&]?", "${Name}${Space}")
+            /*.ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?(?<Name>"+
+                            "nsCSSValuePairList"+
+                       @")(?<Space> )?[*&]?", "${Name}${Space}")*/
             .ReReplace(@"(?n)(?<Name>u?int\d+_t|bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nscolor)(?<Space> )?[*&]", "ref ${Name}${Space}")
             .ReReplace(@"nsIURI\*?", "Uri")
             .ReReplace(@"(const )?(nsString|nsAString|nsSubstring|nsAutoString)[*&]?", "string")
@@ -139,10 +147,12 @@ namespace Alba.CsCss.Style
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
             .ReReplace(@"eCSSProperty(Alias|Extra)_(\w+)", "nsCSSProperty.$1_$2")
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
+            .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             // specific expressions
             .ReReplace(@"!(mScanner|mediaFeatureAtom)", "$1 == null")
-            .ReReplace(@"if \((mSheet|mChildLoader|lastRule|declaration|query|kid)\)", "if ($1 != null)")
+            .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
             .Replace(@"(*aAppendFunc)(", "aAppendFunc(")
             //.Replace(@"static const uint8_t gLexTable[] =", "private static readonly uint8_t[] gLexTable =")
@@ -168,7 +178,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"nullptr", "null")
             .ReReplace(@"new (\w+);", "new $1();")
             .ReReplace(@"(?<Spec>const|static) (?<Type>\w+) (?<Var>\w+)\[\] = {", "${Spec} ${Type}[] ${Var} = new ${Type}[] {")
-            //.ReReplace(@"static const", "private const")
+            .ReReplace(@"static const", "const")
             //.ReReplace(@"\) const\n", ")\n") // const functions
             //.ReReplace(@"inline", "")
             //.ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style

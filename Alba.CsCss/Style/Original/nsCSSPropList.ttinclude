@@ -24,7 +24,8 @@
             .ReReplace(@"\r", "")
 
             // comments remove
-            .ReReplace(@"//.*", "")
+            .ReReplace(@"\n? *//.*", "")
+            .ReReplace(@" */\*.*\*/", "")
 
             // specific preprocessor
             .ReReplace(@"CSS_PROP_DOMPROP_PREFIXED\((\w+)\)", "CSS_PROP_PUBLIC_OR_PRIVATE(Moz$1,$1)")

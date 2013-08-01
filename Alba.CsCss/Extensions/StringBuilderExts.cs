@@ -8,6 +8,11 @@ namespace Alba.CsCss.Extensions
     {
         private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
 
+        internal static bool IsEmpty (this StringBuilder @this)
+        {
+            return @this.Length == 0;
+        }
+
         internal static void AppendLiteral (this StringBuilder @this, string value)
         {
             @this.Append(value);

@@ -239,7 +239,10 @@ namespace Alba.CsCss.Style
     {}
 
     internal class nsCSSSelector
-    {}
+    {
+        public void AddID (StringBuilder mIdent)
+        {}
+    }
 
     internal class nsMediaExpression
     {
@@ -306,7 +309,81 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsCSSValue
-    {}
+    {
+        public nsCSSUnit GetUnit ()
+        {
+            return 0;
+        }
+
+        public void SetArrayValue (Array val, nsCSSUnit steps)
+        {}
+
+        public nsCSSValueList SetListValue ()
+        {
+            return null;
+        }
+
+        public void SetFloatValue (float f, nsCSSUnit pixel)
+        {}
+
+        public void SetTripletValue (object mXValue, object mYValue, nsCSSValue depth)
+        {}
+
+        public void SetPairValue (object mXValue, object mYValue)
+        {}
+
+        public nsCSSValuePairList SetPairListValue ()
+        {
+            return null;
+        }
+
+        public void SetStringValue (string mIdent, nsCSSUnit nsCssUnit)
+        {}
+
+        public void SetIntValue (int p0, nsCSSUnit integer)
+        {}
+
+        public nsCSSRect SetRectValue ()
+        {
+            return null;
+        }
+
+        public void SetNoneValue ()
+        {}
+    }
+
+    internal class nsCSSValueList
+    {
+        public nsCSSValue mValue;
+    }
+
+    internal class nsCSSValuePairList
+    {
+        public nsCSSValue mXValue, mYValue;
+        public nsCSSValuePairList mNext;
+    }
+
+    internal class nsCSSValuePair
+    {
+        public nsCSSValue mXValue, mYValue;
+
+        public void SetBothValuesTo (object nsCssValue)
+        {}
+    }
+
+    internal class nsCSSRect
+    {
+        public void SetAllSidesTo (object nsCssValue)
+        {}
+    }
+
+    internal class nsLayoutUtils
+    {
+        public static bool Are3DTransformsEnabled ()
+        {
+            return false;
+        }
+    }
 
     internal class Rule
     {

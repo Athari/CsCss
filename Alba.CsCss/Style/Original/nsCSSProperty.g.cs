@@ -240,6 +240,7 @@ namespace Alba.CsCss.Style
         stop_color,
         stop_opacity,
         stroke,
+        stroke_dasharray,
         stroke_dashoffset,
         stroke_linecap,
         stroke_linejoin,
