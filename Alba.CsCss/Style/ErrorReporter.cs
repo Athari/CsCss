@@ -43,5 +43,10 @@ namespace Alba.CsCss.Style
         {
             // TODO
         }
+
+        public void ReportUnexpected (string pecolorcomponentbadterm, nsCSSToken mToken, char aStop)
+        {
+            // TODO
+        }
     }
 }

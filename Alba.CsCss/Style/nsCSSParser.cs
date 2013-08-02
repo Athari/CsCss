@@ -174,6 +174,30 @@ namespace Alba.CsCss.Style
             }
         }
 
+        internal class BackgroundParseState
+        {
+            public nsCSSValue mColor;
+            public nsCSSValueList mImage;
+            public nsCSSValuePairList mRepeat;
+            public nsCSSValueList mAttachment;
+            public nsCSSValueList mClip;
+            public nsCSSValueList mOrigin;
+            public nsCSSValueList mPosition;
+            public nsCSSValuePairList mSize;
+
+            public BackgroundParseState (nsCSSValue mColor, nsCSSValueList mImage, nsCSSValuePairList mRepeat, nsCSSValueList mAttachment, nsCSSValueList mClip, nsCSSValueList mOrigin, nsCSSValueList mPosition, nsCSSValuePairList mSize)
+            {
+                this.mColor = mColor;
+                this.mImage = mImage;
+                this.mRepeat = mRepeat;
+                this.mAttachment = mAttachment;
+                this.mClip = mClip;
+                this.mOrigin = mOrigin;
+                this.mPosition = mPosition;
+                this.mSize = mSize;
+            }
+        }
+
         private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0, NS_ERROR_DOM_SYNTAX_ERR = 0, NS_ERROR_MALFORMED_URI = 0;
     }
 
@@ -240,7 +264,18 @@ namespace Alba.CsCss.Style
 
     internal class nsCSSSelector
     {
+        public nsCSSSelector mNegations;
+
         public void AddID (StringBuilder mIdent)
+        {}
+
+        public void SetTag (StringBuilder mIdent)
+        {}
+
+        public void AddClass (StringBuilder mIdent)
+        {}
+
+        public void AddPseudoClass (object pseudoClassType)
         {}
     }
 
@@ -350,6 +385,50 @@ namespace Alba.CsCss.Style
 
         public void SetNoneValue ()
         {}
+
+        public void SetURLValue (URLValue urlVal)
+        {}
+
+        public void SetAutoValue ()
+        {}
+
+        public void SetInheritValue ()
+        {}
+
+        public void SetInitialValue ()
+        {}
+
+        public void SetAllValue ()
+        {}
+
+        public void SetNormalValue ()
+        {}
+
+        public void SetSystemFontValue ()
+        {}
+
+        public int GetIntValue ()
+        {
+            return 0;
+        }
+
+        public decimal GetPercentValue ()
+        {
+            return 0;
+        }
+
+        public double GetFloatValue ()
+        {
+            return 0;
+        }
+
+        public bool IsLengthUnit ()
+        {
+            return false;
+        }
+
+        public void Reset ()
+        {}
     }
 
     internal class nsCSSValueList
@@ -377,6 +456,9 @@ namespace Alba.CsCss.Style
         {}
     }
 
+    internal class URLValue
+    {}
+
     internal class nsLayoutUtils
     {
         public static bool Are3DTransformsEnabled ()
@@ -396,7 +478,10 @@ namespace Alba.CsCss.Style
     {}
 
     internal class StyleRule
-    {}
+    {
+        public void SetLineNumber (int linenum)
+        {}
+    }
 
     internal class GroupRule
     {
