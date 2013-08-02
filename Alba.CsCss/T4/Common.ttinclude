@@ -6,6 +6,7 @@
 #><#+
     string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
     string sArgs = @"(?:[^()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
+    string sBlock = @"(?:[^{}]|(?<b>{)|(?<-b>}))+(?(b)(?!))";
     string[] CommonDefs = { "MOZ_FLEXBOX" };
     ISet<string> CSharpKeywords = new[] {
         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const",

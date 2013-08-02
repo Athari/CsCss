@@ -52,7 +52,7 @@ namespace Alba.CsCss.Style
             throw new NotImplementedException();
         }
 
-        public static void GetStringValue (nsCSSProperty aPropId)
+        public static string GetStringValue (nsCSSProperty aPropId)
         {
             throw new NotImplementedException();
         }

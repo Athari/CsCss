@@ -26,6 +26,7 @@
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable RedundantArrayCreationExpression
 // ReSharper disable RedundantExplicitArrayCreation
+// ReSharper disable RedundantAssignment
 
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace Alba.CsCss.Style
                         "Debug.Fail($1)")
             .ReReplace(@"NS_ENSURE_STATE\((" + sArgs + @")\)",
                         "if (!($1)) return NS_ERROR_UNEXPECTED")
-            .ReReplace(@"NS_PRECONDITION\((?<Condition>"+sArg+@"), *(?<Message>"""+sArg+@""")\)",
+            .ReReplace(@"(?s)NS_PRECONDITION\((?<Condition>"+sArg+@"),\s*(?<Message>"""+sArg+@""")\)",
                         "if (!(${Condition})) throw new ArgumentException(${Message})")
             .ReReplace(@"NS_ERROR\((?<Message>"""+sArg+@""")\)",
                         "throw new Exception(${Message})")
@@ -84,12 +85,14 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_SUCCEEDED\((?<Expr>"+sArgs+@")\)",
                         "(((${Expr}) & 0x80000000) == 0)")
             .ReReplace(@"NS_RELEASE\((\*?\w+)\)", "$1 = null")
+            .ReReplace(@"(\w+).forget\(\)", "$1")
             //.ReReplace(@"(?s)MOZ_(?:UN)?LIKELY\((" + sArgs + @")\)", "$1")
             //.ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
             .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|char)\((.*?)\)", "$1")
-            .ReReplace(@"(?:nsRefPtr|nsCOMPtr|nsAutoPtr|already_AddRefed)<([\w:]+)>", "$1")
+            .ReReplace(@"(?:nsRefPtr|nsCOMPtr|nsAutoPtr|already_AddRefed|DebugOnly)<([\w:]+)>", "$1")
             .ReReplace(@"(?:ArrayLength|NS_ARRAY_LENGTH)\(([\w:]+)\)", "$1.Length")
             .ReReplace(@"InfallibleTArray<([\w:]+)>[*&]?", "List<$1>")
+            .ReReplace(@"(?n)NS_ConvertASCIItoUTF16 (?<Var>\w+)\((?<Value>"+sArgs+@")\);", "string ${Var} = ${Value};")
 
             // specific preprocessor
             .ReReplace(@"REPORT_UNEXPECTED\((\w+)\)",
@@ -116,6 +119,7 @@ namespace Alba.CsCss.Style
             // specific methods signatures
             //.Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
             //.Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
+
             // specific classes
             .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?\b(?<Name>"+
                             "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
@@ -138,7 +142,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"&(aScanner|aReporter|mToken|mData)", "$1")
             .ReReplace(@"\*(aResult|aChanged|aQuery|aHitStop)", "$1")
-            .ReReplace(@"&(equal)", "out $1")
+
             // specific enums
             .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|CSSKeyword|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
@@ -151,21 +155,28 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
+
             // specific expressions
-            .ReReplace(@"!(mScanner|mSheetPrincipal|mNameSpaceMap|mediaFeatureAtom)", "$1 == null")
+            .Replace(@"(*aAppendFunc)(", "aAppendFunc(")
+            .ReReplace(@"(?ns)(?<Type>nsAutoParseCompoundProperty|nsAutoFailingSupportsRule|nsAutoSuppressErrors) "+ // RAII structs
+                       @"(?<Var>\w+)\(this\);(?<Code>.*?)\n}\n",
+                       m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"(this)) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
+            // specific expressions: boolean
+            .ReReplace(@"!(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|mediaFeatureAtom|declaration)", "$1 == null")
             .ReReplace(@"!(combinator)", "$1 == 0")
             .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
-            .Replace(@"(*aAppendFunc)(", "aAppendFunc(")
-            //.Replace(@"static const uint8_t gLexTable[] =", "private static readonly uint8_t[] gLexTable =")
-            //.Replace(@"AppendUCS4ToUTF16(ENSURE_VALID_CHAR(val), aOutput)", "aOutput.Append(val)")
-            //.Replace(@"aToken.mSymbol = Peek()", "aToken.mSymbol = (char)Peek()") // Peek returns int
-            //.Replace(@"aToken.mSymbol = ch", "aToken.mSymbol = (char)ch") // ch is int
-            //.Replace(@"aToken.mNumber = value", "aToken.mNumber = (float)value") // precision lost
-            //.Replace(@"uint32_t(ch) < 128", "ch >= 0 && ch < 128") // uint32_t is Int32...
-            // specific preprocessor
-            //.ReReplace(@"#define +(\w+) +(\w+)\n", "private const uint8_t $1 = $2;\n")
-            //.ReReplace(@"#define +(\w+) +([\w|]+)\n", "private const uint8_t $1 = $2;\n")
+            // specific expressions: arg declarations
+            .Replace(@"bool aInsideBraces", "bool aInsideBraces = false")
+            .Replace(@"nsCSSContextType aContext", "nsCSSContextType aContext = nsCSSContextType.General")
+            .Replace(@"uint32_t aFlags", "nsParseDeclaration aFlags")
+            // specific expressions: arg calls
+            .ReReplace(@"&(equal)", "out $1")
+            .ReReplace(@"(lastRule)\)", "ref $1)")
+            .ReReplace(@"true, aChanged\)", "true, ref aChanged)")
+            .ReReplace(@"ParseSelectorList\(\*aSelectorList, 0\)", @"ParseSelectorList(ref aSelectorList, '\0')")
+            .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
+            .ReReplace(@"(?<Method>\w+)\(AssignRuleToPointer, (?<Args>[^\)]+)\);", "Rule result = null; ${Method}((rule, _) => result = rule, ${Args}); aResult = result;")
 
             // common c++ fixes
             //.Replace(@"PRUnichar(')')", "((PRUnichar)(')'))")
@@ -179,6 +190,7 @@ namespace Alba.CsCss.Style
             //.Replace(@"INT32_MIN", "Int32.MinValue")
             // common c++
             .ReReplace(@"nullptr", "null")
+            .ReReplace(@"void\*", "object")
             .ReReplace(@"new (\w+);", "new $1();")
             .ReReplace(@"(?<Spec>const|static) (?<Type>\w+) (?<Var>\w+)\[\] = {", "${Spec} ${Type}[] ${Var} = new ${Type}[] {") // create arrays
             .ReReplace(@"(?<Spec>const) (?<Type>\w+) (?<Var>\w+)\[\]", "${Type}[] ${Var}") // array args

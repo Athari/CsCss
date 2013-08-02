@@ -10,6 +10,7 @@
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable RedundantArrayCreationExpression
 // ReSharper disable RedundantExplicitArrayCreation
+// ReSharper disable RedundantAssignment
 
 using System;
 using System.Collections.Generic;
@@ -220,7 +221,7 @@ namespace Alba.CsCss.Style
           int32_t ruleCount = mSheet.StyleRuleCount();
           if (0 < ruleCount) {
             Rule lastRule = null;
-            mSheet.GetStyleRuleAt(ruleCount - 1, lastRule);
+            mSheet.GetStyleRuleAt(ruleCount - 1, ref lastRule);
             if (lastRule != null) {
               switch (lastRule.GetType()) {
                 case Rule.CHARSET_RULE:
@@ -254,11 +255,11 @@ namespace Alba.CsCss.Style
               continue; // legal here only
             }
             if (nsCSSTokenType.AtKeyword == tk.mType) {
-              ParseAtRule(AppendRuleToSheet, this, false);
+              ParseAtRule((rule, _) => AppendRule(rule), this, false);
               continue;
             }
             UngetToken();
-            if (ParseRuleSet(AppendRuleToSheet, this)) {
+            if (ParseRuleSet((rule, _) => AppendRule(rule), this)) {
               mSection = nsCSSSection.General;
             }
           }
@@ -356,7 +357,7 @@ namespace Alba.CsCss.Style
             // If we cleared the old decl, then we want to be calling
             // ValueAppended as we parse.
             if (!ParseDeclaration(aDeclaration, nsParseDeclaration.AllowImportant,
-                                  true, aChanged)) {
+                                  true, ref aChanged)) {
               if (!SkipDeclaration(false)) {
                 break;
               }
@@ -395,10 +396,10 @@ namespace Alba.CsCss.Style
           } else {
             if (nsCSSTokenType.AtKeyword == tk.mType) {
               // FIXME: perhaps aInsideBlock should be true when we are?
-              ParseAtRule(AssignRuleToPointer, aResult, false);
+              Rule result = null; ParseAtRule((rule, _) => result = rule, aResult, false); aResult = result;
             } else {
               UngetToken();
-              ParseRuleSet(AssignRuleToPointer, aResult);
+              Rule result = null; ParseRuleSet((rule, _) => result = rule, aResult); aResult = result;
             }
         
             if (aResult && GetToken(true)) {
@@ -407,7 +408,7 @@ namespace Alba.CsCss.Style
               aResult = null;
             }
         
-            if (!aResult) {
+            if (aResult == null) {
               rv = NS_ERROR_DOM_SYNTAX_ERR;
               mReporter.OutputError();
             }
@@ -449,7 +450,7 @@ namespace Alba.CsCss.Style
         
           // Check for unknown or preffed off properties
           if (nsCSSProperty.UNKNOWN == aPropID || !nsCSSProps.IsEnabled(aPropID)) {
-            NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
+            string propName = nsCSSProps.GetStringValue(aPropID);
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownProperty", propName); };
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
@@ -465,7 +466,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!parsedOK) {
-            NS_ConvertASCIItoUTF16 propName(nsCSSProps.GetStringValue(aPropID));
+            string propName = nsCSSProps.GetStringValue(aPropID);
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", propName); };
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
@@ -528,7 +529,7 @@ namespace Alba.CsCss.Style
           // to a media query.  (The main substative difference is the relative
           // precedence of commas and paretheses.)
         
-          DebugOnly<bool> parsedOK = GatherMedia(aMediaList, false);
+          bool parsedOK = GatherMedia(aMediaList, false);
           Debug.Assert(parsedOK, "GatherMedia returned false; we probably want to avoid trashing aMediaList");
         
           mReporter.ClearError();
@@ -563,7 +564,7 @@ namespace Alba.CsCss.Style
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
           InitScanner(scanner, reporter, aURI, aURI, null);
         
-          bool success = ParseSelectorList(*aSelectorList, 0);
+          bool success = ParseSelectorList(ref aSelectorList, '\0');
         
           // We deliberately do not call OUTPUT_ERROR here, because all our
           // callers map a failure return to a JS exception, and if that JS
@@ -603,7 +604,7 @@ namespace Alba.CsCss.Style
           mReporter.OutputError();
           ReleaseScanner();
         
-          return result.forget();
+          return result;
         }
         
         internal bool ParseKeyframeSelectorString(string aSelectorString,
@@ -648,17 +649,18 @@ namespace Alba.CsCss.Style
           var scanner = new nsCSSScanner(aValue, 0);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aDocURL);
           InitScanner(scanner, reporter, aDocURL, aBaseURL, aDocPrincipal);
-          nsAutoSuppressErrors suppressErrors(this);
-        
-          bool parsedOK = ParseProperty(propID) && !GetToken(true);
-        
-          mReporter.ClearError();
-          ReleaseScanner();
-        
-          mTempData.ClearProperty(propID);
-          mTempData.AssertInitialState();
-        
-          return parsedOK;
+          using (/*var suppressErrors = */new nsAutoSuppressErrors(this)) {  
+          
+            bool parsedOK = ParseProperty(propID) && !GetToken(true);
+          
+            mReporter.ClearError();
+            ReleaseScanner();
+          
+            mTempData.ClearProperty(propID);
+            mTempData.AssertInitialState();
+          
+            return parsedOK;
+          }
         }
         
         internal bool EvaluateSupportsCondition(string aDeclaration,
@@ -669,15 +671,16 @@ namespace Alba.CsCss.Style
           var scanner = new nsCSSScanner(aDeclaration, 0);
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aDocURL);
           InitScanner(scanner, reporter, aDocURL, aBaseURL, aDocPrincipal);
-          nsAutoSuppressErrors suppressErrors(this);
-        
-          bool conditionMet;
-          bool parsedOK = ParseSupportsCondition(conditionMet) && !GetToken(true);
-        
-          mReporter.ClearError();
-          ReleaseScanner();
-        
-          return parsedOK && conditionMet;
+          using (/*var suppressErrors = */new nsAutoSuppressErrors(this)) {  
+          
+            bool conditionMet;
+            bool parsedOK = ParseSupportsCondition(conditionMet) && !GetToken(true);
+          
+            mReporter.ClearError();
+            ReleaseScanner();
+          
+            return parsedOK && conditionMet;
+          }
         }
         
         //----------------------------------------------------------------------
@@ -829,12 +832,12 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseAtRule(RuleAppendFunc aAppendFunc,
-                                   void* aData,
+                                   object aData,
                                    bool aInAtRule)
         {
         
           nsCSSSection newSection;
-          bool (*parseFunc)(RuleAppendFunc, void*);
+          bool (*parseFunc)(RuleAppendFunc, object);
         
           if ((mSection <= nsCSSSection.Charset) &&
               (mToken.mIdent.LowerCaseEqualsLiteral("charset"))) {
@@ -909,7 +912,7 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseCharsetRule(RuleAppendFunc aAppendFunc,
-                                        void* aData)
+                                        object aData)
         {
           if (!GetToken(true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PECharsetRuleEOF"); };
@@ -1238,7 +1241,7 @@ namespace Alba.CsCss.Style
         }
         
         // Parse a CSS2 import rule: "@import STRING | URL [medium [, medium]]"
-        internal bool ParseImportRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseImportRule(RuleAppendFunc aAppendFunc, object aData)
         {
           nsMediaList media = new nsMediaList();
         
@@ -1268,7 +1271,7 @@ namespace Alba.CsCss.Style
         internal void ProcessImport(string aURLSpec,
                                      nsMediaList aMedia,
                                      RuleAppendFunc aAppendFunc,
-                                     void* aData)
+                                     object aData)
         {
           ImportRule rule = new ImportRule(aMedia, aURLSpec);
           aAppendFunc(rule, aData);
@@ -1295,7 +1298,7 @@ namespace Alba.CsCss.Style
         // Parse the {} part of an @media or @-moz-document rule.
         internal bool ParseGroupRule(GroupRule aRule,
                                       RuleAppendFunc aAppendFunc,
-                                      void* aData)
+                                      object aData)
         {
           // XXXbz this could use better error reporting throughout the method
           if (!ExpectSymbol('{', true)) {
@@ -1323,7 +1326,7 @@ namespace Alba.CsCss.Style
               continue;
             }
             UngetToken();
-            ParseRuleSet(AppendRuleToSheet, this, true);
+            ParseRuleSet((rule, _) => AppendRule(rule), this, true);
           }
           PopGroup();
         
@@ -1336,7 +1339,7 @@ namespace Alba.CsCss.Style
         }
         
         // Parse a CSS2 media rule: "@media medium [, medium] { ... }"
-        internal bool ParseMediaRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseMediaRule(RuleAppendFunc aAppendFunc, object aData)
         {
           nsMediaList media = new nsMediaList();
         
@@ -1357,7 +1360,7 @@ namespace Alba.CsCss.Style
         // Parse a @-moz-document rule.  This is like an @media rule, but instead
         // of a medium it has a nonempty list of items where each item is either
         // url(), url-prefix(), or domain().
-        internal bool ParseMozDocumentRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseMozDocumentRule(RuleAppendFunc aAppendFunc, object aData)
         {
           DocumentRule.URL *urls = null;
           DocumentRule.URL **next = &urls;
@@ -1423,7 +1426,7 @@ namespace Alba.CsCss.Style
         }
         
         // Parse a CSS3 namespace rule: "@namespace [prefix] STRING | URL;"
-        internal bool ParseNameSpaceRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseNameSpaceRule(RuleAppendFunc aAppendFunc, object aData)
         {
           if (!GetToken(true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAtNSPrefixEOF"); };
@@ -1456,7 +1459,7 @@ namespace Alba.CsCss.Style
         internal void ProcessNameSpace(string aPrefix,
                                         string aURLSpec,
                                         RuleAppendFunc aAppendFunc,
-                                        void* aData)
+                                        object aData)
         {
           nsIAtom prefix;
         
@@ -1479,7 +1482,7 @@ namespace Alba.CsCss.Style
         
         // font-face-rule: '@font-face' '{' font-description '}'
         // font-description: font-descriptor+
-        internal bool ParseFontFaceRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseFontFaceRule(RuleAppendFunc aAppendFunc, object aData)
         {
           if (!ExpectSymbol('{', true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadFontBlockStart", mToken); };
@@ -1569,7 +1572,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseKeyframesRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParseKeyframesRule(RuleAppendFunc aAppendFunc, object aData)
         {
           if (!GetToken(true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEKeyframeNameEOF"); };
@@ -1604,7 +1607,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParsePageRule(RuleAppendFunc aAppendFunc, void* aData)
+        internal bool ParsePageRule(RuleAppendFunc aAppendFunc, object aData)
         {
           // TODO: There can be page selectors after @page such as ":first", ":left".
           nsParseDeclaration parseFlags = nsParseDeclaration.InBraces |
@@ -1619,7 +1622,7 @@ namespace Alba.CsCss.Style
                                                               nsCSSContextType.Page));
           mViewportUnitsEnabled = true;
         
-          if (!declaration) {
+          if (declaration == null) {
             return false;
           }
         
@@ -1641,7 +1644,7 @@ namespace Alba.CsCss.Style
           // Ignore !important in keyframe rules
           nsParseDeclaration parseFlags = nsParseDeclaration.InBraces;
           Declaration declaration(ParseDeclarationBlock(parseFlags));
-          if (!declaration) {
+          if (declaration == null) {
             return null;
           }
         
@@ -1649,7 +1652,7 @@ namespace Alba.CsCss.Style
           nsCSSKeyframeRule rule =
             new nsCSSKeyframeRule(selectorList, declaration);
         
-          return rule.forget();
+          return rule;
         }
         
         internal bool ParseKeyframeSelectorList(List<float> aSelectorList)
@@ -1691,7 +1694,7 @@ namespace Alba.CsCss.Style
         // supports_rule
         //   : "@supports" supports_condition group_rule_body
         //   ;
-        internal bool ParseSupportsRule(RuleAppendFunc aAppendFunc, void* aProcessData)
+        internal bool ParseSupportsRule(RuleAppendFunc aAppendFunc, object aProcessData)
         {
           bool conditionMet = false;
           string condition;
@@ -2047,7 +2050,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal void SkipRuleSet(bool aInsideBraces)
+        internal void SkipRuleSet(bool aInsideBraces = false)
         {
           nsCSSToken tk = mToken;
           for (;;) {
@@ -2100,8 +2103,8 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal bool ParseRuleSet(RuleAppendFunc aAppendFunc, void* aData,
-                                    bool aInsideBraces)
+        internal bool ParseRuleSet(RuleAppendFunc aAppendFunc, object aData,
+                                    bool aInsideBraces = false)
         {
           // First get the list of selectors for the rule
           nsCSSSelectorList slist = null;
@@ -2243,7 +2246,7 @@ namespace Alba.CsCss.Style
             }
           }
         
-          aList = list.forget();
+          aList = list;
           return true;
         }
         
@@ -3111,7 +3114,7 @@ namespace Alba.CsCss.Style
           }
         
           // Add the pseudo with the selector list parameter
-          aSelector.AddPseudoClass(aType, slist.forget());
+          aSelector.AddPseudoClass(aType, slist);
         
           // close the parenthesis
           if (!ExpectSymbol(')', true)) {
@@ -3203,7 +3206,7 @@ namespace Alba.CsCss.Style
             // Rewrite the current selector as this pseudo-element.
             // It does not contribute to selector weight.
             selector.mLowercaseTag.swap(pseudoElement);
-            selector.mClassList = pseudoElementArgs.forget();
+            selector.mClassList = pseudoElementArgs;
             selector.SetPseudoType(pseudoElementType);
             return true;
           }
@@ -3216,14 +3219,14 @@ namespace Alba.CsCss.Style
             selector = aList.AddSelector('>');
         
             selector.mLowercaseTag.swap(pseudoElement);
-            selector.mClassList = pseudoElementArgs.forget();
+            selector.mClassList = pseudoElementArgs;
             selector.SetPseudoType(pseudoElementType);
           }
         
           return true;
         }
         
-        internal Declaration ParseDeclarationBlock(uint32_t aFlags, nsCSSContextType aContext)
+        internal Declaration ParseDeclarationBlock(nsParseDeclaration aFlags, nsCSSContextType aContext = nsCSSContextType.General)
         {
           bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
@@ -3607,14 +3610,13 @@ namespace Alba.CsCss.Style
         //----------------------------------------------------------------------
         
         internal bool ParseDeclaration(Declaration aDeclaration,
-                                        uint32_t aFlags,
+                                        nsParseDeclaration aFlags,
                                         bool aMustCallValueAppended,
                                         ref bool aChanged,
-                                        nsCSSContextType aContext)
+                                        nsCSSContextType aContext = nsCSSContextType.General)
         {
-          NS_PRECONDITION(aContext == nsCSSContextType.General ||
-                          aContext == nsCSSContextType.Page,
-                          "Must be page or general context");
+          if (!(aContext == nsCSSContextType.General ||
+                          aContext == nsCSSContextType.Page)) throw new ArgumentException("Must be page or general context");
           bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
           mTempData.AssertInitialState();
@@ -4905,58 +4907,59 @@ namespace Alba.CsCss.Style
                                    nsCSSProperty aPropIDs[], int32_t aNumIDs)
         {
           int32_t found = 0;
-          nsAutoParseCompoundProperty compound(this);
-        
-          int32_t loop;
-          for (loop = 0; loop < aNumIDs; loop++) {
-            // Try each property parser in order
-            int32_t hadFound = found;
-            int32_t index;
-            for (index = 0; index < aNumIDs; index++) {
-              int32_t bit = 1 << index;
-              if ((found & bit) == 0) {
-                if (ParseSingleValueProperty(aValues[index], aPropIDs[index])) {
-                  found |= bit;
-                  // It's more efficient to break since it will reset |hadFound|
-                  // to |found|.  Furthermore, ParseListStyle depends on our going
-                  // through the properties in order for each value..
-                  break;
+          using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
+          
+            int32_t loop;
+            for (loop = 0; loop < aNumIDs; loop++) {
+              // Try each property parser in order
+              int32_t hadFound = found;
+              int32_t index;
+              for (index = 0; index < aNumIDs; index++) {
+                int32_t bit = 1 << index;
+                if ((found & bit) == 0) {
+                  if (ParseSingleValueProperty(aValues[index], aPropIDs[index])) {
+                    found |= bit;
+                    // It's more efficient to break since it will reset |hadFound|
+                    // to |found|.  Furthermore, ParseListStyle depends on our going
+                    // through the properties in order for each value..
+                    break;
+                  }
+                }
+              }
+              if (found == hadFound) {  // found nothing new
+                break;
+              }
+            }
+            if (0 < found) {
+              if (1 == found) { // only first property
+                if (nsCSSUnit.Inherit == aValues[0].GetUnit()) { // one inherit, all inherit
+                  for (loop = 1; loop < aNumIDs; loop++) {
+                    aValues[loop].SetInheritValue();
+                  }
+                  found = ((1 << aNumIDs) - 1);
+                }
+                else if (nsCSSUnit.Initial == aValues[0].GetUnit()) { // one initial, all initial
+                  for (loop = 1; loop < aNumIDs; loop++) {
+                    aValues[loop].SetInitialValue();
+                  }
+                  found = ((1 << aNumIDs) - 1);
+                }
+              }
+              else {  // more than one value, verify no inherits or initials
+                for (loop = 0; loop < aNumIDs; loop++) {
+                  if (nsCSSUnit.Inherit == aValues[loop].GetUnit()) {
+                    found = -1;
+                    break;
+                  }
+                  else if (nsCSSUnit.Initial == aValues[loop].GetUnit()) {
+                    found = -1;
+                    break;
+                  }
                 }
               }
             }
-            if (found == hadFound) {  // found nothing new
-              break;
-            }
+            return found;
           }
-          if (0 < found) {
-            if (1 == found) { // only first property
-              if (nsCSSUnit.Inherit == aValues[0].GetUnit()) { // one inherit, all inherit
-                for (loop = 1; loop < aNumIDs; loop++) {
-                  aValues[loop].SetInheritValue();
-                }
-                found = ((1 << aNumIDs) - 1);
-              }
-              else if (nsCSSUnit.Initial == aValues[0].GetUnit()) { // one initial, all initial
-                for (loop = 1; loop < aNumIDs; loop++) {
-                  aValues[loop].SetInitialValue();
-                }
-                found = ((1 << aNumIDs) - 1);
-              }
-            }
-            else {  // more than one value, verify no inherits or initials
-              for (loop = 0; loop < aNumIDs; loop++) {
-                if (nsCSSUnit.Inherit == aValues[loop].GetUnit()) {
-                  found = -1;
-                  break;
-                }
-                else if (nsCSSUnit.Initial == aValues[loop].GetUnit()) {
-                  found = -1;
-                  break;
-                }
-              }
-            }
-          }
-          return found;
         }
         
         internal void AppendValue(nsCSSProperty aPropID, nsCSSValue aValue)
@@ -5519,7 +5522,7 @@ namespace Alba.CsCss.Style
         static bool
         ExtractFirstFamily(string aFamily,
                            bool aGeneric,
-                           void* aData)
+                           object aData)
         {
           ExtractFirstFamilyData* realData = (ExtractFirstFamilyData*) aData;
           if (aGeneric || realData.mFamilyName.Length() > 0) {
@@ -5551,7 +5554,7 @@ namespace Alba.CsCss.Style
             nsFont font(valueStr, 0, 0, 0, 0, 0, 0);
             ExtractFirstFamilyData dat;
         
-            font.EnumerateFamilies(ExtractFirstFamily, (void*) &dat);
+            font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
             if (!dat.mGood)
               return false;
         
@@ -5634,79 +5637,80 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBackground()
         {
-          nsAutoParseCompoundProperty compound(this);
-        
-          // background-color can only be set once, so it's not a list.
-          nsCSSValue color;
-        
-          // Check first for inherit/initial.
-          if (ParseVariant(color, VARIANT_INHERIT, null)) {
-            // must be alone
-            if (!ExpectEndProperty()) {
-              return false;
+          using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
+          
+            // background-color can only be set once, so it's not a list.
+            nsCSSValue color;
+          
+            // Check first for inherit/initial.
+            if (ParseVariant(color, VARIANT_INHERIT, null)) {
+              // must be alone
+              if (!ExpectEndProperty()) {
+                return false;
+              }
+              for (nsCSSProperty subprops =
+                     nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background);
+                   *subprops != nsCSSProperty.UNKNOWN; ++subprops) {
+                AppendValue(*subprops, color);
+              }
+              return true;
             }
-            for (nsCSSProperty subprops =
-                   nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background);
-                 *subprops != nsCSSProperty.UNKNOWN; ++subprops) {
-              AppendValue(*subprops, color);
+          
+            nsCSSValue image, repeat, attachment, clip, origin, position, size;
+            BackgroundParseState state(color, image.SetListValue(), 
+                                       repeat.SetPairListValue(),
+                                       attachment.SetListValue(), clip.SetListValue(),
+                                       origin.SetListValue(), position.SetListValue(),
+                                       size.SetPairListValue());
+          
+            for (;;) {
+              if (!ParseBackgroundItem(state)) {
+                return false;
+              }
+              if (CheckEndProperty()) {
+                break;
+              }
+              // If we saw a color, this must be the last item.
+              if (color.GetUnit() != nsCSSUnit.Null) {
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectEndValue", mToken); };
+                return false;
+              }
+              // Otherwise, a comma is mandatory.
+              if (!ExpectSymbol(',', true)) {
+                return false;
+              }
+              // Chain another entry on all the lists.
+              state.mImage.mNext = new nsCSSValueList();
+              state.mImage = state.mImage.mNext;
+              state.mRepeat.mNext = new nsCSSValuePairList();
+              state.mRepeat = state.mRepeat.mNext;
+              state.mAttachment.mNext = new nsCSSValueList();
+              state.mAttachment = state.mAttachment.mNext;
+              state.mClip.mNext = new nsCSSValueList();
+              state.mClip = state.mClip.mNext;
+              state.mOrigin.mNext = new nsCSSValueList();
+              state.mOrigin = state.mOrigin.mNext;
+              state.mPosition.mNext = new nsCSSValueList();
+              state.mPosition = state.mPosition.mNext;
+              state.mSize.mNext = new nsCSSValuePairList();
+              state.mSize = state.mSize.mNext;
             }
+          
+            // If we get to this point without seeing a color, provide a default.
+            if (color.GetUnit() == nsCSSUnit.Null) {
+              color.SetColorValue(NS_RGBA(0,0,0,0));
+            }
+          
+            AppendValue(nsCSSProperty.background_image,      image);
+            AppendValue(nsCSSProperty.background_repeat,     repeat);
+            AppendValue(nsCSSProperty.background_attachment, attachment);
+            AppendValue(nsCSSProperty.background_clip,       clip);
+            AppendValue(nsCSSProperty.background_origin,     origin);
+            AppendValue(nsCSSProperty.background_position,   position);
+            AppendValue(nsCSSProperty.background_size,       size);
+            AppendValue(nsCSSProperty.background_color,      color);
             return true;
           }
-        
-          nsCSSValue image, repeat, attachment, clip, origin, position, size;
-          BackgroundParseState state(color, image.SetListValue(), 
-                                     repeat.SetPairListValue(),
-                                     attachment.SetListValue(), clip.SetListValue(),
-                                     origin.SetListValue(), position.SetListValue(),
-                                     size.SetPairListValue());
-        
-          for (;;) {
-            if (!ParseBackgroundItem(state)) {
-              return false;
-            }
-            if (CheckEndProperty()) {
-              break;
-            }
-            // If we saw a color, this must be the last item.
-            if (color.GetUnit() != nsCSSUnit.Null) {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectEndValue", mToken); };
-              return false;
-            }
-            // Otherwise, a comma is mandatory.
-            if (!ExpectSymbol(',', true)) {
-              return false;
-            }
-            // Chain another entry on all the lists.
-            state.mImage.mNext = new nsCSSValueList();
-            state.mImage = state.mImage.mNext;
-            state.mRepeat.mNext = new nsCSSValuePairList();
-            state.mRepeat = state.mRepeat.mNext;
-            state.mAttachment.mNext = new nsCSSValueList();
-            state.mAttachment = state.mAttachment.mNext;
-            state.mClip.mNext = new nsCSSValueList();
-            state.mClip = state.mClip.mNext;
-            state.mOrigin.mNext = new nsCSSValueList();
-            state.mOrigin = state.mOrigin.mNext;
-            state.mPosition.mNext = new nsCSSValueList();
-            state.mPosition = state.mPosition.mNext;
-            state.mSize.mNext = new nsCSSValuePairList();
-            state.mSize = state.mSize.mNext;
-          }
-        
-          // If we get to this point without seeing a color, provide a default.
-          if (color.GetUnit() == nsCSSUnit.Null) {
-            color.SetColorValue(NS_RGBA(0,0,0,0));
-          }
-        
-          AppendValue(nsCSSProperty.background_image,      image);
-          AppendValue(nsCSSProperty.background_repeat,     repeat);
-          AppendValue(nsCSSProperty.background_attachment, attachment);
-          AppendValue(nsCSSProperty.background_clip,       clip);
-          AppendValue(nsCSSProperty.background_origin,     origin);
-          AppendValue(nsCSSProperty.background_position,   position);
-          AppendValue(nsCSSProperty.background_size,       size);
-          AppendValue(nsCSSProperty.background_color,      color);
-          return true;
         }
         
         // Parse one item of the background shorthand property.
@@ -6543,95 +6547,96 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderImage()
         {
-          nsAutoParseCompoundProperty compound(this);
-        
-          // border-image: inherit | initial |
-          // <border-image-source> ||
-          // <border-image-slice>
-          //   [ / <border-image-width> |
-          //     / <border-image-width>? / <border-image-outset> ]? ||
-          // <border-image-repeat>
-        
-          nsCSSValue value;
-          if (ParseVariant(value, VARIANT_INHERIT, null)) {
-            AppendValue(nsCSSProperty.border_image_source, value);
-            AppendValue(nsCSSProperty.border_image_slice, value);
-            AppendValue(nsCSSProperty.border_image_width, value);
-            AppendValue(nsCSSProperty.border_image_outset, value);
-            AppendValue(nsCSSProperty.border_image_repeat, value);
-            // Keyword "inherit" (and "initial") can't be mixed, so we are done.
-            return true;
-          }
-        
-          // No empty property.
-          if (CheckEndProperty()) {
-            return false;
-          }
-        
-          // Shorthand properties are required to set everything they can.
-          SetBorderImageInitialValues();
-        
-          bool foundSource = false;
-          bool foundSliceWidthOutset = false;
-          bool foundRepeat = false;
-        
-          // This loop is used to handle the parsing of border-image properties which
-          // can appear in any order.
-          nsCSSValue imageSourceValue;
-          while (!CheckEndProperty()) {
-            // <border-image-source>
-            if (!foundSource && ParseVariant(imageSourceValue, VARIANT_UO, null)) {
-              AppendValue(nsCSSProperty.border_image_source, imageSourceValue);
-              foundSource = true;
-              continue;
-            }
-        
+          using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
+          
+            // border-image: inherit | initial |
+            // <border-image-source> ||
             // <border-image-slice>
-            // ParseBorderImageSlice is weird.  It may consume tokens and then return
-            // false, because it parses a property with two required components that
-            // can appear in either order.  Since the tokens that were consumed cannot
-            // parse as anything else we care about, this isn't a problem.
-            if (!foundSliceWidthOutset) {
-              bool sliceConsumedTokens = false;
-              if (ParseBorderImageSlice(false, &sliceConsumedTokens)) {
-                foundSliceWidthOutset = true;
-        
-                // [ / <border-image-width>?
-                if (ExpectSymbol('/', true)) {
-                  bool foundBorderImageWidth = ParseBorderImageWidth(false);
-        
-                  // [ / <border-image-outset>
+            //   [ / <border-image-width> |
+            //     / <border-image-width>? / <border-image-outset> ]? ||
+            // <border-image-repeat>
+          
+            nsCSSValue value;
+            if (ParseVariant(value, VARIANT_INHERIT, null)) {
+              AppendValue(nsCSSProperty.border_image_source, value);
+              AppendValue(nsCSSProperty.border_image_slice, value);
+              AppendValue(nsCSSProperty.border_image_width, value);
+              AppendValue(nsCSSProperty.border_image_outset, value);
+              AppendValue(nsCSSProperty.border_image_repeat, value);
+              // Keyword "inherit" (and "initial") can't be mixed, so we are done.
+              return true;
+            }
+          
+            // No empty property.
+            if (CheckEndProperty()) {
+              return false;
+            }
+          
+            // Shorthand properties are required to set everything they can.
+            SetBorderImageInitialValues();
+          
+            bool foundSource = false;
+            bool foundSliceWidthOutset = false;
+            bool foundRepeat = false;
+          
+            // This loop is used to handle the parsing of border-image properties which
+            // can appear in any order.
+            nsCSSValue imageSourceValue;
+            while (!CheckEndProperty()) {
+              // <border-image-source>
+              if (!foundSource && ParseVariant(imageSourceValue, VARIANT_UO, null)) {
+                AppendValue(nsCSSProperty.border_image_source, imageSourceValue);
+                foundSource = true;
+                continue;
+              }
+          
+              // <border-image-slice>
+              // ParseBorderImageSlice is weird.  It may consume tokens and then return
+              // false, because it parses a property with two required components that
+              // can appear in either order.  Since the tokens that were consumed cannot
+              // parse as anything else we care about, this isn't a problem.
+              if (!foundSliceWidthOutset) {
+                bool sliceConsumedTokens = false;
+                if (ParseBorderImageSlice(false, &sliceConsumedTokens)) {
+                  foundSliceWidthOutset = true;
+          
+                  // [ / <border-image-width>?
                   if (ExpectSymbol('/', true)) {
-                    if (!ParseBorderImageOutset(false)) {
+                    bool foundBorderImageWidth = ParseBorderImageWidth(false);
+          
+                    // [ / <border-image-outset>
+                    if (ExpectSymbol('/', true)) {
+                      if (!ParseBorderImageOutset(false)) {
+                        return false;
+                      }
+                    } else if (!foundBorderImageWidth) {
+                      // If this part has an trailing slash, the whole declaration is 
+                      // invalid.
                       return false;
                     }
-                  } else if (!foundBorderImageWidth) {
-                    // If this part has an trailing slash, the whole declaration is 
-                    // invalid.
+                  }
+          
+                  continue;
+                } else {
+                  // If we consumed some tokens for <border-image-slice> but did not
+                  // successfully parse it, we have an error.
+                  if (sliceConsumedTokens) {
                     return false;
                   }
                 }
-        
-                continue;
-              } else {
-                // If we consumed some tokens for <border-image-slice> but did not
-                // successfully parse it, we have an error.
-                if (sliceConsumedTokens) {
-                  return false;
-                }
               }
+          
+              // <border-image-repeat>
+              if (!foundRepeat && ParseBorderImageRepeat(false)) {
+                foundRepeat = true;
+                continue;
+              }
+          
+              return false;
             }
-        
-            // <border-image-repeat>
-            if (!foundRepeat && ParseBorderImageRepeat(false)) {
-              foundRepeat = true;
-              continue;
-            }
-        
-            return false;
+          
+            return true;
           }
-        
-          return true;
         }
         
         internal bool ParseBorderSpacing()
@@ -7418,26 +7423,27 @@ namespace Alba.CsCss.Style
           }
         
           // Get final mandatory font-family
-          nsAutoParseCompoundProperty compound(this);
-          if (ParseFamily(family)) {
-            if ((nsCSSUnit.Inherit != family.GetUnit()) && (nsCSSUnit.Initial != family.GetUnit()) &&
-                ExpectEndProperty()) {
-              AppendValue(nsCSSProperty._x_system_font, nsCSSValue(nsCSSUnit.None));
-              AppendValue(nsCSSProperty.font_family, family);
-              AppendValue(nsCSSProperty.font_style, values[0]);
-              AppendValue(nsCSSProperty.font_variant, values[1]);
-              AppendValue(nsCSSProperty.font_weight, values[2]);
-              AppendValue(nsCSSProperty.font_size, size);
-              AppendValue(nsCSSProperty.line_height, lineHeight);
-              AppendValue(nsCSSProperty.font_stretch,
-                          nsCSSValue(nsFont.STRETCH_NORMAL, nsCSSUnit.Enumerated));
-              AppendValue(nsCSSProperty.font_size_adjust, nsCSSValue(nsCSSUnit.None));
-              AppendValue(nsCSSProperty.font_feature_settings, nsCSSValue(nsCSSUnit.Normal));
-              AppendValue(nsCSSProperty.font_language_override, nsCSSValue(nsCSSUnit.Normal));
-              return true;
+          using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
+            if (ParseFamily(family)) {
+              if ((nsCSSUnit.Inherit != family.GetUnit()) && (nsCSSUnit.Initial != family.GetUnit()) &&
+                  ExpectEndProperty()) {
+                AppendValue(nsCSSProperty._x_system_font, nsCSSValue(nsCSSUnit.None));
+                AppendValue(nsCSSProperty.font_family, family);
+                AppendValue(nsCSSProperty.font_style, values[0]);
+                AppendValue(nsCSSProperty.font_variant, values[1]);
+                AppendValue(nsCSSProperty.font_weight, values[2]);
+                AppendValue(nsCSSProperty.font_size, size);
+                AppendValue(nsCSSProperty.line_height, lineHeight);
+                AppendValue(nsCSSProperty.font_stretch,
+                            nsCSSValue(nsFont.STRETCH_NORMAL, nsCSSUnit.Enumerated));
+                AppendValue(nsCSSProperty.font_size_adjust, nsCSSValue(nsCSSUnit.None));
+                AppendValue(nsCSSProperty.font_feature_settings, nsCSSValue(nsCSSUnit.Normal));
+                AppendValue(nsCSSProperty.font_language_override, nsCSSValue(nsCSSUnit.Normal));
+                return true;
+              }
             }
+            return false;
           }
-          return false;
         }
         
         internal bool ParseFontWeight(nsCSSValue aValue)
@@ -7619,7 +7625,7 @@ namespace Alba.CsCss.Style
               nsFont font(family, 0, 0, 0, 0, 0, 0);
               ExtractFirstFamilyData dat;
         
-              font.EnumerateFamilies(ExtractFirstFamily, (void*) &dat);
+              font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
               if (!dat.mGood)
                 return false;
         
@@ -9042,33 +9048,34 @@ namespace Alba.CsCss.Style
         
         internal bool ParseShadowList(nsCSSProperty aProperty)
         {
-          nsAutoParseCompoundProperty compound(this);
-          bool isBoxShadow = aProperty == nsCSSProperty.box_shadow;
-        
-          nsCSSValue value;
-          if (ParseVariant(value, VARIANT_INHERIT | VARIANT_NONE, null)) {
-            // 'inherit', 'initial', and 'none' must be alone
-            if (!ExpectEndProperty()) {
-              return false;
-            }
-          } else {
-            nsCSSValueList cur = value.SetListValue();
-            for (;;) {
-              if (!ParseShadowItem(cur.mValue, isBoxShadow)) {
+          using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
+            bool isBoxShadow = aProperty == nsCSSProperty.box_shadow;
+          
+            nsCSSValue value;
+            if (ParseVariant(value, VARIANT_INHERIT | VARIANT_NONE, null)) {
+              // 'inherit', 'initial', and 'none' must be alone
+              if (!ExpectEndProperty()) {
                 return false;
               }
-              if (CheckEndProperty()) {
-                break;
+            } else {
+              nsCSSValueList cur = value.SetListValue();
+              for (;;) {
+                if (!ParseShadowItem(cur.mValue, isBoxShadow)) {
+                  return false;
+                }
+                if (CheckEndProperty()) {
+                  break;
+                }
+                if (!ExpectSymbol(',', true)) {
+                  return false;
+                }
+                cur.mNext = new nsCSSValueList();
+                cur = cur.mNext;
               }
-              if (!ExpectSymbol(',', true)) {
-                return false;
-              }
-              cur.mNext = new nsCSSValueList();
-              cur = cur.mNext;
             }
+            AppendValue(aProperty, value);
+            return true;
           }
-          AppendValue(aProperty, value);
-          return true;
         }
         
         internal int32_t GetNamespaceIdForPrefix(string aPrefix)

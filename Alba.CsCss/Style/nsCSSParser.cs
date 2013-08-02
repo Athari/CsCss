@@ -62,17 +62,12 @@ namespace Alba.CsCss.Style
             return mParsingCompoundProperty;
         }
 
-        private static void AppendRuleToSheet (Rule aRule, nsCSSParser aParser)
-        {
-            aParser.AppendRule(aRule);
-        }
-
         private static bool StringBeginsWith (string str, string value)
         {
             return str.StartsWith(value);
         }
 
-        internal delegate void RuleAppendFunc (Rule aRule, void* aData);
+        internal delegate void RuleAppendFunc (Rule aRule, object aData);
 
         internal enum nsSelectorParsingStatus
         {
@@ -87,13 +82,13 @@ namespace Alba.CsCss.Style
         };
 
         [Flags]
-        private enum nsParseDeclaration
+        internal enum nsParseDeclaration
         {
             InBraces = 1 << 0,
             AllowImportant = 1 << 1
         };
 
-        private enum nsCSSContextType
+        internal enum nsCSSContextType
         {
             General,
             Page
@@ -246,7 +241,7 @@ namespace Alba.CsCss.Style
             return 0;
         }
 
-        public bool GetStyleRuleAt (int i, out Rule lastRule)
+        public bool GetStyleRuleAt (int i, ref Rule lastRule)
         {
             lastRule = null;
             return false;
@@ -502,31 +497,34 @@ namespace Alba.CsCss.Style
         public static int NAMESPACE_RULE;
     }
 
-    internal class ImportRule
+    internal class ImportRule : Rule
     {}
 
-    internal class StyleRule
+    internal class StyleRule : Rule
     {
+        public StyleRule (object o, Declaration declaration)
+        {}
+
         public void SetLineNumber (int linenum)
         {}
     }
 
-    internal class GroupRule
+    internal class GroupRule : Rule
     {
         public void AppendStyleRule (Rule aRule)
         {}
     }
 
-    internal class CharsetRule
+    internal class CharsetRule : Rule
     {}
 
-    internal class MediaRule
+    internal class MediaRule : Rule
     {}
 
-    internal class NameSpaceRule
+    internal class NameSpaceRule : Rule
     {}
 
-    internal class DocumentRule
+    internal class DocumentRule : Rule
     {
         internal class URL
         {}
@@ -535,27 +533,22 @@ namespace Alba.CsCss.Style
         {}
     }
 
-    internal class CSSSupportsRule
+    internal class CSSSupportsRule : Rule
     {}
 
-    internal class nsCSSPageRule
+    internal class nsCSSPageRule : Rule
     {}
 
-    internal class nsCSSKeyframeRule
-    {
-        public nsCSSKeyframeRule forget ()
-        {
-            return null;
-        }
-    }
+    internal class nsCSSKeyframeRule : Rule
+    {}
 
-    internal class nsCSSKeyframesRule
+    internal class nsCSSKeyframesRule : Rule
     {
         public void AppendStyleRule (nsCSSKeyframeRule kid)
         {}
     }
 
-    internal class nsCSSFontFaceRule
+    internal class nsCSSFontFaceRule : Rule
     {
         public void SetDesc (nsCSSFontDesc descId, nsCSSValue value)
         {}
