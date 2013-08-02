@@ -384,7 +384,7 @@ namespace Alba.CsCss.Style
         public static object all, _not, only;
     }
 
-    internal class nsCSSValue
+    internal struct nsCSSValue : IEquatable<nsCSSValue>
     {
         public nsCSSValue (nsCSSUnit auto)
         {}
@@ -482,6 +482,36 @@ namespace Alba.CsCss.Style
 
         public void SetGradientValue (nsCSSValueGradient aGradient)
         {}
+
+        public bool IsCalcUnit ()
+        {
+            return false;
+        }
+
+        public bool Equals (nsCSSValue other)
+        {
+            return false;
+        }
+
+        public override bool Equals (object obj)
+        {
+            return !ReferenceEquals(obj, null) && obj is nsCSSValue && Equals((nsCSSValue)obj);
+        }
+
+        public override int GetHashCode ()
+        {
+            return 0;
+        }
+
+        public static bool operator == (nsCSSValue left, nsCSSValue right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator != (nsCSSValue left, nsCSSValue right)
+        {
+            return !left.Equals(right);
+        }
     }
 
     internal class nsCSSValueGradient
@@ -525,6 +555,7 @@ namespace Alba.CsCss.Style
     internal class nsCSSValueList
     {
         public nsCSSValue mValue;
+        public nsCSSValueList mNext;
     }
 
     internal class nsCSSValuePairList

@@ -4448,7 +4448,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFlex()
         {
           // First check for inherit / initial
-          var tmpVal = new nsCSSValue();
+          nsCSSValue tmpVal;
           if (ParseVariant(tmpVal, VARIANT_INHERIT, null)) {
             AppendValue(nsCSSProperty.flex_grow, tmpVal);
             AppendValue(nsCSSProperty.flex_shrink, tmpVal);
@@ -4716,7 +4716,7 @@ namespace Alba.CsCss.Style
               bool haveYSize =
                 ParseNonNegativeVariant(cssGradient.GetRadiusY(), VARIANT_LP, null);
               if (!haveShape) {
-                var shapeValue = new nsCSSValue();
+                nsCSSValue shapeValue;
                 haveShape = ParseVariant(shapeValue, VARIANT_KEYWORD,
                                          nsCSSProps.kRadialGradientShapeKTable);
               }
@@ -5050,7 +5050,7 @@ namespace Alba.CsCss.Style
         internal bool ParseDirectionalBoxProperty(nsCSSProperty aProperty,
                                                    int32_t aSourceType)
         {
-          nsCSSProperty subprops = nsCSSProps.SubpropertyEntryFor(aProperty);
+          nsCSSProperty[] subprops = nsCSSProps.SubpropertyEntryFor(aProperty);
           Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                        "not box property with physical vs. logical cascading");
           nsCSSValue value;
@@ -5097,7 +5097,7 @@ namespace Alba.CsCss.Style
           int32_t countX = 0, countY = 0;
         
           NS_FOR_CSS_SIDES (side) {
-            if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[side],
+            if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[(int)side],
                                           (side > 0 ? 0 : VARIANT_INHERIT) |
                                             VARIANT_LP | VARIANT_CALC,
                                           null))
@@ -5109,7 +5109,7 @@ namespace Alba.CsCss.Style
         
           if (ExpectSymbol('/', true)) {
             NS_FOR_CSS_SIDES (side) {
-              if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[side],
+              if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[(int)side],
                                             VARIANT_LP | VARIANT_CALC, null))
                 break;
               countY++;
@@ -5146,16 +5146,16 @@ namespace Alba.CsCss.Style
             case 3: dimenY.mLeft = dimenY.mRight; // bottom-left same as top-right
           }
         
-          NS_FOR_CSS_SIDES(side) {
-            nsCSSValue x = dimenX.*nsCSSRect.sides[side];
-            nsCSSValue y = dimenY.*nsCSSRect.sides[side];
+          for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+            nsCSSValue x = dimenX.*nsCSSRect.sides[(int)side];
+            nsCSSValue y = dimenY.*nsCSSRect.sides[(int)side];
         
             if (x == y) {
-              AppendValue(aPropIDs[side], x);
+              AppendValue(aPropIDs[(int)side], x);
             } else {
               nsCSSValue pair;
               pair.SetPairValue(x, y);
-              AppendValue(aPropIDs[side], pair);
+              AppendValue(aPropIDs[(int)side], pair);
             }
           }
           return true;
@@ -5603,7 +5603,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal void InitBoxPropsAsPhysical(nsCSSProperty aSourceProperties)
+        internal void InitBoxPropsAsPhysical(nsCSSProperty[] aSourceProperties)
         {
           var physical = new nsCSSValue(nsStyle.BOXPROP_SOURCE_PHYSICAL, nsCSSUnit.Enumerated);
           for (nsCSSProperty prop = aSourceProperties;
@@ -5617,18 +5617,18 @@ namespace Alba.CsCss.Style
         {
           int32_t val = nsStyle.BG_POSITION_CENTER;
           if (isX) {
-            if (aMask & BG_LEFT) {
+            if ((aMask & BG_LEFT) != 0) {
               val = nsStyle.BG_POSITION_LEFT;
             }
-            else if (aMask & BG_RIGHT) {
+            else if ((aMask & BG_RIGHT) != 0) {
               val = nsStyle.BG_POSITION_RIGHT;
             }
           }
           else {
-            if (aMask & BG_TOP) {
+            if ((aMask & BG_TOP) != 0) {
               val = nsStyle.BG_POSITION_TOP;
             }
-            else if (aMask & BG_BOTTOM) {
+            else if ((aMask & BG_BOTTOM) != 0) {
               val = nsStyle.BG_POSITION_BOTTOM;
             }
           }
@@ -5649,7 +5649,7 @@ namespace Alba.CsCss.Style
               if (!ExpectEndProperty()) {
                 return false;
               }
-              for (nsCSSProperty subprops =
+              for (nsCSSProperty[] subprops =
                      nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background);
                    *subprops != nsCSSProperty.UNKNOWN; ++subprops) {
                 AppendValue(*subprops, color);
@@ -5658,7 +5658,7 @@ namespace Alba.CsCss.Style
             }
           
             nsCSSValue image, repeat, attachment, clip, origin, position, size;
-            BackgroundParseState state(color, image.SetListValue(), 
+            var state = new BackgroundParseState(color, image.SetListValue(), 
                                        repeat.SetPairListValue(),
                                        attachment.SetListValue(), clip.SetListValue(),
                                        origin.SetListValue(), position.SetListValue(),
@@ -6671,7 +6671,7 @@ namespace Alba.CsCss.Style
                                        bool aSetAllSides)
         {
           const int32_t numProps = 3;
-          nsCSSValue  values[numProps];
+          var values = new nsCSSValue[numProps];
         
           int32_t found = ParseChoice(values, aPropIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
@@ -6741,8 +6741,8 @@ namespace Alba.CsCss.Style
               SetBorderImageInitialValues();
               break;
             }
-            NS_FOR_CSS_SIDES(side) {
-              AppendValue(kBorderColorsProps[side], extraValue);
+            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+              AppendValue(kBorderColorsProps[(int)side], extraValue);
             }
           }
           else {
@@ -6758,7 +6758,7 @@ namespace Alba.CsCss.Style
                                                   int32_t aSourceType)
         {
           const int32_t numProps = 3;
-          nsCSSValue  values[numProps];
+          var values = new nsCSSValue[numProps];
         
           int32_t found = ParseChoice(values, aPropIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
@@ -6775,7 +6775,7 @@ namespace Alba.CsCss.Style
             values[2].SetIntValue(nsStyle.COLOR_MOZ_USE_TEXT_COLOR, nsCSSUnit.Enumerated);
           }
           for (int32_t index = 0; index < numProps; index++) {
-            nsCSSProperty subprops =
+            nsCSSProperty[] subprops =
               nsCSSProps.SubpropertyEntryFor(aPropIDs[index + numProps]);
             Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                          "not box property with physical vs. logical cascading");
@@ -6973,7 +6973,7 @@ namespace Alba.CsCss.Style
                               !(variantMask & ~int32_t(VARIANT_NUMBER)),
                               "ParseCalcTerm did not set variantMask appropriately");
         
-            if (variantMask & VARIANT_NUMBER) {
+            if ((variantMask & VARIANT_NUMBER) != 0) {
               // Simplify the value immediately so we can check for division by
               // zero.
               ReduceNumberCalcOps ops;
@@ -7022,7 +7022,7 @@ namespace Alba.CsCss.Style
         
           // Adjust aVariantMask (see comments above function) to reflect which
           // option we took.
-          if (aVariantMask & VARIANT_NUMBER) {
+          if ((aVariantMask & VARIANT_NUMBER) != 0) {
             if (gotValue) {
               aVariantMask &= ~int32_t(VARIANT_NUMBER);
             } else {
@@ -7073,7 +7073,7 @@ namespace Alba.CsCss.Style
           }
           // If we did the value parsing, we need to adjust aVariantMask to
           // reflect which option we took (see above).
-          if (aVariantMask & VARIANT_NUMBER) {
+          if ((aVariantMask & VARIANT_NUMBER) != 0) {
             if (aValue.GetUnit() == nsCSSUnit.Number) {
               aVariantMask = VARIANT_NUMBER;
             } else {
@@ -7138,8 +7138,8 @@ namespace Alba.CsCss.Style
                      mToken.mIdentStr.LowerCaseEqualsLiteral("rect")) {
             nsCSSRect rect = val.SetRectValue();
             bool useCommas;
-            NS_FOR_CSS_SIDES(side) {
-              if (! ParseVariant(rect.*(nsCSSRect.sides[side]),
+            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+              if (! ParseVariant(rect.*(nsCSSRect.sides[(int)side]),
                                  VARIANT_AL, null)) {
                 return false;
               }
@@ -7182,7 +7182,7 @@ namespace Alba.CsCss.Style
           };
           const int32_t numProps = columnIDs.Length;
         
-          nsCSSValue values[numProps];
+          var values = new nsCSSValue[numProps];
           int32_t found = ParseChoice(values, columnIDs, numProps);
           if (found < 1 || !ExpectEndProperty()) {
             return false;
@@ -7385,7 +7385,7 @@ namespace Alba.CsCss.Style
         
           // Get optional font-style, font-variant and font-weight (in any order)
           const int32_t numProps = 3;
-          nsCSSValue  values[numProps];
+          var values = new nsCSSValue[numProps];
           int32_t found = ParseChoice(values, fontIDs, numProps);
           if ((found < 0) || (nsCSSUnit.Inherit == values[0].GetUnit()) ||
               (nsCSSUnit.Initial == values[0].GetUnit())) { // illegal data
@@ -7849,7 +7849,7 @@ namespace Alba.CsCss.Style
         
           // Provide default values
           if ((found & 2) == 0) {
-            if (found & 1) {
+            if ((found & 1) != 0) {
               values[1].SetIntValue(nsStyle.LIST_STYLE_NONE, nsCSSUnit.Enumerated);
             } else {
               values[1].SetIntValue(nsStyle.LIST_STYLE_DISC, nsCSSUnit.Enumerated);
@@ -7923,7 +7923,7 @@ namespace Alba.CsCss.Style
             nsCSSProperty.outline_width
           };
         
-          nsCSSValue  values[numProps];
+          var values = new nsCSSValue[numProps];
           int32_t found = ParseChoice(values, kOutlineIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
             return false;
@@ -8860,14 +8860,14 @@ namespace Alba.CsCss.Style
           // -duration, and -timing-function with some components missing.
           // there can be multiple transitions, separated with commas
         
-          nsCSSValue initialValues[numProps];
+          var initialValues = new nsCSSValue[numProps];
           initialValues[0].SetFloatValue(0.0, nsCSSUnit.Seconds);
           initialValues[1].SetIntValue(nsStyle.TRANSITION_TIMING_FUNCTION_EASE,
                                        nsCSSUnit.Enumerated);
           initialValues[2].SetFloatValue(0.0, nsCSSUnit.Seconds);
           initialValues[3].SetAllValue();
         
-          nsCSSValue values[numProps];
+          var values = new nsCSSValue[numProps];
         
           ParseAnimationOrTransitionShorthandResult spres =
             ParseAnimationOrTransitionShorthand(kTransitionProperties,
@@ -8940,7 +8940,7 @@ namespace Alba.CsCss.Style
           // -duration, and -timing-function with some components missing.
           // there can be multiple animations, separated with commas
         
-          nsCSSValue initialValues[numProps];
+          var initialValues = new nsCSSValue[numProps];
           initialValues[0].SetFloatValue(0.0, nsCSSUnit.Seconds);
           initialValues[1].SetIntValue(nsStyle.TRANSITION_TIMING_FUNCTION_EASE,
                                        nsCSSUnit.Enumerated);
@@ -8950,7 +8950,7 @@ namespace Alba.CsCss.Style
           initialValues[5].SetFloatValue(1.0f, nsCSSUnit.Number);
           initialValues[6].SetNoneValue();
         
-          nsCSSValue values[numProps];
+          var values = new nsCSSValue[numProps];
         
           ParseAnimationOrTransitionShorthandResult spres =
             ParseAnimationOrTransitionShorthand(kAnimationProperties,

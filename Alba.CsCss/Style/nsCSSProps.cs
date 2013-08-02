@@ -72,7 +72,7 @@ namespace Alba.CsCss.Style
             throw new NotImplementedException();
         }
 
-        public static nsCSSProperty SubpropertyEntryFor (nsCSSProperty aProperty)
+        public static nsCSSProperty[] SubpropertyEntryFor (nsCSSProperty aProperty)
         {
             throw new NotImplementedException();
         }
