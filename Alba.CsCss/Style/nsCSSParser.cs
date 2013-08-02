@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
@@ -263,6 +264,9 @@ namespace Alba.CsCss.Style
         {}
     }
 
+    internal class nsAtomList
+    {}
+
     internal class nsCSSSelector
     {
         public nsCSSSelector mNegations;
@@ -371,7 +375,12 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsCSSSelectorList
-    {}
+    {
+        public nsCSSSelector AddSelector (char aPrevCombinator)
+        {
+            return null;
+        }
+    }
 
     internal class nsContentUtils
     {
@@ -390,9 +399,6 @@ namespace Alba.CsCss.Style
         {}
 
         public nsCSSValue (float auto, nsCSSUnit number)
-        {}
-
-        public nsCSSValue ()
         {}
 
         public nsCSSUnit GetUnit ()
@@ -512,6 +518,9 @@ namespace Alba.CsCss.Style
         {
             return !left.Equals(right);
         }
+
+        public void SetColorValue (nscolor nsRgba)
+        {}
     }
 
     internal class nsCSSValueGradient
@@ -621,7 +630,10 @@ namespace Alba.CsCss.Style
     }
 
     internal class MediaRule : Rule
-    {}
+    {
+        public void SetMedia (nsMediaList media)
+        {}
+    }
 
     internal class NameSpaceRule : Rule
     {}
@@ -644,19 +656,31 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsCSSPageRule : Rule
-    {}
+    {
+        public nsCSSPageRule (Declaration declaration)
+        {}
+    }
 
     internal class nsCSSKeyframeRule : Rule
-    {}
+    {
+        public nsCSSKeyframeRule (List<float> selectorList, Declaration declaration)
+        {}
+    }
 
     internal class nsCSSKeyframesRule : Rule
     {
+        public nsCSSKeyframesRule (string name)
+        {}
+
         public void AppendStyleRule (nsCSSKeyframeRule kid)
         {}
     }
 
     internal class nsCSSFontFaceRule : Rule
     {
+        public nsCSSFontFaceRule ()
+        {}
+
         public void SetDesc (nsCSSFontDesc descId, nsCSSValue value)
         {}
     }

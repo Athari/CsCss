@@ -37,7 +37,7 @@ namespace Alba.CsCss.Style
         public static int[] kObjectPatternKTable;
         public static int[] kStrokeObjectValueKTable;
 
-        public static bool FindKeyword (nsCSSKeyword keyword, object kListStyleKTable, int type)
+        public static bool FindKeyword (nsCSSKeyword keyword, object kListStyleKTable, ref int type)
         {
             throw new NotImplementedException();
         }
