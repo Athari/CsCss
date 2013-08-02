@@ -1467,12 +1467,12 @@ namespace Alba.CsCss.Style
             }
           }
         
-          css.NameSpaceRule rule = new css.NameSpaceRule(prefix, aURLSpec);
+          NameSpaceRule rule = new NameSpaceRule(prefix, aURLSpec);
           aAppendFunc(rule, aData);
         
           // If this was the first namespace rule encountered, it will trigger
           // creation of a namespace map.
-          if (!mNameSpaceMap) {
+          if (mNameSpaceMap == null) {
             mNameSpaceMap = mSheet.GetNameSpaceMap();
           }
         }

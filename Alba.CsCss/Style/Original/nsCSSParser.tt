@@ -121,7 +121,7 @@ namespace Alba.CsCss.Style
                             "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
                             "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|ImportRule|Declaration|BackgroundParseState|"+
                             "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus|"+
-                            "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|URLValue"+
+                            "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|NameSpaceRule|URLValue"+
                        @")\b(?<Space> )?[*&]?", "${Name}${Space}")
             .ReReplace(@"(?n)\b(?<Name>"+
                             "u?int\\d+_t|bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nsCSSValuePair|nscolor"+
@@ -152,7 +152,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             // specific expressions
-            .ReReplace(@"!(mScanner|mSheetPrincipal|mediaFeatureAtom)", "$1 == null")
+            .ReReplace(@"!(mScanner|mSheetPrincipal|mNameSpaceMap|mediaFeatureAtom)", "$1 == null")
             .ReReplace(@"!(combinator)", "$1 == 0")
             .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")

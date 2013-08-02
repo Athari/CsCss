@@ -431,6 +431,34 @@ namespace Alba.CsCss.Style
         {}
     }
 
+    internal class nsCSSValueGradient
+    {
+        public bool mIsExplicitSize;
+
+        public nsCSSValueGradient (bool b, bool aIsRepeating)
+        {}
+
+        public nsCSSValue GetRadialShape ()
+        {
+            return null;
+        }
+
+        public nsCSSValue GetRadialSize ()
+        {
+            return null;
+        }
+
+        public nsCSSValue GetRadiusX ()
+        {
+            return null;
+        }
+
+        public nsCSSValue GetRadiusY ()
+        {
+            return null;
+        }
+    }
+
     internal class nsCSSValueList
     {
         public nsCSSValue mValue;
@@ -495,9 +523,15 @@ namespace Alba.CsCss.Style
     internal class MediaRule
     {}
 
+    internal class NameSpaceRule
+    {}
+
     internal class DocumentRule
     {
         internal class URL
+        {}
+
+        public void SetURLs (URL[] urls)
         {}
     }
 
