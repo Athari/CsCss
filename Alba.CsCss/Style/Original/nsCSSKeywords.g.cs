@@ -2,6 +2,9 @@
 // Generated file. Do not edit manually.
 //
 
+using System.Collections.Generic;
+using Alba.CsCss.Extensions;
+
 namespace Alba.CsCss.Style
 {
     internal partial class nsCSSKeywords
@@ -591,5 +594,7 @@ namespace Alba.CsCss.Style
             "use-script",
             "-moz-crisp-edges",
         };
+
+        private static readonly Dictionary<string, int> gKeywordTable = kCSSRawKeywords.ToCaseInsensitiveNameTable();
     }
 }

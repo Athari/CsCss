@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
@@ -673,8 +672,8 @@ namespace Alba.CsCss.Style
           InitScanner(scanner, reporter, aDocURL, aBaseURL, aDocPrincipal);
           using (/*var suppressErrors = */new nsAutoSuppressErrors(this)) {  
           
-            bool conditionMet;
-            bool parsedOK = ParseSupportsCondition(conditionMet) && !GetToken(true);
+            bool conditionMet = false;
+            bool parsedOK = ParseSupportsCondition(ref conditionMet) && !GetToken(true);
           
             mReporter.ClearError();
             ReleaseScanner();
@@ -758,8 +757,8 @@ namespace Alba.CsCss.Style
         }
         
         // Parses the priority suffix on a property, which at present may be
-        internal // either '!important' or nothing. PriorityParsingStatus
-        ParsePriority()
+        // either '!important' or nothing.
+        internal PriorityParsingStatus ParsePriority()
         {
           if (!GetToken(true)) {
             return PriorityParsingStatus.None; // properties may end with EOF
@@ -776,7 +775,7 @@ namespace Alba.CsCss.Style
           }
         
           if (mToken.mType != nsCSSTokenType.Ident ||
-              !mToken.mIdent.LowerCaseEqualsLiteral("important")) {
+              !mToken.mIdentStr.LowerCaseEqualsLiteral("important")) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEExpectedImportant", mToken); };
             UngetToken();
             return PriorityParsingStatus.Error;
@@ -795,7 +794,7 @@ namespace Alba.CsCss.Style
             UngetToken();
             return null;
           }
-          return mToken.mIdent;
+          return mToken.mIdentStr;
         }
         
         internal bool SkipAtRule(bool aInsideBlock)
@@ -837,52 +836,52 @@ namespace Alba.CsCss.Style
         {
         
           nsCSSSection newSection;
-          bool (*parseFunc)(RuleAppendFunc, object);
+          Func<RuleAppendFunc, object, bool> parseFunc;
         
           if ((mSection <= nsCSSSection.Charset) &&
-              (mToken.mIdent.LowerCaseEqualsLiteral("charset"))) {
+              (mToken.mIdentStr.LowerCaseEqualsLiteral("charset"))) {
             parseFunc = ParseCharsetRule;
             newSection = nsCSSSection.Import;  // only one charset allowed
         
           } else if ((mSection <= nsCSSSection.Import) &&
-                     mToken.mIdent.LowerCaseEqualsLiteral("import")) {
+                     mToken.mIdentStr.LowerCaseEqualsLiteral("import")) {
             parseFunc = ParseImportRule;
             newSection = nsCSSSection.Import;
         
           } else if ((mSection <= nsCSSSection.NameSpace) &&
-                     mToken.mIdent.LowerCaseEqualsLiteral("namespace")) {
+                     mToken.mIdentStr.LowerCaseEqualsLiteral("namespace")) {
             parseFunc = ParseNameSpaceRule;
             newSection = nsCSSSection.NameSpace;
         
-          } else if (mToken.mIdent.LowerCaseEqualsLiteral("media")) {
+          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("media")) {
             parseFunc = ParseMediaRule;
             newSection = nsCSSSection.General;
         
-          } else if (mToken.mIdent.LowerCaseEqualsLiteral("-moz-document")) {
+          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-document")) {
             parseFunc = ParseMozDocumentRule;
             newSection = nsCSSSection.General;
         
-          } else if (mToken.mIdent.LowerCaseEqualsLiteral("font-face")) {
+          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("font-face")) {
             parseFunc = ParseFontFaceRule;
             newSection = nsCSSSection.General;
         
-          } else if (mToken.mIdent.LowerCaseEqualsLiteral("page")) {
+          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("page")) {
             parseFunc = ParsePageRule;
             newSection = nsCSSSection.General;
         
           } else if ((nsCSSProps.IsEnabled(nsCSSProperty.Alias_MozAnimation) &&
-                      mToken.mIdent.LowerCaseEqualsLiteral("-moz-keyframes")) ||
-                     mToken.mIdent.LowerCaseEqualsLiteral("keyframes")) {
+                      mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-keyframes")) ||
+                     mToken.mIdentStr.LowerCaseEqualsLiteral("keyframes")) {
             parseFunc = ParseKeyframesRule;
             newSection = nsCSSSection.General;
         
-          } else if (mToken.mIdent.LowerCaseEqualsLiteral("supports") &&
+          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("supports") &&
                      CSSSupportsRule.PrefEnabled()) {
             parseFunc = ParseSupportsRule;
             newSection = nsCSSSection.General;
         
           } else {
-            if (!NonMozillaVendorIdentifier(mToken.mIdent)) {
+            if (!NonMozillaVendorIdentifier(mToken.mIdentStr)) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownAtRule", mToken); };
               mReporter.OutputError();
             }
@@ -897,7 +896,7 @@ namespace Alba.CsCss.Style
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGroupRuleNestedAtRule", mToken); };
           }
           
-          if (unnestable || !(this.*parseFunc)(aAppendFunc, aData)) {
+          if (unnestable || !parseFunc(aAppendFunc, aData)) {
             // Skip over invalid at rule, don't advance section
             mReporter.OutputError();
             return SkipAtRule(aInAtRule);
@@ -925,7 +924,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          string charset = mToken.mIdent;
+          string charset = mToken.mIdentStr;
         
           if (!ExpectSymbol(';', true)) {
             return false;
@@ -937,13 +936,13 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseURLOrString(string aURL)
+        internal bool ParseURLOrString(ref string aURL)
         {
           if (!GetToken(true)) {
             return false;
           }
           if (nsCSSTokenType.String == mToken.mType || nsCSSTokenType.URL == mToken.mType) {
-            aURL = mToken.mIdent;
+            aURL = mToken.mIdentStr;
             return true;
           }
           UngetToken();
@@ -979,7 +978,7 @@ namespace Alba.CsCss.Style
           }
           UngetToken();
         
-          nsMediaQuery query = new nsMediaQuery();
+          nsMediaQuery query = null = new nsMediaQuery();
           aQuery = query;
         
           if (ExpectSymbol('(', true)) {
@@ -1006,10 +1005,10 @@ namespace Alba.CsCss.Style
                 return false;
               }
               // case insensitive from CSS - must be lower cased
-              nsContentUtils.ASCIIToLower(mToken.mIdent);
-              mediaType = do_GetAtom(mToken.mIdent);
-              if (!mediaType) {
-                Debug.Fail("do_GetAtom failed - out of memory?");
+              mToken.mIdentStr = mToken.mIdentStr.ToLower();
+              mediaType = new nsAtom(mToken.mIdentStr);
+              if (mediaType == null) {
+                Debug.Fail("new nsAtom failed - out of memory?");
               }
               if (gotNotOrOnly ||
                   (mediaType != nsGkAtoms._not && mediaType != nsGkAtoms.only))
@@ -1046,7 +1045,7 @@ namespace Alba.CsCss.Style
               break;
             }
             if (nsCSSTokenType.Ident != mToken.mType ||
-                !mToken.mIdent.LowerCaseEqualsLiteral("and")) {
+                !mToken.mIdentStr.LowerCaseEqualsLiteral("and")) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEGatherMediaNotComma", mToken); };
               UngetToken();
               return false;
@@ -1065,10 +1064,10 @@ namespace Alba.CsCss.Style
                                    bool aInAtRule)
         {
           for (;;) {
-            nsMediaQuery query;
-            bool hitStop;
-            if (!ParseMediaQuery(aInAtRule, getter_Transfers(query),
-                                 &hitStop)) {
+            nsMediaQuery query = null;
+            bool hitStop = false;
+            if (!ParseMediaQuery(aInAtRule, ref query,
+                                 ref hitStop)) {
               Debug.Assert(!hitStop, "should return true when hit stop");
               mReporter.OutputError();
               if (query != null) {
@@ -1118,22 +1117,22 @@ namespace Alba.CsCss.Style
           nsMediaExpression expr = aQuery.NewExpression();
         
           // case insensitive from CSS - must be lower cased
-          nsContentUtils.ASCIIToLower(mToken.mIdent);
+          mToken.mIdentStr = mToken.mIdentStr.ToLower();
           string featureString;
-          if (StringBeginsWith(mToken.mIdent, "min-")) {
-            expr.mRange = nsMediaExpression.eMin;
-            featureString = mToken.mIdent.get() + 4;
-          } else if (StringBeginsWith(mToken.mIdent, "max-")) {
-            expr.mRange = nsMediaExpression.eMax;
-            featureString = mToken.mIdent.get() + 4;
+          if (StringBeginsWith(mToken.mIdentStr, "min-")) {
+            expr.mRange = nsMediaExpression.Range.Min;
+            featureString = mToken.mIdentStr.Substring(4);
+          } else if (StringBeginsWith(mToken.mIdentStr, "max-")) {
+            expr.mRange = nsMediaExpression.Range.Max;
+            featureString = mToken.mIdentStr.Substring(4);
           } else {
-            expr.mRange = nsMediaExpression.eEqual;
-            featureString = mToken.mIdent.get();
+            expr.mRange = nsMediaExpression.Range.Equal;
+            featureString = mToken.mIdentStr;
           }
         
-          nsIAtom mediaFeatureAtom = do_GetAtom(featureString);
+          nsIAtom mediaFeatureAtom = new nsAtom(featureString);
           if (mediaFeatureAtom == null) {
-            Debug.Fail("do_GetAtom failed - out of memory?");
+            Debug.Fail("new nsAtom failed - out of memory?");
           }
           nsMediaFeature feature = nsMediaFeatures.features;
           for (; feature.mName; ++feature) {
@@ -1142,8 +1141,8 @@ namespace Alba.CsCss.Style
             }
           }
           if (!feature.mName ||
-              (expr.mRange != nsMediaExpression.eEqual &&
-               feature.mRangeType != nsMediaFeature.eMinMaxAllowed)) {
+              (expr.mRange != nsMediaExpression.Range.Equal &&
+               feature.mRangeType != nsMediaFeature.RangeType.MinMaxAllowed)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
             SkipUntil(')');
             return false;
@@ -1153,7 +1152,7 @@ namespace Alba.CsCss.Style
           if (!GetToken(true) || mToken.IsSymbol(')')) {
             // Query expressions for any feature can be given without a value.
             // However, min/max prefixes are not allowed.
-            if (expr.mRange != nsMediaExpression.eEqual) {
+            if (expr.mRange != nsMediaExpression.Range.Equal) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQNoMinMaxWithoutValue"); };
               return false;
             }
@@ -1170,26 +1169,26 @@ namespace Alba.CsCss.Style
         
           bool rv;
           switch (feature.mValueType) {
-            case nsMediaFeature.eLength:
+            case nsMediaFeature.ValueType.Length:
               rv = ParseNonNegativeVariant(expr.mValue, VARIANT_LENGTH, null);
               break;
-            case nsMediaFeature.eInteger:
-            case nsMediaFeature.eBoolInteger:
+            case nsMediaFeature.ValueType.Integer:
+            case nsMediaFeature.ValueType.BoolInteger:
               rv = ParseNonNegativeVariant(expr.mValue, VARIANT_INTEGER, null);
               // Enforce extra restrictions for eBoolInteger
               if (rv &&
-                  feature.mValueType == nsMediaFeature.eBoolInteger &&
+                  feature.mValueType == nsMediaFeature.ValueType.BoolInteger &&
                   expr.mValue.GetIntValue() > 1)
                 rv = false;
               break;
-            case nsMediaFeature.eFloat:
+            case nsMediaFeature.ValueType.Float:
               rv = ParseNonNegativeVariant(expr.mValue, VARIANT_NUMBER, null);
               break;
-            case nsMediaFeature.eIntRatio:
+            case nsMediaFeature.ValueType.IntRatio:
               {
                 // Two integers separated by '/', with optional whitespace on
                 // either side of the '/'.
-                nsCSSValue.Array a = nsCSSValue.Array.Create(2);
+                nsCSSValue[] a = new nsCSSValue[2];
                 expr.mValue.SetArrayValue(a, nsCSSUnit.Array);
                 // We don't bother with ParseNonNegativeVariant since we have to
                 // check for != 0 as well; no need to worry about the UngetToken
@@ -1201,7 +1200,7 @@ namespace Alba.CsCss.Style
                      a.Item(1).GetIntValue() > 0;
               }
               break;
-            case nsMediaFeature.eResolution:
+            case nsMediaFeature.ValueType.Resolution:
               rv = GetToken(true);
               if (!rv)
                 break;
@@ -1212,22 +1211,22 @@ namespace Alba.CsCss.Style
               }
               // No worries about whether unitless zero is allowed, since the
               // value must be positive (and we checked that above).
-              Debug.Assert(!mToken.mIdent.IsEmpty(), "unit lied");
-              if (mToken.mIdent.LowerCaseEqualsLiteral("dpi")) {
+              Debug.Assert(!mToken.mIdentStr.IsEmpty(), "unit lied");
+              if (mToken.mIdentStr.LowerCaseEqualsLiteral("dpi")) {
                 expr.mValue.SetFloatValue(mToken.mNumber, nsCSSUnit.Inch);
-              } else if (mToken.mIdent.LowerCaseEqualsLiteral("dppx")) {
+              } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("dppx")) {
                 expr.mValue.SetFloatValue(mToken.mNumber, nsCSSUnit.Pixel);
-              } else if (mToken.mIdent.LowerCaseEqualsLiteral("dpcm")) {
+              } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("dpcm")) {
                 expr.mValue.SetFloatValue(mToken.mNumber, nsCSSUnit.Centimeter);
               } else {
                 rv = false;
               }
               break;
-            case nsMediaFeature.eEnumerated:
+            case nsMediaFeature.ValueType.Enumerated:
               rv = ParseVariant(expr.mValue, VARIANT_KEYWORD,
                                 feature.mData.mKeywordTable);
               break;
-            case nsMediaFeature.eIdent:
+            case nsMediaFeature.ValueType.Ident:
               rv = ParseVariant(expr.mValue, VARIANT_IDENTIFIER, null);
               break;
           }
@@ -1245,8 +1244,8 @@ namespace Alba.CsCss.Style
         {
           nsMediaList media = new nsMediaList();
         
-          string url;
-          if (!ParseURLOrString(url)) {
+          string url = "";
+          if (!ParseURLOrString(ref url)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportNotURI", mToken); };
             return false;
           }
@@ -1372,9 +1371,9 @@ namespace Alba.CsCss.Style
                 
             if (!(nsCSSTokenType.URL == mToken.mType ||
                   (nsCSSTokenType.Function == mToken.mType &&
-                   (mToken.mIdent.LowerCaseEqualsLiteral("url-prefix") ||
-                    mToken.mIdent.LowerCaseEqualsLiteral("domain") ||
-                    mToken.mIdent.LowerCaseEqualsLiteral("regexp"))))) {
+                   (mToken.mIdentStr.LowerCaseEqualsLiteral("url-prefix") ||
+                    mToken.mIdentStr.LowerCaseEqualsLiteral("domain") ||
+                    mToken.mIdentStr.LowerCaseEqualsLiteral("regexp"))))) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleBadFunc", mToken); };
               UngetToken();
               return false;
@@ -1383,25 +1382,25 @@ namespace Alba.CsCss.Style
             next = &cur.next;
             if (mToken.mType == nsCSSTokenType.URL) {
               cur.func = DocumentRule.eURL;
-              CopyUTF16toUTF8(mToken.mIdent, cur.url);
-            } else if (mToken.mIdent.LowerCaseEqualsLiteral("regexp")) {
+              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
+            } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("regexp")) {
               // regexp() is different from url-prefix() and domain() (but
               // probably the way they *should* have been* in that it requires a
               // string argument, and doesn't try to behave like url().
               cur.func = DocumentRule.eRegExp;
               GetToken(true);
               // copy before we know it's valid (but before ExpectSymbol changes
-              // mToken.mIdent)
-              CopyUTF16toUTF8(mToken.mIdent, cur.url);
+              // mToken.mIdentStr)
+              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
               if (nsCSSTokenType.String != mToken.mType || !ExpectSymbol(')', true)) {
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleNotString", mToken); };
                 SkipUntil(')');
                 return false;
               }
             } else {
-              if (mToken.mIdent.LowerCaseEqualsLiteral("url-prefix")) {
+              if (mToken.mIdentStr.LowerCaseEqualsLiteral("url-prefix")) {
                 cur.func = DocumentRule.eURLPrefix;
-              } else if (mToken.mIdent.LowerCaseEqualsLiteral("domain")) {
+              } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("domain")) {
                 cur.func = DocumentRule.eDomain;
               }
         
@@ -1415,7 +1414,7 @@ namespace Alba.CsCss.Style
               // We could try to make the URL (as long as it's not domain())
               // canonical and absolute with NS_NewURI and GetSpec, but I'm
               // inclined to think we shouldn't.
-              CopyUTF16toUTF8(mToken.mIdent, cur.url);
+              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
             }
           } while (ExpectSymbol(',', true));
         
@@ -1437,13 +1436,13 @@ namespace Alba.CsCss.Style
           string  url;
         
           if (nsCSSTokenType.Ident == mToken.mType) {
-            prefix = mToken.mIdent;
+            prefix = mToken.mIdentStr;
             // user-specified identifiers are case-sensitive (bug 416106)
           } else {
             UngetToken();
           }
         
-          if (!ParseURLOrString(url) || !ExpectSymbol(';', true)) {
+          if (!ParseURLOrString(ref url) || !ExpectSymbol(';', true)) {
             if (mHavePushBack) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAtNSUnexpected", mToken); };
             } else {
@@ -1464,9 +1463,9 @@ namespace Alba.CsCss.Style
           nsIAtom prefix;
         
           if (!aPrefix.IsEmpty()) {
-            prefix = do_GetAtom(aPrefix);
+            prefix = new nsAtom(aPrefix);
             if (!prefix) {
-              Debug.Fail("do_GetAtom failed - out of memory?");
+              Debug.Fail("new nsAtom failed - out of memory?");
             }
           }
         
@@ -1539,7 +1538,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          string descName = mToken.mIdent;
+          string descName = mToken.mIdentStr;
           if (!ExpectSymbol(':', true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseDeclarationNoColon", mToken); };
             mReporter.OutputError();
@@ -1584,7 +1583,7 @@ namespace Alba.CsCss.Style
             UngetToken();
             return false;
           }
-          string name(mToken.mIdent);
+          string name(mToken.mIdentStr);
         
           if (!ExpectSymbol('{', true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEKeyframeBrace", mToken); };
@@ -1669,11 +1668,11 @@ namespace Alba.CsCss.Style
                 value = mToken.mNumber;
                 break;
               case nsCSSTokenType.Ident:
-                if (mToken.mIdent.LowerCaseEqualsLiteral("from")) {
+                if (mToken.mIdentStr.LowerCaseEqualsLiteral("from")) {
                   value = 0.0f;
                   break;
                 }
-                if (mToken.mIdent.LowerCaseEqualsLiteral("to")) {
+                if (mToken.mIdentStr.LowerCaseEqualsLiteral("to")) {
                   value = 1.0f;
                   break;
                 }
@@ -1696,11 +1695,11 @@ namespace Alba.CsCss.Style
         //   ;
         internal bool ParseSupportsRule(RuleAppendFunc aAppendFunc, object aProcessData)
         {
-          bool conditionMet = false;
+          bool conditionMet = false = false;
           string condition;
         
           mScanner.StartRecording();
-          bool parsed = ParseSupportsCondition(conditionMet);
+          bool parsed = ParseSupportsCondition(ref conditionMet);
         
           if (!parsed) {
             mScanner.StopRecording();
@@ -1726,10 +1725,11 @@ namespace Alba.CsCss.Style
         
           // Record whether we are in a failing @supports, so that property parse
           // errors don't get reported.
-          nsAutoFailingSupportsRule failing(this, conditionMet);
-        
-          GroupRule rule = new CSSSupportsRule(conditionMet, condition);
-          return ParseGroupRule(rule, aAppendFunc, aProcessData);
+          using (/*var failing = */new nsAutoFailingSupportsRule(this, conditionMet)) {  
+          
+            GroupRule rule = new CSSSupportsRule(ref conditionMet, condition);
+            return ParseGroupRule(rule, aAppendFunc, aProcessData);
+          }
         }
         
         // supports_condition
@@ -1749,13 +1749,13 @@ namespace Alba.CsCss.Style
               mToken.mType == nsCSSTokenType.Function ||
               mToken.mType == nsCSSTokenType.URL ||
               mToken.mType == nsCSSTokenType.Bad_URL) {
-            return ParseSupportsConditionInParens(aConditionMet) &&
-                   ParseSupportsConditionTerms(aConditionMet);
+            return ParseSupportsConditionInParens(ref aConditionMet) &&
+                   ParseSupportsConditionTerms(ref aConditionMet);
           }
         
           if (mToken.mType == nsCSSTokenType.Ident &&
-              mToken.mIdent.LowerCaseEqualsLiteral("not")) {
-            return ParseSupportsConditionNegation(aConditionMet);
+              mToken.mIdentStr.LowerCaseEqualsLiteral("not")) {
+            return ParseSupportsConditionNegation(ref aConditionMet);
           }
         
           { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedStart", mToken); };
@@ -1773,7 +1773,7 @@ namespace Alba.CsCss.Style
           }
         
           if (mToken.mType != nsCSSTokenType.Ident ||
-              !mToken.mIdent.LowerCaseEqualsLiteral("not")) {
+              !mToken.mIdentStr.LowerCaseEqualsLiteral("not")) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionExpectedNot", mToken); };
             return false;
           }
@@ -1783,7 +1783,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          if (ParseSupportsConditionInParens(aConditionMet)) {
+          if (ParseSupportsConditionInParens(ref aConditionMet)) {
             aConditionMet = !aConditionMet;
             return true;
           }
@@ -1823,7 +1823,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          if (!ParseSupportsConditionInParensInsideParens(aConditionMet)) {
+          if (!ParseSupportsConditionInParensInsideParens(ref aConditionMet)) {
             if (!SkipUntil(')')) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PESupportsConditionInParensEOF"); };
               return false;
@@ -1853,8 +1853,8 @@ namespace Alba.CsCss.Style
           }
         
           if (mToken.mType == nsCSSTokenType.Ident) {
-            if (!mToken.mIdent.LowerCaseEqualsLiteral("not")) {
-              string propertyName = mToken.mIdent;
+            if (!mToken.mIdentStr.LowerCaseEqualsLiteral("not")) {
+              string propertyName = mToken.mIdentStr;
               if (!ExpectSymbol(':', true)) {
                 return false;
               }
@@ -1884,12 +1884,12 @@ namespace Alba.CsCss.Style
             }
         
             UngetToken();
-            return ParseSupportsConditionNegation(aConditionMet);
+            return ParseSupportsConditionNegation(ref aConditionMet);
           }
         
           UngetToken();
-          return ParseSupportsConditionInParens(aConditionMet) &&
-                 ParseSupportsConditionTerms(aConditionMet);
+          return ParseSupportsConditionInParens(ref aConditionMet) &&
+                 ParseSupportsConditionTerms(ref aConditionMet);
         }
         
         // supports_condition_terms
@@ -1908,12 +1908,12 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          if (mToken.mIdent.LowerCaseEqualsLiteral("and")) {
-            return ParseSupportsConditionTermsAfterOperator(aConditionMet, eAnd);
+          if (mToken.mIdentStr.LowerCaseEqualsLiteral("and")) {
+            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, eAnd);
           }
         
-          if (mToken.mIdent.LowerCaseEqualsLiteral("or")) {
-            return ParseSupportsConditionTermsAfterOperator(aConditionMet, eOr);
+          if (mToken.mIdentStr.LowerCaseEqualsLiteral("or")) {
+            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, eOr);
           }
         
           UngetToken();
@@ -1935,7 +1935,7 @@ namespace Alba.CsCss.Style
           string token = aOperator == eAnd ? "and" : "or";
           for (;;) {
             bool termConditionMet = false;
-            if (!ParseSupportsConditionInParens(termConditionMet)) {
+            if (!ParseSupportsConditionInParens(ref termConditionMet)) {
               return false;
             }
             aConditionMet = aOperator == eAnd ? aConditionMet && termConditionMet :
@@ -1946,7 +1946,7 @@ namespace Alba.CsCss.Style
             }
         
             if (mToken.mType != nsCSSTokenType.Ident ||
-                !mToken.mIdent.LowerCaseEqualsASCII(token)) {
+                !mToken.mIdentStr.LowerCaseEqualsASCII(token)) {
               UngetToken();
               return true;
             }
@@ -1988,7 +1988,7 @@ namespace Alba.CsCss.Style
           }
         }
         
-        internal void SkipUntilOneOf(string aStopSymbolChars)
+        internal void SkipUntilOneOf(char[] aStopSymbolChars)
         {
           nsCSSToken tk = mToken;
           nsDependentString stopSymbolChars(aStopSymbolChars);
@@ -2256,10 +2256,10 @@ namespace Alba.CsCss.Style
         internal nsSelectorParsingStatus ParseIDSelector(ref int32_t       aDataMask,
                                        nsCSSSelector aSelector)
         {
-          Debug.Assert(!mToken.mIdent.IsEmpty(),
+          Debug.Assert(!mToken.mIdentStr.IsEmpty(),
                        "Empty mIdent in nsCSSTokenType.ID token?");
           aDataMask |= SEL_MASK_ID;
-          aSelector.AddID(mToken.mIdent);
+          aSelector.AddID(mToken.mIdentStr);
           return nsSelectorParsingStatus.Continue;
         }
         
@@ -2280,7 +2280,7 @@ namespace Alba.CsCss.Style
           }
           aDataMask |= SEL_MASK_CLASS;
         
-          aSelector.AddClass(mToken.mIdent);
+          aSelector.AddClass(mToken.mIdentStr);
         
           return nsSelectorParsingStatus.Continue;
         }
@@ -2306,7 +2306,7 @@ namespace Alba.CsCss.Style
               if (nsCSSTokenType.Ident == mToken.mType) {  // element name
                 aDataMask |= SEL_MASK_ELEM;
         
-                aSelector.SetTag(mToken.mIdent);
+                aSelector.SetTag(mToken.mIdentStr);
               }
               else if (mToken.IsSymbol('*')) {  // universal selector
                 aDataMask |= SEL_MASK_ELEM;
@@ -2328,7 +2328,7 @@ namespace Alba.CsCss.Style
             }
           }
           else if (nsCSSTokenType.Ident == mToken.mType) {    // element name or namespace name
-            buffer = mToken.mIdent; // hang on to ident
+            buffer = mToken.mIdentStr; // hang on to ident
         
             if (ExpectSymbol('|', false)) {  // was namespace
               aDataMask |= SEL_MASK_NSPACE;
@@ -2344,7 +2344,7 @@ namespace Alba.CsCss.Style
               }
               if (nsCSSTokenType.Ident == mToken.mType) {  // element name
                 aDataMask |= SEL_MASK_ELEM;
-                aSelector.SetTag(mToken.mIdent);
+                aSelector.SetTag(mToken.mIdentStr);
               }
               else if (mToken.IsSymbol('*')) {  // universal selector
                 aDataMask |= SEL_MASK_ELEM;
@@ -2377,7 +2377,7 @@ namespace Alba.CsCss.Style
             }
             if (nsCSSTokenType.Ident == mToken.mType) {  // element name
               aDataMask |= SEL_MASK_ELEM;
-              aSelector.SetTag(mToken.mIdent);
+              aSelector.SetTag(mToken.mIdentStr);
             }
             else if (mToken.IsSymbol('*')) {  // universal selector
               aDataMask |= SEL_MASK_ELEM;
@@ -2425,7 +2425,7 @@ namespace Alba.CsCss.Style
                 return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) { // attr name
-                attr = mToken.mIdent;
+                attr = mToken.mIdentStr;
               }
               else {
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
@@ -2444,7 +2444,7 @@ namespace Alba.CsCss.Style
               return nsSelectorParsingStatus.Error;
             }
             if (nsCSSTokenType.Ident == mToken.mType) { // attr name
-              attr = mToken.mIdent;
+              attr = mToken.mIdentStr;
             }
             else {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
@@ -2453,7 +2453,7 @@ namespace Alba.CsCss.Style
             }
           }
           else if (nsCSSTokenType.Ident == mToken.mType) { // attr name or namespace
-            attr = mToken.mIdent; // hang on to it
+            attr = mToken.mIdentStr; // hang on to it
             if (ExpectSymbol('|', false)) {  // was a namespace
               nameSpaceID = GetNamespaceIdForPrefix(attr);
               if (nameSpaceID == kNameSpaceID_Unknown) {
@@ -2464,7 +2464,7 @@ namespace Alba.CsCss.Style
                 return nsSelectorParsingStatus.Error;
               }
               if (nsCSSTokenType.Ident == mToken.mType) { // attr name
-                attr = mToken.mIdent;
+                attr = mToken.mIdentStr;
               }
               else {
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
@@ -2524,7 +2524,7 @@ namespace Alba.CsCss.Style
                 return nsSelectorParsingStatus.Error;
               }
               if ((nsCSSTokenType.Ident == mToken.mType) || (nsCSSTokenType.String == mToken.mType)) {
-                string  value(mToken.mIdent);
+                string  value(mToken.mIdentStr);
                 if (! GetToken(true)) { // premature EOF
                   { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelCloseEOF"); };
                   return nsSelectorParsingStatus.Error;
@@ -2663,11 +2663,11 @@ namespace Alba.CsCss.Style
           // pseudo-classes as well as pseudo-elements, start with a single ':'.
           string buffer;
           buffer.Append(':');
-          buffer.Append(mToken.mIdent);
-          nsContentUtils.ASCIIToLower(buffer);
-          nsIAtom pseudo = do_GetAtom(buffer);
+          buffer.Append(mToken.mIdentStr);
+          buffer = buffer.ToLower();
+          nsIAtom pseudo = new nsAtom(buffer);
           if (!pseudo) {
-            Debug.Fail("do_GetAtom failed - out of memory?");
+            Debug.Fail("new nsAtom failed - out of memory?");
           }
         
           // stash away some info about this pseudo so we only have to get it once.
@@ -2956,16 +2956,16 @@ namespace Alba.CsCss.Style
           // -moz-locale-dir and -moz-dir can only have values of 'ltr' or 'rtl'.
           if (aType == nsCSSPseudoClasses.ePseudoClass_mozLocaleDir ||
               aType == nsCSSPseudoClasses.ePseudoClass_dir) {
-            nsContentUtils.ASCIIToLower(mToken.mIdent); // case insensitive
-            if (!mToken.mIdent.EqualsLiteral("ltr") &&
-                !mToken.mIdent.EqualsLiteral("rtl")) {
+            mToken.mIdentStr = mToken.mIdentStr.ToLower(); // case insensitive
+            if (!mToken.mIdentStr.EqualsLiteral("ltr") &&
+                !mToken.mIdentStr.EqualsLiteral("rtl")) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDirValue", mToken); };
               return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
           }
         
           // Add the pseudo with the language parameter
-          aSelector.AddPseudoClass(aType, mToken.mIdent.get());
+          aSelector.AddPseudoClass(aType, mToken.mIdentStr);
         
           // close the parenthesis
           if (!ExpectSymbol(')', true)) {
@@ -2997,32 +2997,32 @@ namespace Alba.CsCss.Style
             // The easiest way to deal with that is to push everything from the
             // minus on back onto the scanner's pushback buffer.
             uint32_t truncAt = 0;
-            if (StringBeginsWith(mToken.mIdent, "n-")) {
+            if (StringBeginsWith(mToken.mIdentStr, "n-")) {
               truncAt = 1;
-            } else if (StringBeginsWith(mToken.mIdent, "-n-")) {
+            } else if (StringBeginsWith(mToken.mIdentStr, "-n-")) {
               truncAt = 2;
             }
             if (truncAt != 0) {
-              mScanner.Backup(mToken.mIdent.Length() - truncAt);
-              mToken.mIdent.Truncate(truncAt);
+              mScanner.Backup(mToken.mIdentStr.Length() - truncAt);
+              mToken.mIdentStr.Truncate(truncAt);
             }
           }
         
           if (nsCSSTokenType.Ident == mToken.mType) {
-            if (mToken.mIdent.LowerCaseEqualsLiteral("odd")) {
+            if (mToken.mIdentStr.LowerCaseEqualsLiteral("odd")) {
               numbers[0] = 2;
               numbers[1] = 1;
               lookForB = false;
             }
-            else if (mToken.mIdent.LowerCaseEqualsLiteral("even")) {
+            else if (mToken.mIdentStr.LowerCaseEqualsLiteral("even")) {
               numbers[0] = 2;
               numbers[1] = 0;
               lookForB = false;
             }
-            else if (mToken.mIdent.LowerCaseEqualsLiteral("n")) {
+            else if (mToken.mIdentStr.LowerCaseEqualsLiteral("n")) {
               numbers[0] = 1;
             }
-            else if (mToken.mIdent.LowerCaseEqualsLiteral("-n")) {
+            else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-n")) {
               numbers[0] = -1;
             }
             else {
@@ -3039,7 +3039,7 @@ namespace Alba.CsCss.Style
             lookForB = false;
           }
           else if (nsCSSTokenType.Dimension == mToken.mType) {
-            if (!mToken.mIntegerValid || !mToken.mIdent.LowerCaseEqualsLiteral("n")) {
+            if (!mToken.mIntegerValid || !mToken.mIdentStr.LowerCaseEqualsLiteral("n")) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgNotNth", mToken); };
               return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
@@ -3100,7 +3100,7 @@ namespace Alba.CsCss.Style
                                                            nsCSSPseudoClasses.Type aType)
         {
           nsCSSSelectorList slist;
-          if (! ParseSelectorList(*getter_Transfers(slist), ''))) {
+          if (! ParseSelectorList(*slist, ''))) {
             return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
@@ -3157,7 +3157,7 @@ namespace Alba.CsCss.Style
             else if (mToken.IsSymbol(':')) {    // :pseudo
               parsingStatus = ParsePseudoSelector(dataMask, *selector, false,
                                                   getter_AddRefs(pseudoElement),
-                                                  getter_Transfers(pseudoElementArgs),
+                                                  pseudoElementArgs,
                                                   &pseudoElementType);
             }
             else if (mToken.IsSymbol('[')) {    // [attribute
@@ -3299,7 +3299,7 @@ namespace Alba.CsCss.Style
               }
               break;
             case nsCSSTokenType.Function:
-              if (mToken.mIdent.LowerCaseEqualsLiteral("rgb")) {
+              if (mToken.mIdentStr.LowerCaseEqualsLiteral("rgb")) {
                 // rgb ( component , component , component )
                 uint8_t r, g, b;
                 int32_t type = COLOR_TYPE_UNKNOWN;
@@ -3312,8 +3312,8 @@ namespace Alba.CsCss.Style
                 SkipUntil(')');
                 return false;
               }
-              else if (mToken.mIdent.LowerCaseEqualsLiteral("-moz-rgba") ||
-                       mToken.mIdent.LowerCaseEqualsLiteral("rgba")) {
+              else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-rgba") ||
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("rgba")) {
                 // rgba ( component , component , component , opacity )
                 uint8_t r, g, b, a;
                 int32_t type = COLOR_TYPE_UNKNOWN;
@@ -3327,7 +3327,7 @@ namespace Alba.CsCss.Style
                 SkipUntil(')');
                 return false;
               }
-              else if (mToken.mIdent.LowerCaseEqualsLiteral("hsl")) {
+              else if (mToken.mIdentStr.LowerCaseEqualsLiteral("hsl")) {
                 // hsl ( hue , saturation , lightness )
                 // "hue" is a number, "saturation" and "lightness" are percentages.
                 if (ParseHSLColor(rgba, ')')) {
@@ -3337,8 +3337,8 @@ namespace Alba.CsCss.Style
                 SkipUntil(')');
                 return false;
               }
-              else if (mToken.mIdent.LowerCaseEqualsLiteral("-moz-hsla") ||
-                       mToken.mIdent.LowerCaseEqualsLiteral("hsla")) {
+              else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-hsla") ||
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("hsla")) {
                 // hsla ( hue , saturation , lightness , opacity )
                 // "hue" is a number, "saturation" and "lightness" are percentages,
                 // "opacity" is a number.
@@ -3593,7 +3593,7 @@ namespace Alba.CsCss.Style
               return false;
             }
             if (nsCSSTokenType.Ident == mToken.mType) {
-              fakeSelector.AddClass(mToken.mIdent);
+              fakeSelector.AddClass(mToken.mIdentStr);
             }
             else if (!mToken.IsSymbol(',')) {
               UngetToken();
@@ -3659,78 +3659,79 @@ namespace Alba.CsCss.Style
         
           // Don't report property parse errors if we're inside a failing @supports
           // rule.
-          nsAutoSuppressErrors suppressErrors(this, mInFailingSupportsRule);
-        
-          // Map property name to its ID and then parse the property
-          nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
-                                                            nsCSSProps.eEnabled);
-          if (nsCSSProperty.UNKNOWN == propID ||
-             (aContext == nsCSSContextType.Page &&
-              !nsCSSProps.PropHasFlags(propID, nsCSSProps.APPLIES_TO_PAGE_RULE))) { // unknown property
-            if (!NonMozillaVendorIdentifier(propertyName)) {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownProperty", propertyName); };
+          using (/*var suppressErrors = */new nsAutoSuppressErrors(this, mInFailingSupportsRule)) {  
+          
+            // Map property name to its ID and then parse the property
+            nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
+                                                              nsCSSProps.eEnabled);
+            if (nsCSSProperty.UNKNOWN == propID ||
+               (aContext == nsCSSContextType.Page &&
+                !nsCSSProps.PropHasFlags(propID, nsCSSProps.APPLIES_TO_PAGE_RULE))) { // unknown property
+              if (!NonMozillaVendorIdentifier(propertyName)) {
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownProperty", propertyName); };
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
+                mReporter.OutputError();
+              }
+          
+              return false;
+            }
+            if (! ParseProperty(propID)) {
+              // XXX Much better to put stuff in the value parsers instead...
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", propertyName); };
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
               mReporter.OutputError();
+              mTempData.ClearProperty(propID);
+              mTempData.AssertInitialState();
+              return false;
             }
-        
-            return false;
-          }
-          if (! ParseProperty(propID)) {
-            // XXX Much better to put stuff in the value parsers instead...
-            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEValueParsingError", propertyName); };
-            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
-            mReporter.OutputError();
-            mTempData.ClearProperty(propID);
-            mTempData.AssertInitialState();
-            return false;
-          }
-          mReporter.ClearError();
-        
-          // Look for "!important".
-          PriorityParsingStatus status;
-          if ((aFlags & nsParseDeclaration.AllowImportant) != 0) {
-            status = ParsePriority();
-          }
-          else {
-            status = PriorityParsingStatus.None;
-          }
-        
-          // Look for a semicolon or close brace.
-          if (status != PriorityParsingStatus.Error) {
-            if (!GetToken(true)) {
-              // EOF is always ok
-            } else if (mToken.IsSymbol(';')) {
-              // semicolon is always ok
-            } else if (mToken.IsSymbol('}')) {
-              // brace is ok if checkForBraces, but don't eat it
-              UngetToken();
-              if (!checkForBraces) {
+            mReporter.ClearError();
+          
+            // Look for "!important".
+            PriorityParsingStatus status;
+            if ((aFlags & nsParseDeclaration.AllowImportant) != 0) {
+              status = ParsePriority();
+            }
+            else {
+              status = PriorityParsingStatus.None;
+            }
+          
+            // Look for a semicolon or close brace.
+            if (status != PriorityParsingStatus.Error) {
+              if (!GetToken(true)) {
+                // EOF is always ok
+              } else if (mToken.IsSymbol(';')) {
+                // semicolon is always ok
+              } else if (mToken.IsSymbol('}')) {
+                // brace is ok if checkForBraces, but don't eat it
+                UngetToken();
+                if (!checkForBraces) {
+                  status = PriorityParsingStatus.Error;
+                }
+              } else {
+                UngetToken();
                 status = PriorityParsingStatus.Error;
               }
-            } else {
-              UngetToken();
-              status = PriorityParsingStatus.Error;
             }
-          }
-        
-          if (status == PriorityParsingStatus.Error) {
-            if (checkForBraces) {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclOrRuleEnd2", mToken); };
-            } else {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclEnd", mToken); };
+          
+            if (status == PriorityParsingStatus.Error) {
+              if (checkForBraces) {
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclOrRuleEnd2", mToken); };
+              } else {
+                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadDeclEnd", mToken); };
+              }
+              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
+              mReporter.OutputError();
+              mTempData.ClearProperty(propID);
+              mTempData.AssertInitialState();
+              return false;
             }
-            { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
-            mReporter.OutputError();
-            mTempData.ClearProperty(propID);
-            mTempData.AssertInitialState();
-            return false;
+          
+            aChanged |= mData.TransferFromBlock(mTempData, propID,
+                                                 status == PriorityParsingStatus.Important,
+                                                 false, aMustCallValueAppended,
+                                                 aDeclaration);
+            return true;
           }
-        
-          aChanged |= mData.TransferFromBlock(mTempData, propID,
-                                               status == PriorityParsingStatus.Important,
-                                               false, aMustCallValueAppended,
-                                               aDeclaration);
-          return true;
         }
         
         static nsCSSProperty[] kBorderTopIDs = new nsCSSProperty[] {
@@ -4226,7 +4227,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseCounter(nsCSSValue aValue)
         {
-          nsCSSUnit unit = (mToken.mIdent.LowerCaseEqualsLiteral("counter") ?
+          nsCSSUnit unit = (mToken.mIdentStr.LowerCaseEqualsLiteral("counter") ?
                             nsCSSUnit.Counter : nsCSSUnit.Counters);
         
           // A non-iterative for loop to break out when an error occurs.
@@ -4239,10 +4240,10 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            nsCSSValue.Array val =
-              nsCSSValue.Array.Create(unit == nsCSSUnit.Counter ? 2 : 3);
+            nsCSSValue[] val =
+              nsCSSValue[].Create(unit == nsCSSUnit.Counter ? 2 : 3);
         
-            val.Item(0).SetStringValue(mToken.mIdent, nsCSSUnit.Ident);
+            val.Item(0).SetStringValue(mToken.mIdentStr, nsCSSUnit.Ident);
         
             if (nsCSSUnit.Counters == unit) {
               // must have a comma and then a separator string
@@ -4253,7 +4254,7 @@ namespace Alba.CsCss.Style
                 UngetToken();
                 break;
               }
-              val.Item(1).SetStringValue(mToken.mIdent, nsCSSUnit.String);
+              val.Item(1).SetStringValue(mToken.mIdentStr, nsCSSUnit.String);
             }
         
             // get optional type
@@ -4264,7 +4265,7 @@ namespace Alba.CsCss.Style
               }
               nsCSSKeyword keyword;
               if (nsCSSTokenType.Ident != mToken.mType ||
-                  (keyword = nsCSSKeywords.LookupKeyword(mToken.mIdent)) ==
+                  (keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr)) ==
                     nsCSSKeyword.UNKNOWN ||
                   !nsCSSProps.FindKeyword(keyword, nsCSSProps.kListStyleKTable,
                                            type)) {
@@ -4296,7 +4297,7 @@ namespace Alba.CsCss.Style
         
           string attr;
           if (nsCSSTokenType.Ident == mToken.mType) {  // attr name or namespace
-            string  holdIdent(mToken.mIdent);
+            string  holdIdent(mToken.mIdentStr);
             if (ExpectSymbol('|', false)) {  // namespace
               int32_t nameSpaceID = GetNamespaceIdForPrefix(holdIdent);
               if (nameSpaceID == kNameSpaceID_Unknown) {
@@ -4309,7 +4310,7 @@ namespace Alba.CsCss.Style
                 return false;
               }
               if (nsCSSTokenType.Ident == mToken.mType) {
-                attr.Append(mToken.mIdent);
+                attr.Append(mToken.mIdentStr);
               }
               else {
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
@@ -4333,7 +4334,7 @@ namespace Alba.CsCss.Style
               return false;
             }
             if (nsCSSTokenType.Ident == mToken.mType) {
-              attr.Append(mToken.mIdent);
+              attr.Append(mToken.mIdentStr);
             }
             else {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameExpected", mToken); };
@@ -4379,7 +4380,7 @@ namespace Alba.CsCss.Style
           for (;;) {
             nsCSSValue newFunction;
             const uint32_t kNumArgs = 5;
-            nsCSSValue.Array* func =
+            nsCSSValue[]* func =
               newFunction.InitFunction(nsCSSKeyword._moz_image_rect, kNumArgs);
         
             // func.Item(0) is reserved for the function name.
@@ -4389,8 +4390,8 @@ namespace Alba.CsCss.Style
             nsCSSValue bottom = func.Item(4);
             nsCSSValue left   = func.Item(5);
         
-            string urlString;
-            if (!ParseURLOrString(urlString) ||
+            string urlString = "";
+            if (!ParseURLOrString(ref urlString) ||
                 !SetValueToURL(url, urlString) ||
                 !ExpectSymbol(',', true)) {
               break;
@@ -4424,7 +4425,7 @@ namespace Alba.CsCss.Style
               break;
         
             if (mToken.mType == nsCSSTokenType.ID) {
-              aValue.SetStringValue(mToken.mIdent, nsCSSUnit.Element);
+              aValue.SetStringValue(mToken.mIdentStr, nsCSSUnit.Element);
             } else {
               UngetToken();
               break;
@@ -4447,7 +4448,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFlex()
         {
           // First check for inherit / initial
-          nsCSSValue tmpVal;
+          var tmpVal = new nsCSSValue();
           if (ParseVariant(tmpVal, VARIANT_INHERIT, null)) {
             AppendValue(nsCSSProperty.flex_grow, tmpVal);
             AppendValue(nsCSSProperty.flex_shrink, tmpVal);
@@ -4457,9 +4458,9 @@ namespace Alba.CsCss.Style
         
           // Next, check for 'none' == '0 0 auto'
           if (ParseVariant(tmpVal, VARIANT_NONE, null)) {
-            AppendValue(nsCSSProperty.flex_grow, nsCSSValue(0.0f, nsCSSUnit.Number));
-            AppendValue(nsCSSProperty.flex_shrink, nsCSSValue(0.0f, nsCSSUnit.Number));
-            AppendValue(nsCSSProperty.flex_basis, nsCSSValue(nsCSSUnit.Auto));
+            AppendValue(nsCSSProperty.flex_grow, new nsCSSValue(0.0f, nsCSSUnit.Number));
+            AppendValue(nsCSSProperty.flex_shrink, new nsCSSValue(0.0f, nsCSSUnit.Number));
+            AppendValue(nsCSSProperty.flex_basis, new nsCSSValue(nsCSSUnit.Auto));
             return true;
           }
         
@@ -4470,9 +4471,9 @@ namespace Alba.CsCss.Style
           // "flex" shorthand value. These default values are *only* for the shorthand
           // syntax -- they're distinct from the subproperties' own initial values.  We
           // start with each subproperty at its default, as if we had "flex: 1 1 0%".
-          nsCSSValue flexGrow(1.0f, nsCSSUnit.Number);
-          nsCSSValue flexShrink(1.0f, nsCSSUnit.Number);
-          nsCSSValue flexBasis(0.0f, nsCSSUnit.Percent);
+          var flexGrow = new nsCSSValue(1.0f, nsCSSUnit.Number);
+          var flexShrink = new nsCSSValue(1.0f, nsCSSUnit.Number);
+          var flexBasis = new nsCSSValue(0.0f, nsCSSUnit.Percent);
         
           // OVERVIEW OF PARSING STRATEGY:
           // =============================
@@ -4561,9 +4562,9 @@ namespace Alba.CsCss.Style
         #endif
         
         // <color-stop> : <color> [ <percentage> | <length> ]?
-        internal bool ParseColorStop(nsCSSValueGradient* aGradient)
+        internal bool ParseColorStop(nsCSSValueGradient aGradient)
         {
-          nsCSSValueGradientStop* stop = aGradient.mStops.AppendElement();
+          nsCSSValueGradientStop stop = aGradient.mStops.AppendElement();
           if (!ParseVariant(stop.mColor, VARIANT_COLOR, null)) {
             return false;
           }
@@ -4607,7 +4608,7 @@ namespace Alba.CsCss.Style
           }
         
           if (mToken.mType == nsCSSTokenType.Ident &&
-              mToken.mIdent.LowerCaseEqualsLiteral("to")) {
+              mToken.mIdentStr.LowerCaseEqualsLiteral("to")) {
         
             // "to" syntax doesn't allow explicit "center"
             if (!ParseBoxPositionValues(cssGradient.mBgPos, false, false)) {
@@ -4652,7 +4653,7 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSTokenType ty = mToken.mType;
-          string id = mToken.mIdent;
+          string id = mToken.mIdentStr;
           UngetToken();
         
           // <legacy-gradient-line>
@@ -4715,7 +4716,7 @@ namespace Alba.CsCss.Style
               bool haveYSize =
                 ParseNonNegativeVariant(cssGradient.GetRadiusY(), VARIANT_LP, null);
               if (!haveShape) {
-                nsCSSValue shapeValue;
+                var shapeValue = new nsCSSValue();
                 haveShape = ParseVariant(shapeValue, VARIANT_KEYWORD,
                                          nsCSSProps.kRadialGradientShapeKTable);
               }
@@ -4744,7 +4745,7 @@ namespace Alba.CsCss.Style
         
           if (!aIsLegacy) {
             if (mToken.mType == nsCSSTokenType.Ident &&
-                mToken.mIdent.LowerCaseEqualsLiteral("at")) {
+                mToken.mIdentStr.LowerCaseEqualsLiteral("at")) {
               // [ <shape> || <size> ]? at <position> ,
               if (!ParseBoxPositionValues(cssGradient.mBgPos, false) ||
                   !ExpectSymbol(',', true)) {
@@ -4762,7 +4763,7 @@ namespace Alba.CsCss.Style
           Debug.Assert(!cssGradient.mIsExplicitSize);
         
           nsCSSTokenType ty = mToken.mType;
-          string id = mToken.mIdent;
+          string id = mToken.mIdentStr;
           UngetToken();
         
           // <legacy-gradient-line>
@@ -4825,7 +4826,7 @@ namespace Alba.CsCss.Style
           return ParseGradientColorStops(cssGradient, aValue);
         }
         
-        internal bool IsLegacyGradientLine(const nsCSSTokenType& aType,
+        internal bool IsLegacyGradientLine(nsCSSTokenType aType,
                                             string aId)
         {
           // N.B. ParseBoxPositionValues is not guaranteed to put back
@@ -4875,7 +4876,7 @@ namespace Alba.CsCss.Style
           return haveGradientLine;
         }
         
-        internal bool ParseGradientColorStops(nsCSSValueGradient* aGradient,
+        internal bool ParseGradientColorStops(nsCSSValueGradient aGradient,
                                                nsCSSValue aValue)
         {
           // At least two color stops are required
@@ -4903,8 +4904,8 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal int32_t ParseChoice(nsCSSValue aValues[],
-                                   nsCSSProperty aPropIDs[], int32_t aNumIDs)
+        internal int32_t ParseChoice(nsCSSValue[] aValues,
+                                   nsCSSProperty[] aPropIDs, int32_t aNumIDs)
         {
           int32_t found = 0;
           using (/*var compound = */new nsAutoParseCompoundProperty(this)) {  
@@ -4972,7 +4973,7 @@ namespace Alba.CsCss.Style
          * than 4 values are provided a standard mapping is used to replicate
          * existing values.
          */
-        internal bool ParseBoxProperties(nsCSSProperty aPropIDs[])
+        internal bool ParseBoxProperties(nsCSSProperty[] aPropIDs)
         {
           // Get up to four values for the property
           int32_t count = 0;
@@ -5058,7 +5059,7 @@ namespace Alba.CsCss.Style
             return false;
         
           AppendValue(subprops[0], value);
-          nsCSSValue typeVal(aSourceType, nsCSSUnit.Enumerated);
+          var typeVal = new nsCSSValue(aSourceType, nsCSSUnit.Enumerated);
           AppendValue(subprops[1], typeVal);
           AppendValue(subprops[2], typeVal);
           return true;
@@ -5087,7 +5088,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseBoxCornerRadii(nsCSSProperty aPropIDs[])
+        internal bool ParseBoxCornerRadii(nsCSSProperty[] aPropIDs)
         {
           // Rectangles are used as scratch storage.
           // top => top-left, right => top-right,
@@ -5604,7 +5605,7 @@ namespace Alba.CsCss.Style
         
         internal void InitBoxPropsAsPhysical(nsCSSProperty aSourceProperties)
         {
-          nsCSSValue physical(nsStyle.BOXPROP_SOURCE_PHYSICAL, nsCSSUnit.Enumerated);
+          var physical = new nsCSSValue(nsStyle.BOXPROP_SOURCE_PHYSICAL, nsCSSUnit.Enumerated);
           for (nsCSSProperty prop = aSourceProperties;
                *prop != nsCSSProperty.UNKNOWN; ++prop) {
             AppendValue(*prop, physical);
@@ -5632,7 +5633,7 @@ namespace Alba.CsCss.Style
             }
           }
         
-          return nsCSSValue(val, nsCSSUnit.Enumerated);
+          return new nsCSSValue(val, nsCSSUnit.Enumerated);
         }
         
         internal bool ParseBackground()
@@ -5729,7 +5730,7 @@ namespace Alba.CsCss.Style
                                            nsCSSUnit.Enumerated);
           aState.mOrigin.mValue.SetIntValue(nsStyle.BG_ORIGIN_PADDING,
                                              nsCSSUnit.Enumerated);
-          nsCSSValue.Array positionArr = nsCSSValue.Array.Create(4);
+          nsCSSValue[] positionArr = new nsCSSValue[4];
           aState.mPosition.mValue.SetArrayValue(positionArr, nsCSSUnit.Array);
           positionArr.Item(1).SetPercentValue(0.0f);
           positionArr.Item(3).SetPercentValue(0.0f);
@@ -5754,7 +5755,7 @@ namespace Alba.CsCss.Style
             }
         
             if (tt == nsCSSTokenType.Ident) {
-              nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdent);
+              nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
               int32_t dummy;
               if (keyword == nsCSSKeyword.inherit ||
                   keyword == nsCSSKeyword._moz_initial ||
@@ -5847,16 +5848,16 @@ namespace Alba.CsCss.Style
               }
             } else if (tt == nsCSSTokenType.URL ||
                        (tt == nsCSSTokenType.Function &&
-                        (mToken.mIdent.LowerCaseEqualsLiteral("linear-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("radial-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("repeating-linear-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("repeating-radial-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-linear-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-radial-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-repeating-linear-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-repeating-radial-gradient") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-image-rect") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-element")))) {
+                        (mToken.mIdentStr.LowerCaseEqualsLiteral("linear-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("radial-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("repeating-linear-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("repeating-radial-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-linear-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-radial-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-repeating-linear-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-repeating-radial-gradient") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-image-rect") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-element")))) {
               if (haveImage)
                 return false;
               haveImage = true;
@@ -5868,8 +5869,8 @@ namespace Alba.CsCss.Style
                        tt == nsCSSTokenType.Number ||
                        tt == nsCSSTokenType.Percentage ||
                        (tt == nsCSSTokenType.Function &&
-                        (mToken.mIdent.LowerCaseEqualsLiteral("calc") ||
-                         mToken.mIdent.LowerCaseEqualsLiteral("-moz-calc")))) {
+                        (mToken.mIdentStr.LowerCaseEqualsLiteral("calc") ||
+                         mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-calc")))) {
               if (havePositionAndSize)
                 return false;
               havePositionAndSize = true;
@@ -6040,7 +6041,7 @@ namespace Alba.CsCss.Style
          */
         bool ParseBoxPositionValues(ref nsCSSValuePair aOut,
                                                    bool aAcceptsInherit,
-                                                   bool aAllowExplicitCenter)
+                                                   bool aAllowExplicitCenter = true)
         {
           // First try a percentage or a length value
           nsCSSValue xValue = aOut.mXValue,
@@ -6135,7 +6136,7 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          nsCSSValue.Array value = nsCSSValue.Array.Create(4);
+          nsCSSValue[] value = new nsCSSValue[4];
           aOut.SetArrayValue(value, nsCSSUnit.Array);
         
           // The following clarifies organisation of the array.
@@ -6402,7 +6403,7 @@ namespace Alba.CsCss.Style
           // border-image-slice: 100%
           nsCSSValue sliceBoxValue;
           nsCSSRect sliceBox = sliceBoxValue.SetRectValue();
-          sliceBox.SetAllSidesTo(nsCSSValue(1.0f, nsCSSUnit.Percent));
+          sliceBox.SetAllSidesTo(new nsCSSValue(1.0f, nsCSSUnit.Percent));
           nsCSSValue slice;
           nsCSSValueList sliceList = slice.SetListValue();
           sliceList.mValue = sliceBoxValue;
@@ -6411,19 +6412,19 @@ namespace Alba.CsCss.Style
           // border-image-width: 1
           nsCSSValue width;
           nsCSSRect widthBox = width.SetRectValue();
-          widthBox.SetAllSidesTo(nsCSSValue(1.0f, nsCSSUnit.Number));
+          widthBox.SetAllSidesTo(new nsCSSValue(1.0f, nsCSSUnit.Number));
           AppendValue(nsCSSProperty.border_image_width, width);
         
           // border-image-outset: 0
           nsCSSValue outset;
           nsCSSRect outsetBox = outset.SetRectValue();
-          outsetBox.SetAllSidesTo(nsCSSValue(0.0f, nsCSSUnit.Number));
+          outsetBox.SetAllSidesTo(new nsCSSValue(0.0f, nsCSSUnit.Number));
           AppendValue(nsCSSProperty.border_image_outset, outset);
         
           // border-image-repeat: repeat
           nsCSSValue repeat;
           nsCSSValuePair repeatPair;
-          repeatPair.SetBothValuesTo(nsCSSValue(nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
+          repeatPair.SetBothValuesTo(new nsCSSValue(nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
                                                 nsCSSUnit.Enumerated));
           repeat.SetPairValue(&repeatPair);
           AppendValue(nsCSSProperty.border_image_repeat, repeat);
@@ -6666,7 +6667,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseBorderSide(nsCSSProperty aPropIDs[],
+        internal bool ParseBorderSide(nsCSSProperty[] aPropIDs,
                                        bool aSetAllSides)
         {
           const int32_t numProps = 3;
@@ -6753,7 +6754,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseDirectionalBorderSide(nsCSSProperty aPropIDs[],
+        internal bool ParseDirectionalBorderSide(nsCSSProperty[] aPropIDs,
                                                   int32_t aSourceType)
         {
           const int32_t numProps = 3;
@@ -6779,7 +6780,7 @@ namespace Alba.CsCss.Style
             Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                          "not box property with physical vs. logical cascading");
             AppendValue(subprops[0], values[index]);
-            nsCSSValue typeVal(aSourceType, nsCSSUnit.Enumerated);
+            var typeVal = new nsCSSValue(aSourceType, nsCSSUnit.Enumerated);
             AppendValue(subprops[1], typeVal);
             AppendValue(subprops[2], typeVal);
           }
@@ -6857,8 +6858,8 @@ namespace Alba.CsCss.Style
         
           // One-iteration loop so we can break to the error-handling case.
           do {
-            // The toplevel of a calc() is always an nsCSSValue.Array of length 1.
-            nsCSSValue.Array arr = nsCSSValue.Array.Create(1);
+            // The toplevel of a calc() is always an nsCSSValue[] of length 1.
+            nsCSSValue[] arr = new nsCSSValue[1];
         
             if (!ParseCalcAdditiveExpression(arr.Item(0), aVariantMask))
               break;
@@ -6913,7 +6914,7 @@ namespace Alba.CsCss.Style
             if (!RequireWhitespace())
               return false;
         
-            nsCSSValue.Array arr = nsCSSValue.Array.Create(2);
+            nsCSSValue[] arr = new nsCSSValue[2];
             arr.Item(0) = aValue;
             storage = &arr.Item(1);
             aValue.SetArrayValue(arr, unit);
@@ -7013,7 +7014,7 @@ namespace Alba.CsCss.Style
               break;
             }
         
-            nsCSSValue.Array arr = nsCSSValue.Array.Create(2);
+            nsCSSValue[] arr = new nsCSSValue[2];
             arr.Item(0) = aValue;
             storage = &arr.Item(1);
             aValue.SetArrayValue(arr, unit);
@@ -7108,7 +7109,7 @@ namespace Alba.CsCss.Style
           nsCSSValue val;
         
           if (mToken.mType == nsCSSTokenType.Ident) {
-            nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdent);
+            nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
             switch (keyword) {
               case nsCSSKeyword.auto:
                 if (!ExpectEndProperty()) {
@@ -7134,7 +7135,7 @@ namespace Alba.CsCss.Style
                 return false;
             }
           } else if (mToken.mType == nsCSSTokenType.Function &&
-                     mToken.mIdent.LowerCaseEqualsLiteral("rect")) {
+                     mToken.mIdentStr.LowerCaseEqualsLiteral("rect")) {
             nsCSSRect rect = val.SetRectValue();
             bool useCommas;
             NS_FOR_CSS_SIDES(side) {
@@ -7270,7 +7271,7 @@ namespace Alba.CsCss.Style
         
             nsCSSValuePairList cur = value.SetPairListValue();
             for (;;) {
-              cur.mXValue.SetStringValue(mToken.mIdent, nsCSSUnit.Ident);
+              cur.mXValue.SetStringValue(mToken.mIdentStr, nsCSSUnit.Ident);
               if (!GetToken(true)) {
                 break;
               }
@@ -7315,7 +7316,7 @@ namespace Alba.CsCss.Style
               }
         
               // We have a URL, so make a value array with three values.
-              nsCSSValue.Array val = nsCSSValue.Array.Create(3);
+              nsCSSValue[] val = new nsCSSValue[3];
               val.Item(0) = cur.mValue;
         
               // Parse optional x and y position of cursor hotspot (css3-ui).
@@ -7351,7 +7352,7 @@ namespace Alba.CsCss.Style
             if (ExpectEndProperty()) {
               if (nsCSSUnit.Inherit == family.GetUnit() ||
                   nsCSSUnit.Initial == family.GetUnit()) {
-                AppendValue(nsCSSProperty._x_system_font, nsCSSValue(nsCSSUnit.None));
+                AppendValue(nsCSSProperty._x_system_font, new nsCSSValue(nsCSSUnit.None));
                 AppendValue(nsCSSProperty.font_family, family);
                 AppendValue(nsCSSProperty.font_style, family);
                 AppendValue(nsCSSProperty.font_variant, family);
@@ -7365,7 +7366,7 @@ namespace Alba.CsCss.Style
               }
               else {
                 AppendValue(nsCSSProperty._x_system_font, family);
-                nsCSSValue systemFont(nsCSSUnit.System_Font);
+                var systemFont = new nsCSSValue(nsCSSUnit.System_Font);
                 AppendValue(nsCSSProperty.font_family, systemFont);
                 AppendValue(nsCSSProperty.font_style, systemFont);
                 AppendValue(nsCSSProperty.font_variant, systemFont);
@@ -7427,7 +7428,7 @@ namespace Alba.CsCss.Style
             if (ParseFamily(family)) {
               if ((nsCSSUnit.Inherit != family.GetUnit()) && (nsCSSUnit.Initial != family.GetUnit()) &&
                   ExpectEndProperty()) {
-                AppendValue(nsCSSProperty._x_system_font, nsCSSValue(nsCSSUnit.None));
+                AppendValue(nsCSSProperty._x_system_font, new nsCSSValue(nsCSSUnit.None));
                 AppendValue(nsCSSProperty.font_family, family);
                 AppendValue(nsCSSProperty.font_style, values[0]);
                 AppendValue(nsCSSProperty.font_variant, values[1]);
@@ -7435,10 +7436,10 @@ namespace Alba.CsCss.Style
                 AppendValue(nsCSSProperty.font_size, size);
                 AppendValue(nsCSSProperty.line_height, lineHeight);
                 AppendValue(nsCSSProperty.font_stretch,
-                            nsCSSValue(nsFont.STRETCH_NORMAL, nsCSSUnit.Enumerated));
-                AppendValue(nsCSSProperty.font_size_adjust, nsCSSValue(nsCSSUnit.None));
-                AppendValue(nsCSSProperty.font_feature_settings, nsCSSValue(nsCSSUnit.Normal));
-                AppendValue(nsCSSProperty.font_language_override, nsCSSValue(nsCSSUnit.Normal));
+                            new nsCSSValue(nsFont.STRETCH_NORMAL, nsCSSUnit.Enumerated));
+                AppendValue(nsCSSProperty.font_size_adjust, new nsCSSValue(nsCSSUnit.None));
+                AppendValue(nsCSSProperty.font_feature_settings, new nsCSSValue(nsCSSUnit.Normal));
+                AppendValue(nsCSSProperty.font_language_override, new nsCSSValue(nsCSSUnit.Normal));
                 return true;
               }
             }
@@ -7588,7 +7589,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseFontSrc(nsCSSValue aValue)
         {
-          // could we maybe turn nsCSSValue.Array into List<nsCSSValue>?
+          // could we maybe turn nsCSSValue[] into List<nsCSSValue>?
           List<nsCSSValue> values;
           nsCSSValue cur;
           for (;;) {
@@ -7596,13 +7597,13 @@ namespace Alba.CsCss.Style
               break;
         
             if (mToken.mType == nsCSSTokenType.URL) {
-              SetValueToURL(cur, mToken.mIdent);
+              SetValueToURL(cur, mToken.mIdentStr);
               values.AppendElement(cur);
               if (!ParseFontSrcFormat(values))
                 return false;
         
             } else if (mToken.mType == nsCSSTokenType.Function &&
-                       mToken.mIdent.LowerCaseEqualsLiteral("local")) {
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("local")) {
               // css3-fonts does not specify a formal grammar for local().
               // The text permits both unquoted identifiers and quoted
               // strings.  We resolve this ambiguity in the spec by
@@ -7644,8 +7645,8 @@ namespace Alba.CsCss.Style
           if (values.Length() == 0)
             return false;
         
-          nsCSSValue.Array srcVals
-            = nsCSSValue.Array.Create(values.Length());
+          nsCSSValue[] srcVals
+            = nsCSSValue[].Create(values.Length());
         
           uint32_t i;
           for (i = 0; i < values.Length(); i++)
@@ -7659,7 +7660,7 @@ namespace Alba.CsCss.Style
           if (!GetToken(true))
             return true; // EOF harmless here
           if (mToken.mType != nsCSSTokenType.Function ||
-              !mToken.mIdent.LowerCaseEqualsLiteral("format")) {
+              !mToken.mIdentStr.LowerCaseEqualsLiteral("format")) {
             UngetToken();
             return true;
           }
@@ -7674,7 +7675,7 @@ namespace Alba.CsCss.Style
               return false;
             }
         
-            nsCSSValue cur(mToken.mIdent, nsCSSUnit.Font_Format);
+            var cur = new nsCSSValue(mToken.mIdentStr, nsCSSUnit.Font_Format);
             values.AppendElement(cur);
           } while (ExpectSymbol(',', true));
         
@@ -7725,8 +7726,8 @@ namespace Alba.CsCss.Style
           if (ranges.Length() == 0)
             return false;
         
-          nsCSSValue.Array srcVals
-            = nsCSSValue.Array.Create(ranges.Length());
+          nsCSSValue[] srcVals
+            = nsCSSValue[].Create(ranges.Length());
         
           for (uint32_t i = 0; i < ranges.Length(); i++)
             srcVals.Item(i).SetIntValue(ranges[i], nsCSSUnit.Integer);
@@ -7774,11 +7775,11 @@ namespace Alba.CsCss.Style
             }
         
             if (mToken.mType != nsCSSTokenType.String ||
-                !ValidFontFeatureTag(mToken.mIdent)) {
+                !ValidFontFeatureTag(mToken.mIdentStr)) {
               UngetToken();
               return false;
             }
-            cur.mXValue.SetStringValue(mToken.mIdent, nsCSSUnit.String);
+            cur.mXValue.SetStringValue(mToken.mIdentStr, nsCSSUnit.String);
         
             if (!GetToken(true)) {
               cur.mYValue.SetIntValue(1, nsCSSUnit.Integer);
@@ -7790,10 +7791,10 @@ namespace Alba.CsCss.Style
                 mToken.mInteger >= 0) {
               cur.mYValue.SetIntValue(mToken.mInteger, nsCSSUnit.Integer);
             } else if (mToken.mType == nsCSSTokenType.Ident &&
-                       mToken.mIdent.LowerCaseEqualsLiteral("on")) {
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("on")) {
               cur.mYValue.SetIntValue(1, nsCSSUnit.Integer);
             } else if (mToken.mType == nsCSSTokenType.Ident &&
-                       mToken.mIdent.LowerCaseEqualsLiteral("off")) {
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("off")) {
               cur.mYValue.SetIntValue(0, nsCSSUnit.Integer);
             } else {
               // something other than value/on/off, set default value
@@ -7954,8 +7955,8 @@ namespace Alba.CsCss.Style
               !ExpectEndProperty())
             return false;
         
-          nsCSSValue overflowX(overflow);
-          nsCSSValue overflowY(overflow);
+          var overflowX = new nsCSSValue(overflow);
+          var overflowY = new nsCSSValue(overflow);
           if (nsCSSUnit.Enumerated == overflow.GetUnit())
             switch(overflow.GetIntValue()) {
               case nsStyle.OVERFLOW_SCROLLBARS_HORIZONTAL:
@@ -8240,12 +8241,12 @@ namespace Alba.CsCss.Style
           typedef List<nsCSSValue>.size_type arrlen_t;
         
           /* 2^16 - 2, so that if we have 2^16 - 2 transforms, we have 2^16 - 1
-           * elements stored in the the nsCSSValue.Array.
+           * elements stored in the the nsCSSValue[].
            */
           const arrlen_t MAX_ALLOWED_ELEMS = 0xFFFE;
         
           /* Make a copy of the function name, since the reference is _probably_ to
-           * mToken.mIdent, which is going to get overwritten during the course of this
+           * mToken.mIdentStr, which is going to get overwritten during the course of this
            * function.
            */
           string functionName(aFunction);
@@ -8258,15 +8259,15 @@ namespace Alba.CsCss.Style
                                       foundValues))
             return false;
         
-          /* Now, convert this array into an nsCSSValue.Array object.
+          /* Now, convert this array into an nsCSSValue[] object.
            * We'll need N + 1 spots, one for the function name and the rest for the
            * arguments.  In case the user has given us more than 2^16 - 2 arguments,
            * we'll truncate them at 2^16 - 2 arguments.
            */
           uint16_t numElements = (foundValues.Length() <= MAX_ALLOWED_ELEMS ?
                                   foundValues.Length() + 1 : MAX_ALLOWED_ELEMS);
-          nsCSSValue.Array convertedArray =
-            nsCSSValue.Array.Create(numElements);
+          nsCSSValue[] convertedArray =
+            nsCSSValue[].Create(numElements);
         
           /* Copy things over. */
           convertedArray.Item(0).SetStringValue(functionName, nsCSSUnit.Ident);
@@ -8495,7 +8496,7 @@ namespace Alba.CsCss.Style
         
           const ref int32_t variantMask;
           uint16_t minElems, maxElems;
-          nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdent);
+          nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
         
           if (!GetFunctionParseInformation(keyword, aIsPrefixed,
                                            minElems, maxElems, variantMask, aIs3D))
@@ -8504,33 +8505,33 @@ namespace Alba.CsCss.Style
           // Bug 721136: Normalize the identifier to lowercase, except that things
           // like scaleX should have the last character capitalized.  This matches
           // what other browsers do.
-          nsContentUtils.ASCIIToLower(mToken.mIdent);
+          mToken.mIdentStr = mToken.mIdentStr.ToLower();
           switch (keyword) {
             case nsCSSKeyword.rotatex:
             case nsCSSKeyword.scalex:
             case nsCSSKeyword.skewx:
             case nsCSSKeyword.translatex:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'X');
+              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'X');
               break;
         
             case nsCSSKeyword.rotatey:
             case nsCSSKeyword.scaley:
             case nsCSSKeyword.skewy:
             case nsCSSKeyword.translatey:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'Y');
+              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'Y');
               break;
         
             case nsCSSKeyword.rotatez:
             case nsCSSKeyword.scalez:
             case nsCSSKeyword.translatez:
-              mToken.mIdent.Replace(mToken.mIdent.Length() - 1, 1, 'Z');
+              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'Z');
               break;
         
             default:
               break;
           }
         
-          return ParseFunction(mToken.mIdent, variantMask, minElems, maxElems, aValue);
+          return ParseFunction(mToken.mIdentStr, variantMask, minElems, maxElems, aValue);
         }
         
         /* Parses a transform property list by continuously reading in properties
@@ -8653,10 +8654,10 @@ namespace Alba.CsCss.Style
         {
           Debug.Assert(!mHavePushBack &&
                        mToken.mType == nsCSSTokenType.Function &&
-                       mToken.mIdent.LowerCaseEqualsLiteral("cubic-bezier"),
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("cubic-bezier"),
                        "unexpected initial state");
         
-          nsCSSValue.Array val = nsCSSValue.Array.Create(4);
+          nsCSSValue[] val = new nsCSSValue[4];
         
           float x1, x2, y1, y2;
           if (!ParseTransitionTimingFunctionValueComponent(x1, ',', true) ||
@@ -8701,10 +8702,10 @@ namespace Alba.CsCss.Style
         {
           Debug.Assert(!mHavePushBack &&
                        mToken.mType == nsCSSTokenType.Function &&
-                       mToken.mIdent.LowerCaseEqualsLiteral("steps"),
+                       mToken.mIdentStr.LowerCaseEqualsLiteral("steps"),
                        "unexpected initial state");
         
-          nsCSSValue.Array val = nsCSSValue.Array.Create(2);
+          nsCSSValue[] val = new nsCSSValue[2];
         
           if (!ParseOneOrLargerVariant(val.Item(0), VARIANT_INTEGER, null)) {
             return false;
@@ -8717,9 +8718,9 @@ namespace Alba.CsCss.Style
             }
             type = -1;
             if (mToken.mType == nsCSSTokenType.Ident) {
-              if (mToken.mIdent.LowerCaseEqualsLiteral("start")) {
+              if (mToken.mIdentStr.LowerCaseEqualsLiteral("start")) {
                 type = nsStyle.TRANSITION_TIMING_FUNCTION_STEP_START;
-              } else if (mToken.mIdent.LowerCaseEqualsLiteral("end")) {
+              } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("end")) {
                 type = nsStyle.TRANSITION_TIMING_FUNCTION_STEP_END;
               }
             }
@@ -8977,7 +8978,7 @@ namespace Alba.CsCss.Style
             IndexInset    // only for box-shadow
           };
         
-          nsCSSValue.Array val = nsCSSValue.Array.Create(6);
+          nsCSSValue[] val = new nsCSSValue[6];
         
           if (aIsBoxShadow) {
             // Optional inset keyword (ignore errors)
@@ -9085,9 +9086,9 @@ namespace Alba.CsCss.Style
           int32_t nameSpaceID = kNameSpaceID_Unknown;
           if (mNameSpaceMap != null) {
             // user-specified identifiers are case-sensitive (bug 416106)
-            nsIAtom prefix = do_GetAtom(aPrefix);
+            nsIAtom prefix = new nsAtom(aPrefix);
             if (!prefix) {
-              Debug.Fail("do_GetAtom failed - out of memory?");
+              Debug.Fail("new nsAtom failed - out of memory?");
             }
             nameSpaceID = mNameSpaceMap.FindNameSpaceID(prefix);
           }

@@ -4,9 +4,17 @@ namespace Alba.CsCss.Extensions
 {
     internal static class ListExts
     {
-        public static void AppendElement<T> (this IList<T> @this, T item)
+        public static T AppendElement<T> (this IList<T> @this, T item)
         {
             @this.Add(item);
+            return item;
+        }
+
+        public static T AppendElement<T> (this IList<T> @this) where T : new()
+        {
+            var item = new T();
+            @this.Add(item);
+            return item;
         }
 
         public static void RemoveElementAt<T> (this IList<T> @this, int index)

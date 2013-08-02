@@ -14,6 +14,17 @@ namespace Alba.CsCss.Style
         internal bool mIntegerValid;
         internal bool mHasSign;
 
+        // TODO Avoid multiple calls to nsCSSToken.ToString (cache string after calling Next[URL]?)
+        internal string mIdentStr
+        {
+            get { return mIdent.ToString(); }
+            set
+            {
+                mIdent.Clear();
+                mIdent.Append(value);
+            }
+        }
+
         internal bool IsSymbol (char aSymbol)
         {
             return mType == nsCSSTokenType.Symbol && mSymbol == aSymbol;

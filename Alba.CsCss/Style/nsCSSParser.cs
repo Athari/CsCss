@@ -94,7 +94,7 @@ namespace Alba.CsCss.Style
             Page
         };
 
-        private enum PriorityParsingStatus
+        internal enum PriorityParsingStatus
         {
             None,
             Important,
@@ -254,8 +254,14 @@ namespace Alba.CsCss.Style
     internal class nsIPrincipal
     {}
 
-    internal class nsIAtom
+    internal interface nsIAtom
     {}
+
+    internal class nsAtom : nsIAtom
+    {
+        public nsAtom (string mIdentStr)
+        {}
+    }
 
     internal class nsCSSSelector
     {
@@ -276,7 +282,16 @@ namespace Alba.CsCss.Style
 
     internal class nsMediaExpression
     {
+        public enum Range
+        {
+            Min,
+            Max,
+            Equal
+        };
+
         public nsMediaFeature mFeature;
+        public Range mRange;
+        public nsCSSValue mValue;
     }
 
     internal class nsMediaFeatures
@@ -285,6 +300,37 @@ namespace Alba.CsCss.Style
     internal class nsMediaFeature
     {
         public string mName;
+
+        public enum RangeType
+        {
+            MinMaxAllowed,
+            MinMaxNotAllowed
+        };
+
+        public RangeType mRangeType;
+
+        public enum ValueType
+        {
+            // All value types allow eCSSUnit_Null to indicate that no value
+            // was given (in addition to the types listed below).
+            Length, // values are such that nsCSSValue::IsLengthUnit() is true
+            Integer, // values are eCSSUnit_Integer
+            Float, // values are eCSSUnit_Number
+            BoolInteger, // values are eCSSUnit_Integer (0, -0, or 1 only)
+            IntRatio, // values are eCSSUnit_Array of two eCSSUnit_Integer
+            Resolution, // values are in eCSSUnit_Inch (for dpi),
+            //   eCSSUnit_Pixel (for dppx), or
+            //   eCSSUnit_Centimeter (for dpcm)
+            Enumerated, // values are eCSSUnit_Enumerated (uses keyword table)
+            Ident // values are eCSSUnit_Ident
+            // Note that a number of pieces of code (both for parsing and
+            // for matching of valueless expressions) assume that all numeric
+            // value types cannot be negative.  The parsing code also does
+            // not allow zeros in eIntRatio types.
+        };
+
+        public ValueType mValueType;
+        public object mData;
     }
 
     internal class nsMediaList
@@ -340,6 +386,15 @@ namespace Alba.CsCss.Style
 
     internal class nsCSSValue
     {
+        public nsCSSValue (nsCSSUnit auto)
+        {}
+
+        public nsCSSValue (float auto, nsCSSUnit number)
+        {}
+
+        public nsCSSValue ()
+        {}
+
         public nsCSSUnit GetUnit ()
         {
             return 0;
@@ -424,11 +479,18 @@ namespace Alba.CsCss.Style
 
         public void Reset ()
         {}
+
+        public void SetGradientValue (nsCSSValueGradient aGradient)
+        {}
     }
 
     internal class nsCSSValueGradient
     {
         public bool mIsExplicitSize;
+        public List<nsCSSValueGradientStop> mStops;
+        public nsCSSValuePair mBgPos;
+        public nsCSSValue mAngle;
+        public bool mIsLegacySyntax;
 
         public nsCSSValueGradient (bool b, bool aIsRepeating)
         {}
@@ -452,6 +514,12 @@ namespace Alba.CsCss.Style
         {
             return null;
         }
+    }
+
+    internal class nsCSSValueGradientStop
+    {
+        public nsCSSValue mColor;
+        public nsCSSValue mLocation;
     }
 
     internal class nsCSSValueList
@@ -516,7 +584,10 @@ namespace Alba.CsCss.Style
     }
 
     internal class CharsetRule : Rule
-    {}
+    {
+        public CharsetRule (string charset)
+        {}
+    }
 
     internal class MediaRule : Rule
     {}
@@ -533,8 +604,13 @@ namespace Alba.CsCss.Style
         {}
     }
 
-    internal class CSSSupportsRule : Rule
-    {}
+    internal class CSSSupportsRule : GroupRule
+    {
+        public static bool PrefEnabled ()
+        {
+            return false;
+        }
+    }
 
     internal class nsCSSPageRule : Rule
     {}

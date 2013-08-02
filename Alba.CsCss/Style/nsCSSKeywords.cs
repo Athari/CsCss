@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using Alba.CsCss.Extensions;
+﻿using Alba.CsCss.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSKeywords
+    internal static partial class nsCSSKeywords
     {
-        private readonly Dictionary<string, int> gKeywordTable = kCSSRawKeywords.ToCaseInsensitiveNameTable();
-
-        public nsCSSKeyword LookupKeyword (string aKeyword)
+        public static nsCSSKeyword LookupKeyword (string aKeyword)
         {
             return (nsCSSKeyword)gKeywordTable.GetOrDefault(aKeyword, -1);
         }
 
-        public string GetStringValue (nsCSSKeyword aKeyword)
+        public static string GetStringValue (nsCSSKeyword aKeyword)
         {
             return kCSSRawKeywords[(int)aKeyword];
         }

@@ -35,6 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ArrayExts.cs" />
     <Compile Include="Extensions\ListExts.cs" />
     <Compile Include="Extensions\ObjectExts.cs" />
     <Compile Include="Style\ErrorReporter.cs" />

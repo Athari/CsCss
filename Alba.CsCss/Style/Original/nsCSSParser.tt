@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
@@ -85,14 +84,16 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_SUCCEEDED\((?<Expr>"+sArgs+@")\)",
                         "(((${Expr}) & 0x80000000) == 0)")
             .ReReplace(@"NS_RELEASE\((\*?\w+)\)", "$1 = null")
-            .ReReplace(@"(\w+).forget\(\)", "$1")
+            .ReReplace(@"(\w+).(?:forget|get)\(\)", "$1")
             //.ReReplace(@"(?s)MOZ_(?:UN)?LIKELY\((" + sArgs + @")\)", "$1")
             //.ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
-            .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|char)\((.*?)\)", "$1")
+            .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|getter_Transfers|char)\((.*?)\)", "$1")
             .ReReplace(@"(?:nsRefPtr|nsCOMPtr|nsAutoPtr|already_AddRefed|DebugOnly)<([\w:]+)>", "$1")
             .ReReplace(@"(?:ArrayLength|NS_ARRAY_LENGTH)\(([\w:]+)\)", "$1.Length")
             .ReReplace(@"InfallibleTArray<([\w:]+)>[*&]?", "List<$1>")
             .ReReplace(@"(?n)NS_ConvertASCIItoUTF16 (?<Var>\w+)\((?<Value>"+sArgs+@")\);", "string ${Var} = ${Value};")
+            .ReReplace(@"nsContentUtils::ASCIIToLower\((.*)\)", "$1 = $1.ToLower()")
+            .ReReplace(@"do_GetAtom", "new nsAtom")
 
             // specific preprocessor
             .ReReplace(@"REPORT_UNEXPECTED\((\w+)\)",
@@ -124,8 +125,9 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?\b(?<Name>"+
                             "nsCSSToken|nsCSSStyleSheet|nsCSSProperty|nsMediaList|nsCSSValue|nsCSSSelectorList|nsMediaQuery|nsIPrincipal|"+
                             "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|ImportRule|Declaration|BackgroundParseState|"+
-                            "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus|"+
-                            "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|NameSpaceRule|URLValue"+
+                            "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus|PriorityParsingStatus|"+
+                            "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|NameSpaceRule|URLValue|nsCSSValueGradient|"+
+                            "nsCSSValueGradientStop|nsCSSTokenType"+
                        @")\b(?<Space> )?[*&]?", "${Name}${Space}")
             .ReReplace(@"(?n)\b(?<Name>"+
                             "u?int\\d+_t|bool|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nsCSSValuePair|nscolor"+
@@ -136,12 +138,15 @@ namespace Alba.CsCss.Style
             .Replace(@"nsCSSScanner&", "nsCSSScanner")
             .Replace(@"mozilla::css::Loader*", "CssLoader")
             .Replace(@"css::ErrorReporter&", "ErrorReporter")
-            .ReReplace(@"(?n)(mozilla::)?(css::)?(?<Type>ErrorReporter|nsCSSScanner) +(?<Var>\w+)\((?<Args>"+sArgs+@")\)", "var ${Var} = new ${Type}(${Args})")
+            .ReReplace(@"(?n)(mozilla::)?(css::)?\b(?<Type>ErrorReporter|nsCSSScanner|nsCSSValue)\b +(?<Var>\w+)\((?<Args>"+sArgs+@")\)", "var ${Var} = new ${Type}(${Args})")
+            .ReReplace(@"nsCSSValue::Array::Create\((\d+)\)", "new nsCSSValue[$1]")
+            .ReReplace(@"nsCSSValue::Array", "nsCSSValue[]")
             // specific members access
             .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
             .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"&(aScanner|aReporter|mToken|mData)", "$1")
             .ReReplace(@"\*(aResult|aChanged|aQuery|aHitStop)", "$1")
+            .ReReplace(@"mToken.mIdent", "mToken.mIdentStr")
 
             // specific enums
             .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|CSSKeyword|ParseDeclaration|SelectorParsingStatus)_(\w+)", "ns$1.$2")
@@ -150,6 +155,9 @@ namespace Alba.CsCss.Style
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
             .ReReplace(@"eCSSProperty(Alias|Extra)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.Range.$1")
+            .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
+            .ReReplace(@"nsMediaFeature::e(\w+)", "nsMediaFeature.ValueType.$1")
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
             .ReReplace(@"NS_FONT_(\w+)", "nsFont.$1")
             .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
@@ -158,21 +166,36 @@ namespace Alba.CsCss.Style
 
             // specific expressions
             .Replace(@"(*aAppendFunc)(", "aAppendFunc(")
+            .Replace(@"bool (*parseFunc)(RuleAppendFunc, void*)", "Func<RuleAppendFunc, object, bool> parseFunc")
+            .Replace(@"(this->*parseFunc)", "parseFunc")
+            .ReReplace(@"mToken\.mIdentStr \+ (\d+)", "mToken.mIdentStr.Substring($1)")
             .ReReplace(@"(?ns)(?<Type>nsAutoParseCompoundProperty|nsAutoFailingSupportsRule|nsAutoSuppressErrors) "+ // RAII structs
-                       @"(?<Var>\w+)\(this\);(?<Code>.*?)\n}\n",
-                       m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"(this)) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
+                       @"(?<Var>\w+)\((?<Args>"+sArgs+@")\);(?<Code>.*?)\n}\n",
+                       m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"("+m.Get("Args")+")) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
+            // specific expressions: constructors
+            .ReReplace(@"(?<!new )nsCSSValue\(", "new nsCSSValue(")
             // specific expressions: boolean
-            .ReReplace(@"!(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|mediaFeatureAtom|declaration)", "$1 == null")
+            .ReReplace(@"!\b(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|mediaFeatureAtom|declaration|mediaType)\b", "$1 == null")
             .ReReplace(@"!(combinator)", "$1 == 0")
             .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
             // specific expressions: arg declarations
-            .Replace(@"bool aInsideBraces", "bool aInsideBraces = false")
+            .ReReplace(@"bool (aInsideBraces|conditionMet|hitStop)", "bool $1 = false")
+            .ReReplace(@"bool (aAllowExplicitCenter)", "bool $1 = true")
+            .ReReplace(@"nsMediaQuery query", "nsMediaQuery query = null")
+            .ReReplace(@"string \b(url|urlString);", "string $1 = \"\";")
+            .ReReplace(@"(nsCSSValue) (tmpVal|shapeValue);", "var $2 = new $1();")
             .Replace(@"nsCSSContextType aContext", "nsCSSContextType aContext = nsCSSContextType.General")
             .Replace(@"uint32_t aFlags", "nsParseDeclaration aFlags")
+            .Replace(@"string aStopSymbolChars", "char[] aStopSymbolChars")
+            .Replace(@"(string aURL)", "(ref string aURL)")
             // specific expressions: arg calls
             .ReReplace(@"&(equal)", "out $1")
+            .ReReplace(@"&(hitStop)", "ref $1")
             .ReReplace(@"(lastRule)\)", "ref $1)")
+            .ReReplace(@"(ParseURLOrString)\((\w+)\)", "$1(ref $2)")
+            .ReReplace(@", query,", ", ref query,")
+            .ReReplace(@"(?i)\((\w*conditionMet)", "(ref $1")
             .ReReplace(@"true, aChanged\)", "true, ref aChanged)")
             .ReReplace(@"ParseSelectorList\(\*aSelectorList, 0\)", @"ParseSelectorList(ref aSelectorList, '\0')")
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
@@ -194,6 +217,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"new (\w+);", "new $1();")
             .ReReplace(@"(?<Spec>const|static) (?<Type>\w+) (?<Var>\w+)\[\] = {", "${Spec} ${Type}[] ${Var} = new ${Type}[] {") // create arrays
             .ReReplace(@"(?<Spec>const) (?<Type>\w+) (?<Var>\w+)\[\]", "${Type}[] ${Var}") // array args
+            .ReReplace(@"(?<Type>\w+) (?<Var>a\w+)\[\]", "${Type}[] ${Var}") // array args
             .ReReplace(@"static const", "const")
             //.ReReplace(@"\) const\n", ")\n") // const functions
             //.ReReplace(@"inline", "")
