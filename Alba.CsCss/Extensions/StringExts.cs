@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Extensions
 {
@@ -26,8 +27,12 @@ namespace Alba.CsCss.Extensions
 
         internal static bool LowerCaseEqualsASCII (this string @this, string value, int length)
         {
-            if (value.Length != length)
-                value = value.Substring(0, length);
+            Debug.Assert(value.Length == length);
+            return string.Equals(@this, value, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool LowerCaseEqualsASCII (this string @this, string value)
+        {
             return string.Equals(@this, value, StringComparison.OrdinalIgnoreCase);
         }
     }

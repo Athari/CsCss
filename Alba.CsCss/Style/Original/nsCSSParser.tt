@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Alba.CsCss;
 using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
@@ -99,6 +100,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_(RGBA?)", "nscolor.$1")
             .ReReplace(@"NS_GET_([RGBA])\((\w+)\)", "$2.$1")
             .ReReplace(@"NS_(?<Method>HexToRGB|ColorNameToRGB)\((?<Args>"+sArgs+@"), &(?<Result>\w+)\)", "nscolor.${Method}(${Args}, ref ${Result})")
+            .ReReplace(@"NS_(?<Method>HSL2RGB)\((?<Args>"+sArgs+@")\)", "nscolor.${Method}(${Args})")
 
             // specific preprocessor
             .ReReplace(@"REPORT_UNEXPECTED\((\w+)\)",
@@ -122,6 +124,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"{ STR_WITH_LEN\((""\w+"")\), (\w+), (\w+) }", "new UnitInfo { name = $1, unit = $2, type = $3 }")
             // specific code removal
             .ReReplace(@"(?s)struct UnitInfo {.*?\n};\n", "")
+            .ReReplace(@"(?s)struct NS_STACK_CLASS ExtractFirstFamilyData {.*?\n};\n", "")
             //.ReReplace(@"(?s)nsCSSScanner::nsCSSScanner\(StringBuilder aBuffer, uint32_t aLineNumber\).*?\n}\n", "")
             //.ReReplace(@"(?s)nsCSSScanner::~nsCSSScanner\(\).*?\n}\n", "")
             //.ReReplace(@"(?s)void\s+nsCSSScanner::StopRecording\(StringBuilder aBuffer\).*?\n}\n", "")
@@ -136,7 +139,7 @@ namespace Alba.CsCss.Style
                             "ErrorReporter|Rule|StyleRule|CharsetRule|GroupRule|MediaRule|DocumentRule|ImportRule|Declaration|BackgroundParseState|"+
                             "nsMediaExpression|nsMediaFeature|nsCSSSelector|nsSelectorParsingStatus|PriorityParsingStatus|"+
                             "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|NameSpaceRule|URLValue|nsCSSValueGradient|"+
-                            "nsCSSValueGradientStop|nsCSSTokenType"+
+                            "nsCSSValueGradientStop|nsCSSTokenType|ExtractFirstFamilyData"+
                        @")\b(?<Space> )?[*&]?", "${Name}${Space}")
             .ReReplace(@"(?n)\b(?<Name>"+
                             "u?int\\d+_t|bool|float|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nsCSSValuePair|nscolor"+
@@ -164,14 +167,18 @@ namespace Alba.CsCss.Style
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
             .ReReplace(@"eCSSProperty(Alias|Extra)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"kNameSpaceID_(\w+)", "nsNameSpace.$1")
             .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.Range.$1")
             .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
             .ReReplace(@"nsMediaFeature::e(\w+)", "nsMediaFeature.ValueType.$1")
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
             .ReReplace(@"NS_FONT_(\w+)", "nsFont.$1")
+            .ReReplace(@"NS_ATTR_FUNC_(\w+)", "nsAttrFunc.$1")
             .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
+            .ReReplace(@"\be(And|Or)\b", "SupportsConditionTermOperator.$1")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
+            .ReReplace(@"uint8_t func", "nsAttrFunc func")
 
             // specific expressions
             .Replace(@"(*aAppendFunc)(", "aAppendFunc(")
@@ -183,17 +190,21 @@ namespace Alba.CsCss.Style
                        @"(?<Var>\w+)\((?<Args>"+sArgs+@")\);(?<Code>.*?)\n}\n",
                        m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"("+m.Get("Args")+")) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
             // specific expressions: constructors
-            .ReReplace(@"(?<Type>nsCSSFontFaceRule) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);", "var ${Var} = new ${Type}(${Args});") // Type Var(new Type()) -> var Var = new Var(Args)
+            .ReReplace(@"(?<Type>nsCSSFontFaceRule|nsCSSSelectorList) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);", "var ${Var} = new ${Type}(${Args});") // Type Var(new Type()) -> var Var = new Var(Args)
             .ReReplace(@"(?<Type>nsCSSValue|BackgroundParseState) (?<Var>\w+)\((?<Args>"+sArgs+@")\);", "var ${Var} = new ${Type}(${Args});") // Type Var(Args) -> var Var = new Var(Args)
             .ReReplace(@"(?<Type>nsCSSValue|nsCSSValueList|bool) +(?<Var>\w+)\[(?<Size>\w+)\];", "var ${Var} = new ${Type}[${Size}];") // Type Var[Size] -> var Var = new Type[Size]
-            .ReReplace(@"(?<Type>Declaration|string) (?<Var>\w+)\((?<Args>"+sArgs+@")\);", "${Type} ${Var} = ${Args};") // Type Var(Args) -> Type Var = Args
+            .ReReplace(@"(?<Type>Declaration|string) +(?<Var>\w+)\((?<Args>"+sArgs+@")\);", "${Type} ${Var} = ${Args};") // Type Var(Args) -> Type Var = Args
             .ReReplace(@"(?<Type>nsCSSValuePair|List<float>|nscolor) (?<Var>\w+);", "var ${Var} = new ${Type}();") // Type Var -> var Var = new Type()
             .ReReplace(@"(?<Type>nsCSSUnit|u?int\d+_t) (?<Var>\w+);", "${Type} ${Var} = 0;") // int Var -> int Var = 0
+            .ReReplace(@"bool (conditionMet|hitStop|rv|haveWS);", "bool $1 = false;") // bool Var -> bool Var = false
+            .ReReplace(@"string +\b(prefix|url|urlString)\b;", "string $1 = \"\";") // string Var -> string Var = ""
             .ReReplace(@"(?<!new )(?<Type>nsCSSValue)\(", "new ${Type}(") // Type Var[Size] -> Type(...) -> new Type(...)
+            .Replace(@"nsAutoTArray<char, 16> stack;", "var stack = new List<char>(16);")
+            .Replace(@"combinator = 0", @"combinator = '\0'")
             // specific expressions: boolean
             .ReReplace(@"!\b(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|mediaFeatureAtom|declaration|mediaType|prefix)\b", "$1 == null")
             .ReReplace(@"!(dataMask|combinator)", "$1 == 0")
-            .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|query|kid)\)", "if ($1 != null)")
+            .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|pseudoElement|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
             // specific expressions: arg declarations
             .ReReplace(@"bool (aInsideBraces)", "bool $1 = false")
@@ -204,19 +215,21 @@ namespace Alba.CsCss.Style
             .Replace(@"string aStopSymbolChars", "char[] aStopSymbolChars")
             .Replace(@"(string aURL)", "(ref string aURL)")
             // specific expressions: arg values
-            .ReReplace(@"bool (conditionMet|hitStop);", "bool $1 = false;")
             .ReReplace(@"nsMediaQuery query;", "nsMediaQuery query = null;")
-            .ReReplace(@"string \b(url|urlString)\b;", "string $1 = \"\";")
             .ReReplace(@"string condition;", "var condition = new StringBuilder();")
             // specific expressions: arg calls
             .ReReplace(@"&(equal)", "out $1")
-            .ReReplace(@"&(hitStop)", "ref $1")
-            .ReReplace(@"(lastRule|junk)\)", "ref $1)")
+            .ReReplace(@"&(hitStop|changed|sliceConsumedTokens|haveWS)", "ref $1")
+            .ReReplace(@"(lastRule|junk|dummy)\)", "ref $1)")
             .ReReplace(@"(ParseURLOrString)\((\w+)\)", "$1(ref $2)")
             .ReReplace(@", query,", ", ref query,")
             .ReReplace(@"(?i)\((\w*conditionMet)", "(ref $1")
             .ReReplace(@"true, aChanged\)", "true, ref aChanged)")
-            .ReReplace(@"(ParseBoxPositionValues|ParseTransitionTimingFunctionValueComponent)\((\w+),", @"$1(ref $2,")
+            .ReReplace(@"(?<Method>"+
+                            "ParseBoxPositionValues|ParseTransitionTimingFunctionValueComponent|ParseSelectorList|ParseSelectorGroup|"+
+                            "ParseNegatedSimpleSelector|ParseHSLColor|ParseColorOpacity|ParseBackgroundRepeatValues|"+
+                            "ParseBackgroundSizeValues"+
+                       @")\((?<Arg1>\w+[,\)])", @"${Method}(ref ${Arg1}")
             .ReReplace(@"ParseColorComponent\((\w), (\w+)", @"ParseColorComponent(ref $1, ref $2")
             .ReReplace(@"ParseSelectorList\(\*aSelectorList, 0\)", @"ParseSelectorList(ref aSelectorList, '\0')")
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
@@ -228,6 +241,7 @@ namespace Alba.CsCss.Style
             //.Replace(@"std::min", "Math.Min")
             //.Replace(@"std::max", "Math.Max")
             //.Replace(@"pow", "Math.Pow")
+            .Replace(@"fabs", "Math.Abs")
             .Replace(@"floor", "(float)Math.Floor")
             // common c++ consts
             //.Replace(@"INT32_MAX", "Int32.MaxValue")

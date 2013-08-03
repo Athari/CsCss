@@ -17,6 +17,11 @@ namespace Alba.CsCss.Extensions
             return item;
         }
 
+        public static T ElementAt<T> (this IList<T> @this, int index)
+        {
+            return @this[index];
+        }
+
         public static void RemoveElementAt<T> (this IList<T> @this, int index)
         {
             @this.RemoveAt(index);

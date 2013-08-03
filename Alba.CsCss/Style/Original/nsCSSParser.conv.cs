@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Alba.CsCss;
 using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
@@ -1169,7 +1170,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          bool rv;
+          bool rv = false;
           switch (feature.mValueType) {
             case nsMediaFeature.ValueType.Length:
               rv = ParseNonNegativeVariant(expr.mValue, VARIANT_LENGTH, null);
@@ -1434,8 +1435,8 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          string  prefix;
-          string  url;
+          string prefix = "";
+          string url = "";
         
           if (nsCSSTokenType.Ident == mToken.mType) {
             prefix = mToken.mIdentStr;
@@ -1911,11 +1912,11 @@ namespace Alba.CsCss.Style
           }
         
           if (mToken.mIdentStr.LowerCaseEqualsLiteral("and")) {
-            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, eAnd);
+            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, SupportsConditionTermOperator.And);
           }
         
           if (mToken.mIdentStr.LowerCaseEqualsLiteral("or")) {
-            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, eOr);
+            return ParseSupportsConditionTermsAfterOperator(ref aConditionMet, SupportsConditionTermOperator.Or);
           }
         
           UngetToken();
@@ -1934,13 +1935,13 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          string token = aOperator == eAnd ? "and" : "or";
+          string token = aOperator == SupportsConditionTermOperator.And ? "and" : "or";
           for (;;) {
             bool termConditionMet = false;
             if (!ParseSupportsConditionInParens(ref termConditionMet)) {
               return false;
             }
-            aConditionMet = aOperator == eAnd ? aConditionMet && termConditionMet :
+            aConditionMet = aOperator == SupportsConditionTermOperator.And ? aConditionMet && termConditionMet :
                                                 aConditionMet || termConditionMet;
         
             if (!GetToken(true)) {
@@ -1958,7 +1959,7 @@ namespace Alba.CsCss.Style
         internal bool SkipUntil(char aStopSymbol)
         {
           nsCSSToken tk = mToken;
-          nsAutoTArray<char, 16> stack;
+          var stack = new List<char>(16);
           stack.AppendElement(aStopSymbol);
           for (;;) {
             if (!GetToken(true)) {
@@ -2111,7 +2112,7 @@ namespace Alba.CsCss.Style
           // First get the list of selectors for the rule
           nsCSSSelectorList slist = null;
           uint32_t linenum = mScanner.GetLineNumber();
-          if (! ParseSelectorList(slist, '{')) {
+          if (! ParseSelectorList(ref slist, '{')) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEBadSelectorRSIgnored"); };
             mReporter.OutputError();
             SkipRuleSet(aInsideBraces);
@@ -2148,7 +2149,7 @@ namespace Alba.CsCss.Style
                                          char aStopChar)
         {
           nsCSSSelectorList list = null;
-          if (! ParseSelectorGroup(list)) {
+          if (! ParseSelectorGroup(ref list)) {
             // must have at least one selector group
             aListHead = null;
             return false;
@@ -2173,7 +2174,7 @@ namespace Alba.CsCss.Style
               if (',' == tk.mSymbol) {
                 nsCSSSelectorList newList = null;
                 // Another selector group must follow
-                if (! ParseSelectorGroup(newList)) {
+                if (! ParseSelectorGroup(ref newList)) {
                   break;
                 }
                 // add new list to the end of the selector list
@@ -2196,7 +2197,7 @@ namespace Alba.CsCss.Style
         
         static bool IsUniversalSelector(nsCSSSelector aSelector)
         {
-          return bool((aSelector.mNameSpace == kNameSpaceID_Unknown) &&
+          return bool((aSelector.mNameSpace == nsNameSpace.Unknown) &&
                         (aSelector.mLowercaseTag == null) &&
                         (aSelector.mIDList == null) &&
                         (aSelector.mClassList == null) &&
@@ -2207,8 +2208,8 @@ namespace Alba.CsCss.Style
         
         internal bool ParseSelectorGroup(ref nsCSSSelectorList aList)
         {
-          char combinator = 0;
-          nsCSSSelectorList list(new nsCSSSelectorList());
+          char combinator = '\0';
+          var list = new nsCSSSelectorList();
         
           for (;;) {
             if (!ParseSelector(list, combinator)) {
@@ -2220,7 +2221,7 @@ namespace Alba.CsCss.Style
               break; // EOF ok here
             }
         
-            combinator = 0;
+            combinator = '\0';
             if (mToken.mType == nsCSSTokenType.Whitespace) {
               if (!GetToken(true)) {
                 break; // EOF ok here
@@ -2299,7 +2300,7 @@ namespace Alba.CsCss.Style
           if (mToken.IsSymbol('*')) {  // universal element selector, or universal namespace
             if (ExpectSymbol('|', false)) {  // was namespace
               aDataMask |= SEL_MASK_NSPACE;
-              aSelector.SetNameSpace(kNameSpaceID_Unknown); // namespace wildcard
+              aSelector.SetNameSpace(nsNameSpace.Unknown); // namespace wildcard
         
               if (! GetToken(false)) {
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PETypeSelEOF"); };
@@ -2335,7 +2336,7 @@ namespace Alba.CsCss.Style
             if (ExpectSymbol('|', false)) {  // was namespace
               aDataMask |= SEL_MASK_NSPACE;
               int32_t nameSpaceID = GetNamespaceIdForPrefix(buffer);
-              if (nameSpaceID == kNameSpaceID_Unknown) {
+              if (nameSpaceID == nsNameSpace.Unknown) {
                 return nsSelectorParsingStatus.Error;
               }
               aSelector.SetNameSpace(nameSpaceID);
@@ -2370,7 +2371,7 @@ namespace Alba.CsCss.Style
           }
           else if (mToken.IsSymbol('|')) {  // No namespace
             aDataMask |= SEL_MASK_NSPACE;
-            aSelector.SetNameSpace(kNameSpaceID_None);  // explicit NO namespace
+            aSelector.SetNameSpace(nsNameSpace.None);  // explicit NO namespace
         
             // get mandatory tag
             if (! GetToken(false)) {
@@ -2417,10 +2418,10 @@ namespace Alba.CsCss.Style
             return nsSelectorParsingStatus.Error;
           }
         
-          int32_t nameSpaceID = kNameSpaceID_None;
+          int32_t nameSpaceID = nsNameSpace.None;
           string  attr;
           if (mToken.IsSymbol('*')) { // wildcard namespace
-            nameSpaceID = kNameSpaceID_Unknown;
+            nameSpaceID = nsNameSpace.Unknown;
             if (ExpectSymbol('|', false)) {
               if (! GetToken(false)) { // premature EOF
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttributeNameEOF"); };
@@ -2458,7 +2459,7 @@ namespace Alba.CsCss.Style
             attr = mToken.mIdentStr; // hang on to it
             if (ExpectSymbol('|', false)) {  // was a namespace
               nameSpaceID = GetNamespaceIdForPrefix(attr);
-              if (nameSpaceID == kNameSpaceID_Unknown) {
+              if (nameSpaceID == nsNameSpace.Unknown) {
                 return nsSelectorParsingStatus.Error;
               }
               if (! GetToken(false)) { // premature EOF
@@ -2491,42 +2492,42 @@ namespace Alba.CsCss.Style
               (nsCSSTokenType.Beginsmatch == mToken.mType) ||
               (nsCSSTokenType.Endsmatch == mToken.mType) ||
               (nsCSSTokenType.Containsmatch == mToken.mType)) {
-            uint8_t func = 0;
+            nsAttrFunc func;
             if (nsCSSTokenType.Includes == mToken.mType) {
-              func = NS_ATTR_FUNC_INCLUDES;
+              func = nsAttrFunc.INCLUDES;
             }
             else if (nsCSSTokenType.Dashmatch == mToken.mType) {
-              func = NS_ATTR_FUNC_DASHMATCH;
+              func = nsAttrFunc.DASHMATCH;
             }
             else if (nsCSSTokenType.Beginsmatch == mToken.mType) {
-              func = NS_ATTR_FUNC_BEGINSMATCH;
+              func = nsAttrFunc.BEGINSMATCH;
             }
             else if (nsCSSTokenType.Endsmatch == mToken.mType) {
-              func = NS_ATTR_FUNC_ENDSMATCH;
+              func = nsAttrFunc.ENDSMATCH;
             }
             else if (nsCSSTokenType.Containsmatch == mToken.mType) {
-              func = NS_ATTR_FUNC_CONTAINSMATCH;
+              func = nsAttrFunc.CONTAINSMATCH;
             }
             else if (']' == mToken.mSymbol) {
               aDataMask |= SEL_MASK_ATTRIB;
               aSelector.AddAttribute(nameSpaceID, attr);
-              func = NS_ATTR_FUNC_SET;
+              func = nsAttrFunc.SET;
             }
             else if ('=' == mToken.mSymbol) {
-              func = NS_ATTR_FUNC_EQUALS;
+              func = nsAttrFunc.EQUALS;
             }
             else {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelUnexpected", mToken); };
               UngetToken(); // bad function
               return nsSelectorParsingStatus.Error;
             }
-            if (NS_ATTR_FUNC_SET != func) { // get value
+            if (nsAttrFunc.SET != func) { // get value
               if (! GetToken(true)) { // premature EOF
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelValueEOF"); };
                 return nsSelectorParsingStatus.Error;
               }
               if ((nsCSSTokenType.Ident == mToken.mType) || (nsCSSTokenType.String == mToken.mType)) {
-                string  value(mToken.mIdentStr);
+                string value = mToken.mIdentStr;
                 if (! GetToken(true)) { // premature EOF
                   { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelCloseEOF"); };
                   return nsSelectorParsingStatus.Error;
@@ -2539,7 +2540,7 @@ namespace Alba.CsCss.Style
                   // for a non-namespaced attribute, then check to see if it's
                   // one of the known attributes whose VALUE is
                   // case-insensitive.
-                  if (nameSpaceID == kNameSpaceID_None) {
+                  if (nameSpaceID == nsNameSpace.None) {
                     static string[] caseInsensitiveHTMLAttribute = new string[] {
                       // list based on http://www.w3.org/TR/html4/
                       "lang",
@@ -2759,7 +2760,7 @@ namespace Alba.CsCss.Style
             }
             // CSS 3 Negation pseudo-class takes one simple selector as argument
             nsSelectorParsingStatus parsingStatus =
-              ParseNegatedSimpleSelector(aDataMask, aSelector);
+              ParseNegatedSimpleSelector(ref aDataMask, aSelector);
             if (nsSelectorParsingStatus.Continue != parsingStatus) {
               return parsingStatus;
             }
@@ -2930,7 +2931,7 @@ namespace Alba.CsCss.Style
             return nsSelectorParsingStatus.Error;
           }
         
-          Debug.Assert(newSel.mNameSpace == kNameSpaceID_Unknown ||
+          Debug.Assert(newSel.mNameSpace == nsNameSpace.Unknown ||
                        (!newSel.mIDList && !newSel.mClassList &&
                         !newSel.mPseudoClassList && !newSel.mAttrList),
                        "Need to fix the serialization code to deal with this");
@@ -3217,7 +3218,7 @@ namespace Alba.CsCss.Style
         
           // Pseudo-elements other than anonymous boxes are represented as
           // direct children ('>' combinator) of the rest of the selector.
-          if (pseudoElement) {
+          if (pseudoElement != null) {
             selector = aList.AddSelector('>');
         
             selector.mLowercaseTag.swap(pseudoElement);
@@ -3244,7 +3245,7 @@ namespace Alba.CsCss.Style
           if (declaration != null) {
             for (;;) {
               bool changed;
-              if (!ParseDeclaration(declaration, aFlags, true, &changed, aContext)) {
+              if (!ParseDeclaration(declaration, aFlags, true, ref changed, aContext)) {
                 if (!SkipDeclaration(checkForBraces)) {
                   break;
                 }
@@ -3322,7 +3323,7 @@ namespace Alba.CsCss.Style
                 if (ParseColorComponent(ref r, ref type, ',') &&
                     ParseColorComponent(ref g, ref type, ',') &&
                     ParseColorComponent(ref b, ref type, ',') &&
-                    ParseColorOpacity(a)) {
+                    ParseColorOpacity(ref a)) {
                   aValue.SetColorValue(nscolor.RGBA(r, g, b, a));
                   return true;
                 }
@@ -3332,7 +3333,7 @@ namespace Alba.CsCss.Style
               else if (mToken.mIdentStr.LowerCaseEqualsLiteral("hsl")) {
                 // hsl ( hue , saturation , lightness )
                 // "hue" is a number, "saturation" and "lightness" are percentages.
-                if (ParseHSLColor(rgba, ')')) {
+                if (ParseHSLColor(ref rgba, ')')) {
                   aValue.SetColorValue(rgba);
                   return true;
                 }
@@ -3345,8 +3346,8 @@ namespace Alba.CsCss.Style
                 // "hue" is a number, "saturation" and "lightness" are percentages,
                 // "opacity" is a number.
                 uint8_t a = 0;
-                if (ParseHSLColor(rgba, ',') &&
-                    ParseColorOpacity(a)) {
+                if (ParseHSLColor(ref rgba, ',') &&
+                    ParseColorOpacity(ref a)) {
                   aValue.SetColorValue(nscolor.RGBA(rgba.R, rgba.G,
                                                rgba.B, a));
                   return true;
@@ -3539,7 +3540,7 @@ namespace Alba.CsCss.Style
           if (l > 1.0f) l = 1.0f;
         
           if (ExpectSymbol(aStop, true)) {
-            aColor = NS_HSL2RGB(h, s, l);
+            aColor = nscolor.HSL2RGB(h, s, l);
             return true;
           }
         
@@ -3569,7 +3570,7 @@ namespace Alba.CsCss.Style
           uint8_t value = nsStyleUtil.FloatToColorComponent(mToken.mNumber);
           // Need to compare to something slightly larger
           // than 0.5 due to floating point inaccuracies.
-          Debug.Assert(fabs(255.0f*mToken.mNumber - value) <= 0.51f,
+          Debug.Assert(Math.Abs(255.0f*mToken.mNumber - value) <= 0.51f,
                        "FloatToColorComponent did something weird");
         
           if (!ExpectSymbol(')', true)) {
@@ -4291,10 +4292,10 @@ namespace Alba.CsCss.Style
         
           string attr;
           if (nsCSSTokenType.Ident == mToken.mType) {  // attr name or namespace
-            string  holdIdent(mToken.mIdentStr);
+            string holdIdent = mToken.mIdentStr;
             if (ExpectSymbol('|', false)) {  // namespace
               int32_t nameSpaceID = GetNamespaceIdForPrefix(holdIdent);
-              if (nameSpaceID == kNameSpaceID_Unknown) {
+              if (nameSpaceID == nsNameSpace.Unknown) {
                 return false;
               }
               attr.AppendInt(nameSpaceID, 10);
@@ -5508,18 +5509,13 @@ namespace Alba.CsCss.Style
         }
         
         // nsFont.EnumerateFamilies callback for ParseFontDescriptorValue
-        struct NS_STACK_CLASS ExtractFirstFamilyData {
-          string mFamilyName;
-          bool mGood;
-          ExtractFirstFamilyData() : mFamilyName(), mGood(false) {}
-        };
         
         static bool
         ExtractFirstFamily(string aFamily,
                            bool aGeneric,
                            object aData)
         {
-          ExtractFirstFamilyData* realData = (ExtractFirstFamilyData*) aData;
+          ExtractFirstFamilyData realData = (ExtractFirstFamilyData) aData;
           if (aGeneric || realData.mFamilyName.Length() > 0) {
             realData.mGood = false;
             return false;
@@ -5765,7 +5761,7 @@ namespace Alba.CsCss.Style
                   return false;
                 }
               } else if (nsCSSProps.FindKeyword(keyword,
-                           nsCSSProps.kBackgroundAttachmentKTable, dummy)) {
+                           nsCSSProps.kBackgroundAttachmentKTable, ref dummy)) {
                 if (haveAttach)
                   return false;
                 haveAttach = true;
@@ -5775,19 +5771,19 @@ namespace Alba.CsCss.Style
                   return false;
                 }
               } else if (nsCSSProps.FindKeyword(keyword,
-                           nsCSSProps.kBackgroundRepeatKTable, dummy)) {
+                           nsCSSProps.kBackgroundRepeatKTable, ref dummy)) {
                 if (haveRepeat)
                   return false;
                 haveRepeat = true;
                 var scratch = new nsCSSValuePair();
-                if (!ParseBackgroundRepeatValues(scratch)) {
+                if (!ParseBackgroundRepeatValues(ref scratch)) {
                   Debug.Fail("should be able to parse");
                   return false;
                 }
                 aState.mRepeat.mXValue = scratch.mXValue;
                 aState.mRepeat.mYValue = scratch.mYValue;
               } else if (nsCSSProps.FindKeyword(keyword,
-                           nsCSSProps.kBackgroundPositionKTable, dummy)) {
+                           nsCSSProps.kBackgroundPositionKTable, ref dummy)) {
                 if (havePositionAndSize)
                   return false;
                 havePositionAndSize = true;
@@ -5796,14 +5792,14 @@ namespace Alba.CsCss.Style
                 }
                 if (ExpectSymbol('/', true)) {
                   var scratch = new nsCSSValuePair();
-                  if (!ParseBackgroundSizeValues(scratch)) {
+                  if (!ParseBackgroundSizeValues(ref scratch)) {
                     return false;
                   }
                   aState.mSize.mXValue = scratch.mXValue;
                   aState.mSize.mYValue = scratch.mYValue;
                 }
               } else if (nsCSSProps.FindKeyword(keyword,
-                           nsCSSProps.kBackgroundOriginKTable, dummy)) {
+                           nsCSSProps.kBackgroundOriginKTable, ref dummy)) {
                 if (haveOrigin)
                   return false;
                 haveOrigin = true;
@@ -5873,7 +5869,7 @@ namespace Alba.CsCss.Style
               }
               if (ExpectSymbol('/', true)) {
                 var scratch = new nsCSSValuePair();
-                if (!ParseBackgroundSizeValues(scratch)) {
+                if (!ParseBackgroundSizeValues(ref scratch)) {
                   return false;
                 }
                 aState.mSize.mXValue = scratch.mXValue;
@@ -5937,7 +5933,7 @@ namespace Alba.CsCss.Style
             }
           } else {
             var valuePair = new nsCSSValuePair();
-            if (!ParseBackgroundRepeatValues(valuePair)) {
+            if (!ParseBackgroundRepeatValues(ref valuePair)) {
               return false;
             }
             nsCSSValuePairList item = value.SetPairListValue();
@@ -5950,7 +5946,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(',', true)) {
                 return false;
               }
-              if (!ParseBackgroundRepeatValues(valuePair)) {
+              if (!ParseBackgroundRepeatValues(ref valuePair)) {
                 return false;
               }
               item.mNext = new nsCSSValuePairList();
@@ -6311,7 +6307,7 @@ namespace Alba.CsCss.Style
             }
           } else {
             var valuePair = new nsCSSValuePair();
-            if (!ParseBackgroundSizeValues(valuePair)) {
+            if (!ParseBackgroundSizeValues(ref valuePair)) {
               return false;
             }
             nsCSSValuePairList item = value.SetPairListValue();
@@ -6324,7 +6320,7 @@ namespace Alba.CsCss.Style
               if (!ExpectSymbol(',', true)) {
                 return false;
               }
-              if (!ParseBackgroundSizeValues(valuePair)) {
+              if (!ParseBackgroundSizeValues(ref valuePair)) {
                 return false;
               }
               item.mNext = new nsCSSValuePairList();
@@ -6592,7 +6588,7 @@ namespace Alba.CsCss.Style
               // parse as anything else we care about, this isn't a problem.
               if (!foundSliceWidthOutset) {
                 bool sliceConsumedTokens = false;
-                if (ParseBorderImageSlice(false, &sliceConsumedTokens)) {
+                if (ParseBorderImageSlice(false, ref sliceConsumedTokens)) {
                   foundSliceWidthOutset = true;
           
                   // [ / <border-image-width>?
@@ -6890,8 +6886,8 @@ namespace Alba.CsCss.Style
           Debug.Assert(aVariantMask != 0, "unexpected variant mask");
           nsCSSValue storage = &aValue;
           for (;;) {
-            bool haveWS;
-            if (!ParseCalcMultiplicativeExpression(*storage, aVariantMask, &haveWS))
+            bool haveWS = false;
+            if (!ParseCalcMultiplicativeExpression(*storage, aVariantMask, ref haveWS))
               return false;
         
             if (!haveWS || !GetToken(false))
@@ -9077,7 +9073,7 @@ namespace Alba.CsCss.Style
         {
           if (!(!aPrefix.IsEmpty())) throw new ArgumentException("Must have a prefix here");
         
-          int32_t nameSpaceID = kNameSpaceID_Unknown;
+          int32_t nameSpaceID = nsNameSpace.Unknown;
           if (mNameSpaceMap != null) {
             // user-specified identifiers are case-sensitive (bug 416106)
             nsIAtom prefix = new nsAtom(aPrefix);
@@ -9088,7 +9084,7 @@ namespace Alba.CsCss.Style
           }
           // else no declared namespaces
         
-          if (nameSpaceID == kNameSpaceID_Unknown) {   // unknown prefix, dump it
+          if (nameSpaceID == nsNameSpace.Unknown) {   // unknown prefix, dump it
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEUnknownNamespacePrefix", aPrefix); };
           }
         
@@ -9100,7 +9096,7 @@ namespace Alba.CsCss.Style
           if (mNameSpaceMap != null) {
             aSelector.SetNameSpace(mNameSpaceMap.FindNameSpaceID(null));
           } else {
-            aSelector.SetNameSpace(kNameSpaceID_Unknown); // wildcard
+            aSelector.SetNameSpace(nsNameSpace.Unknown); // wildcard
           }
         }
         

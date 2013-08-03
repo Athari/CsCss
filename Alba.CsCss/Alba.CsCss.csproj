@@ -35,6 +35,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Original\nsNameSpace.conv.cs">
+      <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\ArrayExts.cs" />
     <Compile Include="Extensions\ListExts.cs" />
     <Compile Include="Extensions\ObjectExts.cs" />
@@ -67,7 +70,9 @@
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
     <Compile Include="Style\nsStyle.cs" />
-    <Compile Include="Style\nsStyleUtil.cs" />
+    <Compile Include="Style\Original\nsAttrFunc.conv.cs">
+      <DependentUpon>StyleRule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
@@ -104,6 +109,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Base\Original\nsINameSpaceManager.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsINameSpaceManager.h</DependentUpon>
+    </None>
     <None Include="Gfx\Original\gfxFontConstants.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -181,6 +192,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsStyleConsts.h</DependentUpon>
     </None>
+    <None Include="Style\Original\StyleRule.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StyleRule.h</DependentUpon>
+    </None>
     <None Include="T4\Common.ttinclude" />
   </ItemGroup>
   <ItemGroup>
@@ -245,12 +262,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Base\" />
+    <None Include="Style\Original\StyleRule.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>StyleRule.tt</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Style\Original\nsCSSValue.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsCSSValue.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Base\Original\nsINameSpaceManager.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsINameSpaceManager.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />

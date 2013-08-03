@@ -1,0 +1,26 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+    var T4 = GetT4();
+    T4.GenerateFile("nsNameSpace.conv.cs", () => GenerateNameSpace(source));
+    T4.Process();
+#>
+
+<#+ void GenerateNameSpace (string source) { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss
+{
+    internal class nsNameSpace
+    {
+        public const int None = 0;
+<#+   foreach (Match m in source.ReMatches(@"#define kNameSpaceID_(?<Name>\w+) +(?<Value>-?\d+)(?<Comment> *// .*)?")) { #>
+        public const int <#=m.Get("Name")#> = <#=m.Get("Value")#>;<#=m.Get("Comment")#>
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateNameSpace */ #>

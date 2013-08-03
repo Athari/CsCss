@@ -53,5 +53,20 @@ namespace Alba.CsCss.Extensions
             @this.Clear();
             @this.Append(value);
         }
+
+        internal static void Trim (this StringBuilder @this, string aSet, bool aLeading, bool aTrailing, bool unused)
+        {
+            if (!aLeading && !aTrailing)
+                return;
+            string val = @this.ToString();
+            if (aLeading && aTrailing)
+                val = val.Trim(aSet.ToCharArray());
+            else if (aLeading)
+                val = val.TrimStart(aSet.ToCharArray());
+            else if (aTrailing)
+                val = val.TrimEnd(aSet.ToCharArray());
+            @this.Clear();
+            @this.Append(val);
+        }
     }
 }

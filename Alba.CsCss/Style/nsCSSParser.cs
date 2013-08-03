@@ -121,6 +121,12 @@ namespace Alba.CsCss.Style
             General
         };
 
+        internal enum SupportsConditionTermOperator
+        {
+            And,
+            Or
+        };
+
         private class nsAutoParseCompoundProperty : IDisposable
         {
             private readonly nsCSSParser mParser;
@@ -197,6 +203,12 @@ namespace Alba.CsCss.Style
                 this.mSize = mSize;
             }
         }
+
+        internal class ExtractFirstFamilyData
+        {
+            public string mFamilyName = "";
+            public bool mGood;
+        };
 
         private class UnitInfo
         {
@@ -290,16 +302,31 @@ namespace Alba.CsCss.Style
     {
         public nsCSSSelector mNegations;
 
-        public void AddID (StringBuilder mIdent)
+        public void AddID (string mIdent)
         {}
 
-        public void SetTag (StringBuilder mIdent)
+        public void SetTag (string mIdent)
         {}
 
-        public void AddClass (StringBuilder mIdent)
+        public void AddClass (string mIdent)
         {}
 
         public void AddPseudoClass (object pseudoClassType)
+        {}
+
+        public void SetNameSpace (int nameSpaceId)
+        {}
+
+        public void AddAttribute (int nameSpaceId, string attr)
+        {}
+
+        public void AddAttribute (int nameSpaceId, string attr, nsAttrFunc func, string value, bool isCaseSensitive)
+        {}
+
+        public void AddPseudoClass (object pseudoClassType, string mIdentStr)
+        {}
+
+        public void SetPseudoType (object pseudoElementType)
         {}
     }
 
@@ -395,6 +422,8 @@ namespace Alba.CsCss.Style
 
     internal class nsCSSSelectorList
     {
+        public nsCSSSelectorList mNext;
+
         public nsCSSSelector AddSelector (char aPrevCombinator)
         {
             return null;
@@ -631,7 +660,10 @@ namespace Alba.CsCss.Style
     }
 
     internal class ImportRule : Rule
-    {}
+    {
+        public ImportRule (nsMediaList aMedia, string aUrlSpec)
+        {}
+    }
 
     internal class StyleRule : Rule
     {
@@ -654,7 +686,7 @@ namespace Alba.CsCss.Style
         {}
     }
 
-    internal class MediaRule : Rule
+    internal class MediaRule : GroupRule
     {
         public void SetMedia (nsMediaList media)
         {}
@@ -663,7 +695,7 @@ namespace Alba.CsCss.Style
     internal class NameSpaceRule : Rule
     {}
 
-    internal class DocumentRule : Rule
+    internal class DocumentRule : GroupRule
     {
         internal class URL
         {}
@@ -674,6 +706,9 @@ namespace Alba.CsCss.Style
 
     internal class CSSSupportsRule : GroupRule
     {
+        public CSSSupportsRule (ref bool conditionMet, StringBuilder condition)
+        {}
+
         public static bool PrefEnabled ()
         {
             return false;
@@ -728,5 +763,19 @@ namespace Alba.CsCss.Style
 
         public void ExpandTo (nsCSSExpandedDataBlock mData)
         {}
+    }
+
+    internal class nsStyleUtil
+    {
+        internal static void AppendEscapedCSSIdent (StringBuilder str, StringBuilder buffer)
+        {}
+
+        internal static void AppendEscapedCSSString (StringBuilder ident, StringBuilder buffer, char symbol)
+        {}
+
+        public static sbyte FloatToColorComponent (float mNumber)
+        {
+            return 0;
+        }
     }
 }
