@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
 using int32_t = System.Int32;
@@ -70,6 +71,11 @@ namespace Alba.CsCss.Style
         private static bool StringBeginsWith (string str, string value)
         {
             return str.StartsWith(value);
+        }
+
+        private static float ComputeCalc (nsCSSValue leftValue, object ops)
+        {
+            throw new NotImplementedException();
         }
 
         internal delegate void RuleAppendFunc (Rule aRule, object aData);
@@ -366,18 +372,18 @@ namespace Alba.CsCss.Style
 
         public enum ValueType
         {
-            // All value types allow eCSSUnit_Null to indicate that no value
+            // All value types allow nsCSSUnit.Null to indicate that no value
             // was given (in addition to the types listed below).
             Length, // values are such that nsCSSValue::IsLengthUnit() is true
-            Integer, // values are eCSSUnit_Integer
-            Float, // values are eCSSUnit_Number
-            BoolInteger, // values are eCSSUnit_Integer (0, -0, or 1 only)
-            IntRatio, // values are eCSSUnit_Array of two eCSSUnit_Integer
-            Resolution, // values are in eCSSUnit_Inch (for dpi),
-            //   eCSSUnit_Pixel (for dppx), or
-            //   eCSSUnit_Centimeter (for dpcm)
-            Enumerated, // values are eCSSUnit_Enumerated (uses keyword table)
-            Ident // values are eCSSUnit_Ident
+            Integer, // values are nsCSSUnit.Integer
+            Float, // values are nsCSSUnit.Number
+            BoolInteger, // values are nsCSSUnit.Integer (0, -0, or 1 only)
+            IntRatio, // values are nsCSSUnit.Array of two nsCSSUnit.Integer
+            Resolution, // values are in nsCSSUnit.Inch (for dpi),
+            //   nsCSSUnit.Pixel (for dppx), or
+            //   nsCSSUnit.Centimeter (for dpcm)
+            Enumerated, // values are nsCSSUnit.Enumerated (uses keyword table)
+            Ident // values are nsCSSUnit.Ident
             // Note that a number of pieces of code (both for parsing and
             // for matching of valueless expressions) assume that all numeric
             // value types cannot be negative.  The parsing code also does
@@ -529,7 +535,7 @@ namespace Alba.CsCss.Style
             return 0;
         }
 
-        public double GetFloatValue ()
+        public float GetFloatValue ()
         {
             return 0;
         }
@@ -582,7 +588,9 @@ namespace Alba.CsCss.Style
         {}
 
         public nsCSSValueList GetListValue ()
-        {}
+        {
+            return null;
+        }
     }
 
     internal class nsCSSValueGradient
@@ -645,8 +653,45 @@ namespace Alba.CsCss.Style
 
     internal class nsCSSRect
     {
-        public nsCSSValue mLeft, mTop, mRight, mBottom;
-        public static nsCSSValue[] sides;
+        public nsCSSValue mTop, mRight, mBottom, mLeft;
+
+        public nsCSSValue this [Side side]
+        {
+            get
+            {
+                switch (side) {
+                    case Side.Top:
+                        return mTop;
+                    case Side.Right:
+                        return mRight;
+                    case Side.Bottom:
+                        return mBottom;
+                    case Side.Left:
+                        return mLeft;
+                    default:
+                        throw new ArgumentOutOfRangeException("side");
+                }
+            }
+            set
+            {
+                switch (side) {
+                    case Side.Top:
+                        mTop = value;
+                        break;
+                    case Side.Right:
+                        mRight = value;
+                        break;
+                    case Side.Bottom:
+                        mBottom = value;
+                        break;
+                    case Side.Left:
+                        mLeft = value;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("side");
+                }
+            }
+        }
 
         public void SetAllSidesTo (object nsCssValue)
         {}
@@ -789,4 +834,71 @@ namespace Alba.CsCss.Style
             return 0;
         }
     }
+
+    internal class BasicFloatCalcOps
+    {
+        //typedef float result_type;
+
+        public float MergeAdditive (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
+        {
+            if (aCalcFunction == nsCSSUnit.Calc_Plus)
+                return aValue1 + aValue2;
+            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Minus, "unexpected unit");
+            return aValue1 - aValue2;
+        }
+
+        public float MergeMultiplicativeL (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
+        {
+            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Times_L, "unexpected unit");
+            return aValue1 * aValue2;
+        }
+
+        public float MergeMultiplicativeR (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
+        {
+            if (aCalcFunction == nsCSSUnit.Calc_Times_R)
+                return aValue1 * aValue2;
+            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Divided, "unexpected unit");
+            return aValue1 / aValue2;
+        }
+    };
+
+    internal class CSSValueInputCalcOps
+    {
+        //typedef nsCSSValue input_type;
+        //typedef nsCSSValue::Array input_array_type;
+
+        public static nsCSSUnit GetUnit (nsCSSValue aValue)
+        {
+            return aValue.GetUnit();
+        }
+    }
+
+    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/
+    {
+        public float ComputeLeafValue (nsCSSValue aValue)
+        {
+            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
+            return aValue.GetFloatValue();
+        }
+
+        public float ComputeNumber (nsCSSValue aValue)
+        {
+            //return ComputeCalc(aValue, this);
+            throw new NotImplementedException();
+        }
+
+        public static nsCSSUnit GetUnit (nsCSSValue aValue)
+        {
+            return aValue.GetUnit();
+        }
+    }
+
+    internal class NumbersAlreadyNormalizedOps : CSSValueInputCalcOps
+    {
+        public float ComputeNumber (nsCSSValue aValue)
+        {
+            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
+            return aValue.GetFloatValue();
+        }
+    };
 }

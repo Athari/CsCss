@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Alba.CsCss;
 using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
@@ -1994,7 +1993,7 @@ namespace Alba.CsCss.Style
         internal void SkipUntilOneOf(char[] aStopSymbolChars)
         {
           nsCSSToken tk = mToken;
-          nsDependentString stopSymbolChars(aStopSymbolChars);
+          string stopSymbolChars = aStopSymbolChars;
           for (;;) {
             if (!GetToken(true)) {
               break;
@@ -4110,15 +4109,15 @@ namespace Alba.CsCss.Style
           if ((aVariantMask & VARIANT_GRADIENT) != 0 &&
               nsCSSTokenType.Function == tk.mType) {
             // a generated gradient
-            nsDependentString tmp(tk.mIdentStr, 0);
+            string tmp = tk.mIdentStr;
             bool isLegacy = false;
             if (StringBeginsWith(tmp, "-moz-")) {
-              tmp.Rebind(tmp, 5);
+              tmp = tmp.Substring(5);
               isLegacy = true;
             }
             bool isRepeating = false;
             if (StringBeginsWith(tmp, "repeating-")) {
-              tmp.Rebind(tmp, 10);
+              tmp = tmp.Substring(10);
               isRepeating = true;
             }
         
@@ -4913,7 +4912,7 @@ namespace Alba.CsCss.Style
               for (index = 0; index < aNumIDs; index++) {
                 int32_t bit = 1 << index;
                 if ((found & bit) == 0) {
-                  if (ParseSingleValueProperty(aValues[(int)index], aPropIDs[(int)index])) {
+                  if (ParseSingleValueProperty(aValues[index], aPropIDs[index])) {
                     found |= bit;
                     // It's more efficient to break since it will reset |hadFound|
                     // to |found|.  Furthermore, ParseListStyle depends on our going
@@ -4974,8 +4973,8 @@ namespace Alba.CsCss.Style
           int32_t count = 0;
           nsCSSRect result;
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
-            if (! ParseSingleValueProperty(result.*(nsCSSRect.sides[(int)index]),
-                                           aPropIDs[(int)index])) {
+            if (! ParseSingleValueProperty(result[index],
+                                           aPropIDs[index])) {
               break;
             }
             count++;
@@ -4986,7 +4985,7 @@ namespace Alba.CsCss.Style
         
           if (1 < count) { // verify no more than single inherit or initial
             for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
-              nsCSSUnit unit = (result.*(nsCSSRect.sides[(int)index])).GetUnit();
+              nsCSSUnit unit = (result[index]).GetUnit();
               if (nsCSSUnit.Inherit == unit || nsCSSUnit.Initial == unit) {
                 return false;
               }
@@ -5004,7 +5003,7 @@ namespace Alba.CsCss.Style
           }
         
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
-            AppendValue(aPropIDs[(int)index], result.*(nsCSSRect.sides[(int)index]));
+            AppendValue(aPropIDs[index], result[index]);
           }
           return true;
         }
@@ -5018,7 +5017,7 @@ namespace Alba.CsCss.Style
         
           int32_t count = 0;
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
-            if (!ParseNonNegativeVariant(result.*(nsCSSRect.sides[(int)index]),
+            if (!ParseNonNegativeVariant(result[index],
                                          aVariantMask, null)) {
               break;
             }
@@ -5092,7 +5091,7 @@ namespace Alba.CsCss.Style
           int32_t countX = 0, countY = 0;
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-            if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[(int)side],
+            if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[side],
                                           (side > 0 ? 0 : VARIANT_INHERIT) |
                                             VARIANT_LP | VARIANT_CALC,
                                           null))
@@ -5104,7 +5103,7 @@ namespace Alba.CsCss.Style
         
           if (ExpectSymbol('/', true)) {
             for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-              if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[(int)side],
+              if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[side],
                                             VARIANT_LP | VARIANT_CALC, null))
                 break;
               countY++;
@@ -5142,15 +5141,15 @@ namespace Alba.CsCss.Style
           }
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-            nsCSSValue x = dimenX.*nsCSSRect.sides[(int)side];
-            nsCSSValue y = dimenY.*nsCSSRect.sides[(int)side];
+            nsCSSValue x = dimenX.*nsCSSRect.sides[side];
+            nsCSSValue y = dimenY.*nsCSSRect.sides[side];
         
             if (x == y) {
-              AppendValue(aPropIDs[(int)side], x);
+              AppendValue(aPropIDs[side], x);
             } else {
               nsCSSValue pair;
               pair.SetPairValue(x, y);
-              AppendValue(aPropIDs[(int)side], pair);
+              AppendValue(aPropIDs[side], pair);
             }
           }
           return true;
@@ -6700,9 +6699,9 @@ namespace Alba.CsCss.Style
             // Parsing "border" shorthand; set all four sides to the same thing
             for (int32_t index = 0; index < 4; index++) {
               Debug.Assert(numProps == 3, "This code needs updating");
-              AppendValue(kBorderWidthIDs[(int)index], values[0]);
-              AppendValue(kBorderStyleIDs[(int)index], values[1]);
-              AppendValue(kBorderColorIDs[(int)index], values[2]);
+              AppendValue(kBorderWidthIDs[index], values[0]);
+              AppendValue(kBorderStyleIDs[index], values[1]);
+              AppendValue(kBorderColorIDs[index], values[2]);
             }
         
             static nsCSSProperty[] kBorderColorsProps = new nsCSSProperty[] {
@@ -6732,13 +6731,13 @@ namespace Alba.CsCss.Style
               break;
             }
             for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-              AppendValue(kBorderColorsProps[(int)side], extraValue);
+              AppendValue(kBorderColorsProps[side], extraValue);
             }
           }
           else {
             // Just set our one side
             for (int32_t index = 0; index < numProps; index++) {
-              AppendValue(aPropIDs[(int)index], values[(int)index]);
+              AppendValue(aPropIDs[index], values[index]);
             }
           }
           return true;
@@ -6769,7 +6768,7 @@ namespace Alba.CsCss.Style
               nsCSSProps.SubpropertyEntryFor(aPropIDs[index + numProps]);
             Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                          "not box property with physical vs. logical cascading");
-            AppendValue(subprops[0], values[(int)index]);
+            AppendValue(subprops[0], values[index]);
             var typeVal = new nsCSSValue(aSourceType, nsCSSUnit.Enumerated);
             AppendValue(subprops[1], typeVal);
             AppendValue(subprops[2], typeVal);
@@ -6911,21 +6910,6 @@ namespace Alba.CsCss.Style
           }
         }
         
-        struct ReduceNumberCalcOps : public mozilla.css.BasicFloatCalcOps,
-                                     public mozilla.css.CSSValueInputCalcOps
-        {
-          result_type ComputeLeafValue(nsCSSValue aValue)
-          {
-            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
-            return aValue.GetFloatValue();
-          }
-        
-          float ComputeNumber(nsCSSValue aValue)
-          {
-            return mozilla.css.ComputeCalc(aValue, *this);
-          }
-        };
-        
         //  * If aVariantMask is VARIANT_NUMBER, this function parses the
         //    <number-multiplicative-expression> production.
         //  * If aVariantMask does not contain VARIANT_NUMBER, this function
@@ -6960,14 +6944,14 @@ namespace Alba.CsCss.Style
             Debug.Assert(variantMask != 0,
                               "ParseCalcTerm did not set variantMask appropriately");
             Debug.Assert(!(variantMask & VARIANT_NUMBER) ||
-                              !(variantMask & ~int32_t(VARIANT_NUMBER)),
+                              !(variantMask & ~((int32_t)(VARIANT_NUMBER))),
                               "ParseCalcTerm did not set variantMask appropriately");
         
             if ((variantMask & VARIANT_NUMBER) != 0) {
               // Simplify the value immediately so we can check for division by
               // zero.
-              ReduceNumberCalcOps ops;
-              float number = mozilla.css.ComputeCalc(*storage, ops);
+              var ops = new ReduceNumberCalcOps();
+              float number = ComputeCalc(*storage, ops);
               if (number == 0.0 && afterDivision)
                 return false;
               storage.SetFloatValue(number, nsCSSUnit.Number);
@@ -6980,8 +6964,8 @@ namespace Alba.CsCss.Style
                 Debug.Assert(storage == &aValue.GetArrayValue().Item(1),
                                   "unexpected relationship to current storage");
                 nsCSSValue leftValue = aValue.GetArrayValue().Item(0);
-                ReduceNumberCalcOps ops;
-                float number = mozilla.css.ComputeCalc(leftValue, ops);
+                var ops = new ReduceNumberCalcOps();
+                float number = ComputeCalc(leftValue, ops);
                 leftValue.SetFloatValue(number, nsCSSUnit.Number);
               }
             }
@@ -7014,7 +6998,7 @@ namespace Alba.CsCss.Style
           // option we took.
           if ((aVariantMask & VARIANT_NUMBER) != 0) {
             if (gotValue) {
-              aVariantMask &= ~int32_t(VARIANT_NUMBER);
+              aVariantMask &= ~((int32_t)(VARIANT_NUMBER));
             } else {
               aVariantMask = VARIANT_NUMBER;
             }
@@ -7067,7 +7051,7 @@ namespace Alba.CsCss.Style
             if (aValue.GetUnit() == nsCSSUnit.Number) {
               aVariantMask = VARIANT_NUMBER;
             } else {
-              aVariantMask &= ~int32_t(VARIANT_NUMBER);
+              aVariantMask &= ~((int32_t)(VARIANT_NUMBER));
             }
           }
           return true;
@@ -7127,9 +7111,9 @@ namespace Alba.CsCss.Style
           } else if (mToken.mType == nsCSSTokenType.Function &&
                      mToken.mIdentStr.LowerCaseEqualsLiteral("rect")) {
             nsCSSRect rect = val.SetRectValue();
-            bool useCommas;
+            bool useCommas = false;
             for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-              if (! ParseVariant(rect.*(nsCSSRect.sides[(int)side]),
+              if (! ParseVariant(rect[side],
                                  VARIANT_AL, null)) {
                 return false;
               }
@@ -7194,7 +7178,7 @@ namespace Alba.CsCss.Style
         
           // Start at index 1 to skip the fake auto value.
           for (int32_t index = 1; index < numProps; index++) {
-            AppendValue(columnIDs[(int)index], values[(int)index]);
+            AppendValue(columnIDs[index], values[index]);
           }
           return true;
         }
@@ -7817,7 +7801,7 @@ namespace Alba.CsCss.Style
             nsCSSProperty.list_style_image
           };
         
-          nsCSSValue values[listStyleIDs.Length];
+          var values = new nsCSSValue[listStyleIDs.Length];
           int32_t found =
             ParseChoice(values, listStyleIDs, listStyleIDs.Length);
           if (found < 1 || !ExpectEndProperty()) {
@@ -7855,7 +7839,7 @@ namespace Alba.CsCss.Style
         
           // Start at 1 to avoid appending fake value.
           for (uint32_t index = 1; index < listStyleIDs.Length; ++index) {
-            AppendValue(listStyleIDs[(int)index], values[(int)index]);
+            AppendValue(listStyleIDs[index], values[index]);
           }
           return true;
         }
@@ -7932,7 +7916,7 @@ namespace Alba.CsCss.Style
         
           int32_t index = 0;
           for (index = 0; index < numProps; index++) {
-            AppendValue(kOutlineIDs[(int)index], values[(int)index]);
+            AppendValue(kOutlineIDs[index], values[index]);
           }
           return true;
         }
@@ -8185,7 +8169,7 @@ namespace Alba.CsCss.Style
         {
           for (uint16_t index = 0; index < aMaxElems; ++index) {
             nsCSSValue newValue;
-            if (!ParseVariant(newValue, aVariantMask[(int)index], null))
+            if (!ParseVariant(newValue, aVariantMask[index], null))
               return false;
         
             aOutput.AppendElement(newValue);
@@ -8615,7 +8599,7 @@ namespace Alba.CsCss.Style
                 return false;
               }
               if (cur.mValue.GetUnit() == nsCSSUnit.Ident) {
-                nsDependentString str(cur.mValue.GetStringBufferValue());
+                string str = cur.mValue.GetStringBufferValue();
                 // Exclude 'none' and 'inherit' and 'initial' according to the
                 // same rules as for 'counter-reset' in CSS 2.1.
                 if (str.LowerCaseEqualsLiteral("none") ||
@@ -8890,7 +8874,7 @@ namespace Alba.CsCss.Style
                 break;
               }
               if (val.GetUnit() == nsCSSUnit.Ident) {
-                nsDependentString str(val.GetStringBufferValue());
+                string str = val.GetStringBufferValue();
                 if (str.EqualsLiteral("inherit") || str.EqualsLiteral("initial")) {
                   return false;
                 }
