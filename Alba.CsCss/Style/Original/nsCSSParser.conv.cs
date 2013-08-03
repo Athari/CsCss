@@ -20,9 +20,10 @@ using Alba.CsCss.Extensions;
 using Alba.CsCss.Gfx;
 
 using int32_t = System.Int32;
-using uint8_t = System.SByte;
-using uint16_t = System.Int16;
-using uint32_t = System.Int32;
+using uint8_t = System.SByte;  // O RLY?
+using uint16_t = System.Int16; // O RLY?
+using uint32_t = System.Int32; // O RLY?
+using size_t = System.Int32;   // O RLY?
 using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
@@ -3804,38 +3805,30 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        struct UnitInfo {
-          char name[6];  // needs to be long enough for the longest unit, with
-                         // terminating null.
-          uint32_t length = 0;
-          nsCSSUnit unit;
-          int32_t type = 0;
-        };
-        
-        const UnitInfo[] UnitData = new UnitInfo[] {
-          { STR_WITH_LEN("px"), nsCSSUnit.Pixel, VARIANT_LENGTH },
-          { STR_WITH_LEN("em"), nsCSSUnit.EM, VARIANT_LENGTH },
-          { STR_WITH_LEN("ex"), nsCSSUnit.XHeight, VARIANT_LENGTH },
-          { STR_WITH_LEN("pt"), nsCSSUnit.Point, VARIANT_LENGTH },
-          { STR_WITH_LEN("in"), nsCSSUnit.Inch, VARIANT_LENGTH },
-          { STR_WITH_LEN("cm"), nsCSSUnit.Centimeter, VARIANT_LENGTH },
-          { STR_WITH_LEN("ch"), nsCSSUnit.Char, VARIANT_LENGTH },
-          { STR_WITH_LEN("rem"), nsCSSUnit.RootEM, VARIANT_LENGTH },
-          { STR_WITH_LEN("mm"), nsCSSUnit.Millimeter, VARIANT_LENGTH },
-          { STR_WITH_LEN("mozmm"), nsCSSUnit.PhysicalMillimeter, VARIANT_LENGTH },
-          { STR_WITH_LEN("vw"), nsCSSUnit.ViewportWidth, VARIANT_LENGTH },
-          { STR_WITH_LEN("vh"), nsCSSUnit.ViewportHeight, VARIANT_LENGTH },
-          { STR_WITH_LEN("vmin"), nsCSSUnit.ViewportMin, VARIANT_LENGTH },
-          { STR_WITH_LEN("vmax"), nsCSSUnit.ViewportMax, VARIANT_LENGTH },
-          { STR_WITH_LEN("pc"), nsCSSUnit.Pica, VARIANT_LENGTH },
-          { STR_WITH_LEN("deg"), nsCSSUnit.Degree, VARIANT_ANGLE },
-          { STR_WITH_LEN("grad"), nsCSSUnit.Grad, VARIANT_ANGLE },
-          { STR_WITH_LEN("rad"), nsCSSUnit.Radian, VARIANT_ANGLE },
-          { STR_WITH_LEN("turn"), nsCSSUnit.Turn, VARIANT_ANGLE },
-          { STR_WITH_LEN("hz"), nsCSSUnit.Hertz, VARIANT_FREQUENCY },
-          { STR_WITH_LEN("khz"), nsCSSUnit.Kilohertz, VARIANT_FREQUENCY },
-          { STR_WITH_LEN("s"), nsCSSUnit.Seconds, VARIANT_TIME },
-          { STR_WITH_LEN("ms"), nsCSSUnit.Milliseconds, VARIANT_TIME }
+        static UnitInfo[] UnitData = new UnitInfo[] {
+          new UnitInfo { name = "px", unit = nsCSSUnit.Pixel, type = VARIANT_LENGTH },
+          new UnitInfo { name = "em", unit = nsCSSUnit.EM, type = VARIANT_LENGTH },
+          new UnitInfo { name = "ex", unit = nsCSSUnit.XHeight, type = VARIANT_LENGTH },
+          new UnitInfo { name = "pt", unit = nsCSSUnit.Point, type = VARIANT_LENGTH },
+          new UnitInfo { name = "in", unit = nsCSSUnit.Inch, type = VARIANT_LENGTH },
+          new UnitInfo { name = "cm", unit = nsCSSUnit.Centimeter, type = VARIANT_LENGTH },
+          new UnitInfo { name = "ch", unit = nsCSSUnit.Char, type = VARIANT_LENGTH },
+          new UnitInfo { name = "rem", unit = nsCSSUnit.RootEM, type = VARIANT_LENGTH },
+          new UnitInfo { name = "mm", unit = nsCSSUnit.Millimeter, type = VARIANT_LENGTH },
+          new UnitInfo { name = "mozmm", unit = nsCSSUnit.PhysicalMillimeter, type = VARIANT_LENGTH },
+          new UnitInfo { name = "vw", unit = nsCSSUnit.ViewportWidth, type = VARIANT_LENGTH },
+          new UnitInfo { name = "vh", unit = nsCSSUnit.ViewportHeight, type = VARIANT_LENGTH },
+          new UnitInfo { name = "vmin", unit = nsCSSUnit.ViewportMin, type = VARIANT_LENGTH },
+          new UnitInfo { name = "vmax", unit = nsCSSUnit.ViewportMax, type = VARIANT_LENGTH },
+          new UnitInfo { name = "pc", unit = nsCSSUnit.Pica, type = VARIANT_LENGTH },
+          new UnitInfo { name = "deg", unit = nsCSSUnit.Degree, type = VARIANT_ANGLE },
+          new UnitInfo { name = "grad", unit = nsCSSUnit.Grad, type = VARIANT_ANGLE },
+          new UnitInfo { name = "rad", unit = nsCSSUnit.Radian, type = VARIANT_ANGLE },
+          new UnitInfo { name = "turn", unit = nsCSSUnit.Turn, type = VARIANT_ANGLE },
+          new UnitInfo { name = "hz", unit = nsCSSUnit.Hertz, type = VARIANT_FREQUENCY },
+          new UnitInfo { name = "khz", unit = nsCSSUnit.Kilohertz, type = VARIANT_FREQUENCY },
+          new UnitInfo { name = "s", unit = nsCSSUnit.Seconds, type = VARIANT_TIME },
+          new UnitInfo { name = "ms", unit = nsCSSUnit.Milliseconds, type = VARIANT_TIME }
         };
         
         internal bool TranslateDimension(nsCSSValue aValue,
@@ -3843,7 +3836,7 @@ namespace Alba.CsCss.Style
                                           float aNumber,
                                           string aUnit)
         {
-          nsCSSUnit units;
+          nsCSSUnit units = 0;
           int32_t   type = 0;
           if (!aUnit.IsEmpty()) {
             uint32_t i = 0;
@@ -4863,7 +4856,7 @@ namespace Alba.CsCss.Style
             int32_t junk = 0;
             if (kw != nsCSSKeyword.UNKNOWN &&
                 nsCSSProps.FindKeyword(kw, nsCSSProps.kBackgroundPositionKTable,
-                                        junk)) {
+                                        ref junk)) {
               haveGradientLine = true;
             }
             break;
@@ -4919,7 +4912,7 @@ namespace Alba.CsCss.Style
               for (index = 0; index < aNumIDs; index++) {
                 int32_t bit = 1 << index;
                 if ((found & bit) == 0) {
-                  if (ParseSingleValueProperty(aValues[index], aPropIDs[index])) {
+                  if (ParseSingleValueProperty(aValues[(int)index], aPropIDs[(int)index])) {
                     found |= bit;
                     // It's more efficient to break since it will reset |hadFound|
                     // to |found|.  Furthermore, ParseListStyle depends on our going
@@ -4979,9 +4972,9 @@ namespace Alba.CsCss.Style
           // Get up to four values for the property
           int32_t count = 0;
           nsCSSRect result;
-          NS_FOR_CSS_SIDES (index) {
-            if (! ParseSingleValueProperty(result.*(nsCSSRect.sides[index]),
-                                           aPropIDs[index])) {
+          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+            if (! ParseSingleValueProperty(result.*(nsCSSRect.sides[(int)index]),
+                                           aPropIDs[(int)index])) {
               break;
             }
             count++;
@@ -4991,8 +4984,8 @@ namespace Alba.CsCss.Style
           }
         
           if (1 < count) { // verify no more than single inherit or initial
-            NS_FOR_CSS_SIDES (index) {
-              nsCSSUnit unit = (result.*(nsCSSRect.sides[index])).GetUnit();
+            for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+              nsCSSUnit unit = (result.*(nsCSSRect.sides[(int)index])).GetUnit();
               if (nsCSSUnit.Inherit == unit || nsCSSUnit.Initial == unit) {
                 return false;
               }
@@ -5009,8 +5002,8 @@ namespace Alba.CsCss.Style
               result.mLeft = result.mRight;
           }
         
-          NS_FOR_CSS_SIDES (index) {
-            AppendValue(aPropIDs[index], result.*(nsCSSRect.sides[index]));
+          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+            AppendValue(aPropIDs[(int)index], result.*(nsCSSRect.sides[(int)index]));
           }
           return true;
         }
@@ -5023,8 +5016,8 @@ namespace Alba.CsCss.Style
           nsCSSRect result = aValue.SetRectValue();
         
           int32_t count = 0;
-          NS_FOR_CSS_SIDES (index) {
-            if (!ParseNonNegativeVariant(result.*(nsCSSRect.sides[index]),
+          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+            if (!ParseNonNegativeVariant(result.*(nsCSSRect.sides[(int)index]),
                                          aVariantMask, null)) {
               break;
             }
@@ -5097,7 +5090,7 @@ namespace Alba.CsCss.Style
           nsCSSRect dimenX, dimenY;
           int32_t countX = 0, countY = 0;
         
-          NS_FOR_CSS_SIDES (side) {
+          for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
             if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[(int)side],
                                           (side > 0 ? 0 : VARIANT_INHERIT) |
                                             VARIANT_LP | VARIANT_CALC,
@@ -5109,7 +5102,7 @@ namespace Alba.CsCss.Style
             return false;
         
           if (ExpectSymbol('/', true)) {
-            NS_FOR_CSS_SIDES (side) {
+            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
               if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[(int)side],
                                             VARIANT_LP | VARIANT_CALC, null))
                 break;
@@ -5786,7 +5779,7 @@ namespace Alba.CsCss.Style
                 if (haveRepeat)
                   return false;
                 haveRepeat = true;
-                nsCSSValuePair scratch;
+                var scratch = new nsCSSValuePair();
                 if (!ParseBackgroundRepeatValues(scratch)) {
                   Debug.Fail("should be able to parse");
                   return false;
@@ -5802,7 +5795,7 @@ namespace Alba.CsCss.Style
                   return false;
                 }
                 if (ExpectSymbol('/', true)) {
-                  nsCSSValuePair scratch;
+                  var scratch = new nsCSSValuePair();
                   if (!ParseBackgroundSizeValues(scratch)) {
                     return false;
                   }
@@ -5879,7 +5872,7 @@ namespace Alba.CsCss.Style
                 return false;
               }
               if (ExpectSymbol('/', true)) {
-                nsCSSValuePair scratch;
+                var scratch = new nsCSSValuePair();
                 if (!ParseBackgroundSizeValues(scratch)) {
                   return false;
                 }
@@ -5943,7 +5936,7 @@ namespace Alba.CsCss.Style
               return false;
             }
           } else {
-            nsCSSValuePair valuePair;
+            var valuePair = new nsCSSValuePair();
             if (!ParseBackgroundRepeatValues(valuePair)) {
               return false;
             }
@@ -6317,7 +6310,7 @@ namespace Alba.CsCss.Style
               return false;
             }
           } else {
-            nsCSSValuePair valuePair;
+            var valuePair = new nsCSSValuePair();
             if (!ParseBackgroundSizeValues(valuePair)) {
               return false;
             }
@@ -6424,7 +6417,7 @@ namespace Alba.CsCss.Style
         
           // border-image-repeat: repeat
           nsCSSValue repeat;
-          nsCSSValuePair repeatPair;
+          var repeatPair = new nsCSSValuePair();
           repeatPair.SetBothValuesTo(new nsCSSValue(nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
                                                 nsCSSUnit.Enumerated));
           repeat.SetPairValue(&repeatPair);
@@ -6532,7 +6525,7 @@ namespace Alba.CsCss.Style
             return true;
           }
         
-          nsCSSValuePair result;
+          var result = new nsCSSValuePair();
           if (!ParseEnum(result.mXValue, nsCSSProps.kBorderImageRepeatKTable)) {
             return false;
           }
@@ -6711,9 +6704,9 @@ namespace Alba.CsCss.Style
             // Parsing "border" shorthand; set all four sides to the same thing
             for (int32_t index = 0; index < 4; index++) {
               Debug.Assert(numProps == 3, "This code needs updating");
-              AppendValue(kBorderWidthIDs[index], values[0]);
-              AppendValue(kBorderStyleIDs[index], values[1]);
-              AppendValue(kBorderColorIDs[index], values[2]);
+              AppendValue(kBorderWidthIDs[(int)index], values[0]);
+              AppendValue(kBorderStyleIDs[(int)index], values[1]);
+              AppendValue(kBorderColorIDs[(int)index], values[2]);
             }
         
             static nsCSSProperty[] kBorderColorsProps = new nsCSSProperty[] {
@@ -6749,7 +6742,7 @@ namespace Alba.CsCss.Style
           else {
             // Just set our one side
             for (int32_t index = 0; index < numProps; index++) {
-              AppendValue(aPropIDs[index], values[index]);
+              AppendValue(aPropIDs[(int)index], values[(int)index]);
             }
           }
           return true;
@@ -6780,7 +6773,7 @@ namespace Alba.CsCss.Style
               nsCSSProps.SubpropertyEntryFor(aPropIDs[index + numProps]);
             Debug.Assert(subprops[3] == nsCSSProperty.UNKNOWN,
                          "not box property with physical vs. logical cascading");
-            AppendValue(subprops[0], values[index]);
+            AppendValue(subprops[0], values[(int)index]);
             var typeVal = new nsCSSValue(aSourceType, nsCSSUnit.Enumerated);
             AppendValue(subprops[1], typeVal);
             AppendValue(subprops[2], typeVal);
@@ -6903,7 +6896,7 @@ namespace Alba.CsCss.Style
         
             if (!haveWS || !GetToken(false))
               return true;
-            nsCSSUnit unit;
+            nsCSSUnit unit = 0;
             if (mToken.IsSymbol('+')) {
               unit = nsCSSUnit.Calc_Plus;
             } else if (mToken.IsSymbol('-')) {
@@ -7002,7 +6995,7 @@ namespace Alba.CsCss.Style
               *aHadFinalWS = hadWS;
               break;
             }
-            nsCSSUnit unit;
+            nsCSSUnit unit = 0;
             if (mToken.IsSymbol('*')) {
               unit = gotValue ? nsCSSUnit.Calc_Times_R : nsCSSUnit.Calc_Times_L;
               afterDivision = false;
@@ -7205,7 +7198,7 @@ namespace Alba.CsCss.Style
         
           // Start at index 1 to skip the fake auto value.
           for (int32_t index = 1; index < numProps; index++) {
-            AppendValue(columnIDs[index], values[index]);
+            AppendValue(columnIDs[(int)index], values[(int)index]);
           }
           return true;
         }
@@ -7866,7 +7859,7 @@ namespace Alba.CsCss.Style
         
           // Start at 1 to avoid appending fake value.
           for (uint32_t index = 1; index < listStyleIDs.Length; ++index) {
-            AppendValue(listStyleIDs[index], values[index]);
+            AppendValue(listStyleIDs[(int)index], values[(int)index]);
           }
           return true;
         }
@@ -7943,7 +7936,7 @@ namespace Alba.CsCss.Style
         
           int32_t index = 0;
           for (index = 0; index < numProps; index++) {
-            AppendValue(kOutlineIDs[index], values[index]);
+            AppendValue(kOutlineIDs[(int)index], values[(int)index]);
           }
           return true;
         }
@@ -8198,7 +8191,7 @@ namespace Alba.CsCss.Style
         {
           for (uint16_t index = 0; index < aMaxElems; ++index) {
             nsCSSValue newValue;
-            if (!ParseVariant(newValue, aVariantMask[index], null))
+            if (!ParseVariant(newValue, aVariantMask[(int)index], null))
               return false;
         
             aOutput.AppendElement(newValue);
@@ -8569,8 +8562,8 @@ namespace Alba.CsCss.Style
         
         bool ParseTransformOrigin(bool aPerspective)
         {
-          nsCSSValuePair position;
-          if (!ParseBoxPositionValues(position, true))
+          var position = new nsCSSValuePair();
+          if (!ParseBoxPositionValues(ref position, true))
             return false;
         
           nsCSSProperty prop = nsCSSProperty.transform_origin;
@@ -8661,10 +8654,10 @@ namespace Alba.CsCss.Style
           nsCSSValue[] val = new nsCSSValue[4];
         
           float x1, x2, y1, y2;
-          if (!ParseTransitionTimingFunctionValueComponent(x1, ',', true) ||
-              !ParseTransitionTimingFunctionValueComponent(y1, ',', false) ||
-              !ParseTransitionTimingFunctionValueComponent(x2, ',', true) ||
-              !ParseTransitionTimingFunctionValueComponent(y2, ')', false)) {
+          if (!ParseTransitionTimingFunctionValueComponent(ref x1, ',', true) ||
+              !ParseTransitionTimingFunctionValueComponent(ref y1, ',', false) ||
+              !ParseTransitionTimingFunctionValueComponent(ref x2, ',', true) ||
+              !ParseTransitionTimingFunctionValueComponent(ref y2, ')', false)) {
             return false;
           }
         
@@ -8678,7 +8671,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseTransitionTimingFunctionValueComponent(float& aComponent,
+        internal bool ParseTransitionTimingFunctionValueComponent(ref float aComponent,
                                                                    char aStop,
                                                                    bool aCheckRange)
         {
@@ -8760,9 +8753,9 @@ namespace Alba.CsCss.Style
         }
         internal  ParseAnimationOrTransitionShorthandResult
         ParseAnimationOrTransitionShorthand(
-                         nsCSSProperty aProperties,
+                         nsCSSProperty[] aProperties,
                          nsCSSValue aInitialValues,
-                         nsCSSValue aValues,
+                         nsCSSValue[] aValues,
                          size_t aNumProperties)
         {
           nsCSSValue tempValue;
@@ -8779,8 +8772,8 @@ namespace Alba.CsCss.Style
           const size_t maxNumProperties = 7;
           Debug.Assert(aNumProperties <= maxNumProperties,
                             "can't handle this many properties");
-          nsCSSValueList cur[maxNumProperties];
-          bool parsedProperty[maxNumProperties];
+          var cur = new nsCSSValueList[maxNumProperties];
+          var parsedProperty = new bool[maxNumProperties];
         
           for (size_t i = 0; i < aNumProperties; ++i) {
             cur[i] = null;

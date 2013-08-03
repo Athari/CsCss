@@ -28,6 +28,9 @@
             .ReReplace(@" */\*.*\*/", "")
 
             // specific preprocessor
+            .ReReplace(
+                @"CSS_PROP_BACKENDONLY\($,$,$,$,$,$,$\)".Replace(",", ", *\n").Replace("$", "(" + sArgs + ")"),
+                 "CSS_PROP($1,\n$2,\n$3,\n$4,\n$5,\n$6,\n$7,\n BackendOnly,\n CSS_PROP_NO_OFFSET,\n eStyleAnimType_None)")                    
             .ReReplace(@"CSS_PROP_DOMPROP_PREFIXED\((\w+)\)", "CSS_PROP_PUBLIC_OR_PRIVATE(Moz$1,$1)")
             .ReReplace(@"CSS_PROP_PUBLIC_OR_PRIVATE\((\w+), *(\w+)\)", "$1|$2")
             .ReReplace(@"offsetof\((\w+), *(\w+)\)", "$1.$2")

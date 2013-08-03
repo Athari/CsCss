@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Alba.CsCss.Gfx;
-
+using int32_t = System.Int32;
+using uint8_t = System.SByte;
+using uint16_t = System.Int16;
+using uint32_t = System.Int32;
+using nsresult = System.UInt32; // TODO
 namespace Alba.CsCss.Style
 {
     internal partial class nsCSSParser
@@ -102,7 +106,7 @@ namespace Alba.CsCss.Style
             Error
         };
 
-        private enum ParseAnimationOrTransitionShorthandResult
+        internal enum ParseAnimationOrTransitionShorthandResult
         {
             Values,
             Inherit,
@@ -194,6 +198,18 @@ namespace Alba.CsCss.Style
             }
         }
 
+        private class UnitInfo
+        {
+            public string name;
+            public nsCSSUnit unit;
+            public int32_t type;
+
+            public uint32_t length
+            {
+                get { return name.Length; }
+            }
+        };
+
         private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0, NS_ERROR_DOM_SYNTAX_ERR = 0, NS_ERROR_MALFORMED_URI = 0;
     }
 
@@ -209,6 +225,9 @@ namespace Alba.CsCss.Style
         {
             return false;
         }
+
+        public void AddLonghandProperty (nsCSSProperty aPropId, nsCSSValue aValue)
+        {}
     }
 
     internal class nsXMLNameSpaceMap
@@ -521,6 +540,9 @@ namespace Alba.CsCss.Style
 
         public void SetColorValue (nscolor nsRgba)
         {}
+
+        public void SetPercentValue (float mNumber)
+        {}
     }
 
     internal class nsCSSValueGradient
@@ -536,22 +558,22 @@ namespace Alba.CsCss.Style
 
         public nsCSSValue GetRadialShape ()
         {
-            return null;
+            return new nsCSSValue();
         }
 
         public nsCSSValue GetRadialSize ()
         {
-            return null;
+            return new nsCSSValue();
         }
 
         public nsCSSValue GetRadiusX ()
         {
-            return null;
+            return new nsCSSValue();
         }
 
         public nsCSSValue GetRadiusY ()
         {
-            return null;
+            return new nsCSSValue();
         }
     }
 
@@ -583,6 +605,9 @@ namespace Alba.CsCss.Style
 
     internal class nsCSSRect
     {
+        public nsCSSValue mLeft, mTop, mRight, mBottom;
+        public static nsCSSValue[] sides;
+
         public void SetAllSidesTo (object nsCssValue)
         {}
     }

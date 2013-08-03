@@ -21,7 +21,14 @@ namespace Alba.CsCss.Extensions
 
         internal static bool LowerCaseEqualsLiteral (this string @this, string value)
         {
-            return @this.ToLowerInvariant() == value;
+            return string.Equals(@this, value, StringComparison.OrdinalIgnoreCase);
+        }
+
+        internal static bool LowerCaseEqualsASCII (this string @this, string value, int length)
+        {
+            if (value.Length != length)
+                value = value.Substring(0, length);
+            return string.Equals(@this, value, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
