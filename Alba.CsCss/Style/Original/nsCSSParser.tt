@@ -60,6 +60,7 @@ namespace Alba.CsCss.Style
 <#+
     string ConvertCssParser (string source)
     {
+        int i = 0;
         return source
 
             // whitespace
@@ -141,6 +142,7 @@ namespace Alba.CsCss.Style
                             "nsCSSValuePairList|nsCSSValueList|nsCSSRect|nsCSSFontFaceRule|NameSpaceRule|URLValue|nsCSSValueGradient|"+
                             "nsCSSValueGradientStop|nsCSSTokenType|ExtractFirstFamilyData"+
                        @")\b(?<Space> )?[*&]?", "${Name}${Space}")
+            .Replace(@"const int32_t *&", "ref int32_t[]")
             .ReReplace(@"(?n)\b(?<Name>"+
                             "u?int\\d+_t|bool|float|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nsCSSValuePair|nscolor"+
                        @")\b(?<Space> )?[*&]", "ref ${Name}${Space}")
@@ -189,6 +191,17 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?ns)(?<Type>nsAutoParseCompoundProperty|nsAutoFailingSupportsRule|nsAutoSuppressErrors) "+ // RAII structs
                        @"(?<Var>\w+)\((?<Args>"+sArgs+@")\);(?<Code>.*?)\n}\n",
                        m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"("+m.Get("Args")+")) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
+            .ReReplace(@"(?s)\n(?<Space> *)enum {(?<Code>.*?)};", menum => {
+                i = 0;
+                string code = menum.Get("Code"), space = menum.Get("Space");
+                return code.Contains("=")
+                    ? code.ReReplace(
+                        @"(?n)(\s+(?<Expr>\w+\s+=\s+[\w\.]+),?(\s+//.*)?(?=\n|\s+$))+", m =>
+                        "\n"+m.GetAll("Expr").Select(c => space+"const int "+c.Value+";\n").ConcatString())
+                    : code.ReReplace(
+                        @"(?n)(\s+(?<Const>\w+),?(\s+//.*)?(?=\n|\s+$))+", m =>
+                        "\n"+m.GetAll("Const").Select(c => space+"const int "+c.Value+" = "+(i++)+";\n").ConcatString());
+            })            
             // specific expressions: constructors
             .ReReplace(@"(?<Type>nsCSSFontFaceRule|nsCSSSelectorList) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);", "var ${Var} = new ${Type}(${Args});") // Type Var(new Type()) -> var Var = new Var(Args)
             .ReReplace(@"(?<Type>nsCSSValue|BackgroundParseState) (?<Var>\w+)\((?<Args>"+sArgs+@")\);", "var ${Var} = new ${Type}(${Args});") // Type Var(Args) -> var Var = new Var(Args)
@@ -202,10 +215,14 @@ namespace Alba.CsCss.Style
             .Replace(@"nsAutoTArray<char, 16> stack;", "var stack = new List<char>(16);")
             .Replace(@"combinator = 0", @"combinator = '\0'")
             // specific expressions: boolean
-            .ReReplace(@"!\b(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|mediaFeatureAtom|declaration|mediaType|prefix)\b", "$1 == null")
+            .ReReplace(@"!\b(mScanner|mSheetPrincipal|mNameSpaceMap|aResult|aTail->mNext|aTail|mediaFeatureAtom|declaration|mediaType|prefix)\b", "$1 == null")
             .ReReplace(@"!(dataMask|combinator)", "$1 == 0")
             .ReReplace(@"if \((mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|pseudoElement|query|kid)\)", "if ($1 != null)")
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
+            // specific expressions: declarations
+            .Replace(@"static const int32_t kVariantMasks[eNumVariantMasks][kMaxElemsPerFunction]", "/*TODO: static*/ int32_t[][] kVariantMasks")
+            .Replace(@"{VARIANT_", "new[] {VARIANT_")
+            .Replace(@"static const uint8_t kVariantMaskLengths[eNumVariantMasks]", "/*TODO: static*/ uint8_t[] kVariantMaskLengths")
             // specific expressions: arg declarations
             .ReReplace(@"bool (aInsideBraces)", "bool $1 = false")
             .ReReplace(@"bool (aAllowExplicitCenter)", "bool $1 = true")
@@ -260,6 +277,7 @@ namespace Alba.CsCss.Style
             //.ReReplace(@"inline", "")
             //.ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style
             //.ReReplace(@"(u?int\d+_t|double|PRUnichar)\((" + sArgs + @")\)", "(($1)($2))") // cast inside cast
+            .ReReplace(@"(?i)\b(\d)+u\b", "$1") // no suffix for ushort
             .ReReplace(@"->", ".")
             .ReReplace(@"::", ".")
 

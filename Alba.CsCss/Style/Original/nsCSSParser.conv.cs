@@ -8043,14 +8043,12 @@ namespace Alba.CsCss.Style
         
         internal bool ParseTextDecoration()
         {
-          enum {
-            eDecorationNone         = nsStyle.TEXT_DECORATION_LINE_NONE,
-            eDecorationUnderline    = nsStyle.TEXT_DECORATION_LINE_UNDERLINE,
-            eDecorationOverline     = nsStyle.TEXT_DECORATION_LINE_OVERLINE,
-            eDecorationLineThrough  = nsStyle.TEXT_DECORATION_LINE_LINE_THROUGH,
-            eDecorationBlink        = nsStyle.TEXT_DECORATION_LINE_BLINK,
-            eDecorationPrefAnchors  = nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS
-          };
+          const int eDecorationNone         = nsStyle.TEXT_DECORATION_LINE_NONE;
+          const int eDecorationUnderline    = nsStyle.TEXT_DECORATION_LINE_UNDERLINE;
+          const int eDecorationOverline     = nsStyle.TEXT_DECORATION_LINE_OVERLINE;
+          const int eDecorationLineThrough  = nsStyle.TEXT_DECORATION_LINE_LINE_THROUGH;
+          const int eDecorationBlink        = nsStyle.TEXT_DECORATION_LINE_BLINK;
+          const int eDecorationPrefAnchors  = nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS;
         
           const int32_t[] kTextDecorationKTable = new int32_t[] {
             nsCSSKeyword.none,                   eDecorationNone,
@@ -8287,57 +8285,58 @@ namespace Alba.CsCss.Style
                                                 bool aIsPrefixed,
                                                 ref uint16_t aMinElems,
                                                 ref uint16_t aMaxElems,
-                                                const ref int32_t & aVariantMask,
+                                                ref int32_t[] aVariantMask,
                                                 ref bool aIs3D)
         {
         /* These types represent the common variant masks that will be used to
            * parse out the individual functions.  The order in the enumeration
            * must match the order in which the masks are declared.
            */
-          enum { eLengthPercentCalc,
-                 eLengthCalc,
-                 eTwoLengthPercentCalcs,
-                 eTwoLengthPercentCalcsOneLengthCalc,
-                 eAngle,
-                 eTwoAngles,
-                 eNumber,
-                 ePositiveLength,
-                 eTwoNumbers,
-                 eThreeNumbers,
-                 eThreeNumbersOneAngle,
-                 eMatrix,
-                 eMatrixPrefixed,
-                 eMatrix3d,
-                 eMatrix3dPrefixed,
-                 eNumVariantMasks };
+          const int eLengthPercentCalc = 0;
+          const int eLengthCalc = 1;
+          const int eTwoLengthPercentCalcs = 2;
+          const int eTwoLengthPercentCalcsOneLengthCalc = 3;
+          const int eAngle = 4;
+          const int eTwoAngles = 5;
+          const int eNumber = 6;
+          const int ePositiveLength = 7;
+          const int eTwoNumbers = 8;
+          const int eThreeNumbers = 9;
+          const int eThreeNumbersOneAngle = 10;
+          const int eMatrix = 11;
+          const int eMatrixPrefixed = 12;
+          const int eMatrix3d = 13;
+          const int eMatrix3dPrefixed = 14;
+          const int eNumVariantMasks = 15;
+         
           const int32_t kMaxElemsPerFunction = 16;
-          const int32_t kVariantMasks[eNumVariantMasks][kMaxElemsPerFunction] = {
-            {VARIANT_LPCALC},
-            {VARIANT_LENGTH|VARIANT_CALC},
-            {VARIANT_LPCALC, VARIANT_LPCALC},
-            {VARIANT_LPCALC, VARIANT_LPCALC, VARIANT_LENGTH|VARIANT_CALC},
-            {VARIANT_ANGLE_OR_ZERO},
-            {VARIANT_ANGLE_OR_ZERO, VARIANT_ANGLE_OR_ZERO},
-            {VARIANT_NUMBER},
-            {VARIANT_LENGTH|VARIANT_POSITIVE_DIMENSION},
-            {VARIANT_NUMBER, VARIANT_NUMBER},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_ANGLE_OR_ZERO},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
+          /*TODO: static*/ int32_t[][] kVariantMasks = {
+            new[] {VARIANT_LPCALC},
+            new[] {VARIANT_LENGTH|VARIANT_CALC},
+            new[] {VARIANT_LPCALC, VARIANT_LPCALC},
+            new[] {VARIANT_LPCALC, VARIANT_LPCALC, VARIANT_LENGTH|VARIANT_CALC},
+            new[] {VARIANT_ANGLE_OR_ZERO},
+            new[] {VARIANT_ANGLE_OR_ZERO, VARIANT_ANGLE_OR_ZERO},
+            new[] {VARIANT_NUMBER},
+            new[] {VARIANT_LENGTH|VARIANT_POSITIVE_DIMENSION},
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER},
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER},
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_ANGLE_OR_ZERO},
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_LPNCALC, VARIANT_LPNCALC},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER},
-            {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
+            new[] {VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER, VARIANT_NUMBER,
              VARIANT_LPNCALC, VARIANT_LPNCALC, VARIANT_LNCALC, VARIANT_NUMBER}};
         
         #if DEBUG
-          const uint8_t kVariantMaskLengths[eNumVariantMasks] =
+          /*TODO: static*/ uint8_t[] kVariantMaskLengths =
             {1, 1, 2, 3, 1, 2, 1, 1, 2, 3, 4, 6, 6, 16, 16};
         #endif
         
@@ -8350,21 +8349,21 @@ namespace Alba.CsCss.Style
           case nsCSSKeyword.translatey:
             /* Exactly one length or percent. */
             variantIndex = eLengthPercentCalc;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             break;
           case nsCSSKeyword.translatez:
             /* Exactly one length */
             variantIndex = eLengthCalc;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             aIs3D = true;
             break;
           case nsCSSKeyword.translate3d:
             /* Exactly two lengthds or percents and a number */
             variantIndex = eTwoLengthPercentCalcsOneLengthCalc;
-            aMinElems = 3U;
-            aMaxElems = 3U;
+            aMinElems = 3;
+            aMaxElems = 3;
             aIs3D = true;
             break;
           case nsCSSKeyword.scalez:
@@ -8373,14 +8372,14 @@ namespace Alba.CsCss.Style
           case nsCSSKeyword.scaley:
             /* Exactly one scale factor. */
             variantIndex = eNumber;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             break;
           case nsCSSKeyword.scale3d:
             /* Exactly three scale factors. */
             variantIndex = eThreeNumbers;
-            aMinElems = 3U;
-            aMaxElems = 3U;
+            aMinElems = 3;
+            aMaxElems = 3;
             aIs3D = true;
             break;
           case nsCSSKeyword.rotatex:
@@ -8390,63 +8389,63 @@ namespace Alba.CsCss.Style
           case nsCSSKeyword.rotatez:
             /* Exactly one angle. */
             variantIndex = eAngle;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             break;
           case nsCSSKeyword.rotate3d:
             variantIndex = eThreeNumbersOneAngle;
-            aMinElems = 4U;
-            aMaxElems = 4U;
+            aMinElems = 4;
+            aMaxElems = 4;
             aIs3D = true;
             break;
           case nsCSSKeyword.translate:
             /* One or two lengths or percents. */
             variantIndex = eTwoLengthPercentCalcs;
-            aMinElems = 1U;
-            aMaxElems = 2U;
+            aMinElems = 1;
+            aMaxElems = 2;
             break;
           case nsCSSKeyword.skew:
             /* Exactly one or two angles. */
             variantIndex = eTwoAngles;
-            aMinElems = 1U;
-            aMaxElems = 2U;
+            aMinElems = 1;
+            aMaxElems = 2;
             break;
           case nsCSSKeyword.scale:
             /* One or two scale factors. */
             variantIndex = eTwoNumbers;
-            aMinElems = 1U;
-            aMaxElems = 2U;
+            aMinElems = 1;
+            aMaxElems = 2;
             break;
           case nsCSSKeyword.skewx:
             /* Exactly one angle. */
             variantIndex = eAngle;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             break;
           case nsCSSKeyword.skewy:
             /* Exactly one angle. */
             variantIndex = eAngle;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             break;
           case nsCSSKeyword.matrix:
             /* Six values, all numbers. */
             variantIndex = aIsPrefixed ? eMatrixPrefixed : eMatrix;
-            aMinElems = 6U;
-            aMaxElems = 6U;
+            aMinElems = 6;
+            aMaxElems = 6;
             break;
           case nsCSSKeyword.matrix3d:
             /* 16 matrix values, all numbers */
             variantIndex = aIsPrefixed ? eMatrix3dPrefixed : eMatrix3d;
-            aMinElems = 16U;
-            aMaxElems = 16U;
+            aMinElems = 6;
+            aMaxElems = 6;
             aIs3D = true;
             break;
           case nsCSSKeyword.perspective:
             /* Exactly one scale number. */
             variantIndex = ePositiveLength;
-            aMinElems = 1U;
-            aMaxElems = 1U;
+            aMinElems = 1;
+            aMaxElems = 1;
             aIs3D = true;
             break;
           default:
@@ -8736,10 +8735,10 @@ namespace Alba.CsCss.Style
         {
           nsCSSValueList entry;
           if (aContainer.GetUnit() == nsCSSUnit.Null) {
-            Debug.Assert(!aTail, "should not have an entry");
+            Debug.Assert(aTail == null, "should not have an entry");
             entry = aContainer.SetListValue();
           } else {
-            Debug.Assert(!aTail.mNext, "should not have a next entry");
+            Debug.Assert(aTail.mNext == null, "should not have a next entry");
             Debug.Assert(aContainer.GetUnit() == nsCSSUnit.List, "not a list");
             entry = new nsCSSValueList();
             aTail.mNext = entry;
@@ -8959,14 +8958,14 @@ namespace Alba.CsCss.Style
         internal bool ParseShadowItem(nsCSSValue aValue, bool aIsBoxShadow)
         {
           // A shadow list item is an array, with entries in this sequence:
-          enum {
-            IndexX,
-            IndexY,
-            IndexRadius,
-            IndexSpread,  // only for box-shadow
-            IndexColor,
-            IndexInset    // only for box-shadow
-          };
+          const int IndexX = 0;
+          const int IndexY = 1;
+          const int IndexRadius = 2;
+          const int IndexSpread = 3;
+          const int IndexColor = 4;
+          const int IndexInset = 5;
+        
+          
         
           nsCSSValue[] val = new nsCSSValue[6];
         

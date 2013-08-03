@@ -243,7 +243,12 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsXMLNameSpaceMap
-    {}
+    {
+        public int FindNameSpaceID (nsIAtom prefix)
+        {
+            return 0;
+        }
+    }
 
     internal class CssLoader
     {
@@ -465,6 +470,9 @@ namespace Alba.CsCss.Style
         public void SetFloatValue (float f, nsCSSUnit pixel)
         {}
 
+        public void SetFloatValue (double d, nsCSSUnit seconds)
+        {}
+
         public void SetTripletValue (object mXValue, object mYValue, nsCSSValue depth)
         {}
 
@@ -571,6 +579,9 @@ namespace Alba.CsCss.Style
         {}
 
         public void SetPercentValue (float mNumber)
+        {}
+
+        public nsCSSValueList GetListValue ()
         {}
     }
 
