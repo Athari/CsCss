@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using int16_t = System.Int16;
@@ -82,5 +83,10 @@ namespace Alba.CsCss.Gfx
             nscoord size = default(nscoord), float sizeAdjust = 0, string languageOverride = null)
             : this(name.ToString(), (byte)style, (byte)systemFont, (byte)variant, (byte)decorations, (ushort)weight, (short)stretch, size, sizeAdjust, languageOverride)
         {}
+
+        public void EnumerateFamilies (Func<StringBuilder, bool, object, bool> extractFirstFamily, object dat)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

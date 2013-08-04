@@ -12,7 +12,7 @@ namespace Alba.CsCss.Style
         public static int[] kRadialGradientLegacySizeKTable;
         public static int[] kRadialGradientSizeKTable;
         public static int[] kBackgroundPositionKTable;
-        public static int[] kKeywordTableTable;
+        public static int[][] kKeywordTableTable;
         public static int[] kFontStyleKTable;
         public static int[] kFontStretchKTable;
         public static int[] kBackgroundAttachmentKTable;

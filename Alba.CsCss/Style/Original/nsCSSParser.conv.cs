@@ -565,7 +565,7 @@ namespace Alba.CsCss.Style
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
           InitScanner(scanner, reporter, aURI, aURI, null);
         
-          bool success = ParseSelectorList(ref aSelectorList, '\0');
+          bool success = ParseSelectorList(*aSelectorList, '\0');
         
           // We deliberately do not call OUTPUT_ERROR here, because all our
           // callers map a failure return to a JS exception, and if that JS
@@ -1077,7 +1077,7 @@ namespace Alba.CsCss.Style
               }
               if (aInAtRule) {
                 char[] stopChars =
-                  { ',', '{', ';', '}', 0 };
+                  { ',', '{', ';', '}', '\0' };
                 SkipUntilOneOf(stopChars);
               } else {
                 SkipUntil(',');
@@ -2162,7 +2162,7 @@ namespace Alba.CsCss.Style
           nsCSSToken tk = mToken;
           for (;;) {
             if (! GetToken(true)) {
-              if (aStopChar == 0) {
+              if (aStopChar == '\0') {
                 return true;
               }
         
@@ -2181,7 +2181,7 @@ namespace Alba.CsCss.Style
                 list.mNext = newList;
                 list = newList;
                 continue;
-              } else if (aStopChar == tk.mSymbol && aStopChar != 0) {
+              } else if (aStopChar == tk.mSymbol && aStopChar != '\0') {
                 UngetToken();
                 return true;
               }
@@ -2631,13 +2631,13 @@ namespace Alba.CsCss.Style
         internal nsSelectorParsingStatus ParsePseudoSelector(ref int32_t       aDataMask,
                                            nsCSSSelector aSelector,
                                            bool           aIsNegated,
-                                           string*      aPseudoElement,
-                                           nsAtomList**   aPseudoElementArgs,
+                                           ref string      aPseudoElement,
+                                           object   aPseudoElementArgs,
                                            ref nsCSSPseudoElement aPseudoElementType)
         {
           Debug.Assert(aIsNegated || (aPseudoElement && aPseudoElementArgs),
                        "expected location to store pseudo element");
-          Debug.Assert(!aIsNegated || (!aPseudoElement && !aPseudoElementArgs),
+          Debug.Assert(!aIsNegated || (aPseudoElement == null && aPseudoElementArgs == null),
                        "negated selectors shouldn't have a place to store pseudo elements");
           if (! GetToken(false)) { // premature eof
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelEOF"); };
@@ -2812,8 +2812,8 @@ namespace Alba.CsCss.Style
         
             if (0 == (aDataMask & SEL_MASK_PELEM)) {
               aDataMask |= SEL_MASK_PELEM;
-              *aPseudoElement = pseudo;
-              *aPseudoElementType = pseudoElementType;
+              aPseudoElement = pseudo;
+              aPseudoElementType = pseudoElementType;
         
         #if MOZ_XUL
               if (isTree) {
@@ -2885,24 +2885,24 @@ namespace Alba.CsCss.Style
           // serialization code for nsCSSSelector.
           nsCSSSelector newSel = new nsCSSSelector();
           nsCSSSelector negations = aSelector;
-          while (negations.mNegations) {
+          while (negations.mNegations != null) {
             negations = negations.mNegations;
           }
           negations.mNegations = newSel;
         
           nsSelectorParsingStatus parsingStatus;
           if (nsCSSTokenType.ID == mToken.mType) { // #id
-            parsingStatus = ParseIDSelector(aDataMask, *newSel);
+            parsingStatus = ParseIDSelector(ref aDataMask, newSel);
           }
           else if (mToken.IsSymbol('.')) {    // .class
-            parsingStatus = ParseClassSelector(aDataMask, *newSel);
+            parsingStatus = ParseClassSelector(ref aDataMask, newSel);
           }
           else if (mToken.IsSymbol(':')) {    // :pseudo
-            parsingStatus = ParsePseudoSelector(aDataMask, *newSel, true,
+            parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true,
                                                 null, null, null);
           }
           else if (mToken.IsSymbol('[')) {    // [attribute
-            parsingStatus = ParseAttributeSelector(aDataMask, *newSel);
+            parsingStatus = ParseAttributeSelector(ref aDataMask, newSel);
             if (nsSelectorParsingStatus.Error == parsingStatus) {
               // Skip forward to the matching ']'
               SkipUntil(']');
@@ -2910,7 +2910,7 @@ namespace Alba.CsCss.Style
           }
           else {
             // then it should be a type element or universal selector
-            parsingStatus = ParseTypeOrUniversalSelector(aDataMask, *newSel, true);
+            parsingStatus = ParseTypeOrUniversalSelector(ref aDataMask, newSel, true);
           }
           if (nsSelectorParsingStatus.Error == parsingStatus) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PENegationBadInner", mToken); };
@@ -2925,8 +2925,8 @@ namespace Alba.CsCss.Style
           }
         
           Debug.Assert(newSel.mNameSpace == nsNameSpace.Unknown ||
-                       (!newSel.mIDList && !newSel.mClassList &&
-                        !newSel.mPseudoClassList && !newSel.mAttrList),
+                       (newSel.mIDList == null && newSel.mClassList == null &&
+                        newSel.mPseudoClassList == null && newSel.mAttrList == null),
                        "Need to fix the serialization code to deal with this");
         
           return nsSelectorParsingStatus.Continue;
@@ -3095,8 +3095,8 @@ namespace Alba.CsCss.Style
         internal nsSelectorParsingStatus ParsePseudoClassWithSelectorListArg(nsCSSSelector aSelector,
                                                            nsCSSPseudoClass aType)
         {
-          nsCSSSelectorList slist;
-          if (! ParseSelectorList(*slist, ''))) {
+          var slist = new nsCSSSelectorList();
+          if (! ParseSelectorList(ref slist, ')')) {
             return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
           }
         
@@ -3134,30 +3134,30 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
-          string pseudoElement;
-          nsAtomList pseudoElementArgs;
+          string pseudoElement = "";
+          var pseudoElementArgs = new nsAtomList();
           nsCSSPseudoElement pseudoElementType =
             nsCSSPseudoElement.NotPseudoElement;
         
           int32_t dataMask = 0;
           nsSelectorParsingStatus parsingStatus =
-            ParseTypeOrUniversalSelector(dataMask, *selector, false);
+            ParseTypeOrUniversalSelector(ref dataMask, selector, false);
         
           while (parsingStatus == nsSelectorParsingStatus.Continue) {
             if (nsCSSTokenType.ID == mToken.mType) { // #id
-              parsingStatus = ParseIDSelector(dataMask, *selector);
+              parsingStatus = ParseIDSelector(ref dataMask, selector);
             }
             else if (mToken.IsSymbol('.')) {    // .class
-              parsingStatus = ParseClassSelector(dataMask, *selector);
+              parsingStatus = ParseClassSelector(ref dataMask, selector);
             }
             else if (mToken.IsSymbol(':')) {    // :pseudo
-              parsingStatus = ParsePseudoSelector(dataMask, *selector, false,
+              parsingStatus = ParsePseudoSelector(ref dataMask, selector, false,
                                                   pseudoElement,
                                                   pseudoElementArgs,
-                                                  &pseudoElementType);
+                                                  ref pseudoElementType);
             }
             else if (mToken.IsSymbol('[')) {    // [attribute
-              parsingStatus = ParseAttributeSelector(dataMask, *selector);
+              parsingStatus = ParseAttributeSelector(ref dataMask, selector);
               if (nsSelectorParsingStatus.Error == parsingStatus) {
                 SkipUntil(']');
               }
@@ -3183,7 +3183,7 @@ namespace Alba.CsCss.Style
           }
         
           if (dataMask == 0) {
-            if (selector.mNext) {
+            if (selector.mNext != null) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorGroupExtraCombinator"); };
             } else {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PESelectorGroupNoSelector"); };
@@ -3194,14 +3194,14 @@ namespace Alba.CsCss.Style
           if (pseudoElementType == nsCSSPseudoElement.AnonBox) {
             // We got an anonymous box pseudo-element; it must be the only
             // thing in this selector group.
-            if (selector.mNext || !IsUniversalSelector(*selector)) {
+            if (selector.mNext || !IsUniversalSelector(selector)) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAnonBoxNotAlone"); };
               return false;
             }
         
             // Rewrite the current selector as this pseudo-element.
             // It does not contribute to selector weight.
-            selector.mLowercaseTag.swap(pseudoElement);
+            { var t = selector.mLowercaseTag; selector.mLowercaseTag = pseudoElement; pseudoElement = t; };
             selector.mClassList = pseudoElementArgs;
             selector.SetPseudoType(pseudoElementType);
             return true;
@@ -3214,7 +3214,7 @@ namespace Alba.CsCss.Style
           if (pseudoElement != null) {
             selector = aList.AddSelector('>');
         
-            selector.mLowercaseTag.swap(pseudoElement);
+            { var t = selector.mLowercaseTag; selector.mLowercaseTag = pseudoElement; pseudoElement = t; };
             selector.mClassList = pseudoElementArgs;
             selector.SetPseudoType(pseudoElementType);
           }
@@ -3368,7 +3368,7 @@ namespace Alba.CsCss.Style
             // Note: This is a hack for Nav compatibility.  Do not attempt to
             // simplify it by hacking into the ncCSSScanner.  This would be very
             // bad.
-            string str;
+            string str = "";
             char buffer[20];
             switch (tk.mType) {
               case nsCSSTokenType.Ident:
@@ -4229,7 +4229,7 @@ namespace Alba.CsCss.Style
             }
         
             nsCSSValue[] val =
-              nsCSSValue[].Create(unit == nsCSSUnit.Counter ? 2 : 3);
+              new nsCSSValue[unit == nsCSSUnit.Counter ? 2 : 3];
         
             val[0].SetStringValue(mToken.mIdentStr, nsCSSUnit.Ident);
         
@@ -4368,7 +4368,7 @@ namespace Alba.CsCss.Style
           for (;;) {
             nsCSSValue newFunction;
             const uint32_t kNumArgs = 5;
-            nsCSSValue[]* func =
+            nsCSSValue[] func =
               newFunction.InitFunction(nsCSSKeyword._moz_image_rect, kNumArgs);
         
             // func[0] is reserved for the function name.
@@ -5504,7 +5504,7 @@ namespace Alba.CsCss.Style
           if (aPropID == nsCSSProperty.script_level && !mUnsafeRulesEnabled)
             return false;
         
-          const ref int32_t kwtable = nsCSSProps.kKeywordTableTable[aPropID];
+          int32_t[] kwtable = nsCSSProps.kKeywordTableTable[(int)aPropID];
           switch (nsCSSProps.ValueRestrictions(aPropID)) {
             default:
               Debug.Assert(false, "should not be reached");
@@ -5551,12 +5551,12 @@ namespace Alba.CsCss.Style
         
             // the style parameters to the nsFont constructor are ignored,
             // because it's only being used to call EnumerateFamilies
-            string valueStr;
+            string valueStr = "";
             aValue.GetStringValue(valueStr);
             var font = new nsFont(valueStr, 0, 0, 0, 0, 0, 0);
-            ExtractFirstFamilyData dat;
+            var dat = new ExtractFirstFamilyData();
         
-            font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
+            font.EnumerateFamilies(ExtractFirstFamily, (object) dat);
             if (!dat.mGood)
               return false;
         
@@ -6429,7 +6429,7 @@ namespace Alba.CsCss.Style
           var repeatPair = new nsCSSValuePair();
           repeatPair.SetBothValuesTo(new nsCSSValue(nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
                                                 nsCSSUnit.Enumerated));
-          repeat.SetPairValue(&repeatPair);
+          repeat.SetPairValue(repeatPair);
           AppendValue(nsCSSProperty.border_image_repeat, repeat);
         }
         
@@ -6544,7 +6544,7 @@ namespace Alba.CsCss.Style
             result.mYValue = result.mXValue;
           }
         
-          value.SetPairValue(&result);
+          value.SetPairValue(result);
           AppendValue(nsCSSProperty.border_image_repeat, value);
           return true;
         }
@@ -6900,7 +6900,7 @@ namespace Alba.CsCss.Style
           nsCSSValue storage = aValue;
           for (;;) {
             bool haveWS = false;
-            if (!ParseCalcMultiplicativeExpression(*storage, aVariantMask, ref haveWS))
+            if (!ParseCalcMultiplicativeExpression(storage, aVariantMask, ref haveWS))
               return false;
         
             if (!haveWS || !GetToken(false))
@@ -6953,7 +6953,7 @@ namespace Alba.CsCss.Style
             } else {
               variantMask = aVariantMask | VARIANT_NUMBER;
             }
-            if (!ParseCalcTerm(*storage, variantMask))
+            if (!ParseCalcTerm(storage, variantMask))
               return false;
             Debug.Assert(variantMask != 0,
                               "ParseCalcTerm did not set variantMask appropriately");
@@ -6965,7 +6965,7 @@ namespace Alba.CsCss.Style
               // Simplify the value immediately so we can check for division by
               // zero.
               var ops = new ReduceNumberCalcOps();
-              float number = ComputeCalc(*storage, ops);
+              float number = ComputeCalc(storage, ops);
               if (number == 0.0 && afterDivision)
                 return false;
               storage.SetFloatValue(number, nsCSSUnit.Number);
@@ -7612,9 +7612,9 @@ namespace Alba.CsCss.Style
               // the style parameters to the nsFont constructor are ignored,
               // because it's only being used to call EnumerateFamilies
               var font = new nsFont(family, 0, 0, 0, 0, 0, 0);
-              ExtractFirstFamilyData dat;
+              var dat = new ExtractFirstFamilyData();
         
-              font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
+              font.EnumerateFamilies(ExtractFirstFamily, (object) dat);
               if (!dat.mGood)
                 return false;
         
@@ -7634,7 +7634,7 @@ namespace Alba.CsCss.Style
             return false;
         
           nsCSSValue[] srcVals
-            = nsCSSValue[].Create(values.Length());
+            = new nsCSSValue[values.Length()];
         
           uint32_t i = 0;
           for (i = 0; i < values.Length(); i++)
@@ -7643,7 +7643,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseFontSrcFormat(List<nsCSSValue> & values)
+        internal bool ParseFontSrcFormat(List<nsCSSValue>  values)
         {
           if (!GetToken(true))
             return true; // EOF harmless here
@@ -7715,7 +7715,7 @@ namespace Alba.CsCss.Style
             return false;
         
           nsCSSValue[] srcVals
-            = nsCSSValue[].Create(ranges.Length());
+            = new nsCSSValue[ranges.Length()];
         
           for (uint32_t i = 0; i < ranges.Length(); i++)
             srcVals[i].SetIntValue(ranges[i], nsCSSUnit.Integer);
@@ -8180,7 +8180,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFunctionInternals(int32_t[] aVariantMask,
                                               uint16_t aMinElems,
                                               uint16_t aMaxElems,
-                                              List<nsCSSValue> &aOutput)
+                                              List<nsCSSValue> aOutput)
         {
           for (uint16_t index = 0; index < aMaxElems; ++index) {
             nsCSSValue newValue;
@@ -8225,12 +8225,11 @@ namespace Alba.CsCss.Style
                                      uint16_t aMinElems, uint16_t aMaxElems,
                                      nsCSSValue aValue)
         {
-          typedef List<nsCSSValue>.size_type arrlen_t;
         
           /* 2^16 - 2, so that if we have 2^16 - 2 transforms, we have 2^16 - 1
            * elements stored in the the nsCSSValue[].
            */
-          const arrlen_t MAX_ALLOWED_ELEMS = 0xFFFE;
+          const size_t MAX_ALLOWED_ELEMS = 0xFFFE;
         
           /* Make a copy of the function name, since the reference is _probably_ to
            * mToken.mIdentStr, which is going to get overwritten during the course of this
@@ -8254,12 +8253,12 @@ namespace Alba.CsCss.Style
           uint16_t numElements = (foundValues.Length() <= MAX_ALLOWED_ELEMS ?
                                   foundValues.Length() + 1 : MAX_ALLOWED_ELEMS);
           nsCSSValue[] convertedArray =
-            nsCSSValue[].Create(numElements);
+            new nsCSSValue[numElements];
         
           /* Copy things over. */
           convertedArray[0].SetStringValue(functionName, nsCSSUnit.Ident);
           for (uint16_t index = 0; index + 1 < numElements; ++index)
-            convertedArray.Item(index + 1) = foundValues[static_cast<arrlen_t>(index)];
+            convertedArray[index + 1] = foundValues[((size_t)(index))];
         
           /* Fill in the outparam value with the array. */
           aValue.SetArrayValue(convertedArray, nsCSSUnit.Function);
@@ -8484,7 +8483,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          const ref int32_t variantMask = 0;
+          int32_t[]  variantMask;
           uint16_t minElems, maxElems;
           nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
         
@@ -8750,7 +8749,7 @@ namespace Alba.CsCss.Style
         internal  ParseAnimationOrTransitionShorthandResult
         ParseAnimationOrTransitionShorthand(
                          nsCSSProperty[] aProperties,
-                         nsCSSValue aInitialValues,
+                         nsCSSValue[] aInitialValues,
                          nsCSSValue[] aValues,
                          size_t aNumProperties)
         {
@@ -8845,7 +8844,7 @@ namespace Alba.CsCss.Style
             // any keyword.
             nsCSSProperty.transition_property
           };
-          const uint32_t numProps = kTransitionProperties.Length;
+          uint32_t numProps = kTransitionProperties.Length;
           // this is a shorthand property that accepts -property, -delay,
           // -duration, and -timing-function with some components missing.
           // there can be multiple transitions, separated with commas
@@ -8925,7 +8924,7 @@ namespace Alba.CsCss.Style
             // 'animation-name' accepts any keyword.
             nsCSSProperty.animation_name
           };
-          const uint32_t numProps = kAnimationProperties.Length;
+          uint32_t numProps = kAnimationProperties.Length;
           // this is a shorthand property that accepts -property, -delay,
           // -duration, and -timing-function with some components missing.
           // there can be multiple animations, separated with commas
@@ -9194,7 +9193,7 @@ namespace Alba.CsCss.Style
           // we have enough space for the entire paint-order value.
         
           if (value.GetUnit() == nsCSSUnit.Enumerated) {
-            uint32_t component = static_cast<uint32_t>(value.GetIntValue());
+            uint32_t component = ((uint32_t)(value.GetIntValue()));
             if (component != nsStyle.PAINT_ORDER_NORMAL) {
               bool parsedOK = true;
               for (;;) {
@@ -9232,7 +9231,7 @@ namespace Alba.CsCss.Style
                 }
               }
             }
-            value.SetIntValue(static_cast<int32_t>(order), nsCSSUnit.Enumerated);
+            value.SetIntValue(((int32_t)(order)), nsCSSUnit.Enumerated);
           }
         
           if (!ExpectEndProperty()) {

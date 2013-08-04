@@ -250,7 +250,7 @@ namespace Alba.CsCss.Style
 
     internal class nsXMLNameSpaceMap
     {
-        public int FindNameSpaceID (nsIAtom prefix)
+        public int FindNameSpaceID (string prefix)
         {
             return 0;
         }
@@ -297,15 +297,6 @@ namespace Alba.CsCss.Style
     internal class nsIPrincipal
     {}
 
-    internal interface nsIAtom
-    {}
-
-    internal class nsAtom : nsIAtom
-    {
-        public nsAtom (string mIdentStr)
-        {}
-    }
-
     internal class nsAtomList
     {}
 
@@ -313,7 +304,9 @@ namespace Alba.CsCss.Style
     {
         public nsCSSSelector mNegations;
         public int mNameSpace;
-        public object mLowercaseTag, mIDList, mClassList, mAttrList, mPseudoClassList;
+        public string mLowercaseTag;
+        public object mIDList, mClassList, mAttrList, mPseudoClassList;
+        public nsCSSSelector mNext;
 
         public void AddID (string mIdent)
         {}
@@ -336,11 +329,27 @@ namespace Alba.CsCss.Style
         public void AddAttribute (int nameSpaceId, string attr, nsAttrFunc func, string value, bool isCaseSensitive)
         {}
 
-        public void AddPseudoClass (object pseudoClassType, string mIdentStr)
+        public void AddPseudoClass (nsCSSPseudoClass pseudoClassType, string mIdentStr)
+        {}
+
+        public void AddPseudoClass (nsCSSPseudoClass pseudoClassType, int[] mIdentStr)
+        {}
+
+        public void AddPseudoClass (nsCSSPseudoClass pseudoClassType, nsCSSSelectorList mIdentStr)
         {}
 
         public void SetPseudoType (object pseudoElementType)
         {}
+
+        public bool IsPseudoElement ()
+        {
+            return false;
+        }
+
+        public int CalcWeight ()
+        {
+            return 0;
+        }
     }
 
     internal class nsMediaExpression
@@ -436,6 +445,8 @@ namespace Alba.CsCss.Style
     internal class nsCSSSelectorList
     {
         public nsCSSSelectorList mNext;
+        public nsCSSSelector mSelectors;
+        public int mWeight;
 
         public nsCSSSelector AddSelector (char aPrevCombinator)
         {
@@ -617,6 +628,14 @@ namespace Alba.CsCss.Style
         {
             return null;
         }
+
+        public nsCSSValue[] InitFunction (nsCSSKeyword mozImageRect, int kNumArgs)
+        {
+            return null;
+        }
+
+        public void SetPairValue (nsCSSValuePair mXValue)
+        {}
     }
 
     internal class nsCSSValueGradient
