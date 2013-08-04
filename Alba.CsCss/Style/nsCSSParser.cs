@@ -312,6 +312,8 @@ namespace Alba.CsCss.Style
     internal class nsCSSSelector
     {
         public nsCSSSelector mNegations;
+        public int mNameSpace;
+        public object mLowercaseTag, mIDList, mClassList, mAttrList, mPseudoClassList;
 
         public void AddID (string mIdent)
         {}
@@ -460,6 +462,12 @@ namespace Alba.CsCss.Style
         public nsCSSValue (float auto, nsCSSUnit number)
         {}
 
+        public nsCSSValue (string mIdentStr, nsCSSUnit fontFormat)
+        {}
+
+        public nsCSSValue (nsCSSValue mIdentStr)
+        {}
+
         public nsCSSUnit GetUnit ()
         {
             return 0;
@@ -598,6 +606,16 @@ namespace Alba.CsCss.Style
         public static string BufferFromString (string str)
         {
             return str;
+        }
+
+        public string GetStringBufferValue ()
+        {
+            return null;
+        }
+
+        public nsCSSValue[] GetArrayValue ()
+        {
+            return null;
         }
     }
 
@@ -760,7 +778,10 @@ namespace Alba.CsCss.Style
     }
 
     internal class NameSpaceRule : Rule
-    {}
+    {
+        public NameSpaceRule (string prefix, string aUrlSpec)
+        {}
+    }
 
     internal class DocumentRule : GroupRule
     {

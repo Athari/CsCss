@@ -1195,11 +1195,11 @@ namespace Alba.CsCss.Style
                 // We don't bother with ParseNonNegativeVariant since we have to
                 // check for != 0 as well; no need to worry about the UngetToken
                 // since we're throwing out up to the next ')' anyway.
-                rv = ParseVariant(a.Item(0), VARIANT_INTEGER, null) &&
-                     a.Item(0).GetIntValue() > 0 &&
+                rv = ParseVariant(a[0], VARIANT_INTEGER, null) &&
+                     a[0].GetIntValue() > 0 &&
                      ExpectSymbol('/', true) &&
-                     ParseVariant(a.Item(1), VARIANT_INTEGER, null) &&
-                     a.Item(1).GetIntValue() > 0;
+                     ParseVariant(a[1], VARIANT_INTEGER, null) &&
+                     a[1].GetIntValue() > 0;
               }
               break;
             case nsMediaFeature.ValueType.Resolution:
@@ -2197,13 +2197,13 @@ namespace Alba.CsCss.Style
         
         static bool IsUniversalSelector(nsCSSSelector aSelector)
         {
-          return bool((aSelector.mNameSpace == nsNameSpace.Unknown) &&
+          return ((bool)((aSelector.mNameSpace == nsNameSpace.Unknown) &&
                         (aSelector.mLowercaseTag == null) &&
                         (aSelector.mIDList == null) &&
                         (aSelector.mClassList == null) &&
                         (aSelector.mAttrList == null) &&
                         (aSelector.mNegations == null) &&
-                        (aSelector.mPseudoClassList == null));
+                        (aSelector.mPseudoClassList == null)));
         }
         
         internal bool ParseSelectorGroup(ref nsCSSSelectorList aList)
@@ -2541,7 +2541,7 @@ namespace Alba.CsCss.Style
                   // one of the known attributes whose VALUE is
                   // case-insensitive.
                   if (nameSpaceID == nsNameSpace.None) {
-                    static string[] caseInsensitiveHTMLAttribute = new string[] {
+                    /*TODO: static*/ string[] caseInsensitiveHTMLAttribute = {
                       // list based on http://www.w3.org/TR/html4/
                       "lang",
                       "dir",
@@ -2884,7 +2884,7 @@ namespace Alba.CsCss.Style
           // thing we need to change to support that is this parsing code and the
           // serialization code for nsCSSSelector.
           nsCSSSelector newSel = new nsCSSSelector();
-          nsCSSSelector negations = &aSelector;
+          nsCSSSelector negations = aSelector;
           while (negations.mNegations) {
             negations = negations.mNegations;
           }
@@ -2975,7 +2975,7 @@ namespace Alba.CsCss.Style
         internal nsSelectorParsingStatus ParsePseudoClassWithNthPairArg(nsCSSSelector aSelector,
                                                       nsCSSPseudoClass aType)
         {
-          int32_t numbers[2] = { 0, 0 };
+          int32_t[] numbers = { 0, 0 };
           bool lookForB = true;
         
           // Follow the whitespace rules as proposed in
@@ -3297,7 +3297,7 @@ namespace Alba.CsCss.Style
             case nsCSSTokenType.Function:
               if (mToken.mIdentStr.LowerCaseEqualsLiteral("rgb")) {
                 // rgb ( component , component , component )
-                uint8_t r, g, b;
+                uint8_t r = 0, g = 0, b = 0, a = 0;
                 int32_t type = COLOR_TYPE_UNKNOWN;
                 if (ParseColorComponent(ref r, ref type, ',') &&
                     ParseColorComponent(ref g, ref type, ',') &&
@@ -3311,7 +3311,7 @@ namespace Alba.CsCss.Style
               else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-rgba") ||
                        mToken.mIdentStr.LowerCaseEqualsLiteral("rgba")) {
                 // rgba ( component , component , component , opacity )
-                uint8_t r, g, b, a;
+                uint8_t r = 0, g = 0, b = 0, a = 0;
                 int32_t type = COLOR_TYPE_UNKNOWN;
                 if (ParseColorComponent(ref r, ref type, ',') &&
                     ParseColorComponent(ref g, ref type, ',') &&
@@ -4231,7 +4231,7 @@ namespace Alba.CsCss.Style
             nsCSSValue[] val =
               nsCSSValue[].Create(unit == nsCSSUnit.Counter ? 2 : 3);
         
-            val.Item(0).SetStringValue(mToken.mIdentStr, nsCSSUnit.Ident);
+            val[0].SetStringValue(mToken.mIdentStr, nsCSSUnit.Ident);
         
             if (nsCSSUnit.Counters == unit) {
               // must have a comma and then a separator string
@@ -4242,7 +4242,7 @@ namespace Alba.CsCss.Style
                 UngetToken();
                 break;
               }
-              val.Item(1).SetStringValue(mToken.mIdentStr, nsCSSUnit.String);
+              val[1].SetStringValue(mToken.mIdentStr, nsCSSUnit.String);
             }
         
             // get optional type
@@ -4263,7 +4263,7 @@ namespace Alba.CsCss.Style
             }
         
             int32_t typeItem = nsCSSUnit.Counters == unit ? 2 : 1;
-            val.Item(typeItem).SetIntValue(type, nsCSSUnit.Enumerated);
+            val[typeItem].SetIntValue(type, nsCSSUnit.Enumerated);
         
             if (!ExpectSymbol(')', true)) {
               break;
@@ -4371,12 +4371,12 @@ namespace Alba.CsCss.Style
             nsCSSValue[]* func =
               newFunction.InitFunction(nsCSSKeyword._moz_image_rect, kNumArgs);
         
-            // func.Item(0) is reserved for the function name.
-            nsCSSValue url    = func.Item(1);
-            nsCSSValue top    = func.Item(2);
-            nsCSSValue right  = func.Item(3);
-            nsCSSValue bottom = func.Item(4);
-            nsCSSValue left   = func.Item(5);
+            // func[0] is reserved for the function name.
+            nsCSSValue url    = func[1];
+            nsCSSValue top    = func[2];
+            nsCSSValue right  = func[3];
+            nsCSSValue bottom = func[4];
+            nsCSSValue left   = func[5];
         
             string urlString = "";
             if (!ParseURLOrString(ref urlString) ||
@@ -4908,7 +4908,7 @@ namespace Alba.CsCss.Style
               for (index = 0; index < aNumIDs; index++) {
                 int32_t bit = 1 << index;
                 if ((found & bit) == 0) {
-                  if (ParseSingleValueProperty(aValues[index], aPropIDs[index])) {
+                  if (ParseSingleValueProperty(aValues[index], aPropIDs[(int)index])) {
                     found |= bit;
                     // It's more efficient to break since it will reset |hadFound|
                     // to |found|.  Furthermore, ParseListStyle depends on our going
@@ -4970,7 +4970,7 @@ namespace Alba.CsCss.Style
           var result = new nsCSSRect();
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
             if (! ParseSingleValueProperty(result[index],
-                                           aPropIDs[index])) {
+                                           aPropIDs[(int)index])) {
               break;
             }
             count++;
@@ -5001,7 +5001,7 @@ namespace Alba.CsCss.Style
           }
         
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
-            AppendValue(aPropIDs[index], result[index]);
+            AppendValue(aPropIDs[(int)index], result[index]);
           }
           return true;
         }
@@ -5087,7 +5087,7 @@ namespace Alba.CsCss.Style
           // Rectangles are used as scratch storage.
           // top => top-left, right => top-right,
           // bottom => bottom-right, left => bottom-left.
-          nsCSSRect dimenX, dimenY;
+          nsCSSRect dimenX = new nsCSSRect(), dimenY = new nsCSSRect();
           int32_t countX = 0, countY = 0;
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
@@ -5149,11 +5149,11 @@ namespace Alba.CsCss.Style
             nsCSSValue y = dimenY[side];
         
             if (x == y) {
-              AppendValue(aPropIDs[side], x);
+              AppendValue(aPropIDs[(int)side], x);
             } else {
               nsCSSValue pair;
               pair.SetPairValue(x, y);
-              AppendValue(aPropIDs[side], pair);
+              AppendValue(aPropIDs[(int)side], pair);
             }
           }
           return true;
@@ -5735,8 +5735,8 @@ namespace Alba.CsCss.Style
                                              nsCSSUnit.Enumerated);
           nsCSSValue[] positionArr = new nsCSSValue[4];
           aState.mPosition.mValue.SetArrayValue(positionArr, nsCSSUnit.Array);
-          positionArr.Item(1).SetPercentValue(0.0f);
-          positionArr.Item(3).SetPercentValue(0.0f);
+          positionArr[1].SetPercentValue(0.0f);
+          positionArr[3].SetPercentValue(0.0f);
           aState.mSize.mXValue.SetAutoValue();
           aState.mSize.mYValue.SetAutoValue();
         
@@ -6048,7 +6048,7 @@ namespace Alba.CsCss.Style
         {
           // First try a percentage or a length value
           nsCSSValue xValue = aOut.mXValue,
-                     &yValue = aOut.mYValue;
+                     yValue = aOut.mYValue;
           int32_t variantMask =
             (aAcceptsInherit ? VARIANT_INHERIT : 0) | VARIANT_LP | VARIANT_CALC;
           if (ParseVariant(xValue, variantMask, null)) {
@@ -6143,15 +6143,15 @@ namespace Alba.CsCss.Style
           aOut.SetArrayValue(value, nsCSSUnit.Array);
         
           // The following clarifies organisation of the array.
-          nsCSSValue xEdge   = value.Item(0),
-                     &xOffset = value.Item(1),
-                     &yEdge   = value.Item(2),
-                     &yOffset = value.Item(3);
+          nsCSSValue xEdge   = value[0],
+                     xOffset = value[1],
+                     yEdge   = value[2],
+                     yOffset = value[3];
         
           // Parse all the values into the array.
           uint32_t valueCount = 0;
           for (int32_t i = 0; i < 4; i++) {
-            if (!ParseVariant(value.Item(i), VARIANT_LPCALC | VARIANT_KEYWORD,
+            if (!ParseVariant(value[i], VARIANT_LPCALC | VARIANT_KEYWORD,
                               nsCSSProps.kBackgroundPositionKTable)) {
               break;
             }
@@ -6177,38 +6177,38 @@ namespace Alba.CsCss.Style
               // represents an offset and must be preceded by a keyword, which specifies
               // from which edge the offset is given." ... "If three values are given,
               // the missing offset is assumed to be zero."
-              if (nsCSSUnit.Enumerated != value.Item(1).GetUnit()) {
+              if (nsCSSUnit.Enumerated != value[1].GetUnit()) {
                 // keyword offset keyword
                 // Second value is non-keyword, thus first value must be a non-center
                 // keyword.
-                if (nsCSSUnit.Enumerated != value.Item(0).GetUnit() ||
-                    BG_CENTER == value.Item(0).GetIntValue()) {
+                if (nsCSSUnit.Enumerated != value[0].GetUnit() ||
+                    BG_CENTER == value[0].GetIntValue()) {
                   return false;
                 }
         
                 // Remaining value must be a keyword.
-                if (nsCSSUnit.Enumerated != value.Item(2).GetUnit()) {
+                if (nsCSSUnit.Enumerated != value[2].GetUnit()) {
                   return false;
                 }
         
                 yOffset.Reset(); // Everything else is in the correct position.
-              } else if (nsCSSUnit.Enumerated != value.Item(2).GetUnit()) {
+              } else if (nsCSSUnit.Enumerated != value[2].GetUnit()) {
                 // keyword keyword offset
                 // Third value is non-keyword, thus second value must be non-center
                 // keyword.
-                if (BG_CENTER == value.Item(1).GetIntValue()) {
+                if (BG_CENTER == value[1].GetIntValue()) {
                   return false;
                 }
         
                 // Remaining value must be a keyword.
-                if (nsCSSUnit.Enumerated != value.Item(0).GetUnit()) {
+                if (nsCSSUnit.Enumerated != value[0].GetUnit()) {
                   return false;
                 }
         
                 // Move the values to the correct position in the array.
-                value.Item(3) = value.Item(2); // yOffset
-                value.Item(2) = value.Item(1); // yEdge
-                value.Item(1).Reset(); // xOffset
+                value[3] = value[2]; // yOffset
+                value[2] = value[1]; // yEdge
+                value[1].Reset(); // xOffset
               } else {
                 return false;
               }
@@ -6217,37 +6217,37 @@ namespace Alba.CsCss.Style
               // "If two values are given and at least one value is not a keyword, then
               // the first value represents the horizontal position (or offset) and the
               // second represents the vertical position (or offset)"
-              if (nsCSSUnit.Enumerated == value.Item(0).GetUnit()) {
-                if (nsCSSUnit.Enumerated == value.Item(1).GetUnit()) {
+              if (nsCSSUnit.Enumerated == value[0].GetUnit()) {
+                if (nsCSSUnit.Enumerated == value[1].GetUnit()) {
                   // keyword keyword
-                  value.Item(2) = value.Item(1); // move yEdge to correct position
+                  value[2] = value[1]; // move yEdge to correct position
                   xOffset.Reset();
                   yOffset.Reset();
                 } else {
                   // keyword offset
                   // First value must represent horizontal position.
-                  if ((BG_TOP | BG_BOTTOM) & value.Item(0).GetIntValue()) {
+                  if ((BG_TOP | BG_BOTTOM) & value[0].GetIntValue()) {
                     return false;
                   }
-                  value.Item(3) = value.Item(1); // move yOffset to correct position
+                  value[3] = value[1]; // move yOffset to correct position
                   xOffset.Reset();
                   yEdge.Reset();
                 }
               } else {
-                if (nsCSSUnit.Enumerated == value.Item(1).GetUnit()) {
+                if (nsCSSUnit.Enumerated == value[1].GetUnit()) {
                   // offset keyword
                   // Second value must represent vertical position.
-                  if ((BG_LEFT | BG_RIGHT) & value.Item(1).GetIntValue()) {
+                  if ((BG_LEFT | BG_RIGHT) & value[1].GetIntValue()) {
                     return false;
                   }
-                  value.Item(2) = value.Item(1); // move yEdge to correct position
-                  value.Item(1) = value.Item(0); // move xOffset to correct position
+                  value[2] = value[1]; // move yEdge to correct position
+                  value[1] = value[0]; // move xOffset to correct position
                   xEdge.Reset();
                   yOffset.Reset();
                 } else {
                   // offset offset
-                  value.Item(3) = value.Item(1); // move yOffset to correct position
-                  value.Item(1) = value.Item(0); // move xOffset to correct position
+                  value[3] = value[1]; // move yOffset to correct position
+                  value[1] = value[0]; // move xOffset to correct position
                   xEdge.Reset();
                   yEdge.Reset();
                 }
@@ -6256,10 +6256,10 @@ namespace Alba.CsCss.Style
             case 1:
               // "If only one value is specified, the second value is assumed to be
               // center."
-              if (nsCSSUnit.Enumerated == value.Item(0).GetUnit()) {
+              if (nsCSSUnit.Enumerated == value[0].GetUnit()) {
                 xOffset.Reset();
               } else {
-                value.Item(1) = value.Item(0); // move xOffset to correct position
+                value[1] = value[0]; // move xOffset to correct position
                 xEdge.Reset();
               }
               yEdge.SetIntValue(nsStyle.BG_POSITION_CENTER, nsCSSUnit.Enumerated);
@@ -6359,7 +6359,7 @@ namespace Alba.CsCss.Style
         {
           // First try a percentage or a length value
           nsCSSValue xValue = aOut.mXValue,
-                     &yValue = aOut.mYValue;
+                     yValue = aOut.mYValue;
           if (ParseNonNegativeVariant(xValue, BG_SIZE_VARIANT, null)) {
             // We have one percentage/length/calc/auto. Get the optional second
             // percentage/length/calc/keyword.
@@ -6383,7 +6383,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderColor()
         {
-          static nsCSSProperty[] kBorderColorSources = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kBorderColorSources = {
             nsCSSProperty.border_left_color_ltr_source,
             nsCSSProperty.border_left_color_rtl_source,
             nsCSSProperty.border_right_color_ltr_source,
@@ -6692,7 +6692,7 @@ namespace Alba.CsCss.Style
           }
         
           if (aSetAllSides) {
-            static nsCSSProperty[] kBorderSources = new nsCSSProperty[] {
+            /*TODO: static*/ nsCSSProperty[] kBorderSources = {
               nsCSSProperty.border_left_color_ltr_source,
               nsCSSProperty.border_left_color_rtl_source,
               nsCSSProperty.border_right_color_ltr_source,
@@ -6718,7 +6718,7 @@ namespace Alba.CsCss.Style
               AppendValue(kBorderColorIDs[index], values[2]);
             }
         
-            static nsCSSProperty[] kBorderColorsProps = new nsCSSProperty[] {
+            /*TODO: static*/ nsCSSProperty[] kBorderColorsProps = {
               nsCSSProperty.border_top_colors,
               nsCSSProperty.border_right_colors,
               nsCSSProperty.border_bottom_colors,
@@ -6745,13 +6745,13 @@ namespace Alba.CsCss.Style
               break;
             }
             for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-              AppendValue(kBorderColorsProps[side], extraValue);
+              AppendValue(kBorderColorsProps[(int)side], extraValue);
             }
           }
           else {
             // Just set our one side
             for (int32_t index = 0; index < numProps; index++) {
-              AppendValue(aPropIDs[index], values[index]);
+              AppendValue(aPropIDs[(int)index], values[index]);
             }
           }
           return true;
@@ -6792,7 +6792,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderStyle()
         {
-          static nsCSSProperty[] kBorderStyleSources = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kBorderStyleSources = {
             nsCSSProperty.border_left_style_ltr_source,
             nsCSSProperty.border_left_style_rtl_source,
             nsCSSProperty.border_right_style_ltr_source,
@@ -6807,7 +6807,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseBorderWidth()
         {
-          static nsCSSProperty[] kBorderWidthSources = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kBorderWidthSources = {
             nsCSSProperty.border_left_width_ltr_source,
             nsCSSProperty.border_left_width_rtl_source,
             nsCSSProperty.border_right_width_ltr_source,
@@ -6864,7 +6864,7 @@ namespace Alba.CsCss.Style
             // The toplevel of a calc() is always an nsCSSValue[] of length 1.
             nsCSSValue[] arr = new nsCSSValue[1];
         
-            if (!ParseCalcAdditiveExpression(arr.Item(0), aVariantMask))
+            if (!ParseCalcAdditiveExpression(arr[0], aVariantMask))
               break;
         
             if (!ExpectSymbol(')', true))
@@ -6897,7 +6897,7 @@ namespace Alba.CsCss.Style
                                                    ref int32_t aVariantMask)
         {
           Debug.Assert(aVariantMask != 0, "unexpected variant mask");
-          nsCSSValue storage = &aValue;
+          nsCSSValue storage = aValue;
           for (;;) {
             bool haveWS = false;
             if (!ParseCalcMultiplicativeExpression(*storage, aVariantMask, ref haveWS))
@@ -6918,8 +6918,8 @@ namespace Alba.CsCss.Style
               return false;
         
             nsCSSValue[] arr = new nsCSSValue[2];
-            arr.Item(0) = aValue;
-            storage = &arr.Item(1);
+            arr[0] = aValue;
+            storage = arr[1];
             aValue.SetArrayValue(arr, unit);
           }
         }
@@ -6945,7 +6945,7 @@ namespace Alba.CsCss.Style
           bool gotValue = false; // already got the part with the unit
           bool afterDivision = false;
         
-          nsCSSValue storage = &aValue;
+          nsCSSValue storage = aValue;
           for (;;) {
             int32_t variantMask = 0;
             if (afterDivision || gotValue) {
@@ -6972,10 +6972,10 @@ namespace Alba.CsCss.Style
             } else {
               gotValue = true;
         
-              if (storage != &aValue) {
+              if (storage != aValue) {
                 // Simplify any numbers in the Times_L position (which are
                 // not simplified by the check above).
-                Debug.Assert(storage == &aValue.GetArrayValue().Item(1),
+                Debug.Assert(storage == aValue.GetArrayValue().Item(1),
                                   "unexpected relationship to current storage");
                 nsCSSValue leftValue = aValue.GetArrayValue().Item(0);
                 var ops = new ReduceNumberCalcOps();
@@ -6986,7 +6986,7 @@ namespace Alba.CsCss.Style
         
             bool hadWS = RequireWhitespace();
             if (!GetToken(false)) {
-              *aHadFinalWS = hadWS;
+              aHadFinalWS = hadWS;
               break;
             }
             nsCSSUnit unit = 0;
@@ -6998,13 +6998,13 @@ namespace Alba.CsCss.Style
               afterDivision = true;
             } else {
               UngetToken();
-              *aHadFinalWS = hadWS;
+              aHadFinalWS = hadWS;
               break;
             }
         
             nsCSSValue[] arr = new nsCSSValue[2];
-            arr.Item(0) = aValue;
-            storage = &arr.Item(1);
+            arr[0] = aValue;
+            storage = arr[1];
             aValue.SetArrayValue(arr, unit);
           }
         
@@ -7163,7 +7163,7 @@ namespace Alba.CsCss.Style
           // If the fake "auto" value is found, and one of the real values isn't,
           // that means the fake auto value is meant for the real value we didn't
           // find.
-          static nsCSSProperty[] columnIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] columnIDs = {
             nsCSSProperty.Extra_x_auto_value,
             nsCSSProperty._moz_column_count,
             nsCSSProperty._moz_column_width
@@ -7305,12 +7305,12 @@ namespace Alba.CsCss.Style
         
               // We have a URL, so make a value array with three values.
               nsCSSValue[] val = new nsCSSValue[3];
-              val.Item(0) = cur.mValue;
+              val[0] = cur.mValue;
         
               // Parse optional x and y position of cursor hotspot (css3-ui).
-              if (ParseVariant(val.Item(1), VARIANT_NUMBER, null)) {
+              if (ParseVariant(val[1], VARIANT_NUMBER, null)) {
                 // If we have one number, we must have two.
-                if (!ParseVariant(val.Item(2), VARIANT_NUMBER, null)) {
+                if (!ParseVariant(val[2], VARIANT_NUMBER, null)) {
                   return false;
                 }
               }
@@ -7329,7 +7329,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseFont()
         {
-          static nsCSSProperty[] fontIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] fontIDs = {
             nsCSSProperty.font_style,
             nsCSSProperty.font_variant,
             nsCSSProperty.font_weight
@@ -7578,7 +7578,7 @@ namespace Alba.CsCss.Style
         internal bool ParseFontSrc(nsCSSValue aValue)
         {
           // could we maybe turn nsCSSValue[] into List<nsCSSValue>?
-          List<nsCSSValue> values;
+          var values = new List<nsCSSValue>();
           nsCSSValue cur;
           for (;;) {
             if (!GetToken(true))
@@ -7638,7 +7638,7 @@ namespace Alba.CsCss.Style
         
           uint32_t i = 0;
           for (i = 0; i < values.Length(); i++)
-            srcVals.Item(i) = values[i];
+            srcVals[i] = values[i];
           aValue.SetArrayValue(srcVals, nsCSSUnit.Array);
           return true;
         }
@@ -7678,7 +7678,7 @@ namespace Alba.CsCss.Style
         // font-ranges: urange ( ',' urange )*
         internal bool ParseFontRanges(nsCSSValue aValue)
         {
-          List<uint32_t> ranges;
+          var ranges = new List<uint32_t>();
           for (;;) {
             if (!GetToken(true))
               break;
@@ -7718,7 +7718,7 @@ namespace Alba.CsCss.Style
             = nsCSSValue[].Create(ranges.Length());
         
           for (uint32_t i = 0; i < ranges.Length(); i++)
-            srcVals.Item(i).SetIntValue(ranges[i], nsCSSUnit.Integer);
+            srcVals[i].SetIntValue(ranges[i], nsCSSUnit.Integer);
           aValue.SetArrayValue(srcVals, nsCSSUnit.Array);
           return true;
         }
@@ -7808,7 +7808,7 @@ namespace Alba.CsCss.Style
           // 'none' as the value of either but still allow another value for
           // either, we need to ensure that the first 'none' we find gets
           // allocated to a dummy property instead.
-          static nsCSSProperty[] listStyleIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] listStyleIDs = {
             nsCSSProperty.Extra_x_none_value,
             nsCSSProperty.list_style_type,
             nsCSSProperty.list_style_position,
@@ -7860,13 +7860,13 @@ namespace Alba.CsCss.Style
         
         internal bool ParseMargin()
         {
-          static nsCSSProperty[] kMarginSideIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kMarginSideIDs = {
             nsCSSProperty.margin_top,
             nsCSSProperty.margin_right_value,
             nsCSSProperty.margin_bottom,
             nsCSSProperty.margin_left_value
           };
-          static nsCSSProperty[] kMarginSources = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kMarginSources = {
             nsCSSProperty.margin_left_ltr_source,
             nsCSSProperty.margin_left_rtl_source,
             nsCSSProperty.margin_right_ltr_source,
@@ -7905,7 +7905,7 @@ namespace Alba.CsCss.Style
         internal bool ParseOutline()
         {
           const int32_t numProps = 3;
-          static nsCSSProperty[] kOutlineIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kOutlineIDs = {
             nsCSSProperty.outline_color,
             nsCSSProperty.outline_style,
             nsCSSProperty.outline_width
@@ -7963,13 +7963,13 @@ namespace Alba.CsCss.Style
         
         internal bool ParsePadding()
         {
-          static nsCSSProperty[] kPaddingSideIDs = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kPaddingSideIDs = {
             nsCSSProperty.padding_top,
             nsCSSProperty.padding_right_value,
             nsCSSProperty.padding_bottom,
             nsCSSProperty.padding_left_value
           };
-          static nsCSSProperty[] kPaddingSources = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kPaddingSources = {
             nsCSSProperty.padding_left_ltr_source,
             nsCSSProperty.padding_left_rtl_source,
             nsCSSProperty.padding_right_ltr_source,
@@ -8241,7 +8241,7 @@ namespace Alba.CsCss.Style
           /* Read in a list of values as an array, failing if we can't or if
            * it's out of bounds.
            */
-          List<nsCSSValue> foundValues;
+          var foundValues = new List<nsCSSValue>();
           if (!ParseFunctionInternals(aAllowedTypes, aMinElems, aMaxElems,
                                       foundValues))
             return false;
@@ -8257,7 +8257,7 @@ namespace Alba.CsCss.Style
             nsCSSValue[].Create(numElements);
         
           /* Copy things over. */
-          convertedArray.Item(0).SetStringValue(functionName, nsCSSUnit.Ident);
+          convertedArray[0].SetStringValue(functionName, nsCSSUnit.Ident);
           for (uint16_t index = 0; index + 1 < numElements; ++index)
             convertedArray.Item(index + 1) = foundValues[static_cast<arrlen_t>(index)];
         
@@ -8538,8 +8538,8 @@ namespace Alba.CsCss.Style
           } else {
             nsCSSValueList cur = value.SetListValue();
             for (;;) {
-              bool is3D;
-              if (!ParseSingleTransform(aIsPrefixed, cur.mValue, is3D)) {
+              bool is3D = false;
+              if (!ParseSingleTransform(aIsPrefixed, cur.mValue, ref is3D)) {
                 return false;
               }
               if (is3D && !nsLayoutUtils.Are3DTransformsEnabled()) {
@@ -8649,7 +8649,7 @@ namespace Alba.CsCss.Style
         
           nsCSSValue[] val = new nsCSSValue[4];
         
-          float x1, x2, y1, y2;
+          float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
           if (!ParseTransitionTimingFunctionValueComponent(ref x1, ',', true) ||
               !ParseTransitionTimingFunctionValueComponent(ref y1, ',', false) ||
               !ParseTransitionTimingFunctionValueComponent(ref x2, ',', true) ||
@@ -8657,10 +8657,10 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          val.Item(0).SetFloatValue(x1, nsCSSUnit.Number);
-          val.Item(1).SetFloatValue(y1, nsCSSUnit.Number);
-          val.Item(2).SetFloatValue(x2, nsCSSUnit.Number);
-          val.Item(3).SetFloatValue(y2, nsCSSUnit.Number);
+          val[0].SetFloatValue(x1, nsCSSUnit.Number);
+          val[1].SetFloatValue(y1, nsCSSUnit.Number);
+          val[2].SetFloatValue(x2, nsCSSUnit.Number);
+          val[3].SetFloatValue(y2, nsCSSUnit.Number);
         
           aValue.SetArrayValue(val, nsCSSUnit.Cubic_Bezier);
         
@@ -8697,7 +8697,7 @@ namespace Alba.CsCss.Style
         
           nsCSSValue[] val = new nsCSSValue[2];
         
-          if (!ParseOneOrLargerVariant(val.Item(0), VARIANT_INTEGER, null)) {
+          if (!ParseOneOrLargerVariant(val[0], VARIANT_INTEGER, null)) {
             return false;
           }
         
@@ -8719,7 +8719,7 @@ namespace Alba.CsCss.Style
               return false;
             }
           }
-          val.Item(1).SetIntValue(type, nsCSSUnit.Enumerated);
+          val[1].SetIntValue(type, nsCSSUnit.Enumerated);
         
           if (!ExpectSymbol(')', true)) {
             return false;
@@ -8832,7 +8832,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseTransition()
         {
-          static nsCSSProperty[] kTransitionProperties = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kTransitionProperties = {
             nsCSSProperty.transition_duration,
             nsCSSProperty.transition_timing_function,
             // Must check 'transition-delay' after 'transition-duration', since
@@ -8908,7 +8908,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseAnimation()
         {
-          static nsCSSProperty[] kAnimationProperties = new nsCSSProperty[] {
+          /*TODO: static*/ nsCSSProperty[] kAnimationProperties = {
             nsCSSProperty.animation_duration,
             nsCSSProperty.animation_timing_function,
             // Must check 'animation-delay' after 'animation-duration', since
@@ -8972,7 +8972,7 @@ namespace Alba.CsCss.Style
         
           if (aIsBoxShadow) {
             // Optional inset keyword (ignore errors)
-            ParseVariant(val.Item(IndexInset), VARIANT_KEYWORD,
+            ParseVariant(val[IndexInset], VARIANT_KEYWORD,
                          nsCSSProps.kBoxShadowTypeKTable);
           }
         
@@ -8983,25 +8983,25 @@ namespace Alba.CsCss.Style
             return false;
           }
           if (xOrColor.IsLengthUnit() || xOrColor.IsCalcUnit()) {
-            val.Item(IndexX) = xOrColor;
+            val[IndexX] = xOrColor;
           } else {
             // Must be a color (as string or color value)
             Debug.Assert(xOrColor.GetUnit() == nsCSSUnit.Ident ||
                          xOrColor.GetUnit() == nsCSSUnit.Color ||
                          xOrColor.GetUnit() == nsCSSUnit.EnumColor,
                          "Must be a color value");
-            val.Item(IndexColor) = xOrColor;
+            val[IndexColor] = xOrColor;
             haveColor = true;
         
             // X coordinate mandatory after color
-            if (!ParseVariant(val.Item(IndexX), VARIANT_LENGTH | VARIANT_CALC,
+            if (!ParseVariant(val[IndexX], VARIANT_LENGTH | VARIANT_CALC,
                               null)) {
               return false;
             }
           }
         
           // Y coordinate; mandatory
-          if (!ParseVariant(val.Item(IndexY), VARIANT_LENGTH | VARIANT_CALC,
+          if (!ParseVariant(val[IndexY], VARIANT_LENGTH | VARIANT_CALC,
                             null)) {
             return false;
           }
@@ -9010,26 +9010,26 @@ namespace Alba.CsCss.Style
           // value which we must reject. If we use ParseNonNegativeVariant
           // we can't tell the difference between an unspecified radius
           // and a negative radius.
-          if (ParseVariant(val.Item(IndexRadius), VARIANT_LENGTH | VARIANT_CALC,
+          if (ParseVariant(val[IndexRadius], VARIANT_LENGTH | VARIANT_CALC,
                            null) &&
-              val.Item(IndexRadius).IsLengthUnit() &&
-              val.Item(IndexRadius).GetFloatValue() < 0) {
+              val[IndexRadius].IsLengthUnit() &&
+              val[IndexRadius].GetFloatValue() < 0) {
             return false;
           }
         
           if (aIsBoxShadow) {
             // Optional spread
-            ParseVariant(val.Item(IndexSpread), VARIANT_LENGTH | VARIANT_CALC, null);
+            ParseVariant(val[IndexSpread], VARIANT_LENGTH | VARIANT_CALC, null);
           }
         
           if (!haveColor) {
             // Optional color
-            ParseVariant(val.Item(IndexColor), VARIANT_COLOR, null);
+            ParseVariant(val[IndexColor], VARIANT_COLOR, null);
           }
         
-          if (aIsBoxShadow && val.Item(IndexInset).GetUnit() == nsCSSUnit.Null) {
+          if (aIsBoxShadow && val[IndexInset].GetUnit() == nsCSSUnit.Null) {
             // Optional inset keyword
-            ParseVariant(val.Item(IndexInset), VARIANT_KEYWORD,
+            ParseVariant(val[IndexInset], VARIANT_KEYWORD,
                          nsCSSProps.kBoxShadowTypeKTable);
           }
         
@@ -9146,7 +9146,7 @@ namespace Alba.CsCss.Style
                 break;
               }
               // skip optional commas between elements
-              (void)ExpectSymbol(',', true);
+              ExpectSymbol(',', true);
         
               cur.mNext = new nsCSSValueList();
               cur = cur.mNext;
