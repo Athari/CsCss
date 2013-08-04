@@ -285,7 +285,13 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?<Type>\w+) (?<Var>a\w+)\[\]", "${Type}[] ${Var}") // array args
             .ReReplace(@"static const", "const")
             .ReReplace(@"if \((\w+) & (\w+)\)", "if (($1 & $2) != 0)")
-            .ReReplace(@"// fall through(?<Space>\s+)(?<Case>default|case .*):", "goto ${Case};${Space}${Case}:")
+            .ReReplace(@"(?nx)
+                            (?<!(
+                                switch\ ?\(.*\)\ ?{(\ *//.*)? | case\ .*: | default: | break; | return\ [^;]*;
+                            )\s+)
+                            (?<Space> \ + )
+                            (?<Case> default | case\ .* ):",
+                        "${Space}  goto ${Case};\n${Space}${Case}:") // add explicit goto statements to switch fall-throughs
             //.ReReplace(@"\) const\n", ")\n") // const functions
             //.ReReplace(@"inline", "")
             .ReReplace(@"(u?int\d+_t|double)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style
@@ -293,6 +299,9 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?i)\b(\d)+u\b", "$1") // no suffix for ushort
             .ReReplace(@"->", ".")
             .ReReplace(@"::", ".")
+
+            // specific common fixes
+            .ReReplace(@"goto case nsCSSFontDesc.Family;", "")
 
             // common preprocessor
             .ReReplace(@"#(include|define|undef|pragma) .*", "")

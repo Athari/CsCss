@@ -1678,6 +1678,7 @@ namespace Alba.CsCss.Style
                   value = 1.0f;
                   break;
                 }
+                // fall through
                 goto default;
               default:
                 UngetToken();
@@ -4837,6 +4838,7 @@ namespace Alba.CsCss.Style
               haveGradientLine = true;
               break;
             }
+            // fall through
             goto case nsCSSTokenType.ID;
           case nsCSSTokenType.ID:
           case nsCSSTokenType.Hash:
@@ -4855,6 +4857,7 @@ namespace Alba.CsCss.Style
             break;
           }
         
+            goto default;
           default:
             // error
             break;
@@ -4989,8 +4992,10 @@ namespace Alba.CsCss.Style
           switch (count) {
             case 1: // Make right == top
               result.mRight = result.mTop;
+              goto case 2;
             case 2: // Make bottom == top
               result.mBottom = result.mTop;
+              goto case 3;
             case 3: // Make left == right
               result.mLeft = result.mRight;
           }
@@ -5025,8 +5030,10 @@ namespace Alba.CsCss.Style
           switch (count) {
             case 1: // Make right == top
               result.mRight = result.mTop;
+              goto case 2;
             case 2: // Make bottom == top
               result.mBottom = result.mTop;
+              goto case 3;
             case 3: // Make left == right
               result.mLeft = result.mRight;
           }
@@ -5123,13 +5130,17 @@ namespace Alba.CsCss.Style
           // Provide missing values by replicating some of the values found
           switch (countX) {
             case 1: dimenX.mRight = dimenX.mTop;  // top-right same as top-left, and
+              goto case 2;
             case 2: dimenX.mBottom = dimenX.mTop; // bottom-right same as top-left, and 
+              goto case 3;
             case 3: dimenX.mLeft = dimenX.mRight; // bottom-left same as top-right
           }
         
           switch (countY) {
             case 1: dimenY.mRight = dimenY.mTop;  // top-right same as top-left, and
+              goto case 2;
             case 2: dimenY.mBottom = dimenY.mTop; // bottom-right same as top-left, and 
+              goto case 3;
             case 3: dimenY.mLeft = dimenY.mRight; // bottom-left same as top-right
           }
         
@@ -5203,10 +5214,12 @@ namespace Alba.CsCss.Style
               result = false;
               break;
             }
+              goto case nsCSSProps.PARSE_FUNCTION;
             case nsCSSProps.PARSE_FUNCTION: {
               result = ParsePropertyByFunction(aPropID);
               break;
             }
+              goto case nsCSSProps.PARSE_VALUE;
             case nsCSSProps.PARSE_VALUE: {
               result = false;
               nsCSSValue value;
@@ -5220,10 +5233,12 @@ namespace Alba.CsCss.Style
               // XXX Report errors?
               break;
             }
+              goto case nsCSSProps.PARSE_VALUE_LIST;
             case nsCSSProps.PARSE_VALUE_LIST: {
               result = ParseValueList(aPropID);
               break;
             }
+              goto default;
             default: {
               result = false;
               Debug.Assert(false,
@@ -5361,9 +5376,11 @@ namespace Alba.CsCss.Style
           case nsCSSProperty.cursor:
             return ParseCursor();
         #if MOZ_FLEXBOX
+            goto case nsCSSProperty.flex;
           case nsCSSProperty.flex:
             return ParseFlex();
         #endif // MOZ_FLEXBOX
+            goto case nsCSSProperty.font;
           case nsCSSProperty.font:
             return ParseFont();
           case nsCSSProperty.image_region:
@@ -5491,6 +5508,7 @@ namespace Alba.CsCss.Style
           switch (nsCSSProps.ValueRestrictions(aPropID)) {
             default:
               Debug.Assert(false, "should not be reached");
+              goto case 0;
             case 0:
               return ParseVariant(aValue, variant, kwtable);
             case nsCSSProps.VALUE_NONNEGATIVE:
@@ -5525,6 +5543,7 @@ namespace Alba.CsCss.Style
           switch (aDescID) {
             // These four are similar to the properties of the same name,
             // possibly with more restrictions on the values they can take.
+            
           case nsCSSFontDesc.Family: {
             if (!ParseFamily(aValue) ||
                 aValue.GetUnit() != nsCSSUnit.Families)
@@ -5545,6 +5564,7 @@ namespace Alba.CsCss.Style
             return true;
           }
         
+            goto case nsCSSFontDesc.Style;
           case nsCSSFontDesc.Style:
             // property is VARIANT_HMK|VARIANT_SYSFONT
             return ParseVariant(aValue, VARIANT_KEYWORD | VARIANT_NORMAL,
@@ -5564,6 +5584,7 @@ namespace Alba.CsCss.Style
                                 nsCSSProps.kFontStretchKTable);
         
             // These two are unique to @font-face and have their own special grammar.
+            goto case nsCSSFontDesc.Src;
           case nsCSSFontDesc.Src:
             return ParseFontSrc(aValue);
         
@@ -8082,6 +8103,7 @@ namespace Alba.CsCss.Style
               line.SetIntValue((intValue & ~eDecorationBlink), nsCSSUnit.Enumerated);
               break;
             }
+              goto default;
             default:
               blink = line = color = style = value;
               break;
@@ -8345,6 +8367,7 @@ namespace Alba.CsCss.Style
             break;
           case nsCSSKeyword.scalez:
             aIs3D = true;
+            goto case nsCSSKeyword.scalex;
           case nsCSSKeyword.scalex:
           case nsCSSKeyword.scaley:
             /* Exactly one scale factor. */
@@ -8362,6 +8385,7 @@ namespace Alba.CsCss.Style
           case nsCSSKeyword.rotatex:
           case nsCSSKeyword.rotatey:
             aIs3D = true;
+            goto case nsCSSKeyword.rotate;
           case nsCSSKeyword.rotate:
           case nsCSSKeyword.rotatez:
             /* Exactly one angle. */
