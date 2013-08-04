@@ -1,0 +1,30 @@
+﻿<#+
+    IList<CssPseudoElement> _cssPseudoElements;
+
+    IEnumerable<CssPseudoElement> GetCssPseudoElementsFromSource (string source)
+    {
+        foreach (Match m in source.ReMatches(
+                @"(?x)CSS_PSEUDO_ELEMENT\(
+                    (?<Name>$), (?<Value>$), (?<Flags>$)
+                \)".Replace(",", @",\s*").Replace("$", sArgs))) {
+            var el = new CssPseudoElement {
+                Name = m.Get("Name").Trim(),
+                Value = m.Get("Value").Trim(),
+                Flags = m.Get("Flags").ReReplace(@"\s+", " ").Trim(),
+            };
+            yield return el;
+        }
+    }
+
+    IEnumerable<CssPseudoElement> GetCssPseudoElements ()
+    {
+        if (_cssPseudoElements == null)
+            _cssPseudoElements = GetCssPseudoElementsFromSource(LoadText("nsCSSPseudoElementList.h")).ToList();
+        return _cssPseudoElements;
+    }
+
+    class CssPseudoElement
+    {
+        public string Name, Value, Flags;
+    }
+#>

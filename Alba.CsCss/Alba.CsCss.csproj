@@ -64,10 +64,12 @@
       <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>
     <Compile Include="Gfx\Side.cs" />
+    <Compile Include="Style\nsCSSAnonBoxes.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
     <Compile Include="Style\nsCSSParser.cs" />
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSPseudoClasses.cs" />
+    <Compile Include="Style\nsCSSPseudoElements.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
@@ -98,6 +100,12 @@
     </Compile>
     <Compile Include="Style\Original\nsCSSPseudoClasses.g.cs">
       <DependentUpon>nsCSSPseudoClassList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\nsCSSPseudoElement.g.cs">
+      <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\nsCSSPseudoElements.g.cs">
+      <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsCSSScanner.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
@@ -189,6 +197,13 @@
       <DependentUpon>nsCSSPseudoClassList.h</DependentUpon>
     </None>
     <None Include="Style\Original\nsCSSPseudoClassList.ttinclude" />
+    <None Include="Style\Original\nsCSSPseudoElementList.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsCSSPseudoElementList.h</DependentUpon>
+    </None>
+    <None Include="Style\Original\nsCSSPseudoElementList.ttinclude" />
     <None Include="Style\Original\nsCSSScanner.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -300,7 +315,12 @@
       <LastGenOutput>nsCSSPseudoClassList.tt</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Style\Original\nsCSSPseudoElementList.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsCSSPseudoElementList.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2632,7 +2632,7 @@ namespace Alba.CsCss.Style
                                            bool           aIsNegated,
                                            string*      aPseudoElement,
                                            nsAtomList**   aPseudoElementArgs,
-                                           nsCSSPseudoElements.Type* aPseudoElementType)
+                                           ref nsCSSPseudoElement aPseudoElementType)
         {
           Debug.Assert(aIsNegated || (aPseudoElement && aPseudoElementArgs),
                        "expected location to store pseudo element");
@@ -2674,24 +2674,24 @@ namespace Alba.CsCss.Style
         
           // stash away some info about this pseudo so we only have to get it once.
           bool isTreePseudo = false;
-          nsCSSPseudoElements.Type pseudoElementType =
+          nsCSSPseudoElement pseudoElementType =
             nsCSSPseudoElements.GetPseudoType(pseudo);
           nsCSSPseudoClass pseudoClassType =
             nsCSSPseudoClasses.GetPseudoType(pseudo);
         
           // We currently allow :-moz-placeholder and .-moz-placeholder. We have to
           // be a bit stricter regarding the pseudo-element parsing rules.
-          if (pseudoElementType == nsCSSPseudoElements.ePseudo_mozPlaceholder &&
+          if (pseudoElementType == nsCSSPseudoElement.mozPlaceholder &&
               pseudoClassType == nsCSSPseudoClass.mozPlaceholder) {
             if (parsingPseudoElement) {
               pseudoClassType = nsCSSPseudoClass.NotPseudoClass;
             } else {
-              pseudoElementType = nsCSSPseudoElements.ePseudo_NotPseudoElement;
+              pseudoElementType = nsCSSPseudoElement.NotPseudoElement;
             }
           }
         
         #if MOZ_XUL
-          isTreePseudo = (pseudoElementType == nsCSSPseudoElements.ePseudo_XULTree);
+          isTreePseudo = (pseudoElementType == nsCSSPseudoElement.XULTree);
           // If a tree pseudo-element is using the function syntax, it will
           // get isTree set here and will pass the check below that only
           // allows functions if they are in our list of things allowed to be
@@ -2702,17 +2702,17 @@ namespace Alba.CsCss.Style
           bool isTree = (nsCSSTokenType.Function == mToken.mType) && isTreePseudo;
         #endif
           bool isPseudoElement =
-            (pseudoElementType < nsCSSPseudoElements.ePseudo_PseudoElementCount);
+            (pseudoElementType < nsCSSPseudoElement.PseudoElementCount);
           // anonymous boxes are only allowed if they're the tree boxes or we have
           // enabled unsafe rules
           bool isAnonBox = isTreePseudo ||
-            (pseudoElementType == nsCSSPseudoElements.ePseudo_AnonBox &&
+            (pseudoElementType == nsCSSPseudoElement.AnonBox &&
              mUnsafeRulesEnabled);
           bool isPseudoClass =
             (pseudoClassType != nsCSSPseudoClass.NotPseudoClass);
         
           Debug.Assert(!isPseudoClass ||
-                       pseudoElementType == nsCSSPseudoElements.ePseudo_NotPseudoElement,
+                       pseudoElementType == nsCSSPseudoElement.NotPseudoElement,
                        "Why is this atom both a pseudo-class and a pseudo-element?");
           Debug.Assert(isPseudoClass + isPseudoElement + isAnonBox <= 1,
                        "Shouldn't be more than one of these");
@@ -3142,8 +3142,8 @@ namespace Alba.CsCss.Style
           nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
           string pseudoElement;
           nsAtomList pseudoElementArgs;
-          nsCSSPseudoElements.Type pseudoElementType =
-            nsCSSPseudoElements.ePseudo_NotPseudoElement;
+          nsCSSPseudoElement pseudoElementType =
+            nsCSSPseudoElement.NotPseudoElement;
         
           int32_t dataMask = 0;
           nsSelectorParsingStatus parsingStatus =
@@ -3197,7 +3197,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          if (pseudoElementType == nsCSSPseudoElements.ePseudo_AnonBox) {
+          if (pseudoElementType == nsCSSPseudoElement.AnonBox) {
             // We got an anonymous box pseudo-element; it must be the only
             // thing in this selector group.
             if (selector.mNext || !IsUniversalSelector(*selector)) {

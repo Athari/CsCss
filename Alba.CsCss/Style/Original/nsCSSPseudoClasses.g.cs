@@ -7,7 +7,8 @@ using Alba.CsCss.Internal;
 
 namespace Alba.CsCss.Style
 {
-    internal static partial class nsCSSPseudoClasses {
+    internal static partial class nsCSSPseudoClasses
+    {
         private static readonly IDictionary<string, nsCSSPseudoClass> sPseudoClasses =
             new Dictionary<string, nsCSSPseudoClass>(ReferenceEqualityComparer<object>.Default) {
                 { ":empty", nsCSSPseudoClass.empty },
