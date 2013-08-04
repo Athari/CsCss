@@ -1,0 +1,60 @@
+﻿<#+
+    IList<CssPseudoClass> _cssPseudoClasses;
+
+    string ConvertCssPseudoClassesSource (string source)
+    {
+        return source
+            // whitespace
+            .ReReplace(@"\r", "")
+            // common preprocessor
+            .ReReplace(@"#(include|define|undef|pragma) .*", "")
+            // whitespace
+            .Trim()
+            ;
+    }
+
+    IEnumerable<CssPseudoClass> GetCssPseudoClassesFromSource (string source)
+    {
+        var kinds = new Dictionary<string, CssPseudoClassKind> {
+            { "CSS_PSEUDO_CLASS", CssPseudoClassKind.Normal },
+            { "CSS_STATE_PSEUDO_CLASS", CssPseudoClassKind.State },
+            { "CSS_STATE_DEPENDENT_PSEUDO_CLASS", CssPseudoClassKind.StateDependent },
+        };
+        foreach (Match m in source.ReMatches(
+                @"(?mx)^(
+                    (?<Kind> CSS_PSEUDO_CLASS )\(
+                        (?<Name>$), (?<Value>$), (?<Pref>$)
+                    \)
+                    |
+                    (?<Kind> CSS_STATE_PSEUDO_CLASS | CSS_STATE_DEPENDENT_PSEUDO_CLASS )\(
+                        (?<Name>$), (?<Value>$), (?<Pref>$), (?<Bit>$)
+                    \)
+                )".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var cls = new CssPseudoClass {
+                Kind = kinds[m.Get("Kind")],
+                Name = m.Get("Name").Trim(),
+                Value = m.Get("Value").Trim(),
+                Pref = m.Get("Pref").Trim(),
+                Bit = m.Get("Bit").Trim(),
+            };
+            yield return cls;
+        }
+    }
+
+    IEnumerable<CssPseudoClass> GetCssPseudoClasses ()
+    {
+        if (_cssPseudoClasses == null) {
+            string output = ConvertCssPseudoClassesSource(LoadText("nsCSSPseudoClassList.h"));
+            _cssPseudoClasses = GetCssPseudoClassesFromSource(output).ToList();
+        }
+        return _cssPseudoClasses;
+    }
+
+    enum CssPseudoClassKind { Normal, State, StateDependent };
+
+    class CssPseudoClass
+    {
+        public string Name, Value, Pref, Bit;
+        public CssPseudoClassKind Kind;
+    }
+#>

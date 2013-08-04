@@ -994,7 +994,7 @@ namespace Alba.CsCss.Style
               query.SetHadUnknownExpression();
             }
           } else {
-            nsIAtom mediaType;
+            string mediaType;
             bool gotNotOrOnly = false;
             for (;;) {
               if (!GetToken(true)) {
@@ -1008,9 +1008,9 @@ namespace Alba.CsCss.Style
               }
               // case insensitive from CSS - must be lower cased
               mToken.mIdentStr = mToken.mIdentStr.ToLower();
-              mediaType = new nsAtom(mToken.mIdentStr);
+              mediaType = String.Intern(mToken.mIdentStr);
               if (mediaType == null) {
-                Debug.Fail("new nsAtom failed - out of memory?");
+                Debug.Fail("String.Intern failed - out of memory?");
               }
               if (gotNotOrOnly ||
                   (mediaType != nsGkAtoms._not && mediaType != nsGkAtoms.only))
@@ -1132,9 +1132,9 @@ namespace Alba.CsCss.Style
             featureString = mToken.mIdentStr;
           }
         
-          nsIAtom mediaFeatureAtom = new nsAtom(featureString);
+          string mediaFeatureAtom = String.Intern(featureString);
           if (mediaFeatureAtom == null) {
-            Debug.Fail("new nsAtom failed - out of memory?");
+            Debug.Fail("String.Intern failed - out of memory?");
           }
           nsMediaFeature feature = nsMediaFeatures.features;
           for (; feature.mName; ++feature) {
@@ -1462,12 +1462,12 @@ namespace Alba.CsCss.Style
                                         RuleAppendFunc aAppendFunc,
                                         object aData)
         {
-          nsIAtom prefix;
+          string prefix = "";
         
           if (!aPrefix.IsEmpty()) {
-            prefix = new nsAtom(aPrefix);
+            prefix = String.Intern(aPrefix);
             if (prefix == null) {
-              Debug.Fail("new nsAtom failed - out of memory?");
+              Debug.Fail("String.Intern failed - out of memory?");
             }
           }
         
@@ -2630,7 +2630,7 @@ namespace Alba.CsCss.Style
         internal nsSelectorParsingStatus ParsePseudoSelector(ref int32_t       aDataMask,
                                            nsCSSSelector aSelector,
                                            bool           aIsNegated,
-                                           nsIAtom**      aPseudoElement,
+                                           string*      aPseudoElement,
                                            nsAtomList**   aPseudoElementArgs,
                                            nsCSSPseudoElements.Type* aPseudoElementType)
         {
@@ -2667,24 +2667,24 @@ namespace Alba.CsCss.Style
           buffer.Append(':');
           buffer.Append(mToken.mIdentStr);
           buffer = buffer.ToLower();
-          nsIAtom pseudo = new nsAtom(buffer);
+          string pseudo = String.Intern(buffer);
           if (!pseudo) {
-            Debug.Fail("new nsAtom failed - out of memory?");
+            Debug.Fail("String.Intern failed - out of memory?");
           }
         
           // stash away some info about this pseudo so we only have to get it once.
           bool isTreePseudo = false;
           nsCSSPseudoElements.Type pseudoElementType =
             nsCSSPseudoElements.GetPseudoType(pseudo);
-          nsCSSPseudoClasses.Type pseudoClassType =
+          nsCSSPseudoClass pseudoClassType =
             nsCSSPseudoClasses.GetPseudoType(pseudo);
         
           // We currently allow :-moz-placeholder and .-moz-placeholder. We have to
           // be a bit stricter regarding the pseudo-element parsing rules.
           if (pseudoElementType == nsCSSPseudoElements.ePseudo_mozPlaceholder &&
-              pseudoClassType == nsCSSPseudoClasses.ePseudoClass_mozPlaceholder) {
+              pseudoClassType == nsCSSPseudoClass.mozPlaceholder) {
             if (parsingPseudoElement) {
-              pseudoClassType = nsCSSPseudoClasses.ePseudoClass_NotPseudoClass;
+              pseudoClassType = nsCSSPseudoClass.NotPseudoClass;
             } else {
               pseudoElementType = nsCSSPseudoElements.ePseudo_NotPseudoElement;
             }
@@ -2709,7 +2709,7 @@ namespace Alba.CsCss.Style
             (pseudoElementType == nsCSSPseudoElements.ePseudo_AnonBox &&
              mUnsafeRulesEnabled);
           bool isPseudoClass =
-            (pseudoClassType != nsCSSPseudoClasses.ePseudoClass_NotPseudoClass);
+            (pseudoClassType != nsCSSPseudoClass.NotPseudoClass);
         
           Debug.Assert(!isPseudoClass ||
                        pseudoElementType == nsCSSPseudoElements.ePseudo_NotPseudoElement,
@@ -2731,7 +2731,7 @@ namespace Alba.CsCss.Style
         #if MOZ_XUL
                isTree ||
         #endif
-               nsCSSPseudoClasses.ePseudoClass_notPseudo == pseudoClassType ||
+               nsCSSPseudoClass.notPseudo == pseudoClassType ||
                nsCSSPseudoClasses.HasStringArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasNthPairArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType))) {
@@ -2751,7 +2751,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!parsingPseudoElement &&
-              nsCSSPseudoClasses.ePseudoClass_notPseudo == pseudoClassType) {
+              nsCSSPseudoClass.notPseudo == pseudoClassType) {
             if (aIsNegated) { // :not() can't be itself negated
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelDoubleNot", mToken); };
               UngetToken();
@@ -2942,7 +2942,7 @@ namespace Alba.CsCss.Style
         // Parse the argument of a pseudo-class that has an ident arg
         //
         internal nsSelectorParsingStatus ParsePseudoClassWithIdentArg(nsCSSSelector aSelector,
-                                                    nsCSSPseudoClasses.Type aType)
+                                                    nsCSSPseudoClass aType)
         {
           if (! GetToken(true)) { // premature eof
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
@@ -2956,8 +2956,8 @@ namespace Alba.CsCss.Style
           }
         
           // -moz-locale-dir and -moz-dir can only have values of 'ltr' or 'rtl'.
-          if (aType == nsCSSPseudoClasses.ePseudoClass_mozLocaleDir ||
-              aType == nsCSSPseudoClasses.ePseudoClass_dir) {
+          if (aType == nsCSSPseudoClass.mozLocaleDir ||
+              aType == nsCSSPseudoClass.dir) {
             mToken.mIdentStr = mToken.mIdentStr.ToLower(); // case insensitive
             if (!mToken.mIdentStr.EqualsLiteral("ltr") &&
                 !mToken.mIdentStr.EqualsLiteral("rtl")) {
@@ -2979,7 +2979,7 @@ namespace Alba.CsCss.Style
         }
         
         internal nsSelectorParsingStatus ParsePseudoClassWithNthPairArg(nsCSSSelector aSelector,
-                                                      nsCSSPseudoClasses.Type aType)
+                                                      nsCSSPseudoClass aType)
         {
           int32_t numbers[2] = { 0, 0 };
           bool lookForB = true;
@@ -3099,7 +3099,7 @@ namespace Alba.CsCss.Style
         // anything that goes between a pair of combinators.
         //
         internal nsSelectorParsingStatus ParsePseudoClassWithSelectorListArg(nsCSSSelector aSelector,
-                                                           nsCSSPseudoClasses.Type aType)
+                                                           nsCSSPseudoClass aType)
         {
           nsCSSSelectorList slist;
           if (! ParseSelectorList(*slist, ''))) {
@@ -3140,7 +3140,7 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
-          nsIAtom pseudoElement;
+          string pseudoElement;
           nsAtomList pseudoElementArgs;
           nsCSSPseudoElements.Type pseudoElementType =
             nsCSSPseudoElements.ePseudo_NotPseudoElement;
@@ -9059,9 +9059,9 @@ namespace Alba.CsCss.Style
           int32_t nameSpaceID = nsNameSpace.Unknown;
           if (mNameSpaceMap != null) {
             // user-specified identifiers are case-sensitive (bug 416106)
-            nsIAtom prefix = new nsAtom(aPrefix);
+            string prefix = String.Intern(aPrefix);
             if (prefix == null) {
-              Debug.Fail("new nsAtom failed - out of memory?");
+              Debug.Fail("String.Intern failed - out of memory?");
             }
             nameSpaceID = mNameSpaceMap.FindNameSpaceID(prefix);
           }

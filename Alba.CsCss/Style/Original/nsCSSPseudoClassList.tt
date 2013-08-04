@@ -1,0 +1,64 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#@ include file="nsCSSPseudoClassList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    //T4.GenerateFile("nsCSSPseudoClassList.g.txt", () => GenerateCssPseudoClassListText());
+    T4.GenerateFile("nsCSSPseudoClass.g.cs", () => GenerateCssPseudoClass());
+    T4.GenerateFile("nsCSSPseudoClasses.g.cs", () => GenerateCssPseudoClasses());
+    T4.Process();
+#>
+
+<#+ void GenerateCssPseudoClassListText () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+<#+ foreach (CssPseudoClass cls in GetCssPseudoClasses()) { #>
+//
+// Kind: <#=cls.Kind#>
+// Name: <#=cls.Name#>
+// Value: <#=cls.Value#>
+// Pref: <#=cls.Pref#>
+// Bit: <#=cls.Bit#>
+<#+ } #>
+<#+ } /* void GenerateCssPseudoClassListText */ #>
+
+<#+ void GenerateCssPseudoClass () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    internal enum nsCSSPseudoClass {
+<#+   foreach (CssPseudoClass cls in GetCssPseudoClasses()) { #>
+        <#=ToId(cls.Name)#>,
+<#+   } #>
+        Count,
+        NotPseudoClass,
+    }
+}
+<#+ } /* void GenerateCssPseudoClass */ #>
+
+<#+ void GenerateCssPseudoClasses () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+using Alba.CsCss.Internal;
+
+namespace Alba.CsCss.Style
+{
+    internal static partial class nsCSSPseudoClasses {
+        private static readonly IDictionary<string, nsCSSPseudoClass> sPseudoClasses =
+            new Dictionary<string, nsCSSPseudoClass>(ReferenceEqualityComparer<object>.Default) {
+<#+           foreach (CssPseudoClass cls in GetCssPseudoClasses()) { #>
+                { <#=cls.Value#>, nsCSSPseudoClass.<#=ToId(cls.Name)#> },
+<#+           } #>
+            };
+    }
+}
+<#+ } /* void GenerateCssPseudoClass */ #>

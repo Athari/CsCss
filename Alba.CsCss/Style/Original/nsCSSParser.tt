@@ -96,7 +96,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"InfallibleTArray<([\w:]+)>[*&]?", "List<$1>")
             .ReReplace(@"(?n)NS_ConvertASCIItoUTF16 (?<Var>\w+)\((?<Value>"+sArgs+@")\);", "string ${Var} = ${Value};")
             .ReReplace(@"nsContentUtils::ASCIIToLower\((.*)\)", "$1 = $1.ToLower()")
-            .ReReplace(@"do_GetAtom", "new nsAtom")
+            .ReReplace(@"do_GetAtom", "String.Intern")
             .ReReplace(@"NS_(RGBA?)", "nscolor.$1")
             .ReReplace(@"NS_GET_([RGBA])\((\w+)\)", "$2.$1")
             .ReReplace(@"NS_(?<Method>HexToRGB|ColorNameToRGB)\((?<Args>"+sArgs+@"), &(?<Result>\w+)\)", "nscolor.${Method}(${Args}, ref ${Result})")
@@ -148,7 +148,7 @@ namespace Alba.CsCss.Style
                             "u?int\\d+_t|bool|float|Rule|StyleRule|Declaration|nsCSSSelectorList|nsMediaQuery|nsCSSValuePair|nscolor"+
                        @")\b(?<Space> )?[*&]", "ref ${Name}${Space}")
             .ReReplace(@"nsIURI\*?", "Uri")
-            .ReReplace(@"(const )?\b(nsString|nsAString|nsSubstring|nsAutoString|nsDependentString)\b[*&]?", "string")
+            .ReReplace(@"(const )?\b(nsString|nsAString|nsSubstring|nsAutoString|nsDependentString|nsI?Atom)\b[*&]?", "string")
             .ReReplace(@"(?n)(const )?(char)(?<Space> ?)\*", "string${Space}")
             .Replace(@"nsCSSScanner&", "nsCSSScanner")
             .Replace(@"mozilla::css::Loader*", "CssLoader")
@@ -170,6 +170,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")
             .ReReplace(@"eParseAnimationOrTransitionShorthand_(\w+)", "ParseAnimationOrTransitionShorthandResult.$1")
             .ReReplace(@"eCSSProperty(Alias|Extra)_(\w+)", "nsCSSProperty.$1_$2")
+            .ReReplace(@"nsCSSPseudoClasses::ePseudoClass_(\w+)", "nsCSSPseudoClass.$1")
             .ReReplace(@"kNameSpaceID_(\w+)", "nsNameSpace.$1")
             .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.Range.$1")
             .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
@@ -180,6 +181,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
             .ReReplace(@"\be(And|Or)\b", "SupportsConditionTermOperator.$1")
+            .ReReplace(@"nsCSSPseudoClasses::Type", "nsCSSPseudoClass")
             .ReReplace(@"uint32_t parseFlags", "nsParseDeclaration parseFlags")
             .ReReplace(@"uint8_t func", "nsAttrFunc func")
 
