@@ -1,4 +1,5 @@
-﻿using Alba.CsCss.Extensions;
+﻿using System.Text;
+using Alba.CsCss.Extensions;
 
 namespace Alba.CsCss.Style
 {
@@ -7,6 +8,11 @@ namespace Alba.CsCss.Style
         public static nsCSSKeyword LookupKeyword (string aKeyword)
         {
             return (nsCSSKeyword)gKeywordTable.GetOrDefault(aKeyword, -1);
+        }
+
+        public static nsCSSKeyword LookupKeyword (StringBuilder aKeyword)
+        {
+            return LookupKeyword(aKeyword.ToString());
         }
 
         public static string GetStringValue (nsCSSKeyword aKeyword)

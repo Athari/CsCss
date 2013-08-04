@@ -2662,15 +2662,8 @@ namespace Alba.CsCss.Style
           }
         
           // OK, now we know we have an mIdent.  Atomize it.  All the atoms, for
-          // pseudo-classes as well as pseudo-elements, start with a single ':'.
-          string buffer;
-          buffer.Append(':');
-          buffer.Append(mToken.mIdentStr);
-          buffer = buffer.ToLower();
-          string pseudo = String.Intern(buffer);
-          if (!pseudo) {
-            Debug.Fail("String.Intern failed - out of memory?");
-          }
+          // pseudo-classes as well as pseudo-elements, start with a single ':'
+          string pseudo = String.Intern(":" + mToken.mIdentStr);
         
           // stash away some info about this pseudo so we only have to get it once.
           bool isTreePseudo = false;
@@ -4289,7 +4282,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          string attr;
+          var attr = new StringBuilder();
           if (nsCSSTokenType.Ident == mToken.mType) {  // attr name or namespace
             string holdIdent = mToken.mIdentStr;
             if (ExpectSymbol('|', false)) {  // namespace
@@ -4313,7 +4306,7 @@ namespace Alba.CsCss.Style
               }
             }
             else {  // no namespace
-              attr = holdIdent;
+              attr.AssignLiteral(holdIdent);
             }
           }
           else if (mToken.IsSymbol('*')) {  // namespace wildcard
@@ -4355,7 +4348,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsStringBuffer buffer(nsCSSValue.BufferFromString(aURL));
+          string buffer = nsCSSValue.BufferFromString(aURL);
         
           // Note: urlVal retains its own reference to |buffer|.
           URLValue urlVal =
@@ -4501,7 +4494,7 @@ namespace Alba.CsCss.Style
         
           // Record what we just parsed as either flex-basis or flex-grow:
           bool wasFirstComponentFlexBasis = (tmpVal.GetUnit() != nsCSSUnit.Number);
-          (wasFirstComponentFlexBasis ? flexBasis : flexGrow) = tmpVal;
+          if (wasFirstComponentFlexBasis) flexBasis = tmpVal; else flexGrow = tmpVal;
         
           // (b) If we didn't get flex-grow yet, parse _next_ component as flex-grow.
           bool doneParsing = false;
@@ -4605,7 +4598,7 @@ namespace Alba.CsCss.Style
               mToken.mIdentStr.LowerCaseEqualsLiteral("to")) {
         
             // "to" syntax doesn't allow explicit "center"
-            if (!ParseBoxPositionValues(cssGradient.mBgPos, false, false)) {
+            if (!ParseBoxPositionValues(ref cssGradient.mBgPos, false, false)) {
               SkipUntil(')');
               return false;
             }
@@ -4659,7 +4652,7 @@ namespace Alba.CsCss.Style
         
             // if we got an angle, we might now have a comma, ending the gradient-line
             if (!haveAngle || !ExpectSymbol(',', true)) {
-              if (!ParseBoxPositionValues(cssGradient.mBgPos, false)) {
+              if (!ParseBoxPositionValues(ref cssGradient.mBgPos, false)) {
                 SkipUntil(')');
                 return false;
               }
@@ -4741,7 +4734,7 @@ namespace Alba.CsCss.Style
             if (mToken.mType == nsCSSTokenType.Ident &&
                 mToken.mIdentStr.LowerCaseEqualsLiteral("at")) {
               // [ <shape> || <size> ]? at <position> ,
-              if (!ParseBoxPositionValues(cssGradient.mBgPos, false) ||
+              if (!ParseBoxPositionValues(ref cssGradient.mBgPos, false) ||
                   !ExpectSymbol(',', true)) {
                 SkipUntil(')');
                 return false;
@@ -4773,7 +4766,7 @@ namespace Alba.CsCss.Style
         
             // if we got an angle, we might now have a comma, ending the gradient-line
             if (!haveAngle || !ExpectSymbol(',', true)) {
-              if (!ParseBoxPositionValues(cssGradient.mBgPos, false)) {
+              if (!ParseBoxPositionValues(ref cssGradient.mBgPos, false)) {
                 SkipUntil(')');
                 return false;
               }
@@ -4971,7 +4964,7 @@ namespace Alba.CsCss.Style
         {
           // Get up to four values for the property
           int32_t count = 0;
-          nsCSSRect result;
+          var result = new nsCSSRect();
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
             if (! ParseSingleValueProperty(result[index],
                                            aPropIDs[index])) {
@@ -5091,7 +5084,7 @@ namespace Alba.CsCss.Style
           int32_t countX = 0, countY = 0;
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-            if (! ParseNonNegativeVariant(dimenX.*nsCSSRect.sides[side],
+            if (! ParseNonNegativeVariant(dimenX[side],
                                           (side > 0 ? 0 : VARIANT_INHERIT) |
                                             VARIANT_LP | VARIANT_CALC,
                                           null))
@@ -5103,7 +5096,7 @@ namespace Alba.CsCss.Style
         
           if (ExpectSymbol('/', true)) {
             for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-              if (! ParseNonNegativeVariant(dimenY.*nsCSSRect.sides[side],
+              if (! ParseNonNegativeVariant(dimenY[side],
                                             VARIANT_LP | VARIANT_CALC, null))
                 break;
               countY++;
@@ -5141,8 +5134,8 @@ namespace Alba.CsCss.Style
           }
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
-            nsCSSValue x = dimenX.*nsCSSRect.sides[side];
-            nsCSSValue y = dimenY.*nsCSSRect.sides[side];
+            nsCSSValue x = dimenX[side];
+            nsCSSValue y = dimenY[side];
         
             if (x == y) {
               AppendValue(aPropIDs[side], x);
@@ -5510,7 +5503,7 @@ namespace Alba.CsCss.Style
         // nsFont.EnumerateFamilies callback for ParseFontDescriptorValue
         
         static bool
-        ExtractFirstFamily(string aFamily,
+        ExtractFirstFamily(StringBuilder aFamily,
                            bool aGeneric,
                            object aData)
         {
@@ -5541,7 +5534,7 @@ namespace Alba.CsCss.Style
             // because it's only being used to call EnumerateFamilies
             string valueStr;
             aValue.GetStringValue(valueStr);
-            nsFont font(valueStr, 0, 0, 0, 0, 0, 0);
+            var font = new nsFont(valueStr, 0, 0, 0, 0, 0, 0);
             ExtractFirstFamilyData dat;
         
             font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
@@ -7441,7 +7434,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseOneFamily(string aFamily, ref bool aOneKeyword)
+        internal bool ParseOneFamily(StringBuilder aFamily, ref bool aOneKeyword)
         {
           if (!GetToken(true))
             return false;
@@ -7491,8 +7484,8 @@ namespace Alba.CsCss.Style
         
         internal bool ParseFamily(nsCSSValue aValue)
         {
-          string family;
-          bool single;
+          var family = new StringBuilder();
+          bool single = false;
         
           // keywords only have meaning in the first position
           if (!ParseOneFamily(family, single))
@@ -7507,7 +7500,7 @@ namespace Alba.CsCss.Style
               return true;
             }
             // 605231 - don't parse unquoted 'default' reserved keyword
-            if (keyword == nsCSSKeyword.default) {
+            if (keyword == nsCSSKeyword.@default) {
               return false;
             }
             if (keyword == nsCSSKeyword._moz_initial || keyword == nsCSSKeyword.initial) {
@@ -7527,7 +7520,7 @@ namespace Alba.CsCss.Style
         
             family.Append(',');
         
-            string nextFamily;
+            var nextFamily = new StringBuilder();
             if (!ParseOneFamily(nextFamily, single))
               return false;
         
@@ -7538,7 +7531,7 @@ namespace Alba.CsCss.Style
               switch (keyword) {
                 case nsCSSKeyword.inherit:
                 case nsCSSKeyword.initial:
-                case nsCSSKeyword.default:
+                case nsCSSKeyword.@default:
                 case nsCSSKeyword._moz_initial:
                 case nsCSSKeyword._moz_use_system_font:
                   return false;
@@ -7584,8 +7577,8 @@ namespace Alba.CsCss.Style
               // assuming that the appropriate production is a single
               // <family-name>, possibly surrounded by whitespace.
         
-              string family;
-              bool single;
+              var family = new StringBuilder();
+              bool single = false;
               if (!ParseOneFamily(family, single)) {
                 SkipUntil(')');
                 return false;
@@ -7597,7 +7590,7 @@ namespace Alba.CsCss.Style
         
               // the style parameters to the nsFont constructor are ignored,
               // because it's only being used to call EnumerateFamilies
-              nsFont font(family, 0, 0, 0, 0, 0, 0);
+              var font = new nsFont(family, 0, 0, 0, 0, 0, 0);
               ExtractFirstFamilyData dat;
         
               font.EnumerateFamilies(ExtractFirstFamily, (object) &dat);
@@ -8205,7 +8198,7 @@ namespace Alba.CsCss.Style
          *        this many elements will result in the function failing.
          * @param aValue (out) The value that was parsed.
          */
-        internal bool ParseFunction(string &aFunction,
+        internal bool ParseFunction(string aFunction,
                                      int32_t[] aAllowedTypes,
                                      uint16_t aMinElems, uint16_t aMaxElems,
                                      nsCSSValue aValue)

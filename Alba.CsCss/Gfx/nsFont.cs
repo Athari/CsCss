@@ -1,4 +1,5 @@
-﻿using uint8_t = System.Byte;
+﻿using System.Text;
+using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using int16_t = System.Int16;
 
@@ -76,5 +77,10 @@ namespace Alba.CsCss.Gfx
             this.sizeAdjust = sizeAdjust;
             this.languageOverride = languageOverride;
         }
+
+        public nsFont (StringBuilder name, int style, int systemFont, int variant, int decorations, int weight, int stretch,
+            nscoord size = default(nscoord), float sizeAdjust = 0, string languageOverride = null)
+            : this(name.ToString(), (byte)style, (byte)systemFont, (byte)variant, (byte)decorations, (ushort)weight, (short)stretch, size, sizeAdjust, languageOverride)
+        {}
     }
 }

@@ -493,6 +493,9 @@ namespace Alba.CsCss.Style
         public void SetStringValue (string mIdent, nsCSSUnit nsCssUnit)
         {}
 
+        public void SetStringValue (StringBuilder mIdent, nsCSSUnit nsCssUnit)
+        {}
+
         public void SetIntValue (int p0, nsCSSUnit integer)
         {}
 
@@ -590,6 +593,11 @@ namespace Alba.CsCss.Style
         public nsCSSValueList GetListValue ()
         {
             return null;
+        }
+
+        public static string BufferFromString (string str)
+        {
+            return str;
         }
     }
 
@@ -698,7 +706,10 @@ namespace Alba.CsCss.Style
     }
 
     internal class URLValue
-    {}
+    {
+        public URLValue (string buffer, Uri mBaseUri, Uri mSheetUri, nsIPrincipal mSheetPrincipal)
+        {}
+    }
 
     internal class nsLayoutUtils
     {
