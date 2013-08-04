@@ -337,6 +337,15 @@ namespace Alba.CsCss.Style
                             (?<Space> \ + )
                             (?<Case> default | case\ .* ):",
                         "${Space}  goto ${Case};\n${Space}${Case}:") // add explicit goto statements to switch fall-throughs
+            .ReReplace(@"(?nx)
+                            (?<Space> \ + )
+                            (?<Switch>
+                                switch\ ?\(.*\)\ ?{
+                                    "+sBlock+@"
+                                    (?<!( break; | return\ [^;]*; )\s+)
+                            )
+                                }",
+                        "${Space}${Switch}${Space}break;\n${Space}}") // force break as last instruction inside switch
             //.ReReplace(@"\) const\n", ")\n") // const functions
             //.ReReplace(@"inline", "")
             .ReReplace(@"(u?int\d+_t|double|bool)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style

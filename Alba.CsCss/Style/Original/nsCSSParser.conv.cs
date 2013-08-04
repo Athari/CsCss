@@ -3319,6 +3319,7 @@ namespace Alba.CsCss.Style
                 return false;
               default:
                 Debug.Fail("Someone forgot to add the new color component type in here");
+                break;
             }
         
             if (!mToken.mIntegerValid) {
@@ -3341,6 +3342,7 @@ namespace Alba.CsCss.Style
                 break;
               default:
                 Debug.Fail("Someone forgot to add the new color component type in here");
+                break;
             }
             value = tk.mNumber * 255.0f;
             break;
@@ -4882,6 +4884,7 @@ namespace Alba.CsCss.Style
               goto case 3;
             case 3: // Make left == right
               result.mLeft = result.mRight;
+            break;
           }
         
           for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
@@ -4920,6 +4923,7 @@ namespace Alba.CsCss.Style
               goto case 3;
             case 3: // Make left == right
               result.mLeft = result.mRight;
+            break;
           }
         
           return true;
@@ -5018,6 +5022,7 @@ namespace Alba.CsCss.Style
             case 2: dimenX.mBottom = dimenX.mTop; // bottom-right same as top-left, and 
               goto case 3;
             case 3: dimenX.mLeft = dimenX.mRight; // bottom-left same as top-right
+            break;
           }
         
           switch (countY) {
@@ -5026,6 +5031,7 @@ namespace Alba.CsCss.Style
             case 2: dimenY.mBottom = dimenY.mTop; // bottom-right same as top-left, and 
               goto case 3;
             case 3: dimenY.mLeft = dimenY.mRight; // bottom-left same as top-right
+            break;
           }
         
           for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
@@ -5129,6 +5135,7 @@ namespace Alba.CsCss.Style
                                 "Property's flags field in nsCSSPropList.h is missing one of the nsCSSProps.PARSE_* constants");
               break;
             }
+            break;
           }
         
           if (mNavQuirkMode) {
@@ -5484,6 +5491,7 @@ namespace Alba.CsCss.Style
           case nsCSSFontDesc.UNKNOWN:
           case nsCSSFontDesc.COUNT:
             Debug.Fail("bad nsCSSFontDesc code");
+            break;
           }
           // explicitly do NOT have a default case to let the compiler
           // help find missing descriptors
