@@ -11,6 +11,9 @@
 // ReSharper disable RedundantArrayCreationExpression
 // ReSharper disable RedundantExplicitArrayCreation
 // ReSharper disable RedundantAssignment
+// ReSharper disable JoinDeclarationAndInitializer
+// ReSharper disable TooWideLocalVariableScope
+// ReSharper disable UseObjectOrCollectionInitializer
 
 using System;
 using System.Collections.Generic;
@@ -224,7 +227,7 @@ namespace Alba.CsCss.Style
             Rule lastRule = null;
             mSheet.GetStyleRuleAt(ruleCount - 1, ref lastRule);
             if (lastRule != null) {
-              switch (lastRule.GetType()) {
+              switch (lastRule.GetKind()) {
                 case Rule.CHARSET_RULE:
                 case Rule.IMPORT_RULE:
                   mSection = nsCSSSection.Import;
@@ -565,7 +568,7 @@ namespace Alba.CsCss.Style
           var reporter = new ErrorReporter(scanner, mSheet, mChildLoader, aURI);
           InitScanner(scanner, reporter, aURI, aURI, null);
         
-          bool success = ParseSelectorList(*aSelectorList, '\0');
+          bool success = ParseSelectorList(ref aSelectorList, '\0');
         
           // We deliberately do not call OUTPUT_ERROR here, because all our
           // callers map a failure return to a JS exception, and if that JS
@@ -579,11 +582,11 @@ namespace Alba.CsCss.Style
           ReleaseScanner();
         
           if (success) {
-            Debug.Assert(*aSelectorList, "Should have list!");
+            Debug.Assert(aSelectorList, "Should have list!");
             return NS_OK;
           }
         
-          Debug.Assert(!*aSelectorList, "Shouldn't have list!");
+          Debug.Assert(aSelectorList == null, "Shouldn't have list!");
         
           return NS_ERROR_DOM_SYNTAX_ERR;
         }
@@ -859,11 +862,9 @@ namespace Alba.CsCss.Style
             parseFunc = ParseMediaRule;
             newSection = nsCSSSection.General;
         
-          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("-moz-document")) {
-            parseFunc = ParseMozDocumentRule;
-            newSection = nsCSSSection.General;
-        
-          } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("font-face")) {
+          } 
+          // TODO support @document
+          else if (mToken.mIdentStr.LowerCaseEqualsLiteral("font-face")) {
             parseFunc = ParseFontFaceRule;
             newSection = nsCSSSection.General;
         
@@ -1136,13 +1137,8 @@ namespace Alba.CsCss.Style
           if (mediaFeatureAtom == null) {
             Debug.Fail("String.Intern failed - out of memory?");
           }
-          nsMediaFeature feature = nsMediaFeatures.features;
-          for (; feature.mName; ++feature) {
-            if (*(feature.mName) == mediaFeatureAtom) {
-              break;
-            }
-          }
-          if (!feature.mName ||
+          nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);
+          if (feature.mName == null ||
               (expr.mRange != nsMediaExpression.Range.Equal &&
                feature.mRangeType != nsMediaFeature.RangeType.MinMaxAllowed)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
@@ -1280,7 +1276,7 @@ namespace Alba.CsCss.Style
           // Diagnose bad URIs even if we don't have a child loader.
           Uri url;
           // Charset will be deduced from mBaseURI, which is more or less correct.
-          nsresult rv = NS_NewURI(url, aURLSpec, null, mBaseURI);
+          nsresult rv = NS_NewURI(out url, aURLSpec, null, mBaseURI);
         
           if ((((rv) & 0x80000000) != 0)) {
             if (rv == NS_ERROR_MALFORMED_URI) {
@@ -1361,70 +1357,6 @@ namespace Alba.CsCss.Style
         // Parse a @-moz-document rule.  This is like an @media rule, but instead
         // of a medium it has a nonempty list of items where each item is either
         // url(), url-prefix(), or domain().
-        internal bool ParseMozDocumentRule(RuleAppendFunc aAppendFunc, object aData)
-        {
-          DocumentRule.URL *urls = null;
-          DocumentRule.URL **next = &urls;
-          do {
-            if (!GetToken(true)) {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleEOF"); };
-              return false;
-            }
-                
-            if (!(nsCSSTokenType.URL == mToken.mType ||
-                  (nsCSSTokenType.Function == mToken.mType &&
-                   (mToken.mIdentStr.LowerCaseEqualsLiteral("url-prefix") ||
-                    mToken.mIdentStr.LowerCaseEqualsLiteral("domain") ||
-                    mToken.mIdentStr.LowerCaseEqualsLiteral("regexp"))))) {
-              { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleBadFunc", mToken); };
-              UngetToken();
-              return false;
-            }
-            DocumentRule.URL *cur = *next = new DocumentRule.URL;
-            next = &cur.next;
-            if (mToken.mType == nsCSSTokenType.URL) {
-              cur.func = DocumentRule.eURL;
-              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
-            } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("regexp")) {
-              // regexp() is different from url-prefix() and domain() (but
-              // probably the way they *should* have been* in that it requires a
-              // string argument, and doesn't try to behave like url().
-              cur.func = DocumentRule.eRegExp;
-              GetToken(true);
-              // copy before we know it's valid (but before ExpectSymbol changes
-              // mToken.mIdentStr)
-              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
-              if (nsCSSTokenType.String != mToken.mType || !ExpectSymbol(')', true)) {
-                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleNotString", mToken); };
-                SkipUntil(')');
-                return false;
-              }
-            } else {
-              if (mToken.mIdentStr.LowerCaseEqualsLiteral("url-prefix")) {
-                cur.func = DocumentRule.eURLPrefix;
-              } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("domain")) {
-                cur.func = DocumentRule.eDomain;
-              }
-        
-              Debug.Assert(!mHavePushBack, "mustn't have pushback at this point");
-              if (mScanner == null.NextURL(mToken) || mToken.mType != nsCSSTokenType.URL) {
-                { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMozDocRuleNotURI", mToken); };
-                SkipUntil(')');
-                return false;
-              }
-        
-              // We could try to make the URL (as long as it's not domain())
-              // canonical and absolute with NS_NewURI and GetSpec, but I'm
-              // inclined to think we shouldn't.
-              CopyUTF16toUTF8(mToken.mIdentStr, cur.url);
-            }
-          } while (ExpectSymbol(',', true));
-        
-          DocumentRule rule = new DocumentRule();
-          rule.SetURLs(urls);
-        
-          return ParseGroupRule(rule, aAppendFunc, aData);
-        }
         
         // Parse a CSS3 namespace rule: "@namespace [prefix] STRING | URL;"
         internal bool ParseNameSpaceRule(RuleAppendFunc aAppendFunc, object aData)
@@ -1994,7 +1926,7 @@ namespace Alba.CsCss.Style
         internal void SkipUntilOneOf(char[] aStopSymbolChars)
         {
           nsCSSToken tk = mToken;
-          string stopSymbolChars = aStopSymbolChars;
+          char[] stopSymbolChars = aStopSymbolChars;
           for (;;) {
             if (!GetToken(true)) {
               break;
@@ -2898,8 +2830,7 @@ namespace Alba.CsCss.Style
             parsingStatus = ParseClassSelector(ref aDataMask, newSel);
           }
           else if (mToken.IsSymbol(':')) {    // :pseudo
-            parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true,
-                                                null, null, null);
+            { string _1 = null; nsCSSPseudoElement _2 = 0; parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true, ref _1, null, ref _2); }
           }
           else if (mToken.IsSymbol('[')) {    // [attribute
             parsingStatus = ParseAttributeSelector(ref aDataMask, newSel);
@@ -3000,7 +2931,7 @@ namespace Alba.CsCss.Style
             }
             if (truncAt != 0) {
               mScanner.Backup(mToken.mIdentStr.Length() - truncAt);
-              mToken.mIdentStr.Truncate(truncAt);
+              mToken.mIdentStr = mToken.mIdentStr.Substring(0, truncAt);
             }
           }
         
@@ -3102,7 +3033,7 @@ namespace Alba.CsCss.Style
         
           // Check that none of the selectors in the list have combinators or
           // pseudo-elements.
-          for (nsCSSSelectorList l = slist; l; l = l.mNext) {
+          for (nsCSSSelectorList l = slist; l != null; l = l.mNext) {
             nsCSSSelector s = l.mSelectors;
             if (s.mNext || s.IsPseudoElement()) {
               return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
@@ -3152,7 +3083,7 @@ namespace Alba.CsCss.Style
             }
             else if (mToken.IsSymbol(':')) {    // :pseudo
               parsingStatus = ParsePseudoSelector(ref dataMask, selector, false,
-                                                  pseudoElement,
+                                                  ref pseudoElement,
                                                   pseudoElementArgs,
                                                   ref pseudoElementType);
             }
@@ -3237,7 +3168,7 @@ namespace Alba.CsCss.Style
           mData.AssertInitialState();
           if (declaration != null) {
             for (;;) {
-              bool changed;
+              bool changed = false;
               if (!ParseDeclaration(declaration, aFlags, true, ref changed, aContext)) {
                 if (!SkipDeclaration(checkForBraces)) {
                   break;
@@ -3287,7 +3218,7 @@ namespace Alba.CsCss.Style
                 nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(tk.mIdentStr);
                 if (nsCSSKeyword.UNKNOWN < keyword) { // known keyword
                   int32_t value = 0;
-                  if (nsCSSProps.FindKeyword(keyword, nsCSSProps.kColorKTable, value)) {
+                  if (nsCSSProps.FindKeyword(keyword, nsCSSProps.kColorKTable, ref value)) {
                     aValue.SetIntValue(value, nsCSSUnit.EnumColor);
                     return true;
                   }
@@ -3354,53 +3285,7 @@ namespace Alba.CsCss.Style
           }
         
           // try 'xxyyzz' without '#' prefix for compatibility with IE and Nav4x (bug 23236 and 45804)
-          if (mHashlessColorQuirk) {
-            // - If the string starts with 'a-f', the nsCSSScanner builds the
-            //   token as a nsCSSTokenType.Ident and we can parse the string as a
-            //   'xxyyzz' RGB color.
-            // - If it only contains '0-9' digits, the token is a
-            //   nsCSSTokenType.Number and it must be converted back to a 6
-            //   characters string to be parsed as a RGB color.
-            // - If it starts with '0-9' and contains any 'a-f', the token is a
-            //   nsCSSTokenType.Dimension, the mNumber part must be converted back to
-            //   a string and the mIdent part must be appended to that string so
-            //   that the resulting string has 6 characters.
-            // Note: This is a hack for Nav compatibility.  Do not attempt to
-            // simplify it by hacking into the ncCSSScanner.  This would be very
-            // bad.
-            string str = "";
-            char buffer[20];
-            switch (tk.mType) {
-              case nsCSSTokenType.Ident:
-                str.Assign(tk.mIdentStr);
-                break;
-        
-              case nsCSSTokenType.Number:
-                if (tk.mIntegerValid) {
-                  PR_snprintf(buffer, sizeof(buffer), "%06d", tk.mInteger);
-                  str.AssignWithConversion(buffer);
-                }
-                break;
-        
-              case nsCSSTokenType.Dimension:
-                if (tk.mIdentStr.Length() <= 6) {
-                  PR_snprintf(buffer, sizeof(buffer), "%06.0f", tk.mNumber);
-                  string temp;
-                  temp.AssignWithConversion(buffer);
-                  temp.Right(str, 6 - tk.mIdentStr.Length());
-                  str.Append(tk.mIdentStr);
-                }
-                break;
-              default:
-                // There is a whole bunch of cases that are
-                // not handled by this switch.  Ignore them.
-                break;
-            }
-            if (nscolor.HexToRGB(str, ref rgba)) {
-              aValue.SetColorValue(rgba);
-              return true;
-            }
-          }
+          // TODO support hashless colors
         
           // It's not a color
           { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorNotColor", mToken); };
@@ -3788,7 +3673,7 @@ namespace Alba.CsCss.Style
           nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(*ident);
           if (nsCSSKeyword.UNKNOWN < keyword) {
             int32_t value = 0;
-            if (nsCSSProps.FindKeyword(keyword, aKeywordTable, value)) {
+            if (nsCSSProps.FindKeyword(keyword, aKeywordTable, ref value)) {
               aValue.SetIntValue(value, nsCSSUnit.Enumerated);
               return true;
             }
@@ -4033,7 +3918,7 @@ namespace Alba.CsCss.Style
               }
               if ((aVariantMask & VARIANT_KEYWORD) != 0) {
                 int32_t value = 0;
-                if (nsCSSProps.FindKeyword(keyword, aKeywordTable, value)) {
+                if (nsCSSProps.FindKeyword(keyword, aKeywordTable, ref value)) {
                   aValue.SetIntValue(value, nsCSSUnit.Enumerated);
                   return true;
                 }
@@ -4255,8 +4140,7 @@ namespace Alba.CsCss.Style
               if (nsCSSTokenType.Ident != mToken.mType ||
                   (keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr)) ==
                     nsCSSKeyword.UNKNOWN ||
-                  !nsCSSProps.FindKeyword(keyword, nsCSSProps.kListStyleKTable,
-                                           type)) {
+                  !nsCSSProps.FindKeyword(keyword, nsCSSProps.kListStyleKTable, ref type)) {
                 UngetToken();
                 break;
               }

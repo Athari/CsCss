@@ -78,6 +78,11 @@ namespace Alba.CsCss.Style
             throw new NotImplementedException();
         }
 
+        private static nsresult NS_NewURI (out Uri result, string spec, string charset, Uri baseUri)
+        {
+            throw new NotImplementedException();
+        }
+
         internal delegate void RuleAppendFunc (Rule aRule, object aData);
 
         internal enum nsSelectorParsingStatus
@@ -367,7 +372,12 @@ namespace Alba.CsCss.Style
     }
 
     internal class nsMediaFeatures
-    {}
+    {
+        public static nsMediaFeature GetFeature (string aAtom)
+        {
+            return null;
+        }
+    }
 
     internal class nsMediaFeature
     {
@@ -402,7 +412,8 @@ namespace Alba.CsCss.Style
         };
 
         public ValueType mValueType;
-        public object mData;
+        public nsMediaFeature mData;
+        public int[] mKeywordTable;
     }
 
     internal class nsMediaList
@@ -758,9 +769,12 @@ namespace Alba.CsCss.Style
 
     internal class Rule
     {
-        public static int CHARSET_RULE;
-        public static int IMPORT_RULE;
-        public static int NAMESPACE_RULE;
+        public const int CHARSET_RULE = 0, IMPORT_RULE = 1, NAMESPACE_RULE = 2;
+
+        public int GetKind ()
+        {
+            return 0;
+        }
     }
 
     internal class ImportRule : Rule
