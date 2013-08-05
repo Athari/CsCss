@@ -35,18 +35,18 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Original\nsNameSpace.conv.cs">
+    <Compile Include="Common\Original\nsNameSpace.conv.cs">
       <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\ArrayExts.cs" />
-    <Compile Include="Extensions\ListExts.cs" />
-    <Compile Include="Extensions\ObjectExts.cs" />
+    <Compile Include="Internal\Extensions\ArrayExts.cs" />
+    <Compile Include="Internal\Extensions\ListExts.cs" />
+    <Compile Include="Internal\Extensions\ObjectExts.cs" />
     <Compile Include="Internal\ReferenceEqualityComparer.cs" />
-    <Compile Include="Style\ErrorReporter.cs" />
-    <Compile Include="Extensions\DictionaryExts.cs" />
-    <Compile Include="Extensions\EnumerableExts.cs" />
-    <Compile Include="Extensions\StringBuilderExts.cs" />
-    <Compile Include="Extensions\StringExts.cs" />
+    <Compile Include="Common\ErrorReporter.cs" />
+    <Compile Include="Internal\Extensions\DictionaryExts.cs" />
+    <Compile Include="Internal\Extensions\EnumerableExts.cs" />
+    <Compile Include="Internal\Extensions\StringBuilderExts.cs" />
+    <Compile Include="Internal\Extensions\StringExts.cs" />
     <Compile Include="Gfx\gfxFontFeature.cs" />
     <Compile Include="Gfx\nsFont.cs" />
     <Compile Include="Gfx\nsIntRect.cs" />
@@ -143,7 +143,7 @@
     <Compile Include="Style\Rules\StyleRule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Base\Original\nsINameSpaceManager.tt">
+    <None Include="Common\Original\nsINameSpaceManager.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -322,7 +322,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Base\Original\nsINameSpaceManager.h">
+    <None Include="Common\Original\nsINameSpaceManager.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsINameSpaceManager.tt</LastGenOutput>
     </None>

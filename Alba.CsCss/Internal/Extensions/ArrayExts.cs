@@ -1,4 +1,4 @@
-﻿namespace Alba.CsCss.Extensions
+﻿namespace Alba.CsCss.Internal.Extensions
 {
     internal static class ArrayExts
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Alba.CsCss.Extensions
+namespace Alba.CsCss.Internal.Extensions
 {
     internal static class StringExts
     {

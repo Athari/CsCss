@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alba.CsCss.Extensions
+namespace Alba.CsCss.Internal.Extensions
 {
     internal static class EnumerableExts
     {

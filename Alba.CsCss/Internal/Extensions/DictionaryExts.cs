@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Alba.CsCss.Extensions
+namespace Alba.CsCss.Internal.Extensions
 {
     /// <summary>Copied from Alba.Framework to avoid referencing.</summary>
     internal static class DictionaryExts

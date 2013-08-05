@@ -1,5 +1,5 @@
 ﻿using System;
-using Alba.CsCss.Extensions;
+using Alba.CsCss.Internal.Extensions;
 using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Gfx

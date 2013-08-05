@@ -1,6 +1,7 @@
 ﻿using System;
+using Alba.CsCss.Style;
 
-namespace Alba.CsCss.Style
+namespace Alba.CsCss
 {
     internal class ErrorReporter
     {

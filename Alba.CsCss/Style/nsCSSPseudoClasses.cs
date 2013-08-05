@@ -1,4 +1,4 @@
-﻿using Alba.CsCss.Extensions;
+﻿using Alba.CsCss.Internal.Extensions;
 
 // TODO Convert sources from nsCSSPseudoClasses.cpp instead of copypasting
 namespace Alba.CsCss.Style

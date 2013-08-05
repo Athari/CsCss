@@ -7,7 +7,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
-using Alba.CsCss.Extensions;
+using Alba.CsCss.Internal.Extensions;
 
 using int32_t = System.Int32;
 using uint8_t = System.SByte;

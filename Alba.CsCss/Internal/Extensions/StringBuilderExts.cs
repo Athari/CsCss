@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Alba.CsCss.Extensions
+namespace Alba.CsCss.Internal.Extensions
 {
     internal static class StringBuilderExts
     {
