@@ -12,7 +12,7 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSParser
     {
-        private nsCSSToken mToken = new nsCSSToken();
+        private readonly nsCSSToken mToken = new nsCSSToken();
         private nsCSSScanner mScanner;
         private ErrorReporter mReporter;
         private Uri mBaseURI;
@@ -22,9 +22,9 @@ namespace Alba.CsCss.Style
         private CssLoader mChildLoader;
         private nsCSSSection mSection;
         private nsXMLNameSpaceMap mNameSpaceMap;
-        private List<GroupRule> mGroupStack;
-        private nsCSSExpandedDataBlock mTempData;
-        private nsCSSExpandedDataBlock mData;
+        private readonly List<GroupRule> mGroupStack = new List<GroupRule>();
+        private readonly nsCSSExpandedDataBlock mTempData = new nsCSSExpandedDataBlock();
+        private readonly nsCSSExpandedDataBlock mData = new nsCSSExpandedDataBlock();
 
         // After an UngetToken is done this flag is true. The next call to
         // GetToken clears the flag.
@@ -150,7 +150,7 @@ namespace Alba.CsCss.Style
             Or
         };
 
-        private class nsAutoParseCompoundProperty : IDisposable
+        private struct nsAutoParseCompoundProperty : IDisposable
         {
             private readonly nsCSSParser mParser;
 
@@ -166,7 +166,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        private class nsAutoFailingSupportsRule : IDisposable
+        private struct nsAutoFailingSupportsRule : IDisposable
         {
             private readonly nsCSSParser mParser;
             private readonly bool mOriginalValue;
@@ -185,7 +185,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        private class nsAutoSuppressErrors : IDisposable
+        private struct nsAutoSuppressErrors : IDisposable
         {
             private readonly nsCSSParser mParser;
             private readonly bool mOriginalValue;
@@ -780,105 +780,6 @@ namespace Alba.CsCss.Style
         {
             return false;
         }
-    }
-
-    internal class Rule
-    {
-        public const int CHARSET_RULE = 0, IMPORT_RULE = 1, NAMESPACE_RULE = 2;
-
-        public int GetKind ()
-        {
-            return 0;
-        }
-    }
-
-    internal class ImportRule : Rule
-    {
-        public ImportRule (nsMediaList aMedia, string aUrlSpec)
-        {}
-    }
-
-    internal class StyleRule : Rule
-    {
-        public StyleRule (object o, Declaration declaration)
-        {}
-
-        public void SetLineNumber (int linenum)
-        {}
-    }
-
-    internal class GroupRule : Rule
-    {
-        public void AppendStyleRule (Rule aRule)
-        {}
-    }
-
-    internal class CharsetRule : Rule
-    {
-        public CharsetRule (string charset)
-        {}
-    }
-
-    internal class MediaRule : GroupRule
-    {
-        public void SetMedia (nsMediaList media)
-        {}
-    }
-
-    internal class NameSpaceRule : Rule
-    {
-        public NameSpaceRule (string prefix, string aUrlSpec)
-        {}
-    }
-
-    internal class DocumentRule : GroupRule
-    {
-        internal class URL
-        {}
-
-        public void SetURLs (URL[] urls)
-        {}
-    }
-
-    internal class CSSSupportsRule : GroupRule
-    {
-        public CSSSupportsRule (ref bool conditionMet, StringBuilder condition)
-        {}
-
-        public static bool PrefEnabled ()
-        {
-            return false;
-        }
-    }
-
-    internal class nsCSSPageRule : Rule
-    {
-        public nsCSSPageRule (Declaration declaration)
-        {}
-    }
-
-    internal class nsCSSKeyframeRule : Rule
-    {
-        public nsCSSKeyframeRule (List<float> selectorList, Declaration declaration)
-        {}
-    }
-
-    internal class nsCSSKeyframesRule : Rule
-    {
-        public nsCSSKeyframesRule (string name)
-        {}
-
-        public void AppendStyleRule (nsCSSKeyframeRule kid)
-        {}
-    }
-
-    internal class nsCSSFontFaceRule : Rule
-    {
-        public nsCSSFontFaceRule ()
-        {}
-
-        public void SetDesc (nsCSSFontDesc descId, nsCSSValue value)
-        {}
     }
 
     internal class Declaration

@@ -186,6 +186,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.Range.$1")
             .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
             .ReReplace(@"nsMediaFeature::e(\w+)", "nsMediaFeature.ValueType.$1")
+            .ReReplace(@"Rule::(\w+)_RULE", "RuleKind.$1")
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
             .ReReplace(@"NS_FONT_(\w+)", "nsFont.$1")
             .ReReplace(@"NS_ATTR_FUNC_(\w+)", "nsAttrFunc.$1")

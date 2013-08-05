@@ -80,6 +80,9 @@
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsCSSFontFaceStyleDecl.g.cs">
+      <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsCSSKeyword.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
     </Compile>
@@ -123,6 +126,21 @@
     <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
       <DependentUpon>nsCSSPropsH.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Rules\CharsetRule.cs" />
+    <Compile Include="Style\Rules\CSSSupportsRule.cs" />
+    <Compile Include="Style\Rules\DocumentRule.cs" />
+    <Compile Include="Style\Rules\GroupRule.cs" />
+    <Compile Include="Style\Rules\ImportRule.cs" />
+    <Compile Include="Style\Rules\MediaRule.cs" />
+    <Compile Include="Style\Rules\NameSpaceRule.cs" />
+    <Compile Include="Style\Rules\nsCSSFontFaceRule.cs" />
+    <Compile Include="Style\Rules\nsCSSFontFaceStyleDecl.cs" />
+    <Compile Include="Style\Rules\nsCSSKeyframeRule.cs" />
+    <Compile Include="Style\Rules\nsCSSKeyframesRule.cs" />
+    <Compile Include="Style\Rules\nsCSSPageRule.cs" />
+    <Compile Include="Style\Rules\Rule.cs" />
+    <Compile Include="Style\Rules\RuleKind.cs" />
+    <Compile Include="Style\Rules\StyleRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Original\nsINameSpaceManager.tt">
@@ -321,6 +339,7 @@
       <LastGenOutput>nsCSSPseudoElementList.tt</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

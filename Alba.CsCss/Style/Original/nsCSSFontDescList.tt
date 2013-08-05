@@ -6,6 +6,7 @@
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSFontDescList.g.txt", () => GenerateCssFontDescListText());
     T4.GenerateFile("nsCSSFontDesc.g.cs", () => GenerateCssFontDesc());
+    T4.GenerateFile("nsCSSFontFaceStyleDecl.g.cs", () => GenerateCssFontFaceStyleDecl());
     T4.Process();
 #>
 
@@ -16,8 +17,8 @@
 
 <#+ foreach (CssFontDesc desc in GetCssFontDescs()) { #>
 //
-// Name: <#= desc.Name #>
-// Method: <#= desc.Method #>
+// Name: <#=desc.Name#>
+// Method: <#=desc.Method#>
 <#+ } #>
 <#+ } /* void GenerateCssFontDescListText */ #>
 
@@ -32,9 +33,47 @@ namespace Alba.CsCss.Style
     {
         UNKNOWN,
 <#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
-        <#= desc.Method #>,
+        <#=desc.Method#>,
 <#+   } #>
         COUNT
     }
 }
 <#+ } /* void GenerateCssFontDesc */ #>
+
+<#+ void GenerateCssFontFaceStyleDecl () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System;
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSFontFaceStyleDecl
+    {
+<#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+        private nsCSSValue m<#=desc.Method#>;
+<#+   } #>
+
+        public nsCSSValue GetValue (nsCSSFontDesc aDescID)
+        {
+            switch (aDescID) {
+<#+           foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+                case nsCSSFontDesc.<#=desc.Method#>: return m<#=desc.Method#>;
+<#+           } #>
+                default: throw new ArgumentOutOfRangeException("aDescID");
+            }
+        }
+
+        public void SetValue (nsCSSFontDesc aDescID, nsCSSValue value)
+        {
+            switch (aDescID) {
+<#+           foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+                case nsCSSFontDesc.<#=desc.Method#>: m<#=desc.Method#> = value; break;
+<#+           } #>
+                default: throw new ArgumentOutOfRangeException("aDescID");
+            }
+        }
+    }
+}
+<#+ } /* void GenerateCssFontFaceStyleDecl */ #>
