@@ -111,6 +111,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?<Var>\w+)\.Rebind\(\k<Var>, (?<Value>\d+)\);", "${Var} = ${Var}.Substring(${Value});") // nsDependentString.Rebind
             .ReReplace(@"(?<Var>\w+)(\.|->)Item\((?<Value>"+sArgs+@")\)", "${Var}[${Value}]") // Array.Item
             .ReReplace(@"GetType\(\)", "GetKind()") // C# Object.GetType conflict
+            .ReReplace(@"(\w+)\.Assign\((\w+)\);", "$1 = $2.ToString();") // nsString.Assign
+            .ReReplace(@"(?n)(?<Var>(\w|\.|->)+)\.Replace\(\k<Var>.Length\(\) - 1, 1, (?<Char>'\w')\);", "${Var} = ${Var}.Substring(0, ${Var}.Length - 1) + ${Char};") // nsString.Replace
 
             // specific preprocessor
             .ReReplace(@"REPORT_UNEXPECTED\((\w+)\)",
@@ -176,7 +178,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
             .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"(?n)&\b(?<Name>aScanner|aReporter|aSelector|aValue|mToken|mData|repeatPair|arr|result|dat|[xy](Value|Edge|Offset)\b)", "${Name}")
-            .ReReplace(@"(?n)\*\b(?<Name>aSelectorList|aResult|aChanged|aQuery|aHitStop|aHadFinalWS|aPseudoElement|aPseudoElementType|newSel|slist|selector|storage)\b", "${Name}")
+            .ReReplace(@"(?n)\*\b(?<Name>aSelectorList|aResult|aChanged|aQuery|aHitStop|aHadFinalWS|aPseudoElement|aPseudoElementType|newSel|slist|selector|storage|ident)\b", "${Name}")
             .ReReplace(@"(tk|mToken)(\.|\->)mIdent", "$1.mIdentStr")
             .ReReplace(@"(aPropIDs|kBorderColorsProps|kKeywordTableTable)\[(side|index|aPropID)\]", "$1[(int)$2]")
 
@@ -214,6 +216,9 @@ namespace Alba.CsCss.Style
             .Replace(@"attr = holdIdent;", "attr.AssignLiteral(holdIdent);")
             .Replace(@"(wasFirstComponentFlexBasis ? flexBasis : flexGrow) = tmpVal;", "if (wasFirstComponentFlexBasis) flexBasis = tmpVal; else flexGrow = tmpVal;")
             .Replace(@"mToken.mIdentStr.Truncate(truncAt);", "mToken.mIdentStr = mToken.mIdentStr.Substring(0, truncAt);")
+            .Replace(@"buffer.Append(tk.mIdentStr);", "buffer = tk.mIdentStr;")
+            .Replace(@"aComponent = NSToIntRound", "aComponent = (uint8_t)NSToIntRound")
+            .ReReplace(@"  nsCSSKeyword\.(\w+),", "  (int32_t)nsCSSKeyword.$1,")
             .ReReplace(@"(?s)nsMediaFeature feature.*?\n  }\n", "nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);\n")
             .ReReplace(@"(?s)(// pseudo-classes as well as pseudo-elements, start with a single ':').*?}", "$1\n  string pseudo = String.Intern(\":\" + mToken.mIdentStr);")
             .ReReplace(@"mToken\.mIdentStr \+ (\d+)", "mToken.mIdentStr.Substring($1)")
@@ -235,7 +240,7 @@ namespace Alba.CsCss.Style
             // specific expressions: constructors
             .ReReplace(@"(?<Type>nsCSSFontFaceRule|nsCSSSelectorList) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);", "var ${Var} = new ${Type}(${Args});") // Type Var(new Type()) -> var Var = new Var(Args)
             .ReReplace(@"(?<Type>nsCSSValue|BackgroundParseState|nsFont) (?<Var>\w+)\((?<Args>"+sArgs+@")\);", "var ${Var} = new ${Type}(${Args});") // Type Var(Args) -> var Var = new Var(Args)
-            .ReReplace(@"(?<Type>nsCSSValue|nsCSSValueList|bool) +(?<Var>\w+)\[(?<Size>[\w\.]+)\];", "var ${Var} = new ${Type}[${Size}];") // Type Var[Size] -> var Var = new Type[Size]
+            .ReReplace(@"(?<Type>nsCSSValue|nsCSSValueList|int32_t|bool) +(?<Var>\w+)\[(?<Size>[\w\.]+)?\];", "var ${Var} = new ${Type}[${Size}];") // Type Var[Size] -> var Var = new Type[Size]
             .ReReplace(@"(?<Type>Declaration|string) +(?<Var>\w+)\((?<Args>"+sArgs+@")\);", "${Type} ${Var} = ${Args};") // Type Var(Args) -> Type Var = Args
             .ReReplace(@"(?<Type>nsCSSValuePair|nsCSSSelectorList|nsAtomList|ExtractFirstFamilyData|ReduceNumberCalcOps|List<(?:float|nsCSSValue|uint32_t)>|nscolor|nsCSSRect) (?<Var>\w+);", "var ${Var} = new ${Type}();") // Type Var -> var Var = new Type()
             .ReReplace(@"(?<Type>nsCSSUnit|u?int\d+_t) (?<Var>\w+);", "${Type} ${Var} = 0;") // int Var -> int Var = 0
@@ -245,9 +250,11 @@ namespace Alba.CsCss.Style
             .Replace(@"nsAutoTArray<char, 16> stack;", "var stack = new List<char>(16);")
             .Replace(@"combinator = 0", @"combinator = '\0'")
             .Replace(@"int32_t numbers[2] = { 0, 0 };", "int32_t[] numbers = { 0, 0 };")
+            .Replace(@"int32_t[]  variantMask;", "var variantMask = new int32_t[0];")
             .Replace(@"nsCSSRect dimenX, dimenY;", "nsCSSRect dimenX = new nsCSSRect(), dimenY = new nsCSSRect();")
             .Replace(@"float x1, x2, y1, y2;", "float x1 = 0, x2 = 0, y1 = 0, y2 = 0;")
             .Replace(@"string stopSymbolChars", "char[] stopSymbolChars")
+            .Replace(@"uint16_t minElems, maxElems;", "uint16_t minElems = 0, maxElems = 0;")
             .ReReplace(@"uint8_t r, g, b(, a)?;", "uint8_t r = 0, g = 0, b = 0, a = 0;")
             // specific expressions: boolean
             .ReReplace(@"(?nx)!\b(?<Var>
@@ -263,17 +270,22 @@ namespace Alba.CsCss.Style
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
             .ReReplace(@"!(dataMask|combinator)", "$1 == 0")            // !var -> var == 0
             .Replace(@"; l;", "; l != null;")
+            .Replace(@"!!l->mNext", "l.mNext != null")
+            .Replace(@"while ((l = l->mNext))", "while ((l = l.mNext) != null)")
+            .Replace(@"seen & (1 << component)", "((seen & (1 << component)) != 0)")
+            .Replace(@"while ((htmlAttr = caseInsensitiveHTMLAttribute[i++]))", "while ((htmlAttr = caseInsensitiveHTMLAttribute[i++]) != null)")
             // specific expressions: declarations
-            .ReReplace(@"(?x)static\ (?<Type>\w+)\ (?<Var>
+            .ReReplace(@"(?nx)static(\ const)?\ (?<Type>\w+)\ (?<Var>
                             caseInsensitiveHTMLAttribute|kBorderColorSources|kBorderSources|kBorderColorsProps|kBorderStyleSources|kBorderWidthSources|
                             columnIDs|fontIDs|listStyleIDs|kMarginSideIDs|kMarginSources|kOutlineIDs|kPaddingSideIDs|kPaddingSources|
-                            kTransitionProperties|kAnimationProperties
+                            kTransitionProperties|kAnimationProperties|
+                            kPaintOrderKTable|kContentListKWs|kContentSolitaryKWs|kTextDecorationKTable
                         )\[\]",
                         "/*TODO: static*/ ${Type}[] ${Var}")
             .Replace(@"static const uint8_t kVariantMaskLengths[eNumVariantMasks]", "/*TODO: static*/ uint8_t[] kVariantMaskLengths")
             .Replace(@"static const int32_t kVariantMasks[eNumVariantMasks][kMaxElemsPerFunction]", "/*TODO: static*/ int32_t[][] kVariantMasks")
             .Replace(@"{VARIANT_", "new[] {VARIANT_")
-            .Replace(@"static const uint32_t numProps", "uint32_t numProps")
+            .ReReplace(@"(static |const )+u?int32_t numProps", "uint32_t numProps")
             // specific expressions: arg declarations
             .ReReplace(@"bool (aInsideBraces)", "bool $1 = false")
             .ReReplace(@"bool (aAllowExplicitCenter)", "bool $1 = true")
@@ -299,13 +311,15 @@ namespace Alba.CsCss.Style
                             "ParseBoxPositionValues|ParseTransitionTimingFunctionValueComponent|ParseSelectorList|ParseSelectorGroup|"+
                             "ParseNegatedSimpleSelector|ParseHSLColor|ParseColorOpacity|ParseBackgroundRepeatValues|"+
                             "ParseBackgroundSizeValues|ParseBoxPositionValues|ParseIDSelector|ParseClassSelector|ParsePseudoSelector|"+
-                            "ParseAttributeSelector|ParseTypeOrUniversalSelector"+
+                            "ParseAttributeSelector|ParseTypeOrUniversalSelector|aValue\\.GetStringValue"+
                        @")\((?<Arg1>(\w|\.|->)+[,\)])", @"${Method}(ref ${Arg1}")
             .ReReplace(@"(?<Method>"+"NS_NewURI"+@")\((?<Arg1>(\w|\.|->)+[,\)])", @"${Method}(out ${Arg1}")
             .ReReplace(@"parsingStatus = ParsePseudoSelector\(ref aDataMask, newSel, true,\s+nullptr, nullptr, nullptr\);",
                         "{ string _1 = null; nsCSSPseudoElement _2 = 0; parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true, ref _1, null, ref _2); }")
             .ReReplace(@"ParseColorComponent\((\w), (\w+)", @"ParseColorComponent(ref $1, ref $2")
             .ReReplace(@"FindKeyword\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)\)", @"FindKeyword($1, $2, ref $3)")
+            .ReReplace(@"GetFunctionParseInformation\((\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"GetFunctionParseInformation($1, $2, ref $3, ref $4, ref $5, ref $6)")
+            .ReReplace(@"(ParseCalcAdditiveExpression|ParseCalcMultiplicativeExpression|ParseOneFamily|ParseCalcTerm)\(([^, ]+),\s+(\w+)", @"$1($2, ref $3")
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
             .ReReplace(@"(?<Method>\w+)\(AssignRuleToPointer, (?<Args>[^\)]+)\);", "Rule result = null; ${Method}((rule, _) => result = rule, ${Args}); aResult = result;")
 

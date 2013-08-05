@@ -2526,7 +2526,7 @@ namespace Alba.CsCss.Style
                     };
                     short i = 0;
                     string htmlAttr;
-                    while ((htmlAttr = caseInsensitiveHTMLAttribute[i++])) {
+                    while ((htmlAttr = caseInsensitiveHTMLAttribute[i++]) != null) {
                       if (attr.LowerCaseEqualsASCII(htmlAttr)) {
                         isCaseSensitive = false;
                         break;
@@ -3354,7 +3354,7 @@ namespace Alba.CsCss.Style
           if (ExpectSymbol(aStop, true)) {
             if (value < 0.0f) value = 0.0f;
             if (value > 255.0f) value = 255.0f;
-            aComponent = NSToIntRound(value);
+            aComponent = (uint8_t)NSToIntRound(value);
             return true;
           }
           { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentBadTerm", mToken, aStop); };
@@ -3672,7 +3672,7 @@ namespace Alba.CsCss.Style
           if (null == ident) {
             return false;
           }
-          nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(*ident);
+          nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(ident);
           if (nsCSSKeyword.UNKNOWN < keyword) {
             int32_t value = 0;
             if (nsCSSProps.FindKeyword(keyword, aKeywordTable, ref value)) {
@@ -4043,7 +4043,7 @@ namespace Alba.CsCss.Style
           if (((aVariantMask & VARIANT_STRING) != 0) &&
               (nsCSSTokenType.String == tk.mType)) {
             string  buffer;
-            buffer.Append(tk.mIdentStr);
+            buffer = tk.mIdentStr;
             aValue.SetStringValue(buffer, nsCSSUnit.String);
             return true;
           }
@@ -5421,7 +5421,7 @@ namespace Alba.CsCss.Style
             realData.mGood = false;
             return false;
           }
-          realData.mFamilyName.Assign(aFamily);
+          realData.mFamilyName = aFamily.ToString();
           realData.mGood = true;
           return true;
         }
@@ -5443,7 +5443,7 @@ namespace Alba.CsCss.Style
             // the style parameters to the nsFont constructor are ignored,
             // because it's only being used to call EnumerateFamilies
             string valueStr = "";
-            aValue.GetStringValue(valueStr);
+            aValue.GetStringValue(ref valueStr);
             var font = new nsFont(valueStr, 0, 0, 0, 0, 0, 0);
             var dat = new ExtractFirstFamilyData();
         
@@ -6565,7 +6565,7 @@ namespace Alba.CsCss.Style
         internal bool ParseBorderSide(nsCSSProperty[] aPropIDs,
                                        bool aSetAllSides)
         {
-          const int32_t numProps = 3;
+          uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
         
           int32_t found = ParseChoice(values, aPropIDs, numProps);
@@ -6652,7 +6652,7 @@ namespace Alba.CsCss.Style
         internal bool ParseDirectionalBorderSide(nsCSSProperty[] aPropIDs,
                                                   int32_t aSourceType)
         {
-          const int32_t numProps = 3;
+          uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
         
           int32_t found = ParseChoice(values, aPropIDs, numProps);
@@ -6756,7 +6756,7 @@ namespace Alba.CsCss.Style
             // The toplevel of a calc() is always an nsCSSValue[] of length 1.
             nsCSSValue[] arr = new nsCSSValue[1];
         
-            if (!ParseCalcAdditiveExpression(arr[0], aVariantMask))
+            if (!ParseCalcAdditiveExpression(arr[0], ref aVariantMask))
               break;
         
             if (!ExpectSymbol(')', true))
@@ -6792,7 +6792,7 @@ namespace Alba.CsCss.Style
           nsCSSValue storage = aValue;
           for (;;) {
             bool haveWS = false;
-            if (!ParseCalcMultiplicativeExpression(storage, aVariantMask, ref haveWS))
+            if (!ParseCalcMultiplicativeExpression(storage, ref aVariantMask, ref haveWS))
               return false;
         
             if (!haveWS || !GetToken(false))
@@ -6845,7 +6845,7 @@ namespace Alba.CsCss.Style
             } else {
               variantMask = aVariantMask | VARIANT_NUMBER;
             }
-            if (!ParseCalcTerm(storage, variantMask))
+            if (!ParseCalcTerm(storage, ref variantMask))
               return false;
             Debug.Assert(variantMask != 0,
                               "ParseCalcTerm did not set variantMask appropriately");
@@ -6933,7 +6933,7 @@ namespace Alba.CsCss.Style
             return false;
           // Either an additive expression in parentheses...
           if (mToken.IsSymbol('(')) {
-            if (!ParseCalcAdditiveExpression(aValue, aVariantMask) ||
+            if (!ParseCalcAdditiveExpression(aValue, ref aVariantMask) ||
                 !ExpectSymbol(')', true)) {
               SkipUntil(')');
               return false;
@@ -7060,7 +7060,7 @@ namespace Alba.CsCss.Style
             nsCSSProperty._moz_column_count,
             nsCSSProperty._moz_column_width
           };
-          const int32_t numProps = columnIDs.Length;
+          uint32_t numProps = columnIDs.Length;
         
           var values = new nsCSSValue[numProps];
           int32_t found = ParseChoice(values, columnIDs, numProps);
@@ -7093,17 +7093,17 @@ namespace Alba.CsCss.Style
         {
           // We need to divide the 'content' keywords into two classes for
           // ParseVariant's sake, so we can't just use nsCSSProps.kContentKTable.
-          const int32_t[] kContentListKWs = new int32_t[] {
-            nsCSSKeyword.open_quote, nsStyle.CONTENT_OPEN_QUOTE,
-            nsCSSKeyword.close_quote, nsStyle.CONTENT_CLOSE_QUOTE,
-            nsCSSKeyword.no_open_quote, nsStyle.CONTENT_NO_OPEN_QUOTE,
-            nsCSSKeyword.no_close_quote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
-            nsCSSKeyword.UNKNOWN,-1
+          /*TODO: static*/ int32_t[] kContentListKWs = {
+            (int32_t)nsCSSKeyword.open_quote, nsStyle.CONTENT_OPEN_QUOTE,
+            (int32_t)nsCSSKeyword.close_quote, nsStyle.CONTENT_CLOSE_QUOTE,
+            (int32_t)nsCSSKeyword.no_open_quote, nsStyle.CONTENT_NO_OPEN_QUOTE,
+            (int32_t)nsCSSKeyword.no_close_quote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
+            (int32_t)nsCSSKeyword.UNKNOWN,-1
           };
         
-          const int32_t[] kContentSolitaryKWs = new int32_t[] {
-            nsCSSKeyword._moz_alt_content, nsStyle.CONTENT_ALT_CONTENT,
-            nsCSSKeyword.UNKNOWN,-1
+          /*TODO: static*/ int32_t[] kContentSolitaryKWs = {
+            (int32_t)nsCSSKeyword._moz_alt_content, nsStyle.CONTENT_ALT_CONTENT,
+            (int32_t)nsCSSKeyword.UNKNOWN,-1
           };
         
           // Verify that these two lists add up to the size of
@@ -7264,7 +7264,7 @@ namespace Alba.CsCss.Style
           }
         
           // Get optional font-style, font-variant and font-weight (in any order)
-          const int32_t numProps = 3;
+          uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
           int32_t found = ParseChoice(values, fontIDs, numProps);
           if ((found < 0) || (nsCSSUnit.Inherit == values[0].GetUnit()) ||
@@ -7401,7 +7401,7 @@ namespace Alba.CsCss.Style
           bool single = false;
         
           // keywords only have meaning in the first position
-          if (!ParseOneFamily(family, single))
+          if (!ParseOneFamily(family, ref single))
             return false;
         
           // check for keywords, but only when keywords appear by themselves
@@ -7434,7 +7434,7 @@ namespace Alba.CsCss.Style
             family.Append(',');
         
             var nextFamily = new StringBuilder();
-            if (!ParseOneFamily(nextFamily, single))
+            if (!ParseOneFamily(nextFamily, ref single))
               return false;
         
             // at this point unquoted keywords are not allowed
@@ -7492,7 +7492,7 @@ namespace Alba.CsCss.Style
         
               var family = new StringBuilder();
               bool single = false;
-              if (!ParseOneFamily(family, single)) {
+              if (!ParseOneFamily(family, ref single)) {
                 SkipUntil(')');
                 return false;
               }
@@ -7796,7 +7796,7 @@ namespace Alba.CsCss.Style
         
         internal bool ParseOutline()
         {
-          const int32_t numProps = 3;
+          uint32_t numProps = 3;
           /*TODO: static*/ nsCSSProperty[] kOutlineIDs = {
             nsCSSProperty.outline_color,
             nsCSSProperty.outline_style,
@@ -7940,14 +7940,14 @@ namespace Alba.CsCss.Style
           const int eDecorationBlink        = nsStyle.TEXT_DECORATION_LINE_BLINK;
           const int eDecorationPrefAnchors  = nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS;
         
-          const int32_t[] kTextDecorationKTable = new int32_t[] {
-            nsCSSKeyword.none,                   eDecorationNone,
-            nsCSSKeyword.underline,              eDecorationUnderline,
-            nsCSSKeyword.overline,               eDecorationOverline,
-            nsCSSKeyword.line_through,           eDecorationLineThrough,
-            nsCSSKeyword.blink,                  eDecorationBlink,
-            nsCSSKeyword._moz_anchor_decoration, eDecorationPrefAnchors,
-            nsCSSKeyword.UNKNOWN,-1
+          /*TODO: static*/ int32_t[] kTextDecorationKTable = {
+            (int32_t)nsCSSKeyword.none,                   eDecorationNone,
+            (int32_t)nsCSSKeyword.underline,              eDecorationUnderline,
+            (int32_t)nsCSSKeyword.overline,               eDecorationOverline,
+            (int32_t)nsCSSKeyword.line_through,           eDecorationLineThrough,
+            (int32_t)nsCSSKeyword.blink,                  eDecorationBlink,
+            (int32_t)nsCSSKeyword._moz_anchor_decoration, eDecorationPrefAnchors,
+            (int32_t)nsCSSKeyword.UNKNOWN,-1
           };
         
           nsCSSValue value;
@@ -8375,12 +8375,11 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          int32_t[]  variantMask;
-          uint16_t minElems, maxElems;
+          var variantMask = new int32_t[0];
+          uint16_t minElems = 0, maxElems = 0;
           nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
         
-          if (!GetFunctionParseInformation(keyword, aIsPrefixed,
-                                           minElems, maxElems, variantMask, aIs3D))
+          if (!GetFunctionParseInformation(keyword, aIsPrefixed, ref minElems, ref maxElems, ref variantMask, ref aIs3D))
             return false;
         
           // Bug 721136: Normalize the identifier to lowercase, except that things
@@ -8392,20 +8391,20 @@ namespace Alba.CsCss.Style
             case nsCSSKeyword.scalex:
             case nsCSSKeyword.skewx:
             case nsCSSKeyword.translatex:
-              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'X');
+              mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'X';
               break;
         
             case nsCSSKeyword.rotatey:
             case nsCSSKeyword.scaley:
             case nsCSSKeyword.skewy:
             case nsCSSKeyword.translatey:
-              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'Y');
+              mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'Y';
               break;
         
             case nsCSSKeyword.rotatez:
             case nsCSSKeyword.scalez:
             case nsCSSKeyword.translatez:
-              mToken.mIdentStr.Replace(mToken.mIdentStr.Length() - 1, 1, 'Z');
+              mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'Z';
               break;
         
             default:
@@ -8768,7 +8767,7 @@ namespace Alba.CsCss.Style
                                 nsCSSProperty.transition_property,
                               "array index mismatch");
             nsCSSValueList l = values[3].GetListValue();
-            bool multipleItems = !!l.mNext;
+            bool multipleItems = l.mNext != null;
             do {
               nsCSSValue val = l.mValue;
               if (val.GetUnit() == nsCSSUnit.None) {
@@ -8787,7 +8786,7 @@ namespace Alba.CsCss.Style
                   return false;
                 }
               }
-            } while ((l = l.mNext));
+            } while ((l = l.mNext) != null);
           }
         
           // Save all parsed transition sub-properties in mTempData
@@ -9064,12 +9063,12 @@ namespace Alba.CsCss.Style
         internal bool ParsePaintOrder()
         {
         
-          const int32_t[] kPaintOrderKTable = new int32_t[] {
-            nsCSSKeyword.normal,  nsStyle.PAINT_ORDER_NORMAL,
-            nsCSSKeyword.fill,    nsStyle.PAINT_ORDER_FILL,
-            nsCSSKeyword.stroke,  nsStyle.PAINT_ORDER_STROKE,
-            nsCSSKeyword.markers, nsStyle.PAINT_ORDER_MARKERS,
-            nsCSSKeyword.UNKNOWN,-1
+          /*TODO: static*/ int32_t[] kPaintOrderKTable = {
+            (int32_t)nsCSSKeyword.normal,  nsStyle.PAINT_ORDER_NORMAL,
+            (int32_t)nsCSSKeyword.fill,    nsStyle.PAINT_ORDER_FILL,
+            (int32_t)nsCSSKeyword.stroke,  nsStyle.PAINT_ORDER_STROKE,
+            (int32_t)nsCSSKeyword.markers, nsStyle.PAINT_ORDER_MARKERS,
+            (int32_t)nsCSSKeyword.UNKNOWN,-1
           };
         
           nsCSSValue value;
@@ -9089,7 +9088,7 @@ namespace Alba.CsCss.Style
             if (component != nsStyle.PAINT_ORDER_NORMAL) {
               bool parsedOK = true;
               for (;;) {
-                if (seen & (1 << component)) {
+                if (((seen & (1 << component)) != 0)) {
                   // Already seen this component.
                   UngetToken();
                   parsedOK = false;
@@ -9116,7 +9115,7 @@ namespace Alba.CsCss.Style
                 for (component = 1;
                      component <= nsStyle.PAINT_ORDER_LAST_VALUE;
                      component++) {
-                  if (!(seen & (1 << component))) {
+                  if (!(((seen & (1 << component)) != 0))) {
                     order |= (component << position);
                     position += nsStyle.PAINT_ORDER_BITWIDTH;
                   }

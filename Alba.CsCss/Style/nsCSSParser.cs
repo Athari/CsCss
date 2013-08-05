@@ -83,6 +83,11 @@ namespace Alba.CsCss.Style
             throw new NotImplementedException();
         }
 
+        private static int NSToIntRound (float x)
+        {
+            return x >= 0.0f ? (int32_t)(x + 0.5f) : (int32_t)(x - 0.5f);
+        }
+
         internal delegate void RuleAppendFunc (Rule aRule, object aData);
 
         internal enum nsSelectorParsingStatus
@@ -473,7 +478,7 @@ namespace Alba.CsCss.Style
 
     internal class nsGkAtoms
     {
-        public static object all, _not, only;
+        public static string all, _not, only;
     }
 
     internal struct nsCSSValue : IEquatable<nsCSSValue>
@@ -646,6 +651,9 @@ namespace Alba.CsCss.Style
         }
 
         public void SetPairValue (nsCSSValuePair mXValue)
+        {}
+
+        public void GetStringValue (ref string valueStr)
         {}
     }
 

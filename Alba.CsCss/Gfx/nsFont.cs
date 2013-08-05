@@ -79,7 +79,7 @@ namespace Alba.CsCss.Gfx
             this.languageOverride = languageOverride;
         }
 
-        public nsFont (StringBuilder name, int style, int systemFont, int variant, int decorations, int weight, int stretch,
+        internal nsFont (object name, int style, int systemFont, int variant, int decorations, int weight, int stretch,
             nscoord size = default(nscoord), float sizeAdjust = 0, string languageOverride = null)
             : this(name.ToString(), (byte)style, (byte)systemFont, (byte)variant, (byte)decorations, (ushort)weight, (short)stretch, size, sizeAdjust, languageOverride)
         {}
