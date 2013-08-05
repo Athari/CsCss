@@ -88,6 +88,13 @@ namespace Alba.CsCss.Style
             return x >= 0.0f ? (int32_t)(x + 0.5f) : (int32_t)(x - 0.5f);
         }
 
+        private void AppendValues (nsCSSProperty[] aPropIDs, nsCSSValue aValue)
+        {
+            foreach (nsCSSProperty aPropId in aPropIDs)
+                if (aPropId != nsCSSProperty.UNKNOWN)
+                    AppendValue(aPropId, aValue);
+        }
+
         internal delegate void RuleAppendFunc (Rule aRule, object aData);
 
         internal enum nsSelectorParsingStatus

@@ -70,8 +70,6 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\\\n", "")
             .ReReplace(@"""\s*\n\s*""", "")
 
-            // specific mozilla
-            //.Replace(@"MOZ_LIKELY(ch < 0 || ch == ')')", "ch < 0 || ch == ')'")
             // common mozilla
             .ReReplace(@"PRUnichar", "char")
             .ReReplace(@"arrlen_t", "size_t")
@@ -92,8 +90,6 @@ namespace Alba.CsCss.Style
                         "(((${Expr}) & 0x80000000) == 0)")
             .ReReplace(@"NS_RELEASE\((\*?\w+)\)", "$1 = null")
             .ReReplace(@"(\w+).(?:forget|get)\(\)", "$1")
-            //.ReReplace(@"(?s)MOZ_(?:UN)?LIKELY\((" + sArgs + @")\)", "$1")
-            //.ReReplace(@"(?s)NS_ERROR\((" + sArg + @")\)", "throw new Exception($1)")
             .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|getter_Transfers|getter_AddRefs)\((.*?)\)", "$1")
             .ReReplace(@"(?:char)\(('.*?')\)", "$1")
             .ReReplace(@"(?:char)\(0\)", "'\\0'")
@@ -173,7 +169,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\n(.*)\n(CSSParserImpl)::", "\ninternal $1 ")
             .ReReplace(@"&?CSSParserImpl::", "")
             .ReReplace(@"(?n)&\b(?<Name>aScanner|aReporter|aSelector|aValue|mToken|mData|repeatPair|arr|result|dat|[xy](Value|Edge|Offset)\b)", "${Name}")
-            .ReReplace(@"(?n)\*\b(?<Name>aSelectorList|aResult|aChanged|aQuery|aHitStop|aHadFinalWS|aPseudoElement|aPseudoElementType|newSel|slist|selector|storage|ident)\b", "${Name}")
+            .ReReplace(@"(?n)\*\b(?<Name>aConsumedTokens|aSelectorList|aResult|aChanged|aQuery|aHitStop|aHadFinalWS|aPseudoElement|aPseudoElementType|newSel|slist|selector|storage|ident)\b", "${Name}")
             .ReReplace(@"(tk|mToken)(\.|\->)mIdent", "$1.mIdentStr")
             .ReReplace(@"(aPropIDs|kBorderColorsProps|kKeywordTableTable)\[(side|index|aPropID)\]", "$1[(int)$2]")
 
@@ -222,6 +218,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?s)(// pseudo-classes as well as pseudo-elements, start with a single ':').*?}", "$1\n  string pseudo = String.Intern(\":\" + mToken.mIdentStr);")
             .ReReplace(@"mToken\.mIdentStr \+ (\d+)", "mToken.mIdentStr.Substring($1)")
             .ReReplace(@"(?<Var>\w+)\.\*\(?nsCSSRect::sides\[(?<Index>\w+)\]\)?", "${Var}[${Index}]")
+            .ReReplace(@"(?s)for \(nsCSSProperty prop = aSourceProperties;.*?  }", "AppendValues(aSourceProperties, physical);")
+            .ReReplace(@"(?s)for \(nsCSSProperty subprops =\s+([^;]+);.*?  }", "AppendValues($1, color);")
             .ReReplace(@"(?ns)(?<Type>nsAutoParseCompoundProperty|nsAutoFailingSupportsRule|nsAutoSuppressErrors) "+ // RAII structs
                        @"(?<Var>\w+)\((?<Args>"+sArgs+@")\);(?<Code>.*?)\n}\n",
                        m => "using (/*var "+m.Get("Var")+" = */new "+m.Get("Type")+"("+m.Get("Args")+")) {"+m.Get("Code").Indent(2)+"\n  }\n}\n")
@@ -262,7 +260,7 @@ namespace Alba.CsCss.Style
                         )\b(?!\.)",
                         "${Var} == null")                                                                   // !var -> var == null
             .ReReplace(@"(?nx)(?<Op>if|while)\ \(\b(?<Var>
-                            mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|pseudoElement|query|kid|
+                            mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|pseudoElement|query|kid|aConsumedTokens|sliceConsumedTokens|
                             negations->mNegations|selector->mNext
                         )\b\)",
                         "${Op} (${Var} != null)")                                                           // if (var) -> if (var != null)
@@ -285,6 +283,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"if \(\((BG_\w+ \| BG_\w+)\) & value\[(\d+)\]\.GetIntValue\(\)\)", "if ((($1) & value[$2].GetIntValue()) != 0)")
             .ReReplace(@"([xy]EdgeEnum) & \((BG_\w+ \| BG_\w+)\)", "(($1 & ($2)) != 0)")
             .Replace(@"Debug.Assert(aSelectorList,", "Debug.Assert(aSelectorList != null,")
+            .Replace(@"&& aConsumedTokens", "&& aConsumedTokens != null")
             .Replace(@"; l;", "; l != null;")
             .Replace(@"!!l->mNext", "l.mNext != null")
             .Replace(@"while ((l = l->mNext))", "while ((l = l.mNext) != null)")
@@ -309,6 +308,7 @@ namespace Alba.CsCss.Style
             // specific expressions: arg declarations
             .ReReplace(@"bool (aInsideBraces)", "bool $1 = false")
             .ReReplace(@"bool (aAllowExplicitCenter)", "bool $1 = true")
+            .Replace(@"ref bool aConsumedTokens", "ref bool? aConsumedTokens")
             .Replace(@"nsCSSContextType aContext", "nsCSSContextType aContext = nsCSSContextType.General")
             .Replace(@"uint32_t aFlags", "nsParseDeclaration aFlags")
             .ReReplace(@"\b(nsCSSProperty|nsCSSValue)\b \b(subprops|aSourceProperties|aProperties|aValues|aInitialValues)\b(?!\[\])", "$1[] $2")
@@ -318,6 +318,7 @@ namespace Alba.CsCss.Style
             // specific expressions: arg values
             .ReReplace(@"nsMediaQuery query;", "nsMediaQuery query = null;")
             .ReReplace(@"string (condition|family|nextFamily);", "var $1 = new StringBuilder();")
+            .Replace(@"bool sliceConsumedTokens = false;", "bool? sliceConsumedTokens = false;")
             // specific expressions: arg calls
             .ReReplace(@"&(equal)", "out $1")
             .ReReplace(@"&(hitStop|changed|sliceConsumedTokens|haveWS|pseudoElementType)", "ref $1")
@@ -336,6 +337,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?<Method>"+"NS_NewURI"+@")\((?<Arg1>(\w|\.|->)+[,\)])", @"${Method}(out ${Arg1}")
             .ReReplace(@"parsingStatus = ParsePseudoSelector\(ref aDataMask, newSel, true,\s+nullptr, nullptr, nullptr\);",
                         "{ string _1 = null; nsCSSPseudoElement _2 = 0; parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true, ref _1, null, ref _2); }")
+            .Replace(@"return ParseBorderImageSlice(true, nullptr);", "{ bool? _ = null; return ParseBorderImageSlice(true, ref _); }")
             .ReReplace(@"ParseColorComponent\((\w), (\w+)", @"ParseColorComponent(ref $1, ref $2")
             .ReReplace(@"FindKeyword\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)\)", @"FindKeyword($1, $2, ref $3)")
             .ReReplace(@"GetFunctionParseInformation\((\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"GetFunctionParseInformation($1, $2, ref $3, ref $4, ref $5, ref $6)")
@@ -343,18 +345,10 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
             .ReReplace(@"(?<Method>\w+)\(AssignRuleToPointer, (?<Args>[^\)]+)\);", "Rule result = null; ${Method}((rule, _) => result = rule, ${Args}); aResult = result;")
 
-            // common c++ fixes
-            //.Replace(@"PRUnichar(')')", "((PRUnichar)(')'))")
             // common c++ functions
-            //.Replace(@"std::min", "Math.Min")
-            //.Replace(@"std::max", "Math.Max")
-            //.Replace(@"pow", "Math.Pow")
             .ReReplace(@"(?n)(?<Var1>(\w|\.|->)+)\.swap\((?<Var2>(\w|\.|->)+)\)", "{ var t = ${Var1}; ${Var1} = ${Var2}; ${Var2} = t; }")
             .Replace(@"fabs", "Math.Abs")
             .Replace(@"floor", "(float)Math.Floor")
-            // common c++ consts
-            //.Replace(@"INT32_MAX", "Int32.MaxValue")
-            //.Replace(@"INT32_MIN", "Int32.MinValue")
             // common c++
             .ReReplace(@"nullptr", "null")
             .ReReplace(@"void\*", "object")
@@ -380,10 +374,7 @@ namespace Alba.CsCss.Style
                             )
                                 }",
                         "${Space}${Switch}${Space}break;\n${Space}}") // force break as last instruction inside switch
-            //.ReReplace(@"\) const\n", ")\n") // const functions
-            //.ReReplace(@"inline", "")
             .ReReplace(@"(u?int\d+_t|double|bool)\((" + sArgs + @")\)", "(($1)($2))") // casts in functional style
-            //.ReReplace(@"(u?int\d+_t|double|bool)\((" + sArgs + @")\)", "(($1)($2))") // cast inside cast
             .ReReplace(@"static_cast<(u?int\d+_t|size_t)>\((" + sArgs + @")\)", "(($1)($2))")
             .ReReplace(@"(?i)\b(\d)+u\b", "$1") // no suffix for ushort
             .Replace(@"(void)", "") // pointless cast to void
@@ -398,6 +389,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"#ifdef (\w+)", "#if $1")
             .ReReplace(@"\n *delete .*;\n", "\n")
             .ReReplace(@"\n *typedef .*;\n", "\n")
+            .ReReplace(@"(?s)#if 0\n.*?#endif", "")
             //.ReReplace(@"using .*", "")
 
             // whitespace

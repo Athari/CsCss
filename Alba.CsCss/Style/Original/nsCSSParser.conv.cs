@@ -2061,13 +2061,6 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-        #if 0
-          slist.Dump();
-          fputs("{\n", stdout);
-          declaration.List();
-          fputs("}\n", stdout);
-        #endif
-        
           // Translate the selector list and declaration block into style data
         
           StyleRule rule = new StyleRule(slist, declaration);
@@ -5187,7 +5180,8 @@ namespace Alba.CsCss.Style
           case nsCSSProperty.border_top_colors:
             return ParseBorderColors(aPropID);
           case nsCSSProperty.border_image_slice:
-            return ParseBorderImageSlice(true, null);
+            { bool? _ = null; return ParseBorderImageSlice(true, ref _); }
+            goto case nsCSSProperty.border_image_width;
           case nsCSSProperty.border_image_width:
             return ParseBorderImageWidth(true);
           case nsCSSProperty.border_image_outset:
@@ -5501,10 +5495,7 @@ namespace Alba.CsCss.Style
         internal void InitBoxPropsAsPhysical(nsCSSProperty[] aSourceProperties)
         {
           var physical = new nsCSSValue(nsStyle.BOXPROP_SOURCE_PHYSICAL, nsCSSUnit.Enumerated);
-          for (nsCSSProperty prop = aSourceProperties;
-               *prop != nsCSSProperty.UNKNOWN; ++prop) {
-            AppendValue(*prop, physical);
-          }
+          AppendValues(aSourceProperties, physical);
         }
         
         static nsCSSValue
@@ -5544,11 +5535,7 @@ namespace Alba.CsCss.Style
               if (!ExpectEndProperty()) {
                 return false;
               }
-              for (nsCSSProperty[] subprops =
-                     nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background);
-                   *subprops != nsCSSProperty.UNKNOWN; ++subprops) {
-                AppendValue(*subprops, color);
-              }
+              AppendValues(nsCSSProps.SubpropertyEntryFor(nsCSSProperty.background), color);
               return true;
             }
           
@@ -6326,13 +6313,13 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseBorderImageSlice(bool aAcceptsInherit,
-                                             ref bool aConsumedTokens)
+                                             ref bool? aConsumedTokens)
         {
           // border-image-slice: initial | [<number>|<percentage>]{1,4} && fill?
           nsCSSValue value;
         
-          if (aConsumedTokens) {
-            *aConsumedTokens = true;
+          if (aConsumedTokens != null) {
+            aConsumedTokens = true;
           }
         
           if (aAcceptsInherit && ParseVariant(value, VARIANT_INHERIT, null)) {
@@ -6349,8 +6336,8 @@ namespace Alba.CsCss.Style
           // Parse the box dimensions.
           nsCSSValue imageSliceBoxValue;
           if (!ParseGroupedBoxProperty(VARIANT_PN, imageSliceBoxValue)) {
-            if (!hasFill && aConsumedTokens) {
-              *aConsumedTokens = false;
+            if (!hasFill && aConsumedTokens != null) {
+              aConsumedTokens = false;
             }
         
             return false;
@@ -6492,7 +6479,7 @@ namespace Alba.CsCss.Style
               // can appear in either order.  Since the tokens that were consumed cannot
               // parse as anything else we care about, this isn't a problem.
               if (!foundSliceWidthOutset) {
-                bool sliceConsumedTokens = false;
+                bool? sliceConsumedTokens = false;
                 if (ParseBorderImageSlice(false, ref sliceConsumedTokens)) {
                   foundSliceWidthOutset = true;
           
@@ -6516,7 +6503,7 @@ namespace Alba.CsCss.Style
                 } else {
                   // If we consumed some tokens for <border-image-slice> but did not
                   // successfully parse it, we have an error.
-                  if (sliceConsumedTokens) {
+                  if (sliceConsumedTokens != null) {
                     return false;
                   }
                 }
