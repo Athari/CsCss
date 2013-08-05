@@ -406,7 +406,7 @@ namespace Alba.CsCss.Style
               Rule result = null; ParseRuleSet((rule, _) => result = rule, aResult); aResult = result;
             }
         
-            if (aResult && GetToken(true)) {
+            if (aResult != null && GetToken(true)) {
               // garbage after rule
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PERuleTrailing", mToken); };
               aResult = null;
@@ -582,7 +582,7 @@ namespace Alba.CsCss.Style
           ReleaseScanner();
         
           if (success) {
-            Debug.Assert(aSelectorList, "Should have list!");
+            Debug.Assert(aSelectorList != null, "Should have list!");
             return NS_OK;
           }
         
@@ -2567,7 +2567,7 @@ namespace Alba.CsCss.Style
                                            object   aPseudoElementArgs,
                                            ref nsCSSPseudoElement aPseudoElementType)
         {
-          Debug.Assert(aIsNegated || (aPseudoElement && aPseudoElementArgs),
+          Debug.Assert(aIsNegated || (aPseudoElement != null && aPseudoElementArgs != null),
                        "expected location to store pseudo element");
           Debug.Assert(!aIsNegated || (aPseudoElement == null && aPseudoElementArgs == null),
                        "negated selectors shouldn't have a place to store pseudo elements");
@@ -2640,7 +2640,7 @@ namespace Alba.CsCss.Style
           Debug.Assert(!isPseudoClass ||
                        pseudoElementType == nsCSSPseudoElement.NotPseudoElement,
                        "Why is this atom both a pseudo-class and a pseudo-element?");
-          Debug.Assert(isPseudoClass + isPseudoElement + isAnonBox <= 1,
+          Debug.Assert((isPseudoClass?1:0) + (isPseudoElement?1:0) + (isAnonBox?1:0) <= 1,
                        "Shouldn't be more than one of these");
         
           if (!isPseudoClass && !isPseudoElement && !isAnonBox) {
@@ -3035,7 +3035,7 @@ namespace Alba.CsCss.Style
           // pseudo-elements.
           for (nsCSSSelectorList l = slist; l != null; l = l.mNext) {
             nsCSSSelector s = l.mSelectors;
-            if (s.mNext || s.IsPseudoElement()) {
+            if (s.mNext != null || s.IsPseudoElement()) {
               return nsSelectorParsingStatus.Error; // our caller calls SkipUntil(')')
             }
           }
@@ -3125,7 +3125,7 @@ namespace Alba.CsCss.Style
           if (pseudoElementType == nsCSSPseudoElement.AnonBox) {
             // We got an anonymous box pseudo-element; it must be the only
             // thing in this selector group.
-            if (selector.mNext || !IsUniversalSelector(selector)) {
+            if (selector.mNext != null || !IsUniversalSelector(selector)) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAnonBoxNotAlone"); };
               return false;
             }
@@ -3752,7 +3752,7 @@ namespace Alba.CsCss.Style
               type = VARIANT_LENGTH;
             }
             else if ((VARIANT_ANGLE & aVariantMask) != 0) {
-              Debug.Assert(aVariantMask & VARIANT_ZERO_ANGLE,
+              Debug.Assert(((aVariantMask & VARIANT_ZERO_ANGLE) != 0),
                            "must have allowed zero angle");
               units = nsCSSUnit.Degree;
               type = VARIANT_ANGLE;
@@ -3852,17 +3852,17 @@ namespace Alba.CsCss.Style
                                     int32_t aVariantMask,
                                     int32_t[] aKeywordTable)
         {
-          Debug.Assert(!(mHashlessColorQuirk && (aVariantMask & VARIANT_COLOR)) ||
-                       !(aVariantMask & VARIANT_NUMBER),
+          Debug.Assert(!(mHashlessColorQuirk && ((aVariantMask & VARIANT_COLOR) != 0)) ||
+                       !((aVariantMask & VARIANT_NUMBER) != 0),
                        "can't distinguish colors from numbers");
-          Debug.Assert(!(mHashlessColorQuirk && (aVariantMask & VARIANT_COLOR)) ||
-                       !(mUnitlessLengthQuirk && (aVariantMask & VARIANT_LENGTH)),
+          Debug.Assert(!(mHashlessColorQuirk && ((aVariantMask & VARIANT_COLOR) != 0)) ||
+                       !(mUnitlessLengthQuirk && ((aVariantMask & VARIANT_LENGTH) != 0)),
                        "can't distinguish colors from lengths");
-          Debug.Assert(!(mUnitlessLengthQuirk && (aVariantMask & VARIANT_LENGTH)) ||
-                       !(aVariantMask & VARIANT_NUMBER),
+          Debug.Assert(!(mUnitlessLengthQuirk && ((aVariantMask & VARIANT_LENGTH) != 0)) ||
+                       !((aVariantMask & VARIANT_NUMBER) != 0),
                        "can't distinguish lengths from numbers");
-          Debug.Assert(!(aVariantMask & VARIANT_IDENTIFIER) ||
-                            !(aVariantMask & VARIANT_IDENTIFIER_NO_INHERIT),
+          Debug.Assert(!((aVariantMask & VARIANT_IDENTIFIER) != 0) ||
+                            !((aVariantMask & VARIANT_IDENTIFIER_NO_INHERIT) != 0),
                             "must not set both VARIANT_IDENTIFIER and VARIANT_IDENTIFIER_NO_INHERIT");
         
           if (!GetToken(true)) {
@@ -4088,7 +4088,7 @@ namespace Alba.CsCss.Style
               return true;
             }
           }
-          if ((aVariantMask & VARIANT_CALC) &&
+          if (((aVariantMask & VARIANT_CALC) != 0) &&
               (nsCSSTokenType.Function == tk.mType) &&
               (tk.mIdentStr.LowerCaseEqualsLiteral("calc") ||
                tk.mIdentStr.LowerCaseEqualsLiteral("-moz-calc"))) {
@@ -4494,11 +4494,11 @@ namespace Alba.CsCss.Style
             nsCSSValue xValue = cssGradient.mBgPos.mXValue;
             nsCSSValue yValue = cssGradient.mBgPos.mYValue;
             if (xValue.GetUnit() != nsCSSUnit.Enumerated ||
-                !(xValue.GetIntValue() & (nsStyle.BG_POSITION_LEFT |
+                0 == (xValue.GetIntValue() & (nsStyle.BG_POSITION_LEFT |
                                           nsStyle.BG_POSITION_CENTER |
                                           nsStyle.BG_POSITION_RIGHT)) ||
                 yValue.GetUnit() != nsCSSUnit.Enumerated ||
-                !(yValue.GetIntValue() & (nsStyle.BG_POSITION_TOP |
+                0 == (yValue.GetIntValue() & (nsStyle.BG_POSITION_TOP |
                                           nsStyle.BG_POSITION_CENTER |
                                           nsStyle.BG_POSITION_BOTTOM))) {
               SkipUntil(')');
@@ -5719,10 +5719,10 @@ namespace Alba.CsCss.Style
         
                 // 'background-clip' and 'background-origin' use the same keyword table
                 Debug.Assert(nsCSSProps.kKeywordTableTable[
-                             nsCSSProperty.background_origin] ==
+                             (int)nsCSSProperty.background_origin] ==
                            nsCSSProps.kBackgroundOriginKTable);
                 Debug.Assert(nsCSSProps.kKeywordTableTable[
-                             nsCSSProperty.background_clip] ==
+                             (int)nsCSSProperty.background_clip] ==
                            nsCSSProps.kBackgroundOriginKTable);
         
                 if (!ParseSingleValueProperty(aState.mClip.mValue,
@@ -5958,7 +5958,7 @@ namespace Alba.CsCss.Style
         
             if (ParseEnum(yValue, nsCSSProps.kBackgroundPositionKTable)) {
               int32_t yVal = yValue.GetIntValue();
-              if (!(yVal & BG_CTB)) {
+              if (!((yVal & BG_CTB) != 0)) {
                 // The second keyword can only be 'center', 'top', or 'bottom'
                 return false;
               }
@@ -5984,7 +5984,7 @@ namespace Alba.CsCss.Style
             mask |= bit;
             if (ParseEnum(xValue, nsCSSProps.kBackgroundPositionKTable)) {
               bit = xValue.GetIntValue();
-              if (mask & (bit & ~BG_CENTER)) {
+              if ((mask & (bit & ~BG_CENTER)) != 0) {
                 // Only the 'center' keyword can be duplicated.
                 return false;
               }
@@ -5993,7 +5993,7 @@ namespace Alba.CsCss.Style
             else {
               // Only one keyword.  See if we have a length, percentage, or calc.
               if (ParseVariant(yValue, VARIANT_LP | VARIANT_CALC, null)) {
-                if (!(mask & BG_CLR)) {
+                if (!((mask & BG_CLR) != 0)) {
                   // The first keyword can only be 'center', 'left', or 'right'
                   return false;
                 }
@@ -6008,7 +6008,7 @@ namespace Alba.CsCss.Style
           // or pairs of x keywords or pairs of y keywords.
           if ((mask == 0) || (mask == (BG_TOP | BG_BOTTOM)) ||
               (mask == (BG_LEFT | BG_RIGHT)) ||
-              (!aAllowExplicitCenter && (mask & BG_CENTER))) {
+              (!aAllowExplicitCenter && ((mask & BG_CENTER) != 0))) {
             return false;
           }
         
@@ -6118,7 +6118,7 @@ namespace Alba.CsCss.Style
                 } else {
                   // keyword offset
                   // First value must represent horizontal position.
-                  if ((BG_TOP | BG_BOTTOM) & value[0].GetIntValue()) {
+                  if (((BG_TOP | BG_BOTTOM) & value[0].GetIntValue()) != 0) {
                     return false;
                   }
                   value[3] = value[1]; // move yOffset to correct position
@@ -6129,7 +6129,7 @@ namespace Alba.CsCss.Style
                 if (nsCSSUnit.Enumerated == value[1].GetUnit()) {
                   // offset keyword
                   // Second value must represent vertical position.
-                  if ((BG_LEFT | BG_RIGHT) & value[1].GetIntValue()) {
+                  if (((BG_LEFT | BG_RIGHT) & value[1].GetIntValue()) != 0) {
                     return false;
                   }
                   value[2] = value[1]; // move yEdge to correct position
@@ -6180,15 +6180,15 @@ namespace Alba.CsCss.Style
                   yEdge.GetUnit() == nsCSSUnit.Enumerated ? yEdge.GetIntValue() : 0;
           if ((xEdgeEnum | yEdgeEnum) == (BG_LEFT | BG_RIGHT) ||
               (xEdgeEnum | yEdgeEnum) == (BG_TOP | BG_BOTTOM) ||
-              (xEdgeEnum & yEdgeEnum & ~BG_CENTER)) {
+              ((xEdgeEnum & yEdgeEnum & ~BG_CENTER) != 0)) {
             return false;
           }
         
           // The values could be in an order that is different than expected.
           // eg. x contains vertical information, y contains horizontal information.
           // Swap if incorrect order.
-          if (xEdgeEnum & (BG_TOP | BG_BOTTOM) ||
-              yEdgeEnum & (BG_LEFT | BG_RIGHT)) {
+          if (((xEdgeEnum & (BG_TOP | BG_BOTTOM)) != 0) ||
+              ((yEdgeEnum & (BG_LEFT | BG_RIGHT)) != 0)) {
             nsCSSValue swapEdge = xEdge;
             nsCSSValue swapOffset = xOffset;
             xEdge = yEdge;
@@ -6745,7 +6745,7 @@ namespace Alba.CsCss.Style
           // for a token that is *either* a value of the property or a number.
           // This can be done without lookahead when we assume that the property
           // values cannot themselves be numbers.
-          Debug.Assert(!(aVariantMask & VARIANT_NUMBER), "unexpected variant mask");
+          Debug.Assert(!((aVariantMask & VARIANT_NUMBER) != 0), "unexpected variant mask");
           Debug.Assert(aVariantMask != 0, "unexpected variant mask");
         
           bool oldUnitlessLengthQuirk = mUnitlessLengthQuirk;
@@ -6849,9 +6849,7 @@ namespace Alba.CsCss.Style
               return false;
             Debug.Assert(variantMask != 0,
                               "ParseCalcTerm did not set variantMask appropriately");
-            Debug.Assert(!(variantMask & VARIANT_NUMBER) ||
-                              !(variantMask & ~((int32_t)(VARIANT_NUMBER))),
-                              "ParseCalcTerm did not set variantMask appropriately");
+            
         
             if ((variantMask & VARIANT_NUMBER) != 0) {
               // Simplify the value immediately so we can check for division by
@@ -6948,7 +6946,7 @@ namespace Alba.CsCss.Style
             return false;
           }
           // ...and do the VARIANT_NUMBER check ourselves.
-          if (!(aVariantMask & VARIANT_NUMBER) && aValue.GetUnit() == nsCSSUnit.Number) {
+          if (!((aVariantMask & VARIANT_NUMBER) != 0) && aValue.GetUnit() == nsCSSUnit.Number) {
             return false;
           }
           // If we did the value parsing, we need to adjust aVariantMask to
@@ -7025,7 +7023,7 @@ namespace Alba.CsCss.Style
               }
               if (side == 0) {
                 useCommas = ExpectSymbol(',', true);
-              } else if (useCommas && side < 3) {
+              } else if (useCommas && (int)side < 3) {
                 // Skip optional commas between elements, but only if the first
                 // separator was a comma.
                 if (!ExpectSymbol(',', true)) {
@@ -7108,14 +7106,7 @@ namespace Alba.CsCss.Style
         
           // Verify that these two lists add up to the size of
           // nsCSSProps.kContentKTable.
-          Debug.Assert(nsCSSProps.kContentKTable[
-                              kContentListKWs.Length +
-                              kContentSolitaryKWs.Length - 4] ==
-                            nsCSSKeyword.UNKNOWN &&
-                            nsCSSProps.kContentKTable[
-                              kContentListKWs.Length +
-                              kContentSolitaryKWs.Length - 3] == -1,
-                            "content keyword tables out of sync");
+          
         
           nsCSSValue value;
           if (ParseVariant(value, VARIANT_HMK | VARIANT_NONE,
@@ -7981,7 +7972,7 @@ namespace Alba.CsCss.Style
                   break;
                 }
                 int32_t newValue = keyword.GetIntValue();
-                if (newValue == eDecorationNone || newValue & intValue) {
+                if (newValue == eDecorationNone || ((newValue & intValue) != 0)) {
                   // 'none' keyword in conjuction with others is not allowed, and
                   // duplicate keyword is not allowed.
                   return false;
@@ -8022,7 +8013,7 @@ namespace Alba.CsCss.Style
                   if (ParseEnum(keyword, nsCSSProps.kTextDecorationLineKTable)) {
                     int32_t newValue = keyword.GetIntValue();
                     if (newValue == nsStyle.TEXT_DECORATION_LINE_NONE ||
-                        newValue & intValue) {
+                        ((newValue & intValue) != 0)) {
                       // 'none' keyword in conjuction with others is not allowed, and
                       // duplicate keyword is not allowed.
                       return false;
@@ -8142,7 +8133,7 @@ namespace Alba.CsCss.Style
            * arguments.  In case the user has given us more than 2^16 - 2 arguments,
            * we'll truncate them at 2^16 - 2 arguments.
            */
-          uint16_t numElements = (foundValues.Length() <= MAX_ALLOWED_ELEMS ?
+          uint16_t numElements = (uint16_t)(foundValues.Length() <= MAX_ALLOWED_ELEMS ?
                                   foundValues.Length() + 1 : MAX_ALLOWED_ELEMS);
           nsCSSValue[] convertedArray =
             new nsCSSValue[numElements];

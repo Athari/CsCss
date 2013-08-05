@@ -140,13 +140,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?s)bool\nCSSParserImpl::ParseMozDocumentRule.*?\n}\n", "") // drop support for @document
             .ReReplace(@"(?s)else if \(mToken\.mIdent\.LowerCaseEqualsLiteral\(""-moz-document"".*?\n  } ", "\n  // TODO support @document\n  ")
             .ReReplace(@"(?s)if \(mHashlessColorQuirk\) {.*?\n  }", "// TODO support hashless colors") // drop support for hashless colors
-            //.ReReplace(@"(?s)nsCSSScanner::nsCSSScanner\(StringBuilder aBuffer, uint32_t aLineNumber\).*?\n}\n", "")
-            //.ReReplace(@"(?s)nsCSSScanner::~nsCSSScanner\(\).*?\n}\n", "")
-            //.ReReplace(@"(?s)void\s+nsCSSScanner::StopRecording\(StringBuilder aBuffer\).*?\n}\n", "")
-            //.ReReplace(@"(?s)nsDependentSubstring\s+nsCSSScanner::GetCurrentLine\(\).*?\n}\n", "")
-            // specific methods signatures
-            //.Replace(@"Peek(uint32_t n)", "Peek(uint32_t n = 0)")
-            //.Replace(@"Advance(uint32_t n)", "Advance(uint32_t n = 1)")
+            .ReReplace(@"(?s)Debug\.Assert\(!\(variantMask.*?""\);", "") // not worth maintaining
+            .ReReplace(@"(?s)Debug\.Assert\(nsCSSProps::kContentKTable.*?""\);", "")
 
             // specific classes
             .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?\b(?<Name>"+
@@ -218,6 +213,10 @@ namespace Alba.CsCss.Style
             .Replace(@"mToken.mIdentStr.Truncate(truncAt);", "mToken.mIdentStr = mToken.mIdentStr.Substring(0, truncAt);")
             .Replace(@"buffer.Append(tk.mIdentStr);", "buffer = tk.mIdentStr;")
             .Replace(@"aComponent = NSToIntRound", "aComponent = (uint8_t)NSToIntRound")
+            .Replace(@"isPseudoClass + isPseudoElement + isAnonBox", "(isPseudoClass?1:0) + (isPseudoElement?1:0) + (isAnonBox?1:0)")
+            .Replace(@"uint16_t numElements = ", "uint16_t numElements = (uint16_t)")
+            .ReReplace(@"nsCSSProperty\.\w+\]", "(int)$&")
+            .ReReplace(@"side < \d+", "(int)$&")
             .ReReplace(@"  nsCSSKeyword\.(\w+),", "  (int32_t)nsCSSKeyword.$1,")
             .ReReplace(@"(?s)nsMediaFeature feature.*?\n  }\n", "nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);\n")
             .ReReplace(@"(?s)(// pseudo-classes as well as pseudo-elements, start with a single ':').*?}", "$1\n  string pseudo = String.Intern(\":\" + mToken.mIdentStr);")
@@ -261,19 +260,40 @@ namespace Alba.CsCss.Style
                             mediaFeatureAtom|declaration|mediaType|prefix|aTail->mNext|newSel->(\w+)|feature->mName|
                             mScanner|mSheetPrincipal|mNameSpaceMap|aResult|aTail|aPseudoElementArgs|aPseudoElement|aSelectorList
                         )\b(?!\.)",
-                        "${Var} == null")                               // !var -> var == null
+                        "${Var} == null")                                                                   // !var -> var == null
             .ReReplace(@"(?nx)(?<Op>if|while)\ \(\b(?<Var>
                             mSheet|mChildLoader|mNameSpaceMap|lastRule|declaration|pseudoElement|query|kid|
                             negations->mNegations|selector->mNext
                         )\b\)",
-                        "${Op} (${Var} != null)")                       // if (var) -> if (var != null)
+                        "${Op} (${Var} != null)")                                                           // if (var) -> if (var != null)
             .ReReplace(@"if \(!\((mSheet|aSheetPrincipal|aBaseURI|aSheetURI|aNodePrincipal|aDeclaration)\)\)", "if ($1 == null)")
-            .ReReplace(@"!(dataMask|combinator)", "$1 == 0")            // !var -> var == 0
+            .ReReplace(@"!(dataMask|combinator)", "$1 == 0")                                                // !var -> var == 0
+            .ReReplace(@"if \((aResult|s->mNext|selector->mNext) (&&|\|\|)", "if ($1 != null $2")           // if (var OP -> if (var != null OP
+            .ReReplace(@"(?nx)
+                            (?<! ,\ )                                                                       # do not match if among arguments
+                            (?>                                                                             # no backtracking: disallow skipping openning bracket
+                                (?<o> \( )?                                                                 # opening bracket
+                                (?<Var> aVariantMask | yVal | mask )                                        # A & B expression: A
+                                \ &\                                                                        # A & B expression: &
+                                (?<Const> VARIANT_\w+ | BG_\w+ )                                            # A & B expression: B
+                            )
+                            (?<-o> \) )?                                                                    # closing bracket
+                            (?!\)?\ !=\ 0)                                                                  # do not match if comparison with 0 is already present
+                        (?(o)(?!))                                                                          # do not match if opening and closing brackets don't match",
+                        "((${Var} & ${Const}) != 0)")                                                       // A & B -> ((A & B) != 0)
+            .ReReplace(@"!\(([xy]Value)\.GetIntValue\(\)", "0 == ($1.GetIntValue()")
+            .ReReplace(@"if \(\((BG_\w+ \| BG_\w+)\) & value\[(\d+)\]\.GetIntValue\(\)\)", "if ((($1) & value[$2].GetIntValue()) != 0)")
+            .ReReplace(@"([xy]EdgeEnum) & \((BG_\w+ \| BG_\w+)\)", "(($1 & ($2)) != 0)")
+            .Replace(@"Debug.Assert(aSelectorList,", "Debug.Assert(aSelectorList != null,")
             .Replace(@"; l;", "; l != null;")
             .Replace(@"!!l->mNext", "l.mNext != null")
             .Replace(@"while ((l = l->mNext))", "while ((l = l.mNext) != null)")
             .Replace(@"seen & (1 << component)", "((seen & (1 << component)) != 0)")
             .Replace(@"while ((htmlAttr = caseInsensitiveHTMLAttribute[i++]))", "while ((htmlAttr = caseInsensitiveHTMLAttribute[i++]) != null)")
+            .Replace(@"if (mask & (bit & ~BG_CENTER))", "if ((mask & (bit & ~BG_CENTER)) != 0)")
+            .Replace(@"(xEdgeEnum & yEdgeEnum & ~BG_CENTER)", "((xEdgeEnum & yEdgeEnum & ~BG_CENTER) != 0)")
+            .Replace(@"(aPseudoElement && aPseudoElementArgs)", "(aPseudoElement != null && aPseudoElementArgs != null)")
+            .Replace(@"newValue & intValue", "((newValue & intValue) != 0)")
             // specific expressions: declarations
             .ReReplace(@"(?nx)static(\ const)?\ (?<Type>\w+)\ (?<Var>
                             caseInsensitiveHTMLAttribute|kBorderColorSources|kBorderSources|kBorderColorsProps|kBorderStyleSources|kBorderWidthSources|
