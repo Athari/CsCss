@@ -36,13 +36,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
+using Alba.CsCss.Internal;
 using Alba.CsCss.Internal.Extensions;
 
 using int32_t = System.Int32;
-using uint8_t = System.SByte;  // O RLY?
-using uint16_t = System.Int16; // O RLY?
+using uint8_t = System.Byte;
+using uint16_t = System.UInt16;
 using uint32_t = System.Int32; // O RLY?
-using size_t = System.Int32;   // O RLY?
+using size_t = System.Int32; // O RLY?
 using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
@@ -99,6 +100,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?n)NS_ConvertASCIItoUTF16 (?<Var>\w+)\((?<Value>"+sArgs+@")\);", "string ${Var} = ${Value};")
             .ReReplace(@"(?n)CopyUTF16toUTF8\((?<Value>"+sArgs+@"), (?<Var>"+sArgs+@")\);", "${Var} = ${Value};")
             .ReReplace(@"nsContentUtils::ASCIIToLower\((.*)\)", "$1 = $1.ToLower()")
+            .ReReplace(@"NSToIntRound\(", "NumberUtil.NSToIntRound(")
             .ReReplace(@"do_GetAtom", "String.Intern") // "atom" in Mozilla's sense is a string value instance used for all equal values (to compare by reference and lower memory usage)
             .ReReplace(@"NS_(RGBA?)", "nscolor.$1") // nscolor.*
             .ReReplace(@"NS_GET_([RGBA])\((\w+)\)", "$2.$1") // nscolor.*
@@ -209,7 +211,7 @@ namespace Alba.CsCss.Style
             .Replace(@"(wasFirstComponentFlexBasis ? flexBasis : flexGrow) = tmpVal;", "if (wasFirstComponentFlexBasis) flexBasis = tmpVal; else flexGrow = tmpVal;")
             .Replace(@"mToken.mIdentStr.Truncate(truncAt);", "mToken.mIdentStr = mToken.mIdentStr.Substring(0, truncAt);")
             .Replace(@"buffer.Append(tk.mIdentStr);", "buffer = tk.mIdentStr;")
-            .Replace(@"aComponent = NSToIntRound", "aComponent = (uint8_t)NSToIntRound")
+            .Replace(@"aComponent = NumberUtil", "aComponent = (uint8_t)NumberUtil")
             .Replace(@"isPseudoClass + isPseudoElement + isAnonBox", "(isPseudoClass?1:0) + (isPseudoElement?1:0) + (isAnonBox?1:0)")
             .Replace(@"uint16_t numElements = ", "uint16_t numElements = (uint16_t)")
             .ReReplace(@"nsCSSProperty\.\w+\]", "(int)$&")

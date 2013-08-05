@@ -35,12 +35,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\nsIPrincipal.cs" />
     <Compile Include="Common\Original\nsNameSpace.conv.cs">
       <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Internal\Extensions\ArrayExts.cs" />
     <Compile Include="Internal\Extensions\ListExts.cs" />
     <Compile Include="Internal\Extensions\ObjectExts.cs" />
+    <Compile Include="Internal\NumberUtil.cs" />
     <Compile Include="Internal\ReferenceEqualityComparer.cs" />
     <Compile Include="Common\ErrorReporter.cs" />
     <Compile Include="Internal\Extensions\DictionaryExts.cs" />
@@ -64,6 +66,10 @@
       <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>
     <Compile Include="Gfx\Side.cs" />
+    <Compile Include="Style\Calc\BasicFloatCalcOps.cs" />
+    <Compile Include="Style\CssLoader.cs" />
+    <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
+    <Compile Include="Common\nsCompatibility.cs" />
     <Compile Include="Style\nsCSSAnonBoxes.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
     <Compile Include="Style\nsCSSParser.cs" />
@@ -73,7 +79,10 @@
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
+    <Compile Include="Common\nsGkAtoms.cs" />
     <Compile Include="Style\nsStyle.cs" />
+    <Compile Include="Internal\nsStyleUtil.cs" />
+    <Compile Include="Style\Calc\NumbersAlreadyNormalizedOps.cs" />
     <Compile Include="Style\Original\nsAttrFunc.conv.cs">
       <DependentUpon>StyleRule.tt</DependentUpon>
     </Compile>
@@ -126,6 +135,7 @@
     <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
       <DependentUpon>nsCSSPropsH.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
     <Compile Include="Style\Rules\CharsetRule.cs" />
     <Compile Include="Style\Rules\CSSSupportsRule.cs" />
     <Compile Include="Style\Rules\DocumentRule.cs" />

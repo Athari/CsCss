@@ -7,10 +7,11 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using Alba.CsCss.Internal;
 using Alba.CsCss.Internal.Extensions;
 
 using int32_t = System.Int32;
-using uint8_t = System.SByte;
+using uint8_t = System.Byte;
 using uint32_t = System.Int32;
 using PRUnichar = System.Char;
 

@@ -20,13 +20,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
+using Alba.CsCss.Internal;
 using Alba.CsCss.Internal.Extensions;
 
 using int32_t = System.Int32;
-using uint8_t = System.SByte;  // O RLY?
-using uint16_t = System.Int16; // O RLY?
+using uint8_t = System.Byte;
+using uint16_t = System.UInt16;
 using uint32_t = System.Int32; // O RLY?
-using size_t = System.Int32;   // O RLY?
+using size_t = System.Int32; // O RLY?
 using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
@@ -3347,7 +3348,7 @@ namespace Alba.CsCss.Style
           if (ExpectSymbol(aStop, true)) {
             if (value < 0.0f) value = 0.0f;
             if (value > 255.0f) value = 255.0f;
-            aComponent = (uint8_t)NSToIntRound(value);
+            aComponent = (uint8_t)NumberUtil.NSToIntRound(value);
             return true;
           }
           { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentBadTerm", mToken, aStop); };

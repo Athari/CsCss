@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
 using int32_t = System.Int32;
@@ -81,11 +80,6 @@ namespace Alba.CsCss.Style
         private static nsresult NS_NewURI (out Uri result, string spec, string charset, Uri baseUri)
         {
             throw new NotImplementedException();
-        }
-
-        private static int NSToIntRound (float x)
-        {
-            return x >= 0.0f ? (int32_t)(x + 0.5f) : (int32_t)(x - 0.5f);
         }
 
         private void AppendValues (nsCSSProperty[] aPropIDs, nsCSSValue aValue)
@@ -245,6 +239,14 @@ namespace Alba.CsCss.Style
             }
         };
 
+        private static class nsLayoutUtils
+        {
+            public static bool Are3DTransformsEnabled ()
+            {
+                return true;
+            }
+        }
+
         private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0, NS_ERROR_DOM_SYNTAX_ERR = 0, NS_ERROR_MALFORMED_URI = 0;
     }
 
@@ -273,12 +275,6 @@ namespace Alba.CsCss.Style
         }
     }
 
-    internal class CssLoader
-    {
-        public void LoadChildSheet (nsCSSStyleSheet mSheet, Uri url, nsMediaList aMedia, ImportRule rule)
-        {}
-    }
-
     internal class nsCSSStyleSheet
     {
         public nsXMLNameSpaceMap GetNameSpaceMap ()
@@ -293,7 +289,7 @@ namespace Alba.CsCss.Style
 
         public nsIPrincipal Principal ()
         {
-            return null;
+            return nsIPrincipal.Default;
         }
 
         public int StyleRuleCount ()
@@ -310,9 +306,6 @@ namespace Alba.CsCss.Style
         public void AppendStyleRule (Rule aRule)
         {}
     }
-
-    internal class nsIPrincipal
-    {}
 
     internal class nsAtomList
     {}
@@ -475,17 +468,6 @@ namespace Alba.CsCss.Style
         {
             return null;
         }
-    }
-
-    internal class nsContentUtils
-    {
-        public static void ASCIIToLower (StringBuilder mIdent)
-        {}
-    }
-
-    internal class nsGkAtoms
-    {
-        public static string all, _not, only;
     }
 
     internal struct nsCSSValue : IEquatable<nsCSSValue>
@@ -774,14 +756,6 @@ namespace Alba.CsCss.Style
         {}
     }
 
-    internal class nsLayoutUtils
-    {
-        public static bool Are3DTransformsEnabled ()
-        {
-            return false;
-        }
-    }
-
     internal class Declaration
     {
         public void ClearData ()
@@ -801,85 +775,4 @@ namespace Alba.CsCss.Style
         public void ExpandTo (nsCSSExpandedDataBlock mData)
         {}
     }
-
-    internal class nsStyleUtil
-    {
-        internal static void AppendEscapedCSSIdent (StringBuilder str, StringBuilder buffer)
-        {}
-
-        internal static void AppendEscapedCSSString (StringBuilder ident, StringBuilder buffer, char symbol)
-        {}
-
-        public static sbyte FloatToColorComponent (float mNumber)
-        {
-            return 0;
-        }
-    }
-
-    internal class BasicFloatCalcOps
-    {
-        //typedef float result_type;
-
-        public float MergeAdditive (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
-        {
-            if (aCalcFunction == nsCSSUnit.Calc_Plus)
-                return aValue1 + aValue2;
-            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Minus, "unexpected unit");
-            return aValue1 - aValue2;
-        }
-
-        public float MergeMultiplicativeL (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
-        {
-            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Times_L, "unexpected unit");
-            return aValue1 * aValue2;
-        }
-
-        public float MergeMultiplicativeR (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
-        {
-            if (aCalcFunction == nsCSSUnit.Calc_Times_R)
-                return aValue1 * aValue2;
-            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Divided, "unexpected unit");
-            return aValue1 / aValue2;
-        }
-    };
-
-    internal class CSSValueInputCalcOps
-    {
-        //typedef nsCSSValue input_type;
-        //typedef nsCSSValue::Array input_array_type;
-
-        public static nsCSSUnit GetUnit (nsCSSValue aValue)
-        {
-            return aValue.GetUnit();
-        }
-    }
-
-    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/
-    {
-        public float ComputeLeafValue (nsCSSValue aValue)
-        {
-            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
-            return aValue.GetFloatValue();
-        }
-
-        public float ComputeNumber (nsCSSValue aValue)
-        {
-            //return ComputeCalc(aValue, this);
-            throw new NotImplementedException();
-        }
-
-        public static nsCSSUnit GetUnit (nsCSSValue aValue)
-        {
-            return aValue.GetUnit();
-        }
-    }
-
-    internal class NumbersAlreadyNormalizedOps : CSSValueInputCalcOps
-    {
-        public float ComputeNumber (nsCSSValue aValue)
-        {
-            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
-            return aValue.GetFloatValue();
-        }
-    };
 }

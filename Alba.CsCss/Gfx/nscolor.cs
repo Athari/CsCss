@@ -38,24 +38,9 @@ namespace Alba.CsCss.Gfx
             return new nscolor(((uint)255 << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
         }
 
-        internal static nscolor RGB (sbyte r, sbyte g, sbyte b)
-        {
-            return new nscolor(((uint)255 << 24) | ((uint)(byte)(b) << 16) | ((uint)(byte)(g) << 8) | (byte)(r));
-        }
-
         public static nscolor RGBA (byte r, byte g, byte b, byte a)
         {
             return new nscolor(((uint)a << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
-        }
-
-        internal static nscolor RGBA (byte r, byte g, byte b, sbyte a)
-        {
-            return new nscolor(((uint)a << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
-        }
-
-        internal static nscolor RGBA (sbyte r, sbyte g, sbyte b, sbyte a)
-        {
-            return new nscolor(((uint)(byte)a << 24) | ((uint)(byte)(b) << 16) | ((uint)(byte)(g) << 8) | (byte)(r));
         }
 
         public static bool HexToRGB (string aColorSpec, ref nscolor aResult)
