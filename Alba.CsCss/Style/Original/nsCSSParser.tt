@@ -64,6 +64,8 @@ namespace Alba.CsCss.Style
     string ConvertCssParser (string source)
     {
         int i = 0;
+        Func<MatchEvaluator, MatchEvaluator, MatchEvaluator> GenerateVarListEvaluator = (evalType, evalValue) =>
+            m => evalType(m) + " " + m.GetAll("Var").Select(v => v+" = "+evalValue(m)).JoinString(", ") + ";";
         return source
 
             // whitespace
@@ -233,36 +235,39 @@ namespace Alba.CsCss.Style
                 return code.Contains("=")
                     ? code.ReReplace(
                         @"(?n)(\s+(?<Expr>\w+\s+=\s+[\w\.]+),?(\s+//.*)?(?=\n|\s+$))+", m =>
-                        "\n"+m.GetAll("Expr").Select(c => space+"const int "+c.Value+";\n").ConcatString())
+                        "\n" + m.GetAll("Expr").Select(expr => space+"const int "+expr+";\n").ConcatString())
                     : code.ReReplace(
                         @"(?n)(\s+(?<Const>\w+),?(\s+//.*)?(?=\n|\s+$))+", m =>
-                        "\n"+m.GetAll("Const").Select(c => space+"const int "+c.Value+" = "+(i++)+";\n").ConcatString());
+                        "\n" + m.GetAll("Const").Select(expr => space+"const int "+expr+" = "+(i++)+";\n").ConcatString());
             })            
             // specific expressions: constructors
-            .ReReplace(@"(?<Type>nsCSSFontFaceRule|nsCSSSelectorList) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);", "var ${Var} = new ${Type}(${Args});") // Type Var(new Type()) -> var Var = new Var(Args)
-            .ReReplace(@"(?<Type>nsCSSValue|BackgroundParseState|nsFont) (?<Var>\w+)\((?<Args>"+sArgs+@")\);", "var ${Var} = new ${Type}(${Args});") // Type Var(Args) -> var Var = new Var(Args)
-            .ReReplace(@"(?<Type>nsCSSValue|nsCSSValueList|int32_t|bool) +(?<Var>\w+)\[(?<Size>[\w\.]+)?\];", "var ${Var} = new ${Type}[${Size}];") // Type Var[Size] -> var Var = new Type[Size]
-            .ReReplace(@"(?<Type>Declaration|string) +(?<Var>\w+)\((?<Args>"+sArgs+@")\);", "${Type} ${Var} = ${Args};") // Type Var(Args) -> Type Var = Args
-            .ReReplace(@"(?<Type>nsCSSValue|nsCSSValuePair|nsCSSSelectorList|nsAtomList|ExtractFirstFamilyData|ReduceNumberCalcOps|List<(?:float|nsCSSValue|uint32_t)>|nscolor|nsCSSRect) +(?<Var>\w+);", "var ${Var} = new ${Type}();") // Type Var -> var Var = new Type()
-            .ReReplace(@"(?<Type>nsCSSUnit|u?int\d+_t) (?<Var>\w+);", "${Type} ${Var} = 0;") // int Var -> int Var = 0
-            .ReReplace(@"bool (conditionMet|hitStop|rv|haveWS|useCommas|single|is3D|changed);", "bool $1 = false;") // bool Var -> bool Var = false
-            .ReReplace(@"string +\b(str|valueStr|prefix|url|urlString|pseudoElement)\b;", "string $1 = \"\";") // string Var -> string Var = ""
-            .ReReplace(@"(?<!new )(?<Type>nsCSSValue)\(", "new ${Type}(") // Type Var[Size] -> Type(...) -> new Type(...)
+            .ReReplace(@"(?<Type>nsCSSFontFaceRule|nsCSSSelectorList) (?<Var>\w+)\(new \k<Type>\((?<Args>"+sArgs+@")?\)\);",
+                        "var ${Var} = new ${Type}(${Args});")                               // Type Var(new Type()) -> var Var = new Var(Args)
+            .ReReplace(@"(?<Type>nsCSSValue|BackgroundParseState|nsFont) (?<Var>\w+)\((?<Args>"+sArgs+@")\);",
+                        "var ${Var} = new ${Type}(${Args});")                               // Type Var(Args) -> var Var = new Var(Args)
+            .ReReplace(@"(?<Type>nsCSSValue|nsCSSValueList|int32_t|bool) +(?<Var>\w+)\[(?<Size>[\w\.]+)?\];",
+                        "var ${Var} = new ${Type}[${Size}];")                               // Type Var[Size] -> var Var = new Type[Size]
+            .ReReplace(@"(?<Type>Declaration|string) +(?<Var>\w+)\((?<Args>"+sArgs+@")\);",
+                        "${Type} ${Var} = ${Args};")                                        // Type Var(Args) -> Type Var = Args
+            .ReReplace(@"(?<Type>"+
+                            "nsCSSValue|nsCSSValuePair|nsCSSSelectorList|nsAtomList|nscolor|nsCSSRect|ExtractFirstFamilyData|ReduceNumberCalcOps|"+
+                            "List<(?:float|nsCSSValue|uint32_t)>"+
+                       @") +(?<Var>\w+)"+                                                   // 1. Type Var -> var Var = new Type()
+                       @"(, (?<Var>\w+))*;",                                                // 2. Type Var1, Var2 -> Type Var1 = new Type(), Var2 = new Type()
+                       GenerateVarListEvaluator(m => m.Count("Var") > 1 ? m.Get("Type") : "var", m => "new "+m.Get("Type")+"()"))
+            .ReReplace(@"(?<Type>nsCSSUnit|u?int\d+_t|float) (?<Var>\w+)(, (?<Var>\w+))*;",
+                       GenerateVarListEvaluator(m => m.Get("Type"), m => "0"))              // int Var -> int Var = 0
+            .ReReplace(@"bool (conditionMet|hitStop|rv|haveWS|useCommas|single|is3D|changed);",
+                        "bool $1 = false;")                                                 // bool Var -> bool Var = false
+            .ReReplace(@"string +\b(str|valueStr|prefix|url|urlString|pseudoElement)\b;",
+                        "string $1 = \"\";")                                                // string Var -> string Var = ""
+            .ReReplace(@"(?<!new )(?<Type>nsCSSValue)\(",
+                        "new ${Type}(")                                                     // Type Var[Size] -> Type(...) -> new Type(...)
             .Replace(@"nsAutoTArray<char, 16> stack;", "var stack = new List<char>(16);")
             .Replace(@"combinator = 0", @"combinator = '\0'")
             .Replace(@"int32_t numbers[2] = { 0, 0 };", "int32_t[] numbers = { 0, 0 };")
             .Replace(@"int32_t[]  variantMask;", "var variantMask = new int32_t[0];")
-            .Replace(@"nsCSSRect dimenX, dimenY;", "nsCSSRect dimenX = new nsCSSRect(), dimenY = new nsCSSRect();")
-            .Replace(@"nsCSSValue dimenX, dimenY;", "nsCSSValue dimenX = new nsCSSValue(), dimenY = new nsCSSValue();")
-            .Replace(@"nsCSSValue xValue, yValue;", "nsCSSValue xValue = new nsCSSValue(), yValue = new nsCSSValue();")
-            .Replace(@"nsCSSValue width, height;", "nsCSSValue width = new nsCSSValue(), height = new nsCSSValue();")
-            .Replace(@"nsCSSValue x, y;", "nsCSSValue x = new nsCSSValue(), y = new nsCSSValue();")
-            .Replace(@"nsCSSValue blink, line, style, color;", "nsCSSValue blink = new nsCSSValue(), line = new nsCSSValue(), style = new nsCSSValue(), color = new nsCSSValue();")
-            .Replace(@"nsCSSValue image, repeat, attachment, clip, origin, position, size;", "nsCSSValue image = new nsCSSValue(), repeat = new nsCSSValue(), attachment = new nsCSSValue(), clip = new nsCSSValue(), origin = new nsCSSValue(), position = new nsCSSValue(), size = new nsCSSValue();")
-            .Replace(@"float x1, x2, y1, y2;", "float x1 = 0, x2 = 0, y1 = 0, y2 = 0;")
             .Replace(@"string stopSymbolChars", "char[] stopSymbolChars")
-            .Replace(@"uint16_t minElems, maxElems;", "uint16_t minElems = 0, maxElems = 0;")
-            .ReReplace(@"uint8_t r, g, b(, a)?;", "uint8_t r = 0, g = 0, b = 0, a = 0;")
             // specific expressions: boolean
             .ReReplace(@"(?nx)!\b(?<Var>
                             mediaFeatureAtom|declaration|mediaType|prefix|aTail->mNext|newSel->(\w+)|feature->mName|

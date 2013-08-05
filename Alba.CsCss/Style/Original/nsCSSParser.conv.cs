@@ -1597,7 +1597,7 @@ namespace Alba.CsCss.Style
               // list.  Otherwise, it means we have a trailing comma.
               return false;
             }
-            float value;
+            float value = 0;
             switch (mToken.mType) {
               case nsCSSTokenType.Percentage:
                 value = mToken.mNumber;
@@ -3222,7 +3222,7 @@ namespace Alba.CsCss.Style
             case nsCSSTokenType.Function:
               if (mToken.mIdentStr.LowerCaseEqualsLiteral("rgb")) {
                 // rgb ( component , component , component )
-                uint8_t r = 0, g = 0, b = 0, a = 0;
+                uint8_t r = 0, g = 0, b = 0;
                 int32_t type = COLOR_TYPE_UNKNOWN;
                 if (ParseColorComponent(ref r, ref type, ',') &&
                     ParseColorComponent(ref g, ref type, ',') &&
@@ -3297,7 +3297,7 @@ namespace Alba.CsCss.Style
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEColorComponentEOF"); };
             return false;
           }
-          float value;
+          float value = 0;
           nsCSSToken tk = mToken;
           switch (tk.mType) {
           case nsCSSTokenType.Number:
@@ -3358,7 +3358,7 @@ namespace Alba.CsCss.Style
         internal bool ParseHSLColor(ref nscolor aColor,
                                      char aStop)
         {
-          float h, s, l;
+          float h = 0, s = 0, l = 0;
         
           // Get the hue
           if (!GetToken(true)) {
