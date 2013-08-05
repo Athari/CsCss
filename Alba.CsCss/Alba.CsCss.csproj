@@ -42,7 +42,7 @@
     <Compile Include="Internal\Extensions\ArrayExts.cs" />
     <Compile Include="Internal\Extensions\ListExts.cs" />
     <Compile Include="Internal\Extensions\ObjectExts.cs" />
-    <Compile Include="Internal\NumberUtil.cs" />
+    <Compile Include="Internal\CommonUtil.cs" />
     <Compile Include="Internal\ReferenceEqualityComparer.cs" />
     <Compile Include="Common\ErrorReporter.cs" />
     <Compile Include="Internal\Extensions\DictionaryExts.cs" />
@@ -76,10 +76,18 @@
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSPseudoClasses.cs" />
     <Compile Include="Style\nsCSSPseudoElements.cs" />
+    <Compile Include="Style\Values\nsCSSRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
     <Compile Include="Common\nsGkAtoms.cs" />
+    <Compile Include="Style\Values\nsCSSValueTriplet.cs" />
+    <Compile Include="Style\Values\nsCSSValue.cs" />
+    <Compile Include="Style\Values\nsCSSValueGradient.cs" />
+    <Compile Include="Style\Values\nsCSSValueGradientStop.cs" />
+    <Compile Include="Style\Values\nsCSSValueList.cs" />
+    <Compile Include="Style\Values\nsCSSValuePair.cs" />
+    <Compile Include="Style\Values\nsCSSValuePairList.cs" />
     <Compile Include="Style\nsStyle.cs" />
     <Compile Include="Internal\nsStyleUtil.cs" />
     <Compile Include="Style\Calc\NumbersAlreadyNormalizedOps.cs" />
@@ -151,6 +159,7 @@
     <Compile Include="Style\Rules\Rule.cs" />
     <Compile Include="Style\Rules\RuleKind.cs" />
     <Compile Include="Style\Rules\StyleRule.cs" />
+    <Compile Include="Style\Values\URLValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Common\Original\nsINameSpaceManager.tt">

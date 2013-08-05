@@ -1,6 +1,6 @@
 ﻿namespace Alba.CsCss.Gfx
 {
-    internal enum Side
+    public enum Side
     {
         Top,
         Right,

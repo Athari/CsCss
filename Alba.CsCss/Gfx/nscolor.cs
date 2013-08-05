@@ -4,7 +4,7 @@ using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Gfx
 {
-    internal partial struct nscolor : IEquatable<nscolor>
+    public partial struct nscolor : IEquatable<nscolor>
     {
         private readonly UInt32 _rgba;
 

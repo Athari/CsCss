@@ -23,7 +23,7 @@
 // TODO Convert comments to doc-comments
 namespace Alba.CsCss.Style
 {
-    internal enum nsCSSUnit
+    public enum nsCSSUnit
     {
 <#=     source.ReMatchGet(@"(?s)enum nsCSSUnit {\n(.*?)\n}").Replace("eCSSUnit_", "").Indent(6).NormalizeWhitespace() #>
     }

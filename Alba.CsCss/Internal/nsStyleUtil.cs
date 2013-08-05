@@ -94,7 +94,7 @@ namespace Alba.CsCss.Internal
 
         public static byte FloatToColorComponent (float aAlpha)
         {
-            return (byte)NumberUtil.NSToIntRound(aAlpha * 255);
+            return (byte)CommonUtil.NSToIntRound(aAlpha * 255);
         }
     }
 }
