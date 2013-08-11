@@ -11,10 +11,9 @@ namespace Alba.CsCss.Internal
             return x >= 0.0f ? (int32_t)(x + 0.5f) : (int32_t)(x - 0.5f);
         }
 
-        public static uint32_t NS_NewURI (out Uri result, string spec, string charset, Uri baseUri)
+        public static nsresult NS_NewURI (out Uri result, string spec, string charset, Uri baseUri)
         {
-            // TODO nsresult NS_OK NS_ERROR_MALFORMED_URI
-            return Uri.TryCreate(baseUri, spec, out result) ? 0u : 1u;
+            return Uri.TryCreate(baseUri, spec, out result) ? nsresult.OK : nsresult.ERROR_MALFORMED_URI;
         }
     }
 }

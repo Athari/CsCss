@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\nsIPrincipal.cs" />
+    <Compile Include="Common\nsresult.cs" />
     <Compile Include="Common\Original\nsNameSpace.conv.cs">
       <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
     </Compile>

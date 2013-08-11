@@ -28,7 +28,6 @@ using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.Int32; // O RLY?
 using size_t = System.Int32; // O RLY?
-using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
 {
@@ -144,19 +143,19 @@ namespace Alba.CsCss.Style
             mNameSpaceMap = mSheet.GetNameSpaceMap();
           }
         
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal nsresult SetQuirkMode(bool aQuirkMode)
         {
           mNavQuirkMode = aQuirkMode;
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal nsresult SetChildLoader(CssLoader aChildLoader)
         {
           mChildLoader = aChildLoader;  // not ref counted, it owns us
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal void Reset()
@@ -206,15 +205,15 @@ namespace Alba.CsCss.Style
           if (aBaseURI == null) throw new ArgumentException("need base URI");
           if (aSheetURI == null) throw new ArgumentException("need sheet URI");
           if (mSheet == null) throw new ArgumentException("Must have sheet to parse into");
-          if (mSheet == null) return NS_ERROR_UNEXPECTED;
+          if (mSheet == null) return nsresult.ERROR_UNEXPECTED;
         
         #if DEBUG
           Uri uri = mSheet.GetSheetURI();
           bool equal;
-          Debug.Assert((((aSheetURI.Equals(uri, out equal)) & 0x80000000) == 0) && equal,
+          Debug.Assert(aSheetURI.Equals(uri, out equal).Succeeded() && equal,
                        "Sheet URI does not match passed URI");
-          Debug.Assert((((mSheet.Principal().Equals(aSheetPrincipal,
-                                                                out equal)) & 0x80000000) == 0) &&
+          Debug.Assert(mSheet.Principal().Equals(aSheetPrincipal,
+                                                                out equal).Succeeded() &&
                        equal,
                        "Sheet principal does not match passed principal");
         #endif
@@ -273,7 +272,7 @@ namespace Alba.CsCss.Style
           mUnsafeRulesEnabled = false;
         
           // XXX check for low level errors
-          return NS_OK;
+          return nsresult.OK;
         }
         
         /**
@@ -333,7 +332,7 @@ namespace Alba.CsCss.Style
           ReleaseScanner();
         
           // XXX check for low level errors
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal nsresult ParseDeclarations(string  aBuffer,
@@ -371,7 +370,7 @@ namespace Alba.CsCss.Style
         
           aDeclaration.CompressFrom(mData);
           ReleaseScanner();
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal nsresult ParseRule(string        aRule,
@@ -393,11 +392,11 @@ namespace Alba.CsCss.Style
         
           nsCSSToken tk = mToken;
           // Get first non-whitespace token
-          nsresult rv = NS_OK;
+          nsresult rv = nsresult.OK;
           if (!GetToken(true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEParseRuleWSOnly"); };
             mReporter.OutputError();
-            rv = NS_ERROR_DOM_SYNTAX_ERR;
+            rv = nsresult.ERROR_DOM_SYNTAX_ERR;
           } else {
             if (nsCSSTokenType.AtKeyword == tk.mType) {
               // FIXME: perhaps aInsideBlock should be true when we are?
@@ -414,7 +413,7 @@ namespace Alba.CsCss.Style
             }
         
             if (aResult == null) {
-              rv = NS_ERROR_DOM_SYNTAX_ERR;
+              rv = nsresult.ERROR_DOM_SYNTAX_ERR;
               mReporter.OutputError();
             }
           }
@@ -460,7 +459,7 @@ namespace Alba.CsCss.Style
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEDeclDropped"); };
             mReporter.OutputError();
             ReleaseScanner();
-            return NS_OK;
+            return nsresult.OK;
           }
         
           bool parsedOK = ParseProperty(aPropID);
@@ -498,7 +497,7 @@ namespace Alba.CsCss.Style
           mTempData.AssertInitialState();
         
           ReleaseScanner();
-          return NS_OK;
+          return nsresult.OK;
         }
         #if _MSC_VER
         
@@ -541,7 +540,7 @@ namespace Alba.CsCss.Style
           ReleaseScanner();
           mHTMLMediaMode = false;
         
-          return NS_OK;
+          return nsresult.OK;
         }
         
         internal bool ParseColorString(string aBuffer,
@@ -584,12 +583,12 @@ namespace Alba.CsCss.Style
         
           if (success) {
             Debug.Assert(aSelectorList != null, "Should have list!");
-            return NS_OK;
+            return nsresult.OK;
           }
         
           Debug.Assert(aSelectorList == null, "Shouldn't have list!");
         
-          return NS_ERROR_DOM_SYNTAX_ERR;
+          return nsresult.ERROR_DOM_SYNTAX_ERR;
         }
         
         internal nsCSSKeyframeRule ParseKeyframeRule(string  aBuffer,
@@ -1279,8 +1278,8 @@ namespace Alba.CsCss.Style
           // Charset will be deduced from mBaseURI, which is more or less correct.
           nsresult rv = CommonUtil.NS_NewURI(out url, aURLSpec, null, mBaseURI);
         
-          if ((((rv) & 0x80000000) != 0)) {
-            if (rv == NS_ERROR_MALFORMED_URI) {
+          if (rv.Failed()) {
+            if (rv == nsresult.ERROR_MALFORMED_URI) {
               // import url is bad
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEImportBadURI", aURLSpec); };
               mReporter.OutputError();

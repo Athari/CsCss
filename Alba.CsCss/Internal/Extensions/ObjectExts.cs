@@ -1,12 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Alba.CsCss.Internal.Extensions
 {
     internal static class ObjectExts
     {
-        public static int Equals (this object @this, object other, out bool equal)
+        public static nsresult Equals<T> (this T @this, T other, out bool equal)
         {
-            throw new NotImplementedException();
+            equal = EqualityComparer<T>.Default.Equals(@this, other);
+            return nsresult.OK;
         }
     }
 }

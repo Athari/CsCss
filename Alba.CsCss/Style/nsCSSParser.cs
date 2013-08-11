@@ -239,8 +239,6 @@ namespace Alba.CsCss.Style
                 return true;
             }
         }
-
-        private const int NS_OK = 0, NS_ERROR_UNEXPECTED = 0, NS_ERROR_DOM_SYNTAX_ERR = 0, NS_ERROR_MALFORMED_URI = 0;
     }
 
     internal class nsCSSExpandedDataBlock

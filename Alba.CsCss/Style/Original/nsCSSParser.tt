@@ -44,7 +44,6 @@ using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.Int32; // O RLY?
 using size_t = System.Int32; // O RLY?
-using nsresult = System.UInt32; // TODO
 
 namespace Alba.CsCss.Style
 {
@@ -77,20 +76,14 @@ namespace Alba.CsCss.Style
             .ReReplace(@"PRUnichar", "char")
             .ReReplace(@"arrlen_t", "size_t")
             .ReReplace(@"(?s)MOZ_STATIC_ASSERT\s*\(" + sArgs + @"\)", "")
-            .ReReplace(@"(?:MOZ_ASSERT|NS_ASSERTION|NS_ABORT_IF_FALSE)\((" + sArgs + @")\)",
-                        "Debug.Assert($1)")
-            .ReReplace(@"(?:NS_RUNTIMEABORT|NS_NOTREACHED)\((" + sArgs + @")\)",
-                        "Debug.Fail($1)")
-            .ReReplace(@"NS_ENSURE_STATE\((" + sArgs + @")\)",
-                        "if (!($1)) return NS_ERROR_UNEXPECTED")
+            .ReReplace(@"(?:MOZ_ASSERT|NS_ASSERTION|NS_ABORT_IF_FALSE)\((" + sArgs + @")\)", "Debug.Assert($1)")
+            .ReReplace(@"(?:NS_RUNTIMEABORT|NS_NOTREACHED)\((" + sArgs + @")\)", "Debug.Fail($1)")
+            .ReReplace(@"NS_ENSURE_STATE\((" + sArgs + @")\)", "if (!($1)) return NS_ERROR_UNEXPECTED")
             .ReReplace(@"(?s)NS_PRECONDITION\((?<Condition>"+sArg+@"),\s*(?<Message>"""+sArg+@""")\)",
                         "if (!(${Condition})) throw new ArgumentException(${Message})")
-            .ReReplace(@"NS_ERROR\((?<Message>"""+sArg+@""")\)",
-                        "throw new Exception(${Message})")
-            .ReReplace(@"NS_FAILED\((?<Expr>"+sArgs+@")\)",
-                        "(((${Expr}) & 0x80000000) != 0)")
-            .ReReplace(@"NS_SUCCEEDED\((?<Expr>"+sArgs+@")\)",
-                        "(((${Expr}) & 0x80000000) == 0)")
+            .ReReplace(@"NS_ERROR\((?<Message>"""+sArg+@""")\)", "throw new Exception(${Message})")
+            .ReReplace(@"NS_FAILED\((?<Expr>"+sArgs+@")\)", "${Expr}.Failed()")
+            .ReReplace(@"NS_SUCCEEDED\((?<Expr>"+sArgs+@")\)", "${Expr}.Succeeded()")
             .ReReplace(@"NS_RELEASE\((\*?\w+)\)", "$1 = null")
             .ReReplace(@"(\w+).(?:forget|get)\(\)", "$1")
             .ReReplace(@"(?:NS_LITERAL_STRING|NS_ADDREF|getter_Transfers|getter_AddRefs)\((.*?)\)", "$1")
@@ -196,6 +189,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"NS_FONT_(\w+)", "nsFont.$1")
             .ReReplace(@"NS_ATTR_FUNC_(\w+)", "nsAttrFunc.$1")
             .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_(ERROR_\w+)", "nsresult.$1")
+            .ReReplace(@"NS_OK", "nsresult.OK")
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
             .ReReplace(@"\be(And|Or)\b", "SupportsConditionTermOperator.$1")
             .ReReplace(@"nsCSSPseudoClasses::Type", "nsCSSPseudoClass")
