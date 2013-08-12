@@ -18,7 +18,7 @@ namespace Alba.CsCss.Internal.Extensions
             return @this.TryGetValue(key, out value) ? value : getDefaultValue();
         }
 
-        public static TValue? GetOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> @this, TKey key, TValue? defaultValue = null)
+        public static TValue? GetNullableOrDefault<TKey, TValue> (this IDictionary<TKey, TValue> @this, TKey key, TValue? defaultValue = null)
             where TValue : struct
         {
             TValue value;

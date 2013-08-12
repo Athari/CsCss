@@ -35,8 +35,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\nsNameSpaceManager.cs" />
     <Compile Include="Common\nsIPrincipal.cs" />
     <Compile Include="Common\nsresult.cs" />
+    <Compile Include="Common\nsresultExts.cs" />
+    <Compile Include="Common\nsXMLNameSpaceMap.cs" />
     <Compile Include="Common\Original\nsNameSpace.conv.cs">
       <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
     </Compile>

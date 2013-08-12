@@ -239,6 +239,10 @@ namespace Alba.CsCss.Style
                 return true;
             }
         }
+
+        // unused
+        private class nsAtomList
+        {}
     }
 
     internal class nsCSSExpandedDataBlock
@@ -256,14 +260,6 @@ namespace Alba.CsCss.Style
 
         public void AddLonghandProperty (nsCSSProperty aPropId, nsCSSValue aValue)
         {}
-    }
-
-    internal class nsXMLNameSpaceMap
-    {
-        public int FindNameSpaceID (string prefix)
-        {
-            return 0;
-        }
     }
 
     internal class nsCSSStyleSheet
@@ -297,9 +293,6 @@ namespace Alba.CsCss.Style
         public void AppendStyleRule (Rule aRule)
         {}
     }
-
-    internal class nsAtomList
-    {}
 
     internal class nsCSSSelector
     {
