@@ -38,6 +38,7 @@ namespace Alba.CsCss.Style
         public static int[] kStrokeObjectValueKTable;
         public static int[] kOrientationKeywords;
         public static int[] kScanKeywords;
+        public static int[] kSIDTable;
 
         public static bool FindKeyword (nsCSSKeyword keyword, int[] kListStyleKTable, ref int type)
         {
@@ -74,8 +75,9 @@ namespace Alba.CsCss.Style
             throw new NotImplementedException();
         }
 
-        public static nsCSSProperty[] SubpropertyEntryFor (nsCSSProperty aProperty)
+        public static nsCSSProperty[] SubpropertyEntryFor (nsCSSProperty aProperty, bool skipUnknown = false)
         {
+            // skipUnknown === Where(p => p != Unknown)
             throw new NotImplementedException();
         }
 
@@ -85,6 +87,11 @@ namespace Alba.CsCss.Style
         }
 
         public static int ValueRestrictions (nsCSSProperty aPropId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsShorthand (nsCSSProperty aPropId)
         {
             throw new NotImplementedException();
         }

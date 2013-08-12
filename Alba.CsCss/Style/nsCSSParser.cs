@@ -245,23 +245,6 @@ namespace Alba.CsCss.Style
         {}
     }
 
-    internal class nsCSSExpandedDataBlock
-    {
-        public void AssertInitialState ()
-        {}
-
-        public void ClearProperty (nsCSSProperty aPropId)
-        {}
-
-        public bool TransferFromBlock (nsCSSExpandedDataBlock mTempData, nsCSSProperty aPropId, bool aIsImportant, bool b, bool b1, Declaration aDeclaration)
-        {
-            return false;
-        }
-
-        public void AddLonghandProperty (nsCSSProperty aPropId, nsCSSValue aValue)
-        {}
-    }
-
     internal class nsCSSStyleSheet
     {
         public nsXMLNameSpaceMap GetNameSpaceMap ()
@@ -344,37 +327,8 @@ namespace Alba.CsCss.Style
         {
             return 0;
         }
-    }
 
-    internal class nsCSSSelectorList
-    {
-        public nsCSSSelectorList mNext;
-        public nsCSSSelector mSelectors;
-        public int mWeight;
-
-        public nsCSSSelector AddSelector (char aPrevCombinator)
-        {
-            return null;
-        }
-    }
-
-    internal class Declaration
-    {
-        public void ClearData ()
-        {}
-
-        public void CompressFrom (nsCSSExpandedDataBlock mData)
-        {}
-
-        public void AssertMutable ()
-        {}
-
-        public bool TryReplaceValue (nsCSSProperty aPropId, bool aIsImportant, nsCSSExpandedDataBlock mTempData, bool aChanged)
-        {
-            return false;
-        }
-
-        public void ExpandTo (nsCSSExpandedDataBlock mData)
+        public void SetOperator (char aOperator)
         {}
     }
 }

@@ -9,6 +9,8 @@ namespace Alba.CsCss.Style
 {
     public struct nsCSSValue : IEquatable<nsCSSValue>
     {
+        internal static readonly nsCSSValue NullValue = new nsCSSValue();
+
         private nsCSSUnit mUnit /*= nsCSSUnit.Null*/;
         private object mValue;
         /*union {

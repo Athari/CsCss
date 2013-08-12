@@ -351,6 +351,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"ParseColorComponent\((\w), (\w+)", @"ParseColorComponent(ref $1, ref $2")
             .ReReplace(@"FindKeyword\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)\)", @"FindKeyword($1, $2, ref $3)")
             .ReReplace(@"GetFunctionParseInformation\((\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"GetFunctionParseInformation($1, $2, ref $3, ref $4, ref $5, ref $6)")
+            .ReReplace(@"TryReplaceValue\((\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"TryReplaceValue($1, $2, $3, ref $4)")
             .ReReplace(@"(ParseCalcAdditiveExpression|ParseCalcMultiplicativeExpression|ParseOneFamily|ParseCalcTerm)\(([^, ]+),\s+(\w+)", @"$1($2, ref $3")
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
             .ReReplace(@"(?<Method>\w+)\(AssignRuleToPointer, (?<Args>[^\)]+)\);", "Rule result = null; ${Method}((rule, _) => result = rule, ${Args}); aResult = result;")

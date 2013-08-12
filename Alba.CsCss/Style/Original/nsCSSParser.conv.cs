@@ -483,8 +483,7 @@ namespace Alba.CsCss.Style
             // same importance level, then we can just copy our parsed value
             // directly into the declaration without going through the whole
             // expand/compress thing.
-            if (!aDeclaration.TryReplaceValue(aPropID, aIsImportant, mTempData,
-                                               aChanged)) {
+            if (!aDeclaration.TryReplaceValue(aPropID, aIsImportant, mTempData, ref aChanged)) {
               // Do it the slow way
               aDeclaration.ExpandTo(mData);
               aChanged = mData.TransferFromBlock(mTempData, aPropID, aIsImportant,

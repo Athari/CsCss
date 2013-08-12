@@ -74,6 +74,7 @@
     <Compile Include="Style\CssLoader.cs" />
     <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
     <Compile Include="Common\nsCompatibility.cs" />
+    <Compile Include="Style\Declaration.cs" />
     <Compile Include="Style\Media\nsMediaExpression.cs" />
     <Compile Include="Style\Media\nsMediaFeature.cs" />
     <Compile Include="Style\Media\nsMediaFeatures.cs" />
@@ -88,12 +89,18 @@
     <Compile Include="Style\Media\Original\nsMediaFeatures.conv.cs">
       <DependentUpon>nsMediaFeatures.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\nsCachedStyleData.cs" />
     <Compile Include="Style\nsCSSAnonBoxes.cs" />
+    <Compile Include="Style\nsCSSCompressedDataBlock.cs" />
+    <Compile Include="Style\nsCSSDataBlock.cs" />
+    <Compile Include="Style\nsCSSExpandedDataBlock.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
     <Compile Include="Style\nsCSSParser.cs" />
+    <Compile Include="Style\nsCSSPropertySet.cs" />
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSPseudoClasses.cs" />
     <Compile Include="Style\nsCSSPseudoElements.cs" />
+    <Compile Include="Style\nsCSSSelectorList.cs" />
     <Compile Include="Style\Values\nsCSSRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
