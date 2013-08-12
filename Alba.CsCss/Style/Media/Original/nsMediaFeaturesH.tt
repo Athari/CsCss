@@ -1,0 +1,32 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+
+    var T4 = GetT4();
+    foreach (Match m in source.ReMatches(@"(?ns)enum (?<Class>\w+) {(?<Code>.*?)};"))
+        T4.GenerateFile("nsMediaFeature.{0}.conv.cs".Fmt(m.Get("Class")), () => GenerateMediaFeatureEnum(m.Get("Code"), m.Get("Class")));
+    T4.Process();
+#>
+<#+
+    void GenerateMediaFeatureEnum (string source, string enumName) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable RedundantCast
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsMediaFeature
+    {
+        public enum <#=enumName#> {
+<#= source.ReReplace(@"\be(\w+)\b", "$1").NormalizeWhitespace().Unindent(8).Trim().Indent(12) #>
+        }
+    }
+}
+<#+
+    } // GenerateMediaFeatureEnum
+#>

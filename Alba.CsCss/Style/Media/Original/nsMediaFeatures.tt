@@ -1,0 +1,78 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "cpp");
+    string sourceFeatures = source.ReMatchGet(@"(?s)nsMediaFeatures::features\[\] = {(.*?)};");
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsMediaFeatures.conv.cs", () => GenerateMediaFeatures(sourceFeatures));
+    T4.Process();
+#>
+<#+
+    void GenerateMediaFeatures (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsMediaFeatures
+    {
+        private static readonly List<nsMediaFeature> features = new List<nsMediaFeature> {
+<#=         ConvertMediaFeaturesSource(source).Unindent(4).Indent(12) #>
+            //new nsMediaFeature()
+        };
+
+        private static readonly nsMediaFeature EmptyFeature = new nsMediaFeature();
+    }
+}
+<#+
+    } // GenerateMediaFeatures
+#>
+<#+
+    string ConvertMediaFeaturesSource (string source)
+    {
+        bool isStandardFeaturesProcessed = false;
+        return source
+
+            // whitespace
+            .ReReplace(@"\r", "")
+
+            // common c++
+            .Replace("nullptr", "null")
+            .Replace("::", ".")
+
+            // specific expressions
+            .ReReplace(@"{ (.*) }", "$1") // union
+            .ReReplace(@"&nsGkAtoms", "nsGkAtoms")
+            .ReReplace(
+                @"{$,$,$,$,$}".Replace("$", "([^,]+)"),
+                m => {
+                    string name = m.Get(1).Trim(),
+                           range = m.Get(2).Trim().Replace("nsMediaFeature.e", "nsMediaFeature.RangeType."),
+                           value = m.Get(3).Trim().Replace("nsMediaFeature.e", "nsMediaFeature.ValueType."),
+                           data = m.Get(4).Trim();
+                    if (name.Contains("_moz_is_resource_document"))
+                        isStandardFeaturesProcessed = true;
+                    if (isStandardFeaturesProcessed)
+                        return "// {0}".Fmt(name);
+                    else if (data == "null")
+                        return "new nsMediaFeature({0}, {1}, {2})".Fmt(name, range, value);
+                    else if (data.StartsWith("k"))
+                        return "new nsMediaFeature({0}, {1}, {2}, nsCSSProps.{3})".Fmt(name, range, value, data);
+                    else
+                        return "new nsMediaFeature({0}, {1}, {2}, {3})".Fmt(name, range, value, data);
+                })
+
+            // whitespace
+            .ReReplace(@"\n\s*;\n", "\n")
+            .ReReplace(@"\n{3,}", "\n\n")
+            .ReReplace(@"\n", "\r\n")
+            .Trim()
+            ;
+    }
+#>

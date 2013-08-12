@@ -36,8 +36,10 @@ namespace Alba.CsCss.Style
         public static int[] kBoxShadowTypeKTable;
         public static int[] kObjectPatternKTable;
         public static int[] kStrokeObjectValueKTable;
+        public static int[] kOrientationKeywords;
+        public static int[] kScanKeywords;
 
-        public static bool FindKeyword (nsCSSKeyword keyword, object kListStyleKTable, ref int type)
+        public static bool FindKeyword (nsCSSKeyword keyword, int[] kListStyleKTable, ref int type)
         {
             throw new NotImplementedException();
         }

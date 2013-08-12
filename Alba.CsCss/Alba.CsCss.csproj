@@ -74,6 +74,20 @@
     <Compile Include="Style\CssLoader.cs" />
     <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
     <Compile Include="Common\nsCompatibility.cs" />
+    <Compile Include="Style\Media\nsMediaExpression.cs" />
+    <Compile Include="Style\Media\nsMediaFeature.cs" />
+    <Compile Include="Style\Media\nsMediaFeatures.cs" />
+    <Compile Include="Style\Media\nsMediaList.cs" />
+    <Compile Include="Style\Media\nsMediaQuery.cs" />
+    <Compile Include="Style\Media\Original\nsMediaFeature.RangeType.conv.cs">
+      <DependentUpon>nsMediaFeaturesH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Media\Original\nsMediaFeature.ValueType.conv.cs">
+      <DependentUpon>nsMediaFeaturesH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Media\Original\nsMediaFeatures.conv.cs">
+      <DependentUpon>nsMediaFeatures.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\nsCSSAnonBoxes.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
     <Compile Include="Style\nsCSSParser.cs" />
@@ -185,6 +199,18 @@
       <DependentUpon>nsColorNameList.h</DependentUpon>
     </None>
     <None Include="Gfx\Original\nsColorNameList.ttinclude" />
+    <None Include="Style\Media\Original\nsMediaFeatures.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsMediaFeatures.cpp</DependentUpon>
+    </None>
+    <None Include="Style\Media\Original\nsMediaFeaturesH.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsMediaFeaturesH.h</DependentUpon>
+    </None>
     <None Include="Style\Original\nsCSSFontDescList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -362,7 +388,18 @@
       <LastGenOutput>nsCSSPseudoElementList.tt</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Style\Media\Original\nsMediaFeaturesH.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsMediaFeaturesH.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Media\Original\nsMediaFeatures.cpp">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsMediaFeatures.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
