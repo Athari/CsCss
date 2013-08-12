@@ -644,7 +644,7 @@ namespace Alba.CsCss.Style
                                                    nsIPrincipal aDocPrincipal)
         {
           nsCSSProperty propID = nsCSSProps.LookupProperty(aProperty,
-                                                            nsCSSProps.eEnabled);
+                                                            nsCSSProps.EnabledState.Enabled);
           if (propID == nsCSSProperty.UNKNOWN) {
             return false;
           }
@@ -1799,7 +1799,7 @@ namespace Alba.CsCss.Style
               }
         
               nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
-                                                                nsCSSProps.eEnabled);
+                                                                nsCSSProps.EnabledState.Enabled);
               if (propID == nsCSSProperty.UNKNOWN) {
                 aConditionMet = false;
                 SkipUntil(')');
@@ -3538,7 +3538,7 @@ namespace Alba.CsCss.Style
           
             // Map property name to its ID and then parse the property
             nsCSSProperty propID = nsCSSProps.LookupProperty(propertyName,
-                                                              nsCSSProps.eEnabled);
+                                                              nsCSSProps.EnabledState.Enabled);
             if (nsCSSProperty.UNKNOWN == propID ||
                (aContext == nsCSSContextType.Page &&
                 !nsCSSProps.PropHasFlags(propID, nsCSSProps.APPLIES_TO_PAGE_RULE))) { // unknown property

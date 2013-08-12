@@ -108,6 +108,15 @@
     <Compile Include="Style\nsCSSSelectorList.cs" />
     <Compile Include="Style\nsCSSStyleSheet.cs" />
     <Compile Include="Style\nsPseudoClassList.cs" />
+    <Compile Include="Style\Original\nsCSSProps.CSSFontDescList.g.cs">
+      <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\nsCSSProps.CSSPropAliasList.g.cs">
+      <DependentUpon>nsCSSPropAliasList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\nsCSSProps.CSSPropList.g.cs">
+      <DependentUpon>nsCSSPropList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Values\nsCSSRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />

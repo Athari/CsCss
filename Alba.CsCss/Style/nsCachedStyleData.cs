@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Alba.CsCss.Style
+﻿namespace Alba.CsCss.Style
 {
     internal class nsCachedStyleData
     {
-        public static int GetBitForSID (int i)
+        public static int GetBitForSID (int /*nsStyleStructID*/ aSID)
         {
-            throw new NotImplementedException();
+            return 1 << aSID;
         }
     }
 }

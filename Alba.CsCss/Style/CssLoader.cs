@@ -1,5 +1,6 @@
 ﻿using System;
 
+// TODO Implement other CssLoader methods, support @charset etc.
 namespace Alba.CsCss.Style
 {
     internal class CssLoader

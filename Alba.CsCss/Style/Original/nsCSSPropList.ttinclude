@@ -83,9 +83,9 @@
                     AnimType = m.Get("AnimType").Replace("eStyleAnimType_", "").Trim(),
                 };
                 if (propn.KwTable == "nullptr")
-                    propn.KwTable = null;
+                    propn.KwTable = "null";
                 if (propn.StyleStructOffset == "CSS_PROP_NO_OFFSET")
-                    propn.StyleStructOffset = null;
+                    propn.StyleStructOffset = "null";
                 prop = propn;
             }
             else {

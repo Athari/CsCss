@@ -7,6 +7,7 @@
     //T4.GenerateFile("nsCSSFontDescList.g.txt", () => GenerateCssFontDescListText());
     T4.GenerateFile("nsCSSFontDesc.g.cs", () => GenerateCssFontDesc());
     T4.GenerateFile("nsCSSFontFaceStyleDecl.g.cs", () => GenerateCssFontFaceStyleDecl());
+    T4.GenerateFile("nsCSSProps.CSSFontDescList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
 
@@ -77,3 +78,26 @@ namespace Alba.CsCss.Style
     }
 }
 <#+ } /* void GenerateCssFontFaceStyleDecl */ #>
+
+<#+ void GenerateCssProps () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+using Alba.CsCss.Internal.Extensions;
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSProps
+    {
+        private static readonly string[] kCSSRawFontDescs = {
+<#+       foreach (CssFontDesc desc in GetCssFontDescs()) { #>
+            "<#=desc.Name#>",
+<#+       } #>
+        };
+
+        private static readonly Dictionary<string, int> gFontDescTable = kCSSRawFontDescs.ToCaseInsensitiveNameTable();
+    }
+}
+<#+ } /* void GenerateCssProps */ #>

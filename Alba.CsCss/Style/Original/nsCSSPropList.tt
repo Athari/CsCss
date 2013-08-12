@@ -7,6 +7,7 @@
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSPropList.g.txt", () => GenerateCssPropListText());
     T4.GenerateFile("nsCSSProperty.g.cs", () => GenerateCssProperty());
+    T4.GenerateFile("nsCSSProps.CSSPropList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
 
@@ -17,22 +18,22 @@
 
 <#+ foreach (CssPropBase prop in GetCssPropsAll()) { #>
 //
-// Kind: <#= prop.GetType().Name #>
-// Name: <#= prop.Name #>
-// Id: <#= prop.Id #>
-// MethodPublic: <#= prop.MethodPublic #>
-// MethodPrivate: <#= prop.MethodPrivate #>
-// Flags: <#= prop.Flags #>
-// Pref: <#= prop.Pref #>
+// Kind: <#=prop.GetType().Name#>
+// Name: <#=prop.Name#>
+// Id: <#=prop.Id #>
+// MethodPublic: <#=prop.MethodPublic#>
+// MethodPrivate: <#=prop.MethodPrivate#>
+// Flags: <#=prop.Flags#>
+// Pref: <#=prop.Pref#>
 <#+ var propn = prop as CssProp; #>
 <#+ if (propn != null) { #>
-// ParseVariant: <#= propn.ParseVariant #>
-// KwTable: <#= propn.KwTable ?? "null" #>
-// StyleStruct: <#= propn.StyleStruct #>
-// StyleStructOffset: <#= propn.StyleStructOffset ?? "null" #>
-// AnimType: <#= propn.AnimType #>
+// ParseVariant: <#=propn.ParseVariant#>
+// KwTable: <#=propn.KwTable#>
+// StyleStruct: <#=propn.StyleStruct#>
+// StyleStructOffset: <#=propn.StyleStructOffset#>
+// AnimType: <#=propn.AnimType#>
 <#+ } /* if (propn != null) */ #>
-// IfDef: <#= prop.IfDef ?? "null" #>
+// IfDef: <#=prop.IfDef ?? "null"#>
 <#+ } /* foreach (CssPropBase prop in GetCssProps()) */ #>
 <#+ } /* void GenerateCssPropListText */ #>
 
@@ -45,22 +46,23 @@ using System.ComponentModel;
 
 namespace Alba.CsCss.Style
 {
-    internal enum nsCSSProperty {
+    internal enum nsCSSProperty
+    {
         UNKNOWN = -1,
 <#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
-        <#= ToId(prop.Id) #>,
+        <#=ToId(prop.Id)#>,
 <#+   } #>
         COUNT_no_shorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]
         COUNT_DUMMY = COUNT_no_shorthands - 1,
 <#+   foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
-        <#= prop.Id #>,
+        <#=prop.Id#>,
 <#+   } #>
         COUNT,
         [EditorBrowsable(EditorBrowsableState.Never)]
         COUNT_DUMMY2 = COUNT - 1,
 <#+   foreach (CssPropAlias prop in GetCssPropAliases()) { #>
-        Alias_<#= prop.Method #>,
+        Alias_<#=prop.Method#>,
 <#+   } #>
         COUNT_with_aliases,
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -69,6 +71,47 @@ namespace Alba.CsCss.Style
         Extra_all_properties,
         Extra_x_none_value,
         Extra_x_auto_value,
-    } // enum nsCSSProperty
-} // namespace Alba.CsCss
+    }
+}
 <#+ } /* void GenerateCssProperty */ #>
+
+<#+ void GenerateCssProps () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+using Alba.CsCss.Internal.Extensions;
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSProps
+    {
+        private static readonly string[] kCSSRawProperties = {
+<#+       foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+            "<#=prop.Name#>",
+<#+       } #>
+<#+       foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
+            "<#=prop.Name#>",
+<#+       } #>
+<#+       foreach (CssPropAlias prop in GetCssPropAliases()) { #>
+            "<#=prop.Name#>",
+<#+       } #>
+        };
+
+        private static readonly Dictionary<string, int> gPropertyTable = kCSSRawProperties.ToCaseInsensitiveNameTable();
+
+        private static readonly int[][] kKeywordTableTable;
+
+        static nsCSSProps ()
+        {
+            // We need static ctor, because kKeywordTableTable depends on fields (with static field initializers) from other parts.
+            kKeywordTableTable = new[] {
+<#+           foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+                <#=prop.KwTable#>,
+<#+           } #>
+            };
+        }
+    }
+}
+<#+ } /* void GenerateCssProps */ #>

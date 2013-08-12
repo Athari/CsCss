@@ -5,6 +5,7 @@
 <#
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSPropAliasList.g.txt", () => GenerateCssPropAliasListText());
+    T4.GenerateFile("nsCSSProps.CSSPropAliasList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
 
@@ -21,3 +22,21 @@
 // Pref: <#= prop.Pref #>
 <#+ } #>
 <#+ } /* void GenerateCssPropAliasListText */ #>
+
+<#+ void GenerateCssProps () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSProps
+    {
+        private static readonly nsCSSProperty[] gAliases = {
+<#+       foreach (CssPropAlias prop in GetCssPropAliases()) { #>
+            nsCSSProperty.<#=prop.Id#>,
+<#+       } #>
+        };
+    }
+}
+<#+ } /* void GenerateCssProps */ #>
