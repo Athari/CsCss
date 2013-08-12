@@ -2,6 +2,11 @@
 {
     internal static class ArrayExts
     {
+        public static int Count<T> (this T[] @this)
+        {
+            return @this.Length;
+        }
+
         public static T Item<T> (this T[] @this, int index)
         {
             return @this[index];

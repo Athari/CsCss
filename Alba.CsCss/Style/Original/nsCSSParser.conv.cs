@@ -5405,7 +5405,7 @@ namespace Alba.CsCss.Style
         // nsFont.EnumerateFamilies callback for ParseFontDescriptorValue
         
         static bool
-        ExtractFirstFamily(StringBuilder aFamily,
+        ExtractFirstFamily(string aFamily,
                            bool aGeneric,
                            object aData)
         {
@@ -6841,7 +6841,7 @@ namespace Alba.CsCss.Style
               // Simplify the value immediately so we can check for division by
               // zero.
               var ops = new ReduceNumberCalcOps();
-              float number = ComputeCalc(storage, ops);
+              float number = CommonUtil.ComputeCalc(storage, ops);
               if (number == 0.0 && afterDivision)
                 return false;
               storage.SetFloatValue(number, nsCSSUnit.Number);
@@ -6855,7 +6855,7 @@ namespace Alba.CsCss.Style
                                   "unexpected relationship to current storage");
                 nsCSSValue leftValue = aValue.GetArrayValue().Item(0);
                 var ops = new ReduceNumberCalcOps();
-                float number = ComputeCalc(leftValue, ops);
+                float number = CommonUtil.ComputeCalc(leftValue, ops);
                 leftValue.SetFloatValue(number, nsCSSUnit.Number);
               }
             }

@@ -2,16 +2,12 @@
 
 namespace Alba.CsCss.Style
 {
-    internal class BasicFloatCalcOps
+    internal abstract class BasicFloatCalcOps
     {
-        //typedef float result_type;
-
         public float MergeAdditive (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
         {
-            if (aCalcFunction == nsCSSUnit.Calc_Plus)
-                return aValue1 + aValue2;
-            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Minus, "unexpected unit");
-            return aValue1 - aValue2;
+            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Plus || aCalcFunction == nsCSSUnit.Calc_Minus, "unexpected unit");
+            return aCalcFunction == nsCSSUnit.Calc_Plus ? aValue1 + aValue2 : aValue1 - aValue2;
         }
 
         public float MergeMultiplicativeL (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
@@ -22,10 +18,8 @@ namespace Alba.CsCss.Style
 
         public float MergeMultiplicativeR (nsCSSUnit aCalcFunction, float aValue1, float aValue2)
         {
-            if (aCalcFunction == nsCSSUnit.Calc_Times_R)
-                return aValue1 * aValue2;
-            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Divided, "unexpected unit");
-            return aValue1 / aValue2;
+            Debug.Assert(aCalcFunction == nsCSSUnit.Calc_Times_R || aCalcFunction == nsCSSUnit.Calc_Divided, "unexpected unit");
+            return aCalcFunction == nsCSSUnit.Calc_Times_R ? aValue1 * aValue2 : aValue1 / aValue2;
         }
     };
 }

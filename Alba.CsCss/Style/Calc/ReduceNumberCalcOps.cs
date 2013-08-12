@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Alba.CsCss.Internal;
 
 namespace Alba.CsCss.Style
 {
-    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/
+    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/, ICalcOps<nsCSSValue, float>
     {
         public float ComputeLeafValue (nsCSSValue aValue)
         {
@@ -13,11 +13,10 @@ namespace Alba.CsCss.Style
 
         public float ComputeNumber (nsCSSValue aValue)
         {
-            //return ComputeCalc(aValue, this);
-            throw new NotImplementedException();
+            return CommonUtil.ComputeCalc(aValue, this);
         }
 
-        public static nsCSSUnit GetUnit (nsCSSValue aValue)
+        public nsCSSUnit GetUnit (nsCSSValue aValue)
         {
             return aValue.GetUnit();
         }

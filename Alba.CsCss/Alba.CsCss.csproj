@@ -72,6 +72,8 @@
     </Compile>
     <Compile Include="Gfx\Side.cs" />
     <Compile Include="Style\Calc\BasicFloatCalcOps.cs" />
+    <Compile Include="Style\Calc\ICalcOps.cs" />
+    <Compile Include="Style\Calc\ICalcOpsInput.cs" />
     <Compile Include="Style\CssLoader.cs" />
     <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
     <Compile Include="Common\nsCompatibility.cs" />

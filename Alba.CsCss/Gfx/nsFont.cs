@@ -1,11 +1,12 @@
-﻿using System;
-using System.Text;
+﻿using Alba.CsCss.Internal.Extensions;
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using int16_t = System.Int16;
 
 namespace Alba.CsCss.Gfx
 {
+    internal delegate bool nsFontFamilyEnumFunc (string aFamily, bool aGeneric, object aData);
+
     internal partial class nsFont
     {
         // IDs for generic fonts
@@ -84,9 +85,75 @@ namespace Alba.CsCss.Gfx
             : this(name.ToString(), (byte)style, (byte)systemFont, (byte)variant, (byte)decorations, (ushort)weight, (short)stretch, size, sizeAdjust, languageOverride)
         {}
 
-        public void EnumerateFamilies (Func<StringBuilder, bool, object, bool> extractFirstFamily, object dat)
+        public bool EnumerateFamilies (nsFontFamilyEnumFunc aFunc, object aData)
         {
-            throw new NotImplementedException();
+            int p = 0, p_end = name.Length;
+
+            while (p < p_end) {
+                while (char.IsWhiteSpace(name[p]))
+                    if (++p == p_end)
+                        return true;
+
+                bool generic;
+                string family;
+                if (name[p] == '\'' || name[p] == '"') {
+                    // quoted font family
+                    char quoteMark = name[p];
+                    if (++p == p_end)
+                        return true;
+                    int nameStart = p;
+
+                    // XXX What about CSS character escapes?
+                    while (name[p] != quoteMark)
+                        if (++p == p_end)
+                            return true;
+
+                    family = name.Substring(nameStart, p - nameStart);
+                    generic = false;
+
+                    while (++p != p_end && name[p] != ',') {}
+                }
+                else {
+                    // unquoted font family
+                    int nameStart = p;
+                    while (++p != p_end && name[p] != ',') {}
+
+                    family = name.Substring(nameStart, p - nameStart);
+                    family = family.TrimEnd();
+                    generic = IsGenericFontFamily(family);
+                }
+
+                if (family != "" && !aFunc(family, generic, aData))
+                    return false;
+
+                ++p; // may advance past p_end
+            }
+
+            return true;
+        }
+
+        private static bool IsGenericFontFamily (string aFamily)
+        {
+            uint8_t generic;
+            GetGenericID(aFamily, out generic);
+            return generic != GenericFont_NONE;
+        }
+
+        private static void GetGenericID (string aGeneric, out uint8_t aID)
+        {
+            aID = GenericFont_NONE;
+            if (aGeneric.LowerCaseEqualsLiteral("-moz-fixed"))
+                aID = GenericFont_moz_fixed;
+            if (aGeneric.LowerCaseEqualsLiteral("serif"))
+                aID = GenericFont_serif;
+            if (aGeneric.LowerCaseEqualsLiteral("sans-serif"))
+                aID = GenericFont_sans_serif;
+            if (aGeneric.LowerCaseEqualsLiteral("cursive"))
+                aID = GenericFont_cursive;
+            if (aGeneric.LowerCaseEqualsLiteral("fantasy"))
+                aID = GenericFont_fantasy;
+            if (aGeneric.LowerCaseEqualsLiteral("monospace"))
+                aID = GenericFont_monospace;
         }
     }
 }

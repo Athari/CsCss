@@ -95,6 +95,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?n)NS_ConvertASCIItoUTF16 (?<Var>\w+)\((?<Value>"+sArgs+@")\);", "string ${Var} = ${Value};")
             .ReReplace(@"(?n)CopyUTF16toUTF8\((?<Value>"+sArgs+@"), (?<Var>"+sArgs+@")\);", "${Var} = ${Value};")
             .ReReplace(@"nsContentUtils::ASCIIToLower\((.*)\)", "$1 = $1.ToLower()")
+            .ReReplace(@"mozilla::css::ComputeCalc\((.*)\)", "CommonUtil.ComputeCalc($1)")
             .ReReplace(@"NSToIntRound\(", "CommonUtil.NSToIntRound(")
             .ReReplace(@"NS_NewURI\(", "CommonUtil.NS_NewURI(")
             .ReReplace(@"do_GetAtom", "String.Intern") // "atom" in Mozilla's sense is a string value instance used for all equal values (to compare by reference and lower memory usage)
@@ -326,7 +327,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\b(nsCSSProperty|nsCSSValue)\b \b(subprops|aSourceProperties|aProperties|aValues|aInitialValues)\b(?!\[\])", "$1[] $2")
             .Replace(@"string aStopSymbolChars", "char[] aStopSymbolChars")
             .Replace(@"(string aURL)", "(ref string aURL)")
-            .Replace(@"string aFamily", "StringBuilder aFamily")
+            .Replace(@"ParseOneFamily(string aFamily", "ParseOneFamily(StringBuilder aFamily")
             // specific expressions: arg values
             .ReReplace(@"nsMediaQuery query;", "nsMediaQuery query = null;")
             .ReReplace(@"string (condition|family|nextFamily);", "var $1 = new StringBuilder();")

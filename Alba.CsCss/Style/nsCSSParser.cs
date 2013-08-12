@@ -70,11 +70,6 @@ namespace Alba.CsCss.Style
             return str.StartsWith(value);
         }
 
-        private static float ComputeCalc (nsCSSValue leftValue, object ops)
-        {
-            throw new NotImplementedException();
-        }
-
         private void AppendValues (nsCSSProperty[] aPropIDs, nsCSSValue aValue)
         {
             foreach (nsCSSProperty aPropId in aPropIDs)

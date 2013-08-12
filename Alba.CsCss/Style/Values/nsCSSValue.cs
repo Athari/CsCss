@@ -7,7 +7,9 @@ using int32_t = System.Int32;
 // ReSharper disable NonReadonlyFieldInGetHashCode
 namespace Alba.CsCss.Style
 {
-    public struct nsCSSValue : IEquatable<nsCSSValue>
+    using ICalcOpsInput = ICalcOpsInput<nsCSSValue>;
+
+    public struct nsCSSValue : ICalcOpsInput<nsCSSValue>, IEquatable<nsCSSValue>
     {
         internal static readonly nsCSSValue NullValue = new nsCSSValue();
 
@@ -518,6 +520,11 @@ namespace Alba.CsCss.Style
         public nsCSSValuePairList PairList
         {
             get { return GetPairListValue(); }
+        }
+
+        nsCSSValue[] ICalcOpsInput.GetArrayValue ()
+        {
+            return GetArrayValue();
         }
     }
 }
