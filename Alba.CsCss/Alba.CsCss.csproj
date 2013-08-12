@@ -35,6 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\nsAtomList.cs" />
     <Compile Include="Common\nsNameSpaceManager.cs" />
     <Compile Include="Common\nsIPrincipal.cs" />
     <Compile Include="Common\nsresult.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Style\Media\Original\nsMediaFeatures.conv.cs">
       <DependentUpon>nsMediaFeatures.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\nsAttrSelector.cs" />
     <Compile Include="Style\nsCachedStyleData.cs" />
     <Compile Include="Style\nsCSSAnonBoxes.cs" />
     <Compile Include="Style\nsCSSCompressedDataBlock.cs" />
@@ -100,7 +102,10 @@
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSPseudoClasses.cs" />
     <Compile Include="Style\nsCSSPseudoElements.cs" />
+    <Compile Include="Style\nsCSSSelector.cs" />
     <Compile Include="Style\nsCSSSelectorList.cs" />
+    <Compile Include="Style\nsCSSStyleSheet.cs" />
+    <Compile Include="Style\nsPseudoClassList.cs" />
     <Compile Include="Style\Values\nsCSSRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />

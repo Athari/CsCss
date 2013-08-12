@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
 {
     internal class Declaration
     {
-        private readonly List<nsCSSProperty> mOrder = new List<nsCSSProperty>(8);
+        private readonly List<nsCSSProperty> mOrder = new List<nsCSSProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;
         private bool mImmutable;
 

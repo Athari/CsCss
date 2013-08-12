@@ -10,5 +10,15 @@ namespace Alba.CsCss.Style
         {
             mRules.Add(aRule);
         }
+
+        public override void SetStyleSheet (nsCSSStyleSheet aSheet)
+        {
+            if (aSheet == GetStyleSheet())
+                return;
+            foreach (Rule rule in mRules)
+                if (rule != null)
+                    rule.SetStyleSheet(aSheet);
+            base.SetStyleSheet(aSheet);
+        }
     }
 }

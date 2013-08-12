@@ -7,6 +7,14 @@ namespace Alba.CsCss
     {
         private readonly Dictionary<string, int> mNameSpaces = new Dictionary<string, int>();
 
+        public nsXMLNameSpaceMap (bool aForXML)
+        {
+            if (aForXML) {
+                AddPrefix("xmlns", nsNameSpace.XMLNS);
+                AddPrefix("xml", nsNameSpace.XML);
+            }
+        }
+
         public nsresult AddPrefix (string aPrefix, int aNameSpaceID)
         {
             mNameSpaces[aPrefix] = aNameSpaceID;

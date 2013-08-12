@@ -245,7 +245,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?<Type>Declaration|string) +(?<Var>\w+)\((?<Args>"+sArgs+@")\);",
                         "${Type} ${Var} = ${Args};")                                        // Type Var(Args) -> Type Var = Args
             .ReReplace(@"(?<Type>"+
-                            "nsCSSValue|nsCSSValuePair|nsCSSSelectorList|nsAtomList|nscolor|nsCSSRect|ExtractFirstFamilyData|ReduceNumberCalcOps|"+
+                            "nsCSSValue|nsCSSValuePair|nsCSSSelectorList|nscolor|nsCSSRect|ExtractFirstFamilyData|ReduceNumberCalcOps|"+
                             "List<(?:float|nsCSSValue|uint32_t)>"+
                        @") +(?<Var>\w+)"+                                                   // 1. Type Var -> var Var = new Type()
                        @"(, (?<Var>\w+))*;",                                                // 2. Type Var1, Var2 -> Type Var1 = new Type(), Var2 = new Type()
@@ -256,6 +256,8 @@ namespace Alba.CsCss.Style
                         "bool $1 = false;")                                                 // bool Var -> bool Var = false
             .ReReplace(@"string +\b(str|valueStr|prefix|url|urlString|pseudoElement)\b;",
                         "string $1 = \"\";")                                                // string Var -> string Var = ""
+            .ReReplace(@"\b(nsAtomList)\b +\b(pseudoElementArgs)\b;",
+                        "$1 $2 = null;")                                                    // Type Var -> Type Var = null
             .ReReplace(@"(?<!new )(?<Type>nsCSSValue)\(",
                         "new ${Type}(")                                                     // Type Var[Size] -> Type(...) -> new Type(...)
             .Replace(@"nsAutoTArray<char, 16> stack;", "var stack = new List<char>(16);")

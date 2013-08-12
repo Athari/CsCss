@@ -3058,7 +3058,7 @@ namespace Alba.CsCss.Style
         
           nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
           string pseudoElement = "";
-          var pseudoElementArgs = new nsAtomList();
+          nsAtomList pseudoElementArgs = null;
           nsCSSPseudoElement pseudoElementType =
             nsCSSPseudoElement.NotPseudoElement;
         
