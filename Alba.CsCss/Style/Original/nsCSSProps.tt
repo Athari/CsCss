@@ -5,7 +5,7 @@
     string source = ConvertSource(LoadText(ext: "cpp"));
 
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSProps.g.cs", () => GenerateCssProps(source));
+    T4.GenerateFile("nsCSSProps.conv.cs", () => GenerateCssProps(source));
     T4.Process();
 #>
 
@@ -37,8 +37,9 @@ namespace Alba.CsCss.Style
             .ReReplace(@"eCSSKeyword_(\w+)", m => "(int)nsCSSKeyword." + ToId(m.Get()))
             .ReReplace(@"eCSSProperty_(\w+)", m => "nsCSSProperty." + ToId(m.Get()))
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
-            .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
-            .ReReplace(@"NS_THEME_(\w+)", "0") // unused
+            .ReReplace(@"NS_((?:BOXPROP|COLOR)_\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_THEME_(\w+)", "0/*unused*/")
+            .ReReplace(@"LookAndFeel::e(\w+?)_(\w+)", "(int)LookAndFeel.$1.$2")
 
             // common preprocessor
             .ReReplace(@"#ifdef (\w+)", "#if $1")

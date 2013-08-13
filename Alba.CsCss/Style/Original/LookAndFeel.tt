@@ -1,0 +1,36 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+
+    var T4 = GetT4();
+    T4.GenerateFile("LookAndFeel.conv.cs", () => GenerateCssProps(source));
+    T4.Process();
+#>
+
+<#+ void GenerateCssProps (string source) { #>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    internal class LookAndFeel
+    {
+<#+   foreach (string array in ConvertEnums(source)) { #>
+<#=     array.Indent(8).NormalizeWhitespace() #>
+
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateCssProps */ #>
+
+<#+
+    IEnumerable<string> ConvertEnums (string source)
+    {
+        foreach (Match m in source.ReMatches(@"(?ns)enum (?<Type>\w+) {(?<Code>.*?)};"))
+            yield return m.Result("public enum ${Type} {${Code}};")
+                .ReReplace(@"\be{0}(ID)?_".Fmt(m.Get("Type").RemovePostfixSafe("ID")), ""); // remove enum prefix
+    }
+#>
