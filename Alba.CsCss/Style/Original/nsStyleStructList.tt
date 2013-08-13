@@ -1,0 +1,66 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#@ include file="nsStyleStructList.ttinclude" #>
+<#
+    var T4 = GetT4();
+    //T4.GenerateFile("nsStyleStructList.g.txt", () => GenerateStyleStructListText());
+    T4.GenerateFile("nsStyleStructID.g.cs", () => GenerateStyleStructId());
+    T4.Process();
+#>
+
+<#+ void GenerateStyleStructListText () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+<#+ foreach (StyleStruct style in GetStyleStructs()) { #>
+//
+// Kind: <#=style.Kind#>
+// Name: <#=style.Name#>
+// CheckDataCallback: <#=style.CheckDataCallback#>
+// CtorArgs: <#=style.CtorArgs#>
+<#+ } #>
+<#+ } /* void GenerateStyleStructListText */ #>
+
+<#+ void GenerateStyleStructId () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.ComponentModel;
+
+namespace Alba.CsCss.Style
+{
+    internal enum nsStyleStructID {
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Inherited_Start = 0,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        DUMMY1 = Inherited_Start - 1,
+
+        // Inherited
+<#+   foreach (StyleStruct style in GetStyleStructs(StyleStructKind.Inherited)) { #>
+        <#=style.Name#>,
+<#+   } #>
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Reset_Start,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        DUMMY2 = Reset_Start - 1,
+
+        // Reset
+<#+   foreach (StyleStruct style in GetStyleStructs(StyleStructKind.Reset)) { #>
+        <#=style.Name#>,
+<#+   } #>
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Length,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Inherited_Count = Reset_Start - Inherited_Start,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        Reset_Count = Length - Reset_Start,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        BackendOnly = Length,
+    }
+}
+<#+ } /* void GenerateStyleStructId */ #>

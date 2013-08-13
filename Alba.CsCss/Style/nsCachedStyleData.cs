@@ -2,9 +2,9 @@
 {
     internal class nsCachedStyleData
     {
-        public static int GetBitForSID (int /*nsStyleStructID*/ aSID)
+        public static int GetBitForSID (nsStyleStructID aSID)
         {
-            return 1 << aSID;
+            return 1 << (int)aSID;
         }
     }
 }

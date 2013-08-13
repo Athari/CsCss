@@ -1,0 +1,44 @@
+﻿<#+
+    IList<StyleStruct> _styleStructs;
+
+    IEnumerable<StyleStruct> GetStyleStructsFromSource (string source)
+    {
+        var kinds = new Dictionary<string, StyleStructKind> {
+            { "STYLE_STRUCT_INHERITED", StyleStructKind.Inherited },
+            { "STYLE_STRUCT_RESET", StyleStructKind.Reset },
+        };
+        foreach (Match m in source.ReMatches(
+                @"(?mx)^(
+                    (?<Kind> STYLE_STRUCT_INHERITED )\(
+                        (?<Name>$), (?<CheckDataCallback>$), (?<CtorArgs>$)
+                    \)
+                    |
+                    (?<Kind> STYLE_STRUCT_RESET )\(
+                        (?<Name>$), (?<CheckDataCallback>$), (?<CtorArgs>$)
+                    \)
+                )".Replace(",", @",\ *").Replace("$", sArgs))) {
+            var cls = new StyleStruct {
+                Kind = kinds[m.Get("Kind")],
+                Name = m.Get("Name").Trim(),
+                CheckDataCallback = m.Get("CheckDataCallback").Trim().Replace("nullptr", "null"),
+                CtorArgs = m.Get("CtorArgs").Trim(),
+            };
+            yield return cls;
+        }
+    }
+
+    IEnumerable<StyleStruct> GetStyleStructs (StyleStructKind? kind = null)
+    {
+        if (_styleStructs == null)
+            _styleStructs = GetStyleStructsFromSource(LoadText("nsStyleStructList.h")).ToList();
+        return kind == null ? _styleStructs : _styleStructs.Where(style => style.Kind == kind.Value);
+    }
+
+    enum StyleStructKind { Inherited, Reset };
+
+    class StyleStruct
+    {
+        public string Name, CheckDataCallback, CtorArgs;
+        public StyleStructKind Kind;
+    }
+#>

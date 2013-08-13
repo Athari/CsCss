@@ -11,6 +11,15 @@
     T4.Process();
 #>
 
+<#+
+    string ConvertSource (string source)
+    {
+        return source
+            .Replace("CSS_PROPERTY_", "")
+            ;
+    }
+#>
+
 <#+ void GenerateCssPropListText () { #>
 //
 // Generated file. Do not edit manually.
@@ -83,6 +92,8 @@ namespace Alba.CsCss.Style
 using System.Collections.Generic;
 using Alba.CsCss.Internal.Extensions;
 
+using uint32_t = System.Int32;
+
 namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
@@ -99,16 +110,37 @@ namespace Alba.CsCss.Style
 <#+       } #>
         };
 
+        public static readonly nsStyleStructID[] kSIDTable = {
+<#+       foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+            nsStyleStructID.<#=prop.StyleStruct#>,
+<#+       } #>
+        };
+
+        public static readonly uint32_t[] kFlagsTable = {
+<#+       foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+            <#=ConvertSource(prop.Flags)#>,
+<#+       } #>
+<#+       foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
+            <#=ConvertSource(prop.Flags)#>,
+<#+       } #>
+        };
+
         private static readonly Dictionary<string, int> gPropertyTable = kCSSRawProperties.ToCaseInsensitiveNameTable();
 
-        private static readonly int[][] kKeywordTableTable;
+        // We need static ctor, because these arrays depend on fields from other parts.
+        public static readonly int[][] kKeywordTableTable;
+        public static readonly nsCSSProperty[][] kSubpropertyTable;
 
         static nsCSSProps ()
         {
-            // We need static ctor, because kKeywordTableTable depends on fields (with static field initializers) from other parts.
             kKeywordTableTable = new[] {
 <#+           foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
                 <#=prop.KwTable#>,
+<#+           } #>
+            };
+            kSubpropertyTable = new[] {
+<#+           foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
+                g<#=prop.MethodPrivate#>SubpropTable,
 <#+           } #>
             };
         }

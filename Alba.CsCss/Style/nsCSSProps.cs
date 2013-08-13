@@ -20,7 +20,6 @@ namespace Alba.CsCss.Style
         public static int[] kContentKTable;
         public static int[] kCursorKTable;
         public static int[] kColorKTable;
-        public static int[] kFlagsTable;
         public static int[] kFontKTable;
         public static int[] kFontSizeKTable;
         public static int[] kFontStretchKTable;
@@ -37,12 +36,10 @@ namespace Alba.CsCss.Style
         public static int[] kRadialGradientShapeKTable;
         public static int[] kRadialGradientSizeKTable;
         public static int[] kScanKeywords;
-        public static int[] kSIDTable;
         public static int[] kStrokeObjectValueKTable;
         public static int[] kTextDecorationLineKTable;
         public static int[] kTextOverflowKTable;
         public static int[] kWidthKTable;
-        public static nsCSSProperty[][] kSubpropertyTable;
 
         private static int FindIndexOfKeyword (nsCSSKeyword aKeyword, int[] aTable)
         {

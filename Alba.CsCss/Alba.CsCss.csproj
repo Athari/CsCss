@@ -117,6 +117,9 @@
     <Compile Include="Style\Original\nsCSSProps.CSSPropList.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsStyleStructID.g.cs">
+      <DependentUpon>nsStyleStructList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Values\nsCSSRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
@@ -234,6 +237,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsMediaFeaturesH.h</DependentUpon>
     </None>
+    <None Include="Style\Original\nsStyleStructList.ttinclude" />
     <None Include="Style\Original\nsCSSFontDescList.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -311,6 +315,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nsStyleConsts.h</DependentUpon>
+    </None>
+    <None Include="Style\Original\nsStyleStructList.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nsStyleStructList.h</DependentUpon>
     </None>
     <None Include="Style\Original\StyleRule.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -421,6 +431,12 @@
     <None Include="Style\Media\Original\nsMediaFeatures.cpp">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsMediaFeatures.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\nsStyleStructList.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>nsStyleStructList.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
