@@ -7,39 +7,9 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
     {
-        public static int[] kBackgroundAttachmentKTable;
-        public static int[] kBackgroundPositionKTable;
-        public static int[] kBackgroundOriginKTable;
-        public static int[] kBackgroundRepeatKTable;
-        public static int[] kBackgroundRepeatPartKTable;
-        public static int[] kBackgroundSizeKTable;
-        public static int[] kBorderColorKTable;
-        public static int[] kBorderImageSliceKTable;
-        public static int[] kBorderImageRepeatKTable;
-        public static int[] kBoxShadowTypeKTable;
-        public static int[] kContentKTable;
-        public static int[] kCursorKTable;
-        public static int[] kColorKTable;
-        public static int[] kFontKTable;
-        public static int[] kFontSizeKTable;
-        public static int[] kFontStretchKTable;
-        public static int[] kFontStyleKTable;
-        public static int[] kFontWeightKTable;
-        public static int[] kListStyleKTable;
-        public static int[] kObjectPatternKTable;
         public static int[] kOrientationKeywords;
-        public static int[] kOverflowKTable;
-        public static int[] kPageMarksKTable;
-        public static int[] kPageSizeKTable;
         public static int[] kParserVariantTable;
-        public static int[] kRadialGradientLegacySizeKTable;
-        public static int[] kRadialGradientShapeKTable;
-        public static int[] kRadialGradientSizeKTable;
         public static int[] kScanKeywords;
-        public static int[] kStrokeObjectValueKTable;
-        public static int[] kTextDecorationLineKTable;
-        public static int[] kTextOverflowKTable;
-        public static int[] kWidthKTable;
 
         private static int FindIndexOfKeyword (nsCSSKeyword aKeyword, int[] aTable)
         {

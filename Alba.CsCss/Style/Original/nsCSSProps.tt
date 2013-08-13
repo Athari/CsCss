@@ -1,3 +1,53 @@
 <#@ template hostspecific="true" debug="true" #>
 <#@ output extension="/" #>
-<#@ include file="$(SolutionDir)\Alba.Framework\Alba.Framework.CodeGeneration\T4\Common.ttinclude" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = ConvertSource(LoadText(ext: "cpp"));
+
+    var T4 = GetT4();
+    T4.GenerateFile("nsCSSProps.g.cs", () => GenerateCssProps(source));
+    T4.Process();
+#>
+
+<#+ void GenerateCssProps (string source) { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using int32_t = System.Int32;
+using uint32_t = System.Int32;
+
+namespace Alba.CsCss.Style
+{
+    internal partial class nsCSSProps
+    {
+<#+   foreach (string array in ConvertGlobalArrays(source)) { #>
+<#=     array.Indent(8).NormalizeWhitespace() #>
+
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateCssProps */ #>
+
+<#+
+    string ConvertSource (string source)
+    {
+        return source
+            // specific enums
+            .ReReplace(@"eCSSKeyword_(\w+)", m => "(int)nsCSSKeyword." + ToId(m.Get()))
+            .ReReplace(@"eCSSProperty_(\w+)", m => "nsCSSProperty." + ToId(m.Get()))
+            .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_THEME_(\w+)", "0") // unused
+
+            // common preprocessor
+            .ReReplace(@"#ifdef (\w+)", "#if $1")
+            ;
+    }
+
+    IEnumerable<string> ConvertGlobalArrays (string source)
+    {
+        foreach (Match m in source.ReMatches(@"(?ns)(static )?(const )?(?<Type>u?int\d+_t|nsCSSProperty) (nsCSSProps::)?(?<Var>\w+)\[\] = {(?<Code>.*?)};"))
+            yield return m.Result("public static readonly ${Type}[] ${Var} = {${Code}};");
+    }
+#>

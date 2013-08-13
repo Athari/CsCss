@@ -117,6 +117,9 @@
     <Compile Include="Style\Original\nsCSSProps.CSSPropList.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsCSSProps.g.cs">
+      <DependentUpon>nsCSSProps.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsStyleStructID.g.cs">
       <DependentUpon>nsStyleStructList.tt</DependentUpon>
     </Compile>
