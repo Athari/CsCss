@@ -36,6 +36,26 @@ namespace Alba.CsCss.Style
             return mRadialValues[1];
         }
 
+        internal void SetRadialShape (nsCSSValue aValue)
+        {
+            mRadialValues[0] = aValue;
+        }
+
+        internal void SetRadialSize (nsCSSValue aValue)
+        {
+            mRadialValues[1] = aValue;
+        }
+
+        internal void SetRadiusX (nsCSSValue aValue)
+        {
+            mRadialValues[0] = aValue;
+        }
+
+        internal void SetRadiusY (nsCSSValue aValue)
+        {
+            mRadialValues[1] = aValue;
+        }
+
         // public interface
 
         public IEnumerable<nsCSSValueGradientStop> Stops

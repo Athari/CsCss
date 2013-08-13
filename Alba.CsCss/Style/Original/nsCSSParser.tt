@@ -220,7 +220,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?s)nsMediaFeature feature.*?\n  }\n", "nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);\n")
             .ReReplace(@"(?s)(// pseudo-classes as well as pseudo-elements, start with a single ':').*?}", "$1\n  string pseudo = String.Intern(\":\" + mToken.mIdentStr);")
             .ReReplace(@"mToken\.mIdentStr \+ (\d+)", "mToken.mIdentStr.Substring($1)")
-            .ReReplace(@"(?<Var>\w+)\.\*\(?nsCSSRect::sides\[(?<Index>\w+)\]\)?", "${Var}[${Index}]")
+            .ReReplace(@"(?<Var>\w+)\.\*\(?nsCSSRect::sides\[(?<Index>\w+)\]\)?", "${Var}.GetSide(${Index})")
             .ReReplace(@"(?s)for \(nsCSSProperty prop = aSourceProperties;.*?  }", "AppendValues(aSourceProperties, physical);")
             .ReReplace(@"(?s)for \(nsCSSProperty subprops =\s+([^;]+);.*?  }", "AppendValues($1, color);")
             .ReReplace(@"(?ns)(?<Type>nsAutoParseCompoundProperty|nsAutoFailingSupportsRule|nsAutoSuppressErrors) "+ // RAII structs
@@ -328,6 +328,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\b(nsCSSProperty|nsCSSValue)\b \b(subprops|aSourceProperties|aProperties|aValues|aInitialValues)\b(?!\[\])", "$1[] $2")
             .Replace(@"string aStopSymbolChars", "char[] aStopSymbolChars")
             .Replace(@"(string aURL)", "(ref string aURL)")
+            .ReReplace(@"\bnsCSSValue (aValue|aImage|aOut)\b", "ref nsCSSValue $1") // majority (~30) are ref, so listing exceptions is easier
+            .ReReplace(@"(?s)(AppendValue|AppendValueToList)\(([^\)]+) ref nsCSSValue aValue\)", "$1($2 nsCSSValue aValue)")
             .Replace(@"ParseOneFamily(string aFamily", "ParseOneFamily(StringBuilder aFamily")
             // specific expressions: arg values
             .ReReplace(@"nsMediaQuery query;", "nsMediaQuery query = null;")
@@ -336,7 +338,7 @@ namespace Alba.CsCss.Style
             // specific expressions: arg calls
             .ReReplace(@"&(equal)", "out $1")
             .ReReplace(@"&(hitStop|changed|sliceConsumedTokens|haveWS|pseudoElementType)", "ref $1")
-            .ReReplace(@"(lastRule|is3D|junk|dummy)\)", "ref $1)")
+            .ReReplace(@"(lastRule|junk|dummy)\)", "ref $1)")
             .ReReplace(@"(ParseURLOrString)\((\w+)\)", "$1(ref $2)")
             .ReReplace(@"(?i)\((\w*conditionMet)", "(ref $1")
             .ReReplace(@"(pseudoElement),", "ref $1,")
@@ -346,17 +348,32 @@ namespace Alba.CsCss.Style
                             "ParseBoxPositionValues|ParseTransitionTimingFunctionValueComponent|ParseSelectorList|ParseSelectorGroup|"+
                             "ParseNegatedSimpleSelector|ParseHSLColor|ParseColorOpacity|ParseBackgroundRepeatValues|"+
                             "ParseBackgroundSizeValues|ParseBoxPositionValues|ParseIDSelector|ParseClassSelector|ParsePseudoSelector|"+
-                            "ParseAttributeSelector|ParseTypeOrUniversalSelector|aValue\\.GetStringValue"+
-                       @")\((?<Arg1>(\w|\.|->)+[,\)])", @"${Method}(ref ${Arg1}")
+                            "ParseColor|ParseCounter|ParseAttr|ParseTransitionTimingFunctionValues|ParseTransitionStepTimingFunctionValues|"+
+                            "ParseCalc|SetValueToURL|ParseNonNegativeVariant|ParseOneOrLargerVariant|ParseSingleValueProperty|"+
+                            "ParseFamily|ParseFontFeatureSettings|ParseFontWeight|ParseMarks|ParseTextDecorationLine|ParseTextOverflow|"+
+                            "ParseFontSrc|ParseFontRanges|ParseFontFeatureSettings|ParseEnum|ParseShadowItem|TranslateDimension|"+
+                            "ParseLinearGradient|ParseRadialGradient|ParseImageRect|ParseElement|ParseBackgroundPositionValues|"+
+                            "ParseAttributeSelector|ParseTypeOrUniversalSelector|ParseVariant|aValue\\.GetStringValue"+
+                       @")\((?<Arg1>(\w|\.|->|\[|\])+[,\)])", @"${Method}(ref ${Arg1}")
+            .ReReplace(@"("+
+                            "ParseOneFamily|ParseGradientColorStops|ParseGroupedBoxProperty|ParseFontDescriptorValue"+
+                       @")\(([^, ]+),\s+(\w+)", @"$1($2, ref $3")
+            .ReReplace(@"("+
+                            "ParseColorComponent|ParseCalcAdditiveExpression|ParseCalcMultiplicativeExpression|ParseCalcTerm"+
+                       @")\(([^, ]+),\s+(\w+)", @"$1(ref $2, ref $3")
             .ReReplace(@"(?<Method>"+"NS_NewURI"+@")\((?<Arg1>(\w|\.|->)+[,\)])", @"${Method}(out ${Arg1}")
             .ReReplace(@"parsingStatus = ParsePseudoSelector\(ref aDataMask, newSel, true,\s+nullptr, nullptr, nullptr\);",
                         "{ string _1 = null; nsCSSPseudoElement _2 = 0; parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true, ref _1, null, ref _2); }")
             .Replace(@"return ParseBorderImageSlice(true, nullptr);", "{ bool? _ = null; return ParseBorderImageSlice(true, ref _); }")
-            .ReReplace(@"ParseColorComponent\((\w), (\w+)", @"ParseColorComponent(ref $1, ref $2")
             .ReReplace(@"FindKeyword\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)\)", @"FindKeyword($1, $2, ref $3)")
             .ReReplace(@"GetFunctionParseInformation\((\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"GetFunctionParseInformation($1, $2, ref $3, ref $4, ref $5, ref $6)")
             .ReReplace(@"TryReplaceValue\((\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"TryReplaceValue($1, $2, $3, ref $4)")
-            .ReReplace(@"(ParseCalcAdditiveExpression|ParseCalcMultiplicativeExpression|ParseOneFamily|ParseCalcTerm)\(([^, ]+),\s+(\w+)", @"$1($2, ref $3")
+            .ReReplace(@"ParseSingleTransform\((\w+),\s+([^,]+),\s+(\w+)\)", @"ParseSingleTransform($1, ref $2, ref $3)")
+            .ReReplace(@"ParseFunction\(([\w\.]+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"ParseFunction($1, $2, $3, $4, ref $5)")
+            .ReReplace(@"(?<Method>ParseVariant|ParseNonNegativeVariant)\((?<Var>\w+)->Get(?<Prop>\w+)\(\),",
+                        "${Method}(${Var}.Get${Prop}(), ${Var}.Set${Prop},") // C# doesn't support methods returning refs, so workaround by using delegates
+            .ReReplace(@"(?<Method>ParseVariant|ParseNonNegativeVariant|ParseSingleValueProperty)\((?<Var>\w+)\.Get(?<Prop>\w+)\((?<PropArg>\w+)\),",
+                        "${Method}(${Var}.Get${Prop}(${PropArg}), v => ${Var}.Set${Prop}(${PropArg}, v),")
             .ReReplace(@"\(AppendRuleToSheet, this", "((rule, _) => AppendRule(rule), this")
             .ReReplace(@"(?<Method>\w+)\(AssignRuleToPointer, (?<Args>[^\)]+)\);", "Rule result = null; ${Method}((rule, _) => result = rule, ${Args}); aResult = result;")
 

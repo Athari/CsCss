@@ -34,41 +34,39 @@ namespace Alba.CsCss.Style
             get { return mLeft; }
         }
 
-        public nsCSSValue this [Side side]
+        public nsCSSValue GetSide (Side side)
         {
-            get
-            {
-                switch (side) {
-                    case Side.Top:
-                        return mTop;
-                    case Side.Right:
-                        return mRight;
-                    case Side.Bottom:
-                        return mBottom;
-                    case Side.Left:
-                        return mLeft;
-                    default:
-                        throw new ArgumentOutOfRangeException("side");
-                }
+            switch (side) {
+                case Side.Top:
+                    return mTop;
+                case Side.Right:
+                    return mRight;
+                case Side.Bottom:
+                    return mBottom;
+                case Side.Left:
+                    return mLeft;
+                default:
+                    throw new ArgumentOutOfRangeException("side");
             }
-            set
-            {
-                switch (side) {
-                    case Side.Top:
-                        mTop = value;
-                        break;
-                    case Side.Right:
-                        mRight = value;
-                        break;
-                    case Side.Bottom:
-                        mBottom = value;
-                        break;
-                    case Side.Left:
-                        mLeft = value;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("side");
-                }
+        }
+
+        public void SetSide (Side side, nsCSSValue aValue)
+        {
+            switch (side) {
+                case Side.Top:
+                    mTop = aValue;
+                    break;
+                case Side.Right:
+                    mRight = aValue;
+                    break;
+                case Side.Bottom:
+                    mBottom = aValue;
+                    break;
+                case Side.Left:
+                    mLeft = aValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("side");
             }
         }
     }

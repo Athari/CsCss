@@ -77,6 +77,27 @@ namespace Alba.CsCss.Style
                     AppendValue(aPropId, aValue);
         }
 
+        private bool ParseVariant (nsCSSValue aValue, Action<nsCSSValue> setValue, int32_t _1, int32_t[] _2)
+        {
+            var res = ParseVariant(ref aValue, _1, _2);
+            setValue(aValue);
+            return res;
+        }
+
+        private bool ParseNonNegativeVariant (nsCSSValue aValue, Action<nsCSSValue> setValue, int32_t _1, int32_t[] _2)
+        {
+            var res = ParseNonNegativeVariant(ref aValue, _1, _2);
+            setValue(aValue);
+            return res;
+        }
+
+        private bool ParseSingleValueProperty (nsCSSValue aValue, Action<nsCSSValue> setValue, nsCSSProperty _1)
+        {
+            var res = ParseSingleValueProperty(ref aValue, _1);
+            setValue(aValue);
+            return res;
+        }
+
         internal delegate void RuleAppendFunc (Rule aRule, object aData);
 
         internal enum nsSelectorParsingStatus
