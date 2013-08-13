@@ -1635,5 +1635,17 @@ namespace Alba.CsCss.Style
           nsCSSProperty.UNKNOWN
         };
 
+        public static readonly int32_t[] kOrientationKeywords = {
+          (int)nsCSSKeyword.portrait,                 nsStyle.ORIENTATION_PORTRAIT,
+          (int)nsCSSKeyword.landscape,                nsStyle.ORIENTATION_LANDSCAPE,
+          (int)nsCSSKeyword.UNKNOWN,                  -1
+        };
+
+        public static readonly int32_t[] kScanKeywords = {
+          (int)nsCSSKeyword.progressive,              nsStyle.SCAN_PROGRESSIVE,
+          (int)nsCSSKeyword.interlace,                nsStyle.SCAN_INTERLACE,
+          (int)nsCSSKeyword.UNKNOWN,                  -1
+        };
+
     }
 }

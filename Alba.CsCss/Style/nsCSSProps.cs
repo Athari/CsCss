@@ -7,10 +7,6 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
     {
-        public static int[] kOrientationKeywords;
-        public static int[] kParserVariantTable;
-        public static int[] kScanKeywords;
-
         private static int FindIndexOfKeyword (nsCSSKeyword aKeyword, int[] aTable)
         {
             int32_t index = 0;
@@ -87,7 +83,6 @@ namespace Alba.CsCss.Style
 
         public static nsCSSProperty[] SubpropertyEntryFor (nsCSSProperty aProperty, bool skipUnknown = false)
         {
-            // skipUnknown === Where(p => p != Unknown)
             nsCSSProperty[] res = kSubpropertyTable[aProperty - nsCSSProperty.COUNT_no_shorthands];
             return skipUnknown ? res.Where(p => p != nsCSSProperty.UNKNOWN).ToArray() : res;
         }

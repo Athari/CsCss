@@ -125,6 +125,12 @@ namespace Alba.CsCss.Style
 <#+       } #>
         };
 
+        public static readonly int[] kParserVariantTable = {
+<#+       foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+            <#=prop.ParseVariant.Replace("VARIANT_", "nsCSSParser.VARIANT_")#>,
+<#+       } #>
+        };
+
         private static readonly Dictionary<string, int> gPropertyTable = kCSSRawProperties.ToCaseInsensitiveNameTable();
 
         // We need static ctor, because these arrays depend on fields from other parts.

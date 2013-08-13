@@ -2,7 +2,7 @@
 <#@ output extension="/" #>
 <#@ include file="..\..\T4\Common.ttinclude" #>
 <#
-    string source = ConvertSource(LoadText(ext: "cpp"));
+    string source = ConvertSource(LoadText(ext: "cpp") + LoadText(@"..\Media\Original\nsMediaFeatures.cpp"));
 
     var T4 = GetT4();
     T4.GenerateFile("nsCSSProps.conv.cs", () => GenerateCssProps(source));
