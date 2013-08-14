@@ -40,7 +40,7 @@ namespace Alba.CsCss.Style
                 return false;
             }
 
-            aChanged = MoveValue(newValue, ref mData[oldValue].mValue);
+            aChanged = MoveValue(ref newValue, ref mData[oldValue].mValue);
             aFromBlock.mPropertiesSet.RemoveProperty(aProperty);
             return true;
         }

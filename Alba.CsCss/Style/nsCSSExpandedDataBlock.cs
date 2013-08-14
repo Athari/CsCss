@@ -77,7 +77,7 @@ namespace Alba.CsCss.Style
 
             mPropertiesSet.AddProperty(aPropID);
             aFromBlock.mPropertiesSet.RemoveProperty(aPropID);
-            changed |= MoveValue(aFromBlock.mValues[(int)aPropID], ref mValues[(int)aPropID]);
+            changed |= MoveValue(ref aFromBlock.mValues[(int)aPropID], ref mValues[(int)aPropID]);
 
             return changed;
         }
@@ -128,10 +128,9 @@ namespace Alba.CsCss.Style
 
         private void CompressProperty (nsCSSCompressedDataBlock result, nsCSSProperty aPropID, ref int ip)
         {
-            nsCSSValue val = mValues[(int)aPropID];
             result.mData[ip].mProperty = aPropID;
-            result.mData[ip].mValue = val;
-            val.Reset();
+            result.mData[ip].mValue = mValues[(int)aPropID];
+            mValues[(int)aPropID].Reset();
             ip++;
             result.mStyleBits |= nsCachedStyleData.GetBitForSID(nsCSSProps.kSIDTable[(int)aPropID]);
         }
