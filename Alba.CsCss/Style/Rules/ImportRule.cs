@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@import ""{mUrlSpec}""")]
     internal class ImportRule : Rule
     {
         private nsMediaList mMedia;

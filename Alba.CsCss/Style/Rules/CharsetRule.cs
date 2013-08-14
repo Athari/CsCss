@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@charset ""{mEncoding}\""")]
     internal class CharsetRule : Rule
     {
         private string mEncoding;

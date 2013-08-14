@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("{mXValue}, {mYValue} ...")]
     public class nsCSSValuePairList
     {
         internal nsCSSValue mXValue, mYValue;

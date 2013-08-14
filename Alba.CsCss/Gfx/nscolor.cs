@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using Alba.CsCss.Internal.Extensions;
 using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Gfx
 {
+    [DebuggerDisplay ("rgba({R}, {G}, {B}, {A})")]
     public partial struct nscolor : IEquatable<nscolor>
     {
         private readonly UInt32 _rgba;

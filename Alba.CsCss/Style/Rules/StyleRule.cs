@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"{mSelector} \{ {mDeclaration.DebugDisplayCount,nq} \}")]
     internal class StyleRule : Rule
     {
         private nsCSSSelectorList mSelector;

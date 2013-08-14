@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
 using int32_t = System.Int32;
@@ -9,6 +10,7 @@ namespace Alba.CsCss.Style
 {
     using ICalcOpsInput = ICalcOpsInput<nsCSSValue>;
 
+    [DebuggerDisplay ("{mValue}")]
     public struct nsCSSValue : ICalcOpsInput<nsCSSValue>, IEquatable<nsCSSValue>
     {
         internal static readonly nsCSSValue NullValue = new nsCSSValue();
@@ -438,6 +440,11 @@ namespace Alba.CsCss.Style
         public static bool operator != (nsCSSValue left, nsCSSValue right)
         {
             return !left.Equals(right);
+        }
+
+        public override string ToString ()
+        {
+            return mValue.ToString();
         }
 
         // Public interface

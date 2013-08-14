@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("{mXValue}, {mYValue}, {mZValue}")]
     public class nsCSSValueTriplet
     {
         internal nsCSSValue mXValue, mYValue, mZValue;

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("gradient()")]
     public class nsCSSValueGradient
     {
         internal readonly List<nsCSSValueGradientStop> mStops = new List<nsCSSValueGradientStop>();

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using Alba.CsCss.Internal;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("{mString}")]
     public class URLValue
     {
         internal Uri mURI;

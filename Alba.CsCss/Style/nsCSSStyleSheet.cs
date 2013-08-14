@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("StyleSheet {mSheetURI}: Rules.Count = {mOrderedRules.Count}")]
     internal class nsCSSStyleSheet
     {
         // from nsCSSStyleSheetInner

@@ -15,6 +15,7 @@ namespace Alba.CsCss.Style
         public nsCSSStyleSheet ParseSheet (string aInput, Uri sheetUrl, Uri baseUrl)
         {
             var sheet = new nsCSSStyleSheet();
+            sheet.SetURIs(sheetUrl, baseUrl);
             var parser = new nsCSSParser();
             parser.SetChildLoader(this);
             parser.SetQuirkMode(CompatibilityMode == nsCompatibility.NavQuirks);

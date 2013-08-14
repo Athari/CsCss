@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("{DebugDisplayCount,nq}")]
     internal class Declaration
     {
         private readonly List<nsCSSProperty> mOrder = new List<nsCSSProperty>();
@@ -67,6 +68,16 @@ namespace Alba.CsCss.Style
             mData = null;
             mImportantData = null;
             mOrder.Clear();
+        }
+
+        internal string DebugDisplayCount
+        {
+            get
+            {
+                return mImportantData != null
+                    ? string.Format("Count = {0} + {1}", mData.mData.Length, mImportantData.mData.Length)
+                    : string.Format("Count = {0}", mData.mData.Length);
+            }
         }
     }
 }

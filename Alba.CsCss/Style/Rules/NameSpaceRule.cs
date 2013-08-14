@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@namespace {mPrefix} ""{mUrlSpec}""")]
     internal class NameSpaceRule : Rule
     {
         private readonly string mPrefix;

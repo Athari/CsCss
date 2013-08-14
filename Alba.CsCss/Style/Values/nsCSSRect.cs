@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("{mLeft}, {mTop}, {mRight}, {mBottom}")]
     public class nsCSSRect
     {
         internal nsCSSValue mTop, mRight, mBottom, mLeft;

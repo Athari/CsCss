@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@page \{ {mDeclaration.DebugDisplayCount,nq} \}")]
     internal class nsCSSPageRule : Rule
     {
         private Declaration mDeclaration;

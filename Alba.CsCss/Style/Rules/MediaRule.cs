@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@media ... \{ ({mRules.Count}) \}")]
     internal class MediaRule : GroupRule
     {
         private nsMediaList mMedia;

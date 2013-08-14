@@ -2,6 +2,7 @@
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay ("Count = {mData.Length}")]
     internal class nsCSSCompressedDataBlock : nsCSSDataBlock
     {
         internal readonly PropertyValue[] mData;
@@ -44,6 +45,7 @@ namespace Alba.CsCss.Style
             return true;
         }
 
+        [DebuggerDisplay ("{mProperty}: {mValue}")]
         internal struct PropertyValue
         {
             public nsCSSValue mValue;

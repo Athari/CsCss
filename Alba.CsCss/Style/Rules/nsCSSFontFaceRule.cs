@@ -1,5 +1,8 @@
-﻿namespace Alba.CsCss.Style
+﻿using System.Diagnostics;
+
+namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@font-face \{ font-family: {mDecl.mFamily}; src: {mDecl.mSrc} \}")]
     internal class nsCSSFontFaceRule : Rule
     {
         public nsCSSFontFaceRule ()

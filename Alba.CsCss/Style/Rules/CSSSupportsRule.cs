@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"@supports {mCondition} \{ ({mRules.Count}) \}")]
     internal class CSSSupportsRule : GroupRule
     {
         private bool mUseGroup;

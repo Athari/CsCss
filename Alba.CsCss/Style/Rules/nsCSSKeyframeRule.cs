@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
+    [DebuggerDisplay (@"{mKeys[0]}% \{ {mDeclaration.DebugDisplayCount,nq} \}")]
     internal class nsCSSKeyframeRule : Rule
     {
         private List<float> mKeys;
