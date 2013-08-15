@@ -22,7 +22,7 @@ namespace Alba.CsCss.Style
     internal partial class nsCSSProps
     {
 <#+   foreach (string array in ConvertGlobalArrays(source)) { #>
-<#=     array.Indent(8).NormalizeWhitespace() #>
+<#=     Refactor(array.Indent(8).NormalizeWhitespace()) #>
 
 <#+   } #>
     }

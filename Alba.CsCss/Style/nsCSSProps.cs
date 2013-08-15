@@ -28,19 +28,19 @@ namespace Alba.CsCss.Style
             return false;
         }
 
-        public static string GetStringValue (nsCSSProperty aProperty)
+        public static string GetStringValue (CssProperty aProperty)
         {
             return kCSSRawProperties[(int)aProperty];
         }
 
-        public static bool IsEnabled (nsCSSProperty aProperty)
+        public static bool IsEnabled (CssProperty aProperty)
         {
             return true; // gPropertyEnabled is an array of true, so generating it is pointless
         }
 
-        public static bool IsShorthand (nsCSSProperty aProperty)
+        public static bool IsShorthand (CssProperty aProperty)
         {
-            return (aProperty >= nsCSSProperty.COUNT_no_shorthands);
+            return (aProperty >= CssProperty.COUNT_no_shorthands);
         }
 
         public static nsCSSFontDesc LookupFontDesc (string aFontDesc)
@@ -48,46 +48,46 @@ namespace Alba.CsCss.Style
             return (nsCSSFontDesc)(gFontDescTable.GetOrDefault(aFontDesc, -1));
         }
 
-        public static nsCSSProperty LookupProperty (string aProperty, EnabledState aEnabled)
+        public static CssProperty LookupProperty (string aProperty, EnabledState aEnabled)
         {
-            nsCSSProperty res = (nsCSSProperty)gPropertyTable.GetOrDefault(aProperty, -1);
-            if (res >= nsCSSProperty.COUNT) {
+            CssProperty res = (CssProperty)gPropertyTable.GetOrDefault(aProperty, -1);
+            if (res >= CssProperty.COUNT) {
                 if (IsEnabled(res) || aEnabled == EnabledState.Any) {
-                    res = gAliases[res - nsCSSProperty.COUNT];
-                    Debug.Assert(0 <= res && res < nsCSSProperty.COUNT, "aliases must not point to other aliases");
+                    res = gAliases[res - CssProperty.COUNT];
+                    Debug.Assert(0 <= res && res < CssProperty.COUNT, "aliases must not point to other aliases");
                 }
                 else {
-                    res = nsCSSProperty.UNKNOWN;
+                    res = CssProperty.UNKNOWN;
                 }
             }
-            if (res != nsCSSProperty.UNKNOWN && aEnabled == EnabledState.Enabled && !IsEnabled(res)) {
-                res = nsCSSProperty.UNKNOWN;
+            if (res != CssProperty.UNKNOWN && aEnabled == EnabledState.Enabled && !IsEnabled(res)) {
+                res = CssProperty.UNKNOWN;
             }
             return res;
         }
 
-        public static int ParserVariant (nsCSSProperty aProperty)
+        public static int ParserVariant (CssProperty aProperty)
         {
             return kParserVariantTable[(int)aProperty];
         }
 
-        public static bool PropHasFlags (nsCSSProperty aProperty, int aFlags)
+        public static bool PropHasFlags (CssProperty aProperty, int aFlags)
         {
             return (kFlagsTable[(int)aProperty] & aFlags) == aFlags;
         }
 
-        public static int PropertyParseType (nsCSSProperty aProperty)
+        public static int PropertyParseType (CssProperty aProperty)
         {
             return kFlagsTable[(int)aProperty] & PARSE_PROPERTY_MASK;
         }
 
-        public static nsCSSProperty[] SubpropertyEntryFor (nsCSSProperty aProperty, bool skipUnknown = false)
+        public static CssProperty[] SubpropertyEntryFor (CssProperty aProperty, bool skipUnknown = false)
         {
-            nsCSSProperty[] res = kSubpropertyTable[aProperty - nsCSSProperty.COUNT_no_shorthands];
-            return skipUnknown ? res.Where(p => p != nsCSSProperty.UNKNOWN).ToArray() : res;
+            CssProperty[] res = kSubpropertyTable[aProperty - CssProperty.COUNT_no_shorthands];
+            return skipUnknown ? res.Where(p => p != CssProperty.UNKNOWN).ToArray() : res;
         }
 
-        public static int ValueRestrictions (nsCSSProperty aProperty)
+        public static int ValueRestrictions (CssProperty aProperty)
         {
             return kFlagsTable[(int)aProperty] & VALUE_RESTRICTION_MASK;
         }

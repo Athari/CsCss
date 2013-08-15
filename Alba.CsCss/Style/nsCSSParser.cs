@@ -70,10 +70,10 @@ namespace Alba.CsCss.Style
             return str.StartsWith(value);
         }
 
-        private void AppendValues (nsCSSProperty[] aPropIDs, nsCSSValue aValue)
+        private void AppendValues (CssProperty[] aPropIDs, nsCSSValue aValue)
         {
-            foreach (nsCSSProperty aPropId in aPropIDs)
-                if (aPropId != nsCSSProperty.UNKNOWN)
+            foreach (CssProperty aPropId in aPropIDs)
+                if (aPropId != CssProperty.UNKNOWN)
                     AppendValue(aPropId, aValue);
         }
 
@@ -91,7 +91,7 @@ namespace Alba.CsCss.Style
             return res;
         }
 
-        private bool ParseSingleValueProperty (nsCSSValue aValue, Action<nsCSSValue> setValue, nsCSSProperty _1)
+        private bool ParseSingleValueProperty (nsCSSValue aValue, Action<nsCSSValue> setValue, CssProperty _1)
         {
             var res = ParseSingleValueProperty(ref aValue, _1);
             setValue(aValue);

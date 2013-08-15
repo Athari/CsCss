@@ -32,9 +32,9 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
     {
-        private static readonly nsCSSProperty[] gAliases = {
+        private static readonly CssProperty[] gAliases = {
 <#+       foreach (CssPropAlias prop in GetCssPropAliases()) { #>
-            nsCSSProperty.<#=prop.Id#>,
+            CssProperty.<#=prop.Id#>,
 <#+       } #>
         };
     }

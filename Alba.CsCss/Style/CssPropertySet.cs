@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace Alba.CsCss.Style
 {
-    internal class nsCSSPropertySet
+    internal class CssPropertySet
     {
-        private readonly BitArray mProperties = new BitArray((int)nsCSSProperty.COUNT_no_shorthands);
+        private readonly BitArray mProperties = new BitArray((int)CssProperty.COUNT_no_shorthands);
 
-        public void AddProperty (nsCSSProperty aProperty)
+        public void AddProperty (CssProperty aProperty)
         {
             mProperties[(int)aProperty] = true;
         }
 
-        public void RemoveProperty (nsCSSProperty aProperty)
+        public void RemoveProperty (CssProperty aProperty)
         {
             mProperties[(int)aProperty] = false;
         }
 
-        public bool HasProperty (nsCSSProperty aProperty)
+        public bool HasProperty (CssProperty aProperty)
         {
             return mProperties[(int)aProperty];
         }

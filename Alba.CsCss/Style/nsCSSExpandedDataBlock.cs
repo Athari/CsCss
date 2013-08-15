@@ -5,9 +5,9 @@ namespace Alba.CsCss.Style
 {
     internal class nsCSSExpandedDataBlock : nsCSSDataBlock
     {
-        internal readonly nsCSSValue[] mValues = new nsCSSValue[(int)nsCSSProperty.COUNT_no_shorthands];
-        internal readonly nsCSSPropertySet mPropertiesSet = new nsCSSPropertySet();
-        internal readonly nsCSSPropertySet mPropertiesImportant = new nsCSSPropertySet();
+        internal readonly nsCSSValue[] mValues = new nsCSSValue[(int)CssProperty.COUNT_no_shorthands];
+        internal readonly CssPropertySet mPropertiesSet = new CssPropertySet();
+        internal readonly CssPropertySet mPropertiesImportant = new CssPropertySet();
 
         [Conditional ("DEBUG")]
         public void AssertInitialState ()
@@ -18,40 +18,40 @@ namespace Alba.CsCss.Style
                 Debug.Assert(mValues[i].GetUnit() == nsCSSUnit.Null);
         }
 
-        public void AddLonghandProperty (nsCSSProperty aPropID, nsCSSValue aValue)
+        public void AddLonghandProperty (CssProperty aPropID, nsCSSValue aValue)
         {
             mValues[(int)aPropID] = aValue;
             mPropertiesSet.AddProperty(aPropID);
         }
 
-        public void ClearProperty (nsCSSProperty aPropID)
+        public void ClearProperty (CssProperty aPropID)
         {
             if (!nsCSSProps.IsShorthand(aPropID))
                 ClearLonghandProperty(aPropID);
             else
-                foreach (nsCSSProperty p in nsCSSProps.SubpropertyEntryFor(aPropID, true))
+                foreach (CssProperty p in nsCSSProps.SubpropertyEntryFor(aPropID, true))
                     ClearLonghandProperty(p);
         }
 
-        private void ClearLonghandProperty (nsCSSProperty aPropID)
+        private void ClearLonghandProperty (CssProperty aPropID)
         {
             mPropertiesSet.RemoveProperty(aPropID);
             mPropertiesImportant.RemoveProperty(aPropID);
             mValues[(int)aPropID].Reset();
         }
 
-        public bool TransferFromBlock (nsCSSExpandedDataBlock aFromBlock, nsCSSProperty aPropID,
+        public bool TransferFromBlock (nsCSSExpandedDataBlock aFromBlock, CssProperty aPropID,
             bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, Declaration aDeclaration)
         {
             if (!nsCSSProps.IsShorthand(aPropID))
                 return DoTransferFromBlock(aFromBlock, aPropID, aIsImportant, aOverrideImportant, aMustCallValueAppended, aDeclaration);
             bool changed = false;
-            foreach (nsCSSProperty p in nsCSSProps.SubpropertyEntryFor(aPropID, true))
+            foreach (CssProperty p in nsCSSProps.SubpropertyEntryFor(aPropID, true))
                 changed |= DoTransferFromBlock(aFromBlock, p, aIsImportant, aOverrideImportant, aMustCallValueAppended, aDeclaration);
             return changed;
         }
 
-        private bool DoTransferFromBlock (nsCSSExpandedDataBlock aFromBlock, nsCSSProperty aPropID,
+        private bool DoTransferFromBlock (nsCSSExpandedDataBlock aFromBlock, CssProperty aPropID,
             bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, Declaration aDeclaration)
         {
             bool changed = false;
@@ -93,7 +93,7 @@ namespace Alba.CsCss.Style
         private void DoExpand (nsCSSCompressedDataBlock aBlock, bool aImportant)
         {
             foreach (CssPropertyValue pv in aBlock.mData) {
-                nsCSSProperty iProp = pv.mProperty;
+                CssProperty iProp = pv.mProperty;
                 mPropertiesSet.AddProperty(iProp);
                 if (aImportant)
                     mPropertiesImportant.AddProperty(iProp);
@@ -110,7 +110,7 @@ namespace Alba.CsCss.Style
             var result_important = numPropsImportant != 0 ? new nsCSSCompressedDataBlock(numPropsImportant) : null;
 
             int i_normal = 0, i_important = 0;
-            for (nsCSSProperty iProp = 0; iProp < nsCSSProperty.COUNT_no_shorthands; iProp++) {
+            for (CssProperty iProp = 0; iProp < CssProperty.COUNT_no_shorthands; iProp++) {
                 if (!mPropertiesSet.HasProperty(iProp))
                     continue;
                 if (mPropertiesImportant.HasProperty(iProp))
@@ -126,7 +126,7 @@ namespace Alba.CsCss.Style
             aImportantBlock = result_important;
         }
 
-        private void CompressProperty (nsCSSCompressedDataBlock result, nsCSSProperty aPropID, ref int ip)
+        private void CompressProperty (nsCSSCompressedDataBlock result, CssProperty aPropID, ref int ip)
         {
             result.mData[ip].mProperty = aPropID;
             result.mData[ip].mValue = mValues[(int)aPropID];
@@ -138,7 +138,7 @@ namespace Alba.CsCss.Style
         private void ComputeNumProps (out int aNumPropsNormal, out int aNumPropsImportant)
         {
             aNumPropsNormal = aNumPropsImportant = 0;
-            for (nsCSSProperty iProp = 0; iProp < nsCSSProperty.COUNT_no_shorthands; iProp++) {
+            for (CssProperty iProp = 0; iProp < CssProperty.COUNT_no_shorthands; iProp++) {
                 if (!mPropertiesSet.HasProperty(iProp))
                     continue;
                 if (mPropertiesImportant.HasProperty(iProp))

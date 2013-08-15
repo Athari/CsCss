@@ -1139,7 +1139,7 @@ namespace Alba.CsCss.Style
 
         // We need static ctor, because these arrays depend on fields from other parts.
         public static readonly int[][] kKeywordTableTable;
-        public static readonly nsCSSProperty[][] kSubpropertyTable;
+        public static readonly CssProperty[][] kSubpropertyTable;
 
         static nsCSSProps ()
         {

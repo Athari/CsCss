@@ -5,10 +5,10 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("{mProperty}: {mValue}")]
     public struct CssPropertyValue
     {
-        internal nsCSSProperty mProperty;
+        internal CssProperty mProperty;
         internal nsCSSValue mValue;
 
-        public nsCSSProperty Property
+        public CssProperty Property
         {
             get { return mProperty; }
         }

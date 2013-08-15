@@ -6,7 +6,7 @@
 <#
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSPropList.g.txt", () => GenerateCssPropListText());
-    T4.GenerateFile("nsCSSProperty.g.cs", () => GenerateCssProperty());
+    T4.GenerateFile("CssProperty.g.cs", () => GenerateCssProperty());
     T4.GenerateFile("nsCSSProps.CSSPropList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
@@ -55,7 +55,7 @@ using System.ComponentModel;
 
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSProperty
+    public enum CssProperty
     {
         UNKNOWN = -1,
 <#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
@@ -135,7 +135,7 @@ namespace Alba.CsCss.Style
 
         // We need static ctor, because these arrays depend on fields from other parts.
         public static readonly int[][] kKeywordTableTable;
-        public static readonly nsCSSProperty[][] kSubpropertyTable;
+        public static readonly CssProperty[][] kSubpropertyTable;
 
         static nsCSSProps ()
         {

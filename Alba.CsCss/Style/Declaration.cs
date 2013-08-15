@@ -9,11 +9,11 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
     public class Declaration
     {
-        private readonly List<nsCSSProperty> mOrder = new List<nsCSSProperty>();
+        private readonly List<CssProperty> mOrder = new List<CssProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;
         private bool mImmutable;
 
-        internal void ValueAppended (nsCSSProperty aProperty)
+        internal void ValueAppended (CssProperty aProperty)
         {
             mOrder.Remove(aProperty);
             mOrder.Add(aProperty);
@@ -32,7 +32,7 @@ namespace Alba.CsCss.Style
             aExpandedData.Expand(mData, mImportantData);
         }
 
-        internal bool TryReplaceValue (nsCSSProperty aProperty, bool aIsImportant, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
+        internal bool TryReplaceValue (CssProperty aProperty, bool aIsImportant, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
         {
             AssertMutable();
             Debug.Assert(mData != null, "called while expanded");
@@ -95,12 +95,12 @@ namespace Alba.CsCss.Style
             get { return OrderDataByOrder(mImportantData.mData); }
         }
 
-        public nsCSSValue GetValue (nsCSSProperty prop)
+        public nsCSSValue GetValue (CssProperty prop)
         {
             return mData.ValueFor(prop);
         }
 
-        public nsCSSValue GetImportantValue (nsCSSProperty prop)
+        public nsCSSValue GetImportantValue (CssProperty prop)
         {
             return mData.ValueFor(prop);
         }

@@ -13,7 +13,7 @@ namespace Alba.CsCss.Style
             mData = new CssPropertyValue[aNumProps];
         }
 
-        private int IndexFor (nsCSSProperty aProperty)
+        private int IndexFor (CssProperty aProperty)
         {
             Debug.Assert(!nsCSSProps.IsShorthand(aProperty), "Don't call for shorthands");
             if ((nsCachedStyleData.GetBitForSID(nsCSSProps.kSIDTable[(int)aProperty]) & mStyleBits) == 0)
@@ -24,13 +24,13 @@ namespace Alba.CsCss.Style
             return -1;
         }
 
-        internal nsCSSValue ValueFor (nsCSSProperty aProperty)
+        internal nsCSSValue ValueFor (CssProperty aProperty)
         {
             int index = IndexFor(aProperty);
             return index != -1 ? mData[index].mValue : nsCSSValue.NullValue;
         }
 
-        public bool TryReplaceValue (nsCSSProperty aProperty, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
+        public bool TryReplaceValue (CssProperty aProperty, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
         {
             nsCSSValue newValue = aFromBlock.mValues[(int)aProperty];
 

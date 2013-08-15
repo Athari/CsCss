@@ -6,27 +6,27 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
     {
-        private static readonly nsCSSProperty[] gAliases = {
-            nsCSSProperty.transform_origin,
-            nsCSSProperty.perspective_origin,
-            nsCSSProperty.perspective,
-            nsCSSProperty.transform_style,
-            nsCSSProperty.backface_visibility,
-            nsCSSProperty.border_image,
-            nsCSSProperty.transition,
-            nsCSSProperty.transition_delay,
-            nsCSSProperty.transition_duration,
-            nsCSSProperty.transition_property,
-            nsCSSProperty.transition_timing_function,
-            nsCSSProperty.animation,
-            nsCSSProperty.animation_delay,
-            nsCSSProperty.animation_direction,
-            nsCSSProperty.animation_duration,
-            nsCSSProperty.animation_fill_mode,
-            nsCSSProperty.animation_iteration_count,
-            nsCSSProperty.animation_name,
-            nsCSSProperty.animation_play_state,
-            nsCSSProperty.animation_timing_function,
+        private static readonly CssProperty[] gAliases = {
+            CssProperty.transform_origin,
+            CssProperty.perspective_origin,
+            CssProperty.perspective,
+            CssProperty.transform_style,
+            CssProperty.backface_visibility,
+            CssProperty.border_image,
+            CssProperty.transition,
+            CssProperty.transition_delay,
+            CssProperty.transition_duration,
+            CssProperty.transition_property,
+            CssProperty.transition_timing_function,
+            CssProperty.animation,
+            CssProperty.animation_delay,
+            CssProperty.animation_direction,
+            CssProperty.animation_duration,
+            CssProperty.animation_fill_mode,
+            CssProperty.animation_iteration_count,
+            CssProperty.animation_name,
+            CssProperty.animation_play_state,
+            CssProperty.animation_timing_function,
         };
     }
 }

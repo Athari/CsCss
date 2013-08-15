@@ -17,8 +17,21 @@
         "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked",
         "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
     }.ToSet();
+    IDictionary<string, string> TypeRenames = new Dictionary<string, string> {
+        { "nsCSSProperty", "CssProperty" },
+    };
 
-    string ToId (string name) {
+    string ToId (string name)
+    {
         return CSharpKeywords.Contains(name) ? "@" + name : name;
+    }
+
+    string Refactor (string source)
+    {
+        return source
+            .ReReplace(@"(?x)\b(?<Type>
+                            nsCSSProperty
+                        )\b", m => TypeRenames[m.Get("Type")])
+            ;
     }
 #>
