@@ -1,59 +1,82 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    internal class nsPseudoClassList
+    public class nsPseudoClassList
     {
-        public nsCSSPseudoClass mType;
-        public nsPseudoClassList mNext;
+        internal nsCSSPseudoClass mType;
+        internal nsPseudoClassList mNext;
         private object mData;
 
-        public nsPseudoClassList (nsCSSPseudoClass aType, string aString)
+        internal nsPseudoClassList (nsCSSPseudoClass aType, string aString)
         {
             mType = aType;
             mString = aString;
         }
 
-        public nsPseudoClassList (nsCSSPseudoClass aType, int[] aNumbers)
+        internal nsPseudoClassList (nsCSSPseudoClass aType, int[] aNumbers)
         {
             mType = aType;
             mNumbers = aNumbers;
         }
 
-        public nsPseudoClassList (nsCSSPseudoClass aType, nsCSSSelectorList aSelectors)
+        internal nsPseudoClassList (nsCSSPseudoClass aType, nsCSSSelectorList aSelectors)
         {
             mType = aType;
             mSelectors = aSelectors;
         }
 
-        public nsPseudoClassList (nsCSSPseudoClass aType)
+        internal nsPseudoClassList (nsCSSPseudoClass aType)
         {
             mType = aType;
             mData = null;
         }
 
-        public string mString
+        internal string mString
         {
             get { return (string)mData; }
             set { mData = value; }
         }
 
-        public int[] mNumbers
+        internal int[] mNumbers
         {
             get { return (int[])mData; }
             set { mData = value; }
         }
 
-        public nsCSSSelectorList mSelectors
+        internal nsCSSSelectorList mSelectors
         {
             get { return (nsCSSSelectorList)mData; }
             set { mData = value; }
         }
 
-        public nsPseudoClassList Last
+        internal nsPseudoClassList Last
         {
             get { return this.TraverseList(i => i.mNext).Last(); }
+        }
+
+        // Public interface
+
+        public string String
+        {
+            get { return mString; }
+        }
+
+        public IEnumerable<int> Numbers
+        {
+            get { return mNumbers; }
+        }
+
+        public IEnumerable<nsCSSSelectorList> Selectors
+        {
+            get { return mSelectors.Items; }
+        }
+
+        internal IEnumerable<nsPseudoClassList> Items
+        {
+            get { return this.TraverseList(i => i.mNext); }
         }
     }
 }

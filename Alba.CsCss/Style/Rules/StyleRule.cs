@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
@@ -27,14 +28,19 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public nsCSSSelectorList Selector
+        public IEnumerable<nsCSSSelectorList> SelectorGroups
         {
-            get { return mSelector; }
+            get { return mSelector.Items; }
         }
 
         public Declaration Declaration
         {
             get { return mDeclaration; }
+        }
+
+        public int LineNumber
+        {
+            get { return mLineNumber; }
         }
     }
 }

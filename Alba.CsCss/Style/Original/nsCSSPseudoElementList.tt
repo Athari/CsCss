@@ -30,7 +30,7 @@
 
 namespace Alba.CsCss.Style
 {
-    internal enum nsCSSPseudoElement
+    public enum nsCSSPseudoElement
     {
 <#+   foreach (CssPseudoElement el in GetCssPseudoElements()) { #>
         <#=el.Name#>,

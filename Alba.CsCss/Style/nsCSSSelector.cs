@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
@@ -101,6 +103,73 @@ namespace Alba.CsCss.Style
         internal int CalcWeight ()
         {
             return 0; // not supported (complex code, likely to change)
+        }
+
+        // Public interface
+
+        public string Tag
+        {
+            get { return mCasedTag ?? mLowercaseTag; }
+        }
+
+        public string TagCased
+        {
+            get { return mCasedTag; }
+        }
+
+        public string TagLower
+        {
+            get { return mLowercaseTag; }
+        }
+
+        public int NamespaceId
+        {
+            get { return mNameSpace; }
+        }
+
+        public string NamespaceUri
+        {
+            get { return nsNameSpaceManager.Instance.GetNameSpaceURI(mNameSpace); }
+        }
+
+        public char Operator
+        {
+            get { return mOperator; }
+        }
+
+        public IEnumerable<nsCSSSelector> Negations
+        {
+            get { return mNegations.Items; }
+        }
+
+        public nsCSSPseudoElement PseudoType
+        {
+            get { return mPseudoType; }
+        }
+
+        public IEnumerable<string> Ids
+        {
+            get { return mIDList.Items; }
+        }
+
+        public IEnumerable<string> Classes
+        {
+            get { return mClassList.Items; }
+        }
+
+        public IEnumerable<nsPseudoClassList> PseudoClasses
+        {
+            get { return mPseudoClassList.Items; }
+        }
+
+        public IEnumerable<nsAttrSelector> Attrs
+        {
+            get { return mAttrList.Items; }
+        }
+
+        internal IEnumerable<nsCSSSelector> Items
+        {
+            get { return this.TraverseList(i => i.mNext); }
         }
     }
 }

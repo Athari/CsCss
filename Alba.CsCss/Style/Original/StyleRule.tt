@@ -15,10 +15,10 @@
 
 namespace Alba.CsCss.Style
 {
-    internal enum nsAttrFunc
+    public enum nsAttrFunc
     {
 <#+   foreach (Match m in source.ReMatches(@"#define NS_ATTR_FUNC_(?<Name>\w+) +(?<Value>-?\d+)(?<Comment> *// .*)?")) { #>
-        <#=m.Get("Name")#> = <#=m.Get("Value")#>,<#=m.Get("Comment")#>
+        <#=m.Get("Name")#> = <#=m.Get("Value")#>,<#=m.Get("Comment").Trim()#>
 <#+   } #>
     }
 }

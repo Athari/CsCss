@@ -20,8 +20,8 @@ namespace Alba.CsCss.Tests.Style
             Assert.AreEqual(SheetUri, css.SheetUri);
             Assert.AreEqual(SheetUri, css.BaseUri);
             var h1 = css.GetRules<StyleRule>().Single();
-            var h1sel = h1.Selector.Items.Single().Selectors.Single();
-            Assert.AreEqual("h1", h1sel.mCasedTag);
+            var h1sel = h1.SelectorGroups.Single().Selectors.Single();
+            Assert.AreEqual("h1", h1sel.Tag);
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(nsCSSProperty.color, h1color.Property);
             Assert.AreEqual(nscolor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);

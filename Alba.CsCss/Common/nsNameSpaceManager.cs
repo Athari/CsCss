@@ -56,6 +56,12 @@ namespace Alba.CsCss
             }
         }
 
+        public string GetNameSpaceURI (int aNameSpaceID)
+        {
+            string uri = "";
+            return GetNameSpaceURI(aNameSpaceID, ref uri).Succeeded() ? uri : null;
+        }
+
         public int GetNameSpaceID (string aURI)
         {
             return aURI == "" ? nsNameSpace.None : mURIToIDTable.GetOrDefault(aURI, nsNameSpace.Unknown);

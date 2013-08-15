@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
@@ -25,31 +24,19 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<Item> Items
+        public IEnumerable<nsCSSSelector> Selectors
         {
-            get { return this.TraverseList(i => i.mNext).Select(i => new Item(i.mSelectors, i.mWeight)); }
+            get { return mSelectors.Items; }
         }
 
-        public struct Item
+        public int Weight
         {
-            private readonly nsCSSSelector _selectors;
-            private readonly int _weight;
+            get { return mWeight; }
+        }
 
-            public Item (nsCSSSelector selectors, int weight)
-            {
-                _selectors = selectors;
-                _weight = weight;
-            }
-
-            public IEnumerable<nsCSSSelector> Selectors
-            {
-                get { return _selectors.TraverseList(i => i.mNext); }
-            }
-
-            public int Weight
-            {
-                get { return _weight; }
-            }
+        internal IEnumerable<nsCSSSelectorList> Items
+        {
+            get { return this.TraverseList(i => i.mNext); }
         }
     }
 }
