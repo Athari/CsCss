@@ -24,7 +24,7 @@ namespace Alba.CsCss.Style
             return -1;
         }
 
-        private nsCSSValue ValueFor (nsCSSProperty aProperty)
+        internal nsCSSValue ValueFor (nsCSSProperty aProperty)
         {
             int index = IndexFor(aProperty);
             return index != -1 ? mData[index].mValue : nsCSSValue.NullValue;

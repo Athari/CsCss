@@ -95,6 +95,16 @@ namespace Alba.CsCss.Style
             get { return OrderDataByOrder(mImportantData.mData); }
         }
 
+        public nsCSSValue GetValue (nsCSSProperty prop)
+        {
+            return mData.ValueFor(prop);
+        }
+
+        public nsCSSValue GetImportantValue (nsCSSProperty prop)
+        {
+            return mData.ValueFor(prop);
+        }
+
         private IEnumerable<CssPropertyValue> OrderDataByOrder (IEnumerable<CssPropertyValue> data)
         {
             return mOrder.Join(data, p => p, pv => pv.mProperty, (p, pv) => pv);
