@@ -5,31 +5,31 @@ namespace Alba.CsCss.Style
 {
     internal static partial class nsCSSPseudoClasses
     {
-        public static nsCSSPseudoClass GetPseudoType (string aAtom)
+        public static CssPseudoClass GetPseudoType (string aAtom)
         {
-            return sPseudoClasses.GetOrDefault(aAtom, nsCSSPseudoClass.NotPseudoClass);
+            return sPseudoClasses.GetOrDefault(aAtom, CssPseudoClass.NotPseudoClass);
         }
 
-        public static bool HasSelectorListArg (nsCSSPseudoClass aType)
+        public static bool HasSelectorListArg (CssPseudoClass aType)
         {
-            return aType == nsCSSPseudoClass.any;
+            return aType == CssPseudoClass.any;
         }
 
-        public static bool HasStringArg (nsCSSPseudoClass aType)
+        public static bool HasStringArg (CssPseudoClass aType)
         {
-            return aType == nsCSSPseudoClass.lang ||
-                   aType == nsCSSPseudoClass.mozEmptyExceptChildrenWithLocalname ||
-                   aType == nsCSSPseudoClass.mozSystemMetric ||
-                   aType == nsCSSPseudoClass.mozLocaleDir ||
-                   aType == nsCSSPseudoClass.dir;
+            return aType == CssPseudoClass.lang ||
+                   aType == CssPseudoClass.mozEmptyExceptChildrenWithLocalname ||
+                   aType == CssPseudoClass.mozSystemMetric ||
+                   aType == CssPseudoClass.mozLocaleDir ||
+                   aType == CssPseudoClass.dir;
         }
 
-        public static bool HasNthPairArg (nsCSSPseudoClass aType)
+        public static bool HasNthPairArg (CssPseudoClass aType)
         {
-            return aType == nsCSSPseudoClass.nthChild ||
-                   aType == nsCSSPseudoClass.nthLastChild ||
-                   aType == nsCSSPseudoClass.nthOfType ||
-                   aType == nsCSSPseudoClass.nthLastOfType;
+            return aType == CssPseudoClass.nthChild ||
+                   aType == CssPseudoClass.nthLastChild ||
+                   aType == CssPseudoClass.nthOfType ||
+                   aType == CssPseudoClass.nthLastOfType;
         }
     }
 }

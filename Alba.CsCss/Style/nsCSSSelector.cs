@@ -45,22 +45,22 @@ namespace Alba.CsCss.Style
             nsAttrSelector.AddItem(ref mAttrList, aAttribute);
         }
 
-        internal void AddPseudoClass (nsCSSPseudoClass aType, string aString)
+        internal void AddPseudoClass (CssPseudoClass aType, string aString)
         {
             AddPseudoClassInternal(new nsPseudoClassList(aType, aString));
         }
 
-        internal void AddPseudoClass (nsCSSPseudoClass aType, int[] aIntPair)
+        internal void AddPseudoClass (CssPseudoClass aType, int[] aIntPair)
         {
             AddPseudoClassInternal(new nsPseudoClassList(aType, aIntPair));
         }
 
-        internal void AddPseudoClass (nsCSSPseudoClass aType, nsCSSSelectorList aSelectorList)
+        internal void AddPseudoClass (CssPseudoClass aType, nsCSSSelectorList aSelectorList)
         {
             AddPseudoClassInternal(new nsPseudoClassList(aType, aSelectorList));
         }
 
-        internal void AddPseudoClass (nsCSSPseudoClass aType)
+        internal void AddPseudoClass (CssPseudoClass aType)
         {
             AddPseudoClassInternal(new nsPseudoClassList(aType));
         }

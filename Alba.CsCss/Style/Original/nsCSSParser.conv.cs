@@ -2593,15 +2593,15 @@ namespace Alba.CsCss.Style
           bool isTreePseudo = false;
           nsCSSPseudoElement pseudoElementType =
             nsCSSPseudoElements.GetPseudoType(pseudo);
-          nsCSSPseudoClass pseudoClassType =
+          CssPseudoClass pseudoClassType =
             nsCSSPseudoClasses.GetPseudoType(pseudo);
         
           // We currently allow :-moz-placeholder and .-moz-placeholder. We have to
           // be a bit stricter regarding the pseudo-element parsing rules.
           if (pseudoElementType == nsCSSPseudoElement.mozPlaceholder &&
-              pseudoClassType == nsCSSPseudoClass.mozPlaceholder) {
+              pseudoClassType == CssPseudoClass.mozPlaceholder) {
             if (parsingPseudoElement) {
-              pseudoClassType = nsCSSPseudoClass.NotPseudoClass;
+              pseudoClassType = CssPseudoClass.NotPseudoClass;
             } else {
               pseudoElementType = nsCSSPseudoElement.NotPseudoElement;
             }
@@ -2626,7 +2626,7 @@ namespace Alba.CsCss.Style
             (pseudoElementType == nsCSSPseudoElement.AnonBox &&
              mUnsafeRulesEnabled);
           bool isPseudoClass =
-            (pseudoClassType != nsCSSPseudoClass.NotPseudoClass);
+            (pseudoClassType != CssPseudoClass.NotPseudoClass);
         
           Debug.Assert(!isPseudoClass ||
                        pseudoElementType == nsCSSPseudoElement.NotPseudoElement,
@@ -2648,7 +2648,7 @@ namespace Alba.CsCss.Style
         #if MOZ_XUL
                isTree ||
         #endif
-               nsCSSPseudoClass.notPseudo == pseudoClassType ||
+               CssPseudoClass.notPseudo == pseudoClassType ||
                nsCSSPseudoClasses.HasStringArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasNthPairArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType))) {
@@ -2668,7 +2668,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!parsingPseudoElement &&
-              nsCSSPseudoClass.notPseudo == pseudoClassType) {
+              CssPseudoClass.notPseudo == pseudoClassType) {
             if (aIsNegated) { // :not() can't be itself negated
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelDoubleNot", mToken); };
               UngetToken();
@@ -2858,7 +2858,7 @@ namespace Alba.CsCss.Style
         // Parse the argument of a pseudo-class that has an ident arg
         //
         internal nsSelectorParsingStatus ParsePseudoClassWithIdentArg(nsCSSSelector aSelector,
-                                                    nsCSSPseudoClass aType)
+                                                    CssPseudoClass aType)
         {
           if (! GetToken(true)) { // premature eof
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoClassArgEOF"); };
@@ -2872,8 +2872,8 @@ namespace Alba.CsCss.Style
           }
         
           // -moz-locale-dir and -moz-dir can only have values of 'ltr' or 'rtl'.
-          if (aType == nsCSSPseudoClass.mozLocaleDir ||
-              aType == nsCSSPseudoClass.dir) {
+          if (aType == CssPseudoClass.mozLocaleDir ||
+              aType == CssPseudoClass.dir) {
             mToken.mIdentStr = mToken.mIdentStr.ToLower(); // case insensitive
             if (!mToken.mIdentStr.EqualsLiteral("ltr") &&
                 !mToken.mIdentStr.EqualsLiteral("rtl")) {
@@ -2895,7 +2895,7 @@ namespace Alba.CsCss.Style
         }
         
         internal nsSelectorParsingStatus ParsePseudoClassWithNthPairArg(nsCSSSelector aSelector,
-                                                      nsCSSPseudoClass aType)
+                                                      CssPseudoClass aType)
         {
           int32_t[] numbers = { 0, 0 };
           bool lookForB = true;
@@ -3015,7 +3015,7 @@ namespace Alba.CsCss.Style
         // anything that goes between a pair of combinators.
         //
         internal nsSelectorParsingStatus ParsePseudoClassWithSelectorListArg(nsCSSSelector aSelector,
-                                                           nsCSSPseudoClass aType)
+                                                           CssPseudoClass aType)
         {
           var slist = new nsCSSSelectorList();
           if (! ParseSelectorList(ref slist, ')')) {

@@ -1,6 +1,6 @@
 ﻿namespace Alba.CsCss
 {
-    public enum nsCompatibility
+    public enum BrowserCompatibility
     {
         FullStandards = 1,
         AlmostStandards = 2,

@@ -1,34 +1,33 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
     public class nsPseudoClassList
     {
-        internal nsCSSPseudoClass mType;
+        internal CssPseudoClass mType;
         internal nsPseudoClassList mNext;
         private object mData;
 
-        internal nsPseudoClassList (nsCSSPseudoClass aType, string aString)
+        internal nsPseudoClassList (CssPseudoClass aType, string aString)
         {
             mType = aType;
             mString = aString;
         }
 
-        internal nsPseudoClassList (nsCSSPseudoClass aType, int[] aNumbers)
+        internal nsPseudoClassList (CssPseudoClass aType, int[] aNumbers)
         {
             mType = aType;
             mNumbers = aNumbers;
         }
 
-        internal nsPseudoClassList (nsCSSPseudoClass aType, nsCSSSelectorList aSelectors)
+        internal nsPseudoClassList (CssPseudoClass aType, nsCSSSelectorList aSelectors)
         {
             mType = aType;
             mSelectors = aSelectors;
         }
 
-        internal nsPseudoClassList (nsCSSPseudoClass aType)
+        internal nsPseudoClassList (CssPseudoClass aType)
         {
             mType = aType;
             mData = null;

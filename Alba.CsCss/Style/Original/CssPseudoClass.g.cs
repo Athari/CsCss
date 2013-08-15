@@ -4,7 +4,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSPseudoClass {
+    public enum CssPseudoClass {
         empty,
         mozOnlyWhitespace,
         mozEmptyExceptChildrenWithLocalname,

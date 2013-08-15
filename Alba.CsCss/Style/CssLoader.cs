@@ -5,11 +5,11 @@ namespace Alba.CsCss.Style
 {
     internal class CssLoader
     {
-        public nsCompatibility CompatibilityMode { get; set; }
+        public BrowserCompatibility CompatibilityMode { get; set; }
 
         public CssLoader ()
         {
-            CompatibilityMode = nsCompatibility.FullStandards;
+            CompatibilityMode = BrowserCompatibility.FullStandards;
         }
 
         public nsCSSStyleSheet ParseSheet (string aInput, Uri sheetUrl, Uri baseUrl)
@@ -18,7 +18,7 @@ namespace Alba.CsCss.Style
             sheet.SetURIs(sheetUrl, baseUrl);
             var parser = new nsCSSParser();
             parser.SetChildLoader(this);
-            parser.SetQuirkMode(CompatibilityMode == nsCompatibility.NavQuirks);
+            parser.SetQuirkMode(CompatibilityMode == BrowserCompatibility.NavQuirks);
             parser.SetStyleSheet(sheet);
             parser.ParseSheet(aInput, sheetUrl, baseUrl, nsIPrincipal.Default, 1, false);
             return sheet;
