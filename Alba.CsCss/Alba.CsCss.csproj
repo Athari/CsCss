@@ -78,7 +78,7 @@
     <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
     <Compile Include="Common\nsCompatibility.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
-    <Compile Include="Style\Declaration.cs" />
+    <Compile Include="Style\CssDeclaration.cs" />
     <Compile Include="Style\Media\nsMediaExpression.cs" />
     <Compile Include="Style\Media\nsMediaFeature.cs" />
     <Compile Include="Style\Media\nsMediaFeatures.cs" />

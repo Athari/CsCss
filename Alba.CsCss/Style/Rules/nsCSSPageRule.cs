@@ -5,9 +5,9 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay (@"@page \{ {mDeclaration.DebugDisplayCount,nq} \}")]
     public class nsCSSPageRule : Rule
     {
-        private readonly Declaration mDeclaration;
+        private readonly CssDeclaration mDeclaration;
 
-        internal nsCSSPageRule (Declaration aDeclaration)
+        internal nsCSSPageRule (CssDeclaration aDeclaration)
         {
             mDeclaration = aDeclaration;
         }
@@ -19,7 +19,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public Declaration Declaration
+        public CssDeclaration Declaration
         {
             get { return mDeclaration; }
         }

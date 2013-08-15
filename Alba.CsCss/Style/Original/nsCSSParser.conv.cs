@@ -321,7 +321,7 @@ namespace Alba.CsCss.Style
             parseFlags |= nsParseDeclaration.InBraces;
           }
         
-          Declaration declaration = ParseDeclarationBlock(parseFlags);
+          CssDeclaration declaration = ParseDeclarationBlock(parseFlags);
           if (declaration != null) {
             // Create a style rule for the declaration
             aResult = new StyleRule(null, declaration);
@@ -339,7 +339,7 @@ namespace Alba.CsCss.Style
                                          Uri           aSheetURI,
                                          Uri           aBaseURI,
                                          nsIPrincipal     aSheetPrincipal,
-                                         Declaration aDeclaration,
+                                         CssDeclaration aDeclaration,
                                          ref bool           aChanged)
         {
           aChanged = false;
@@ -431,7 +431,7 @@ namespace Alba.CsCss.Style
                                      Uri aSheetURI,
                                      Uri aBaseURI,
                                      nsIPrincipal aSheetPrincipal,
-                                     Declaration aDeclaration,
+                                     CssDeclaration aDeclaration,
                                      ref bool aChanged,
                                      bool aIsImportant,
                                      bool aIsSVGMode)
@@ -1549,7 +1549,7 @@ namespace Alba.CsCss.Style
           Debug.Assert(mViewportUnitsEnabled,
                             "Viewport units should be enabled outside of @page rules.");
           mViewportUnitsEnabled = false;
-          Declaration declaration = 
+          CssDeclaration declaration = 
                                         ParseDeclarationBlock(parseFlags,
                                                               nsCSSContextType.Page);
           mViewportUnitsEnabled = true;
@@ -1575,7 +1575,7 @@ namespace Alba.CsCss.Style
         
           // Ignore !important in keyframe rules
           nsParseDeclaration parseFlags = nsParseDeclaration.InBraces;
-          Declaration declaration = ParseDeclarationBlock(parseFlags);
+          CssDeclaration declaration = ParseDeclarationBlock(parseFlags);
           if (declaration == null) {
             return null;
           }
@@ -2055,7 +2055,7 @@ namespace Alba.CsCss.Style
           // Next parse the declaration block
           nsParseDeclaration parseFlags = nsParseDeclaration.InBraces |
                                 nsParseDeclaration.AllowImportant;
-          Declaration declaration = ParseDeclarationBlock(parseFlags);
+          CssDeclaration declaration = ParseDeclarationBlock(parseFlags);
           if (null == declaration) {
             return false;
           }
@@ -3144,7 +3144,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal Declaration ParseDeclarationBlock(nsParseDeclaration aFlags, nsCSSContextType aContext = nsCSSContextType.General)
+        internal CssDeclaration ParseDeclarationBlock(nsParseDeclaration aFlags, nsCSSContextType aContext = nsCSSContextType.General)
         {
           bool checkForBraces = (aFlags & nsParseDeclaration.InBraces) != 0;
         
@@ -3155,7 +3155,7 @@ namespace Alba.CsCss.Style
               return null;
             }
           }
-          Declaration declaration = new Declaration();
+          CssDeclaration declaration = new CssDeclaration();
           mData.AssertInitialState();
           if (declaration != null) {
             for (;;) {
@@ -3483,7 +3483,7 @@ namespace Alba.CsCss.Style
         
         //----------------------------------------------------------------------
         
-        internal bool ParseDeclaration(Declaration aDeclaration,
+        internal bool ParseDeclaration(CssDeclaration aDeclaration,
                                         nsParseDeclaration aFlags,
                                         bool aMustCallValueAppended,
                                         ref bool aChanged,

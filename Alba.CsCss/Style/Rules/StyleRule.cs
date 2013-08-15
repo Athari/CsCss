@@ -7,10 +7,10 @@ namespace Alba.CsCss.Style
     public class StyleRule : Rule
     {
         private readonly nsCSSSelectorList mSelector;
-        private readonly Declaration mDeclaration;
+        private readonly CssDeclaration mDeclaration;
         private int mLineNumber;
 
-        internal StyleRule (nsCSSSelectorList aSelector, Declaration aDeclaration)
+        internal StyleRule (nsCSSSelectorList aSelector, CssDeclaration aDeclaration)
         {
             mSelector = aSelector;
             mDeclaration = aDeclaration;
@@ -33,7 +33,7 @@ namespace Alba.CsCss.Style
             get { return mSelector.Items; }
         }
 
-        public Declaration Declaration
+        public CssDeclaration Declaration
         {
             get { return mDeclaration; }
         }

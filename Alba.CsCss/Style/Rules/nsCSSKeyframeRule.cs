@@ -7,9 +7,9 @@ namespace Alba.CsCss.Style
     public class nsCSSKeyframeRule : Rule
     {
         private readonly List<float> mKeys;
-        private readonly Declaration mDeclaration;
+        private readonly CssDeclaration mDeclaration;
 
-        internal nsCSSKeyframeRule (List<float> aKeys, Declaration aDeclaration)
+        internal nsCSSKeyframeRule (List<float> aKeys, CssDeclaration aDeclaration)
         {
             mKeys = aKeys;
             mDeclaration = aDeclaration;
@@ -27,7 +27,7 @@ namespace Alba.CsCss.Style
             get { return mKeys.AsReadOnly(); }
         }
 
-        public Declaration Declaration
+        public CssDeclaration Declaration
         {
             get { return mDeclaration; }
         }

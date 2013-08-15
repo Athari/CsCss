@@ -7,7 +7,7 @@ using System.Linq;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
-    public class Declaration
+    public class CssDeclaration
     {
         private readonly List<CssProperty> mOrder = new List<CssProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;

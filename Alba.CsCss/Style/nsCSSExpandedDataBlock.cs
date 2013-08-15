@@ -41,7 +41,7 @@ namespace Alba.CsCss.Style
         }
 
         public bool TransferFromBlock (nsCSSExpandedDataBlock aFromBlock, CssProperty aPropID,
-            bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, Declaration aDeclaration)
+            bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, CssDeclaration aDeclaration)
         {
             if (!nsCSSProps.IsShorthand(aPropID))
                 return DoTransferFromBlock(aFromBlock, aPropID, aIsImportant, aOverrideImportant, aMustCallValueAppended, aDeclaration);
@@ -52,7 +52,7 @@ namespace Alba.CsCss.Style
         }
 
         private bool DoTransferFromBlock (nsCSSExpandedDataBlock aFromBlock, CssProperty aPropID,
-            bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, Declaration aDeclaration)
+            bool aIsImportant, bool aOverrideImportant, bool aMustCallValueAppended, CssDeclaration aDeclaration)
         {
             bool changed = false;
             if (aIsImportant) {
