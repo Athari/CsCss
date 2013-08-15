@@ -1,12 +1,29 @@
 ﻿namespace Alba.CsCss.Style
 {
-    internal class nsMediaExpression
+    public class nsMediaExpression
     {
-        public nsMediaFeature mFeature;
-        public Range mRange;
-        public nsCSSValue mValue;
+        internal nsMediaFeature mFeature;
+        internal RangeType mRange;
+        internal nsCSSValue mValue;
 
-        public enum Range
+        // Public interface
+
+        public nsMediaFeature Feature
+        {
+            get { return mFeature; }
+        }
+
+        public RangeType Range
+        {
+            get { return mRange; }
+        }
+
+        public nsCSSValue Value
+        {
+            get { return mValue; }
+        }
+
+        public enum RangeType
         {
             Min,
             Max,

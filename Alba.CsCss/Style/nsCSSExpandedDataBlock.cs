@@ -92,12 +92,12 @@ namespace Alba.CsCss.Style
 
         private void DoExpand (nsCSSCompressedDataBlock aBlock, bool aImportant)
         {
-            for (int i = 0; i < aBlock.mData.Length; i++) {
-                nsCSSProperty iProp = aBlock.mData[i].mProperty;
+            foreach (CssPropertyValue pv in aBlock.mData) {
+                nsCSSProperty iProp = pv.mProperty;
                 mPropertiesSet.AddProperty(iProp);
                 if (aImportant)
                     mPropertiesImportant.AddProperty(iProp);
-                mValues[(int)iProp] = aBlock.mData[i].mValue;
+                mValues[(int)iProp] = pv.mValue;
             }
         }
 

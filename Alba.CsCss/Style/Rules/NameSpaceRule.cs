@@ -3,30 +3,42 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@namespace {mPrefix} ""{mUrlSpec}""")]
-    internal class NameSpaceRule : Rule
+    public class NameSpaceRule : Rule
     {
         private readonly string mPrefix;
         private readonly string mUrlSpec;
 
-        public NameSpaceRule (string aPrefix, string aUrlSpec)
+        internal NameSpaceRule (string aPrefix, string aUrlSpec)
         {
             mPrefix = aPrefix;
             mUrlSpec = aUrlSpec;
         }
 
-        public string GetPrefix ()
+        internal string GetPrefix ()
         {
             return mPrefix;
         }
 
-        public string GetURLSpec ()
+        internal string GetURLSpec ()
         {
             return mUrlSpec;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.NAMESPACE;
+        }
+
+        // Public interface
+
+        public string Prefix
+        {
+            get { return mPrefix; }
+        }
+
+        public string Uri
+        {
+            get { return mUrlSpec; }
         }
     }
 }

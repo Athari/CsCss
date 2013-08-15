@@ -1,19 +1,26 @@
 ﻿namespace Alba.CsCss.Style
 {
-    internal abstract class Rule
+    public abstract class Rule
     {
         private nsCSSStyleSheet mSheet;
 
-        public virtual void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal virtual void SetStyleSheet (nsCSSStyleSheet aSheet)
         {
             mSheet = aSheet;
         }
 
-        public nsCSSStyleSheet GetStyleSheet ()
+        internal nsCSSStyleSheet GetStyleSheet ()
         {
             return mSheet;
         }
 
-        public abstract RuleKind GetKind ();
+        internal abstract RuleKind GetKind ();
+
+        // Public interface
+
+        public RuleKind Kind
+        {
+            get { return GetKind(); }
+        }
     }
 }

@@ -1,35 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 
+// TODO Sort CssPropertyValues when compressing?
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
-    internal class Declaration
+    public class Declaration
     {
         private readonly List<nsCSSProperty> mOrder = new List<nsCSSProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;
         private bool mImmutable;
 
-        public void ValueAppended (nsCSSProperty aProperty)
+        internal void ValueAppended (nsCSSProperty aProperty)
         {
             mOrder.Remove(aProperty);
             mOrder.Add(aProperty);
         }
 
-        public void CompressFrom (nsCSSExpandedDataBlock aExpandedData)
+        internal void CompressFrom (nsCSSExpandedDataBlock aExpandedData)
         {
             aExpandedData.Compress(out mData, out mImportantData);
             aExpandedData.AssertInitialState();
         }
 
-        public void ExpandTo (nsCSSExpandedDataBlock aExpandedData)
+        internal void ExpandTo (nsCSSExpandedDataBlock aExpandedData)
         {
             AssertMutable();
             aExpandedData.AssertInitialState();
             aExpandedData.Expand(mData, mImportantData);
         }
 
-        public bool TryReplaceValue (nsCSSProperty aProperty, bool aIsImportant, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
+        internal bool TryReplaceValue (nsCSSProperty aProperty, bool aIsImportant, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
         {
             AssertMutable();
             Debug.Assert(mData != null, "called while expanded");
@@ -47,27 +50,54 @@ namespace Alba.CsCss.Style
         }
 
         [Conditional ("DEBUG")]
-        public void AssertMutable ()
+        internal void AssertMutable ()
         {
             Debug.Assert(IsMutable(), "someone forgot to call EnsureMutable");
         }
 
-        public bool IsMutable ()
+        internal bool IsMutable ()
         {
             return !mImmutable;
         }
 
-        public void SetImmutable ()
+        internal void SetImmutable ()
         {
             mImmutable = true;
         }
 
-        public void ClearData ()
+        internal void ClearData ()
         {
             AssertMutable();
             mData = null;
             mImportantData = null;
             mOrder.Clear();
+        }
+
+        // Public interface
+
+        public IEnumerable<CssPropertyValue> Data
+        {
+            get { return new ReadOnlyCollection<CssPropertyValue>(mData.mData); }
+        }
+
+        public IEnumerable<CssPropertyValue> ImportantData
+        {
+            get { return new ReadOnlyCollection<CssPropertyValue>(mData.mData); }
+        }
+
+        public IEnumerable<CssPropertyValue> OrderedData
+        {
+            get { return OrderDataByOrder(mData.mData); }
+        }
+
+        public IEnumerable<CssPropertyValue> OrderedImportantData
+        {
+            get { return OrderDataByOrder(mImportantData.mData); }
+        }
+
+        private IEnumerable<CssPropertyValue> OrderDataByOrder (IEnumerable<CssPropertyValue> data)
+        {
+            return mOrder.Join(data, p => p, pv => pv.mProperty, (p, pv) => pv);
         }
 
         internal string DebugDisplayCount

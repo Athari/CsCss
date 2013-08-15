@@ -184,7 +184,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"nsCSSPseudoElements::ePseudo_(\w+)", "nsCSSPseudoElement.$1")
             .ReReplace(@"nsCSSProps::e(\w+)", "nsCSSProps.EnabledState.$1")
             .ReReplace(@"kNameSpaceID_(\w+)", "nsNameSpace.$1")
-            .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.Range.$1")
+            .ReReplace(@"nsMediaExpression::e(\w+)", "nsMediaExpression.RangeType.$1")
             .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
             .ReReplace(@"nsMediaFeature::e(\w+)", "nsMediaFeature.ValueType.$1")
             .ReReplace(@"Rule::(\w+)_RULE", "RuleKind.$1")
@@ -256,9 +256,9 @@ namespace Alba.CsCss.Style
                        GenerateVarListEvaluator(m => m.Get("Type"), m => "0"))              // int Var -> int Var = 0
             .ReReplace(@"bool (conditionMet|hitStop|rv|haveWS|useCommas|single|is3D|changed);",
                         "bool $1 = false;")                                                 // bool Var -> bool Var = false
-            .ReReplace(@"string +\b(str|valueStr|prefix|url|urlString|pseudoElement)\b;",
+            .ReReplace(@"string +\b(str|valueStr|prefix|url|urlString)\b;",
                         "string $1 = \"\";")                                                // string Var -> string Var = ""
-            .ReReplace(@"\b(nsAtomList)\b +\b(pseudoElementArgs)\b;",
+            .ReReplace(@"\b(nsAtomList|string)\b +\b(pseudoElementArgs|pseudoElement)\b;",
                         "$1 $2 = null;")                                                    // Type Var -> Type Var = null
             .ReReplace(@"(?<!new )(?<Type>nsCSSValue)\(",
                         "new ${Type}(")                                                     // Type Var[Size] -> Type(...) -> new Type(...)

@@ -4,25 +4,37 @@ using System.Text;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@supports {mCondition} \{ ({mRules.Count}) \}")]
-    internal class CSSSupportsRule : GroupRule
+    public class CSSSupportsRule : GroupRule
     {
-        private bool mUseGroup;
-        private string mCondition;
+        private readonly bool mUseGroup;
+        private readonly string mCondition;
 
-        public CSSSupportsRule (ref bool aConditionMet, StringBuilder aCondition)
+        internal CSSSupportsRule (ref bool aConditionMet, StringBuilder aCondition)
         {
             mUseGroup = aConditionMet;
             mCondition = aCondition.ToString();
         }
 
-        public static bool PrefEnabled ()
+        internal static bool PrefEnabled ()
         {
             return true;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.SUPPORTS;
+        }
+
+        // Public interface
+
+        public bool IsSupported
+        {
+            get { return mUseGroup; }
+        }
+
+        public string Condition
+        {
+            get { return mCondition; }
         }
     }
 }

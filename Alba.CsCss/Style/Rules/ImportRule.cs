@@ -1,22 +1,35 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@import ""{mUrlSpec}""")]
-    internal class ImportRule : Rule
+    public class ImportRule : Rule
     {
-        private nsMediaList mMedia;
-        private string mUrlSpec;
+        private readonly nsMediaList mMedia;
+        private readonly string mUrlSpec;
 
-        public ImportRule (nsMediaList aMedia, string aUrlSpec)
+        internal ImportRule (nsMediaList aMedia, string aUrlSpec)
         {
             mMedia = aMedia;
             mUrlSpec = aUrlSpec;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.IMPORT;
+        }
+
+        // Public interface
+
+        public string Uri
+        {
+            get { return mUrlSpec; }
+        }
+
+        public IEnumerable<nsMediaQuery> MediaQueries
+        {
+            get { return mMedia.Queries; }
         }
     }
 }

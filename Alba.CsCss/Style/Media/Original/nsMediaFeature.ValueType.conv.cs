@@ -6,7 +6,7 @@
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsMediaFeature
+    public partial class nsMediaFeature
     {
         public enum ValueType {
             // All value types allow CSSUnit_Null to indicate that no value

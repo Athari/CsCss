@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Alba.CsCss.Style
 {
-    internal abstract class GroupRule : Rule
+    public abstract class GroupRule : Rule
     {
         private readonly List<Rule> mRules = new List<Rule>();
 
-        public void AppendStyleRule (Rule aRule)
+        internal void AppendStyleRule (Rule aRule)
         {
             mRules.Add(aRule);
         }
 
-        public override void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal override void SetStyleSheet (nsCSSStyleSheet aSheet)
         {
             if (aSheet == GetStyleSheet())
                 return;
@@ -19,6 +20,18 @@ namespace Alba.CsCss.Style
                 if (rule != null)
                     rule.SetStyleSheet(aSheet);
             base.SetStyleSheet(aSheet);
+        }
+
+        // Public interface
+
+        public IEnumerable<Rule> Rules
+        {
+            get { return mRules.AsReadOnly(); }
+        }
+
+        public IEnumerable<TRule> GetRules<TRule> () where TRule : Rule
+        {
+            return mRules.OfType<TRule>();
         }
     }
 }

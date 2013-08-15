@@ -1,20 +1,33 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@charset ""{mEncoding}\""")]
-    internal class CharsetRule : Rule
+    public class CharsetRule : Rule
     {
-        private string mEncoding;
+        private readonly string mEncoding;
 
-        public CharsetRule (string aEncoding)
+        internal CharsetRule (string aEncoding)
         {
             mEncoding = aEncoding;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.CHARSET;
+        }
+
+        // Public interface
+
+        public string EncodingName
+        {
+            get { return mEncoding; }
+        }
+
+        public Encoding Encoding
+        {
+            get { return Encoding.GetEncoding(mEncoding); }
         }
     }
 }

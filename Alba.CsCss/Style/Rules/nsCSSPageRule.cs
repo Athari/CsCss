@@ -3,18 +3,25 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@page \{ {mDeclaration.DebugDisplayCount,nq} \}")]
-    internal class nsCSSPageRule : Rule
+    public class nsCSSPageRule : Rule
     {
-        private Declaration mDeclaration;
+        private readonly Declaration mDeclaration;
 
-        public nsCSSPageRule (Declaration aDeclaration)
+        internal nsCSSPageRule (Declaration aDeclaration)
         {
             mDeclaration = aDeclaration;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.PAGE;
+        }
+
+        // Public interface
+
+        public Declaration Declaration
+        {
+            get { return mDeclaration; }
         }
     }
 }

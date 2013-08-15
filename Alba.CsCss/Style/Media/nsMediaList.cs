@@ -7,24 +7,31 @@ namespace Alba.CsCss.Style
         private readonly List<nsMediaQuery> mArray = new List<nsMediaQuery>();
         private nsCSSStyleSheet mStyleSheet;
 
-        public void AppendQuery (nsMediaQuery query)
+        internal void AppendQuery (nsMediaQuery query)
         {
             mArray.Add(query);
         }
 
-        public void Clear ()
+        internal void Clear ()
         {
             mArray.Clear();
         }
 
-        public int Count ()
+        internal int Count ()
         {
             return mArray.Count;
         }
 
-        public void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal void SetStyleSheet (nsCSSStyleSheet aSheet)
         {
             mStyleSheet = aSheet;
+        }
+
+        // Public interface
+
+        internal IEnumerable<nsMediaQuery> Queries
+        {
+            get { return mArray.AsReadOnly(); }
         }
     }
 }

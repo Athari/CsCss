@@ -20,7 +20,7 @@
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsMediaFeature
+    public partial class nsMediaFeature
     {
         public enum <#=enumName#> {
 <#= source.ReReplace(@"\be(\w+)\b", "$1").NormalizeWhitespace().Unindent(8).Trim().Indent(12) #>

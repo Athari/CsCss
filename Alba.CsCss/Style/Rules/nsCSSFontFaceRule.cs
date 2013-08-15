@@ -3,21 +3,28 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@font-face \{ font-family: {mDecl.mFamily}; src: {mDecl.mSrc} \}")]
-    internal class nsCSSFontFaceRule : Rule
+    public class nsCSSFontFaceRule : Rule
     {
-        public nsCSSFontFaceRule ()
+        private readonly nsCSSFontFaceStyleDecl mDecl = new nsCSSFontFaceStyleDecl();
+
+        internal nsCSSFontFaceRule ()
         {}
 
-        public void SetDesc (nsCSSFontDesc aDescId, nsCSSValue aValue)
+        internal void SetDesc (nsCSSFontDesc aDescId, nsCSSValue aValue)
         {
             mDecl.SetValue(aDescId, aValue);
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.FONT_FACE;
         }
 
-        private readonly nsCSSFontFaceStyleDecl mDecl = new nsCSSFontFaceStyleDecl();
+        // Public interface
+
+        public nsCSSFontFaceStyleDecl Font
+        {
+            get { return mDecl; }
+        }
     }
 }

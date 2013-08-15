@@ -1122,13 +1122,13 @@ namespace Alba.CsCss.Style
           mToken.mIdentStr = mToken.mIdentStr.ToLower();
           string featureString;
           if (StringBeginsWith(mToken.mIdentStr, "min-")) {
-            expr.mRange = nsMediaExpression.Range.Min;
+            expr.mRange = nsMediaExpression.RangeType.Min;
             featureString = mToken.mIdentStr.Substring(4);
           } else if (StringBeginsWith(mToken.mIdentStr, "max-")) {
-            expr.mRange = nsMediaExpression.Range.Max;
+            expr.mRange = nsMediaExpression.RangeType.Max;
             featureString = mToken.mIdentStr.Substring(4);
           } else {
-            expr.mRange = nsMediaExpression.Range.Equal;
+            expr.mRange = nsMediaExpression.RangeType.Equal;
             featureString = mToken.mIdentStr;
           }
         
@@ -1138,7 +1138,7 @@ namespace Alba.CsCss.Style
           }
           nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);
           if (feature.mName == null ||
-              (expr.mRange != nsMediaExpression.Range.Equal &&
+              (expr.mRange != nsMediaExpression.RangeType.Equal &&
                feature.mRangeType != nsMediaFeature.RangeType.MinMaxAllowed)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
             SkipUntil(')');
@@ -1149,7 +1149,7 @@ namespace Alba.CsCss.Style
           if (!GetToken(true) || mToken.IsSymbol(')')) {
             // Query expressions for any feature can be given without a value.
             // However, min/max prefixes are not allowed.
-            if (expr.mRange != nsMediaExpression.Range.Equal) {
+            if (expr.mRange != nsMediaExpression.RangeType.Equal) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQNoMinMaxWithoutValue"); };
               return false;
             }
@@ -3057,7 +3057,7 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSSelector selector = aList.AddSelector(aPrevCombinator);
-          string pseudoElement = "";
+          string pseudoElement = null;
           nsAtomList pseudoElementArgs = null;
           nsCSSPseudoElement pseudoElementType =
             nsCSSPseudoElement.NotPseudoElement;

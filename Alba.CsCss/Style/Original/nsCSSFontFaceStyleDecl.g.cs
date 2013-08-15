@@ -6,7 +6,7 @@ using System;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSFontFaceStyleDecl
+    public class nsCSSFontFaceStyleDecl
     {
         private nsCSSValue mFamily;
         private nsCSSValue mStyle;
@@ -17,7 +17,7 @@ namespace Alba.CsCss.Style
         private nsCSSValue mFontFeatureSettings;
         private nsCSSValue mFontLanguageOverride;
 
-        public nsCSSValue GetValue (nsCSSFontDesc aDescID)
+        internal nsCSSValue GetValue (nsCSSFontDesc aDescID)
         {
             switch (aDescID) {
                 case nsCSSFontDesc.Family: return mFamily;
@@ -32,7 +32,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        public void SetValue (nsCSSFontDesc aDescID, nsCSSValue value)
+        internal void SetValue (nsCSSFontDesc aDescID, nsCSSValue value)
         {
             switch (aDescID) {
                 case nsCSSFontDesc.Family: mFamily = value; break;
@@ -46,5 +46,48 @@ namespace Alba.CsCss.Style
                 default: throw new ArgumentOutOfRangeException("aDescID");
             }
         }
+
+        // Public interface
+
+        public nsCSSValue Family
+        {
+            get { return mFamily; }
+        }
+
+        public nsCSSValue Style
+        {
+            get { return mStyle; }
+        }
+
+        public nsCSSValue Weight
+        {
+            get { return mWeight; }
+        }
+
+        public nsCSSValue Stretch
+        {
+            get { return mStretch; }
+        }
+
+        public nsCSSValue Src
+        {
+            get { return mSrc; }
+        }
+
+        public nsCSSValue UnicodeRange
+        {
+            get { return mUnicodeRange; }
+        }
+
+        public nsCSSValue FontFeatureSettings
+        {
+            get { return mFontFeatureSettings; }
+        }
+
+        public nsCSSValue FontLanguageOverride
+        {
+            get { return mFontLanguageOverride; }
+        }
+
     }
 }

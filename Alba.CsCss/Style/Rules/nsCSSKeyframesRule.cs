@@ -3,18 +3,25 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@keyframes {mName} \{ ({mRules.Count}) \}")]
-    internal class nsCSSKeyframesRule : GroupRule
+    public class nsCSSKeyframesRule : GroupRule
     {
-        private string mName;
+        private readonly string mName;
 
-        public nsCSSKeyframesRule (string aName)
+        internal nsCSSKeyframesRule (string aName)
         {
             mName = aName;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.KEYFRAMES;
+        }
+
+        // Public interface
+
+        public string Name
+        {
+            get { return mName; }
         }
     }
 }

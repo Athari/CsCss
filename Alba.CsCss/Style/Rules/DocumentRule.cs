@@ -1,24 +1,36 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
     // TODO support for @document
     [DebuggerDisplay (@"@document {mURLs.url} \{ ({mRules.Count}) \}")]
-    internal class DocumentRule : GroupRule
+    public class DocumentRule : GroupRule
     {
         private URL mURLs;
 
-        public void SetURLs (URL aURLs)
+        internal DocumentRule ()
+        {}
+
+        internal void SetURLs (URL aURLs)
         {
             mURLs = aURLs;
         }
 
-        public override RuleKind GetKind ()
+        internal override RuleKind GetKind ()
         {
             return RuleKind.DOCUMENT;
         }
 
-        internal enum Function
+        // Public interface
+
+        public IEnumerable<URL> Uris
+        {
+            get { return mURLs.TraverseList(i => i.next); }
+        }
+
+        public enum Function
         {
             eURL,
             eURLPrefix,
@@ -26,7 +38,7 @@ namespace Alba.CsCss.Style
             eRegExp
         };
 
-        internal class URL
+        public class URL
         {
             public Function func;
             public string url;

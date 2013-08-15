@@ -1,55 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("StyleSheet {mSheetURI}: Rules.Count = {mOrderedRules.Count}")]
-    internal class nsCSSStyleSheet
+    public class nsCSSStyleSheet
     {
         // from nsCSSStyleSheetInner
         private nsXMLNameSpaceMap mNameSpaceMap;
         private Uri mBaseURI, mSheetURI;
         private readonly List<Rule> mOrderedRules = new List<Rule>();
 
-        public nsXMLNameSpaceMap GetNameSpaceMap ()
+        internal nsXMLNameSpaceMap GetNameSpaceMap ()
         {
             return mNameSpaceMap;
         }
 
-        public Uri GetSheetURI ()
+        internal Uri GetSheetURI ()
         {
             return mSheetURI;
         }
 
-        public Uri GetBaseURI ()
+        internal Uri GetBaseURI ()
         {
             return mBaseURI;
         }
 
-        public void SetURIs (Uri aSheetURI, Uri aBaseURI)
+        internal void SetURIs (Uri aSheetURI, Uri aBaseURI)
         {
             mSheetURI = aSheetURI;
             mBaseURI = aBaseURI;
         }
 
-        public nsIPrincipal Principal ()
+        internal nsIPrincipal Principal ()
         {
             return nsIPrincipal.Default;
         }
 
-        public int StyleRuleCount ()
+        internal int StyleRuleCount ()
         {
             return mOrderedRules.Count;
         }
 
-        public nsresult GetStyleRuleAt (int aIndex, ref Rule aRule)
+        internal nsresult GetStyleRuleAt (int aIndex, ref Rule aRule)
         {
             aRule = mOrderedRules[aIndex];
             return nsresult.OK;
         }
 
-        public void AppendStyleRule (Rule aRule)
+        internal void AppendStyleRule (Rule aRule)
         {
             mOrderedRules.Add(aRule);
             aRule.SetStyleSheet(this);
@@ -69,6 +70,30 @@ namespace Alba.CsCss.Style
         {
             mNameSpaceMap = new nsXMLNameSpaceMap(false);
             mNameSpaceMap.AddPrefix(null, nsNameSpace.Unknown);
+        }
+
+        // Public interface
+
+        public Uri SheetUri
+        {
+            get { return mSheetURI; }
+            set { mSheetURI = value; }
+        }
+
+        public Uri BaseUri
+        {
+            get { return mBaseURI; }
+            set { mBaseURI = value; }
+        }
+
+        public IEnumerable<Rule> Rules
+        {
+            get { return mOrderedRules.AsReadOnly(); }
+        }
+
+        public IEnumerable<TRule> GetRules<TRule> () where TRule : Rule
+        {
+            return mOrderedRules.OfType<TRule>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Alba.CsCss.Style
 {
-    internal enum nsCSSProperty
+    public enum nsCSSProperty
     {
         UNKNOWN = -1,
         appearance,

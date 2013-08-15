@@ -3,43 +3,60 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    internal class nsMediaQuery
+    public class nsMediaQuery
     {
+        private readonly List<nsMediaExpression> mExpressions = new List<nsMediaExpression>();
         private bool mNegated;
         private bool mHasOnly; // only needed for serialization
         private bool mTypeOmitted; // only needed for serialization
         private bool mHadUnknownExpression;
         private string mMediaType;
-        private readonly List<nsMediaExpression> mExpressions = new List<nsMediaExpression>();
 
-        public void SetNegated ()
+        internal void SetNegated ()
         {
             mNegated = true;
         }
 
-        public void SetHasOnly ()
+        internal void SetHasOnly ()
         {
             mHasOnly = true;
         }
 
-        public void SetTypeOmitted ()
+        internal void SetTypeOmitted ()
         {
             mTypeOmitted = true;
         }
 
-        public void SetHadUnknownExpression ()
+        internal void SetHadUnknownExpression ()
         {
             mHadUnknownExpression = true;
         }
 
-        public void SetType (string aMediaType)
+        internal void SetType (string aMediaType)
         {
             mMediaType = aMediaType;
         }
 
-        public nsMediaExpression NewExpression ()
+        internal nsMediaExpression NewExpression ()
         {
             return mExpressions.AppendElement();
+        }
+
+        // Public interface
+
+        public IEnumerable<nsMediaExpression> Expressions
+        {
+            get { return mExpressions.AsReadOnly(); }
+        }
+
+        public bool IsNegated
+        {
+            get { return mNegated; }
+        }
+
+        public string MediaType
+        {
+            get { return mMediaType; }
         }
     }
 }

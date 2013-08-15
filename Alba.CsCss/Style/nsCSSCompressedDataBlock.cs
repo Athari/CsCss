@@ -5,12 +5,12 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("Count = {mData.Length}")]
     internal class nsCSSCompressedDataBlock : nsCSSDataBlock
     {
-        internal readonly PropertyValue[] mData;
+        internal readonly CssPropertyValue[] mData;
         internal int mStyleBits;
 
         public nsCSSCompressedDataBlock (int aNumProps)
         {
-            mData = new PropertyValue[aNumProps];
+            mData = new CssPropertyValue[aNumProps];
         }
 
         private int IndexFor (nsCSSProperty aProperty)
@@ -43,13 +43,6 @@ namespace Alba.CsCss.Style
             aChanged = MoveValue(ref newValue, ref mData[oldValue].mValue);
             aFromBlock.mPropertiesSet.RemoveProperty(aProperty);
             return true;
-        }
-
-        [DebuggerDisplay ("{mProperty}: {mValue}")]
-        internal struct PropertyValue
-        {
-            public nsCSSValue mValue;
-            public nsCSSProperty mProperty;
         }
     }
 }
