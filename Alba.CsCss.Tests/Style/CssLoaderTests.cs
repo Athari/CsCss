@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Alba.CsCss.Gfx;
 using Alba.CsCss.Style;
@@ -30,6 +31,20 @@ namespace Alba.CsCss.Tests.Style
             Assert.AreEqual(nsCSSProperty.color, h1color.Property);
             Assert.AreEqual(nscolor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
             //var h1colorval = css.GetRules<StyleRule>().Single().Declaration.Data.Single().Value.Color;
+        }
+
+        [TestMethod]
+        public void ParseSheet_TwitterBootstrap ()
+        {
+            var loader = new CssLoader();
+            var css = loader.ParseSheet(GetResourceFile("bootstrap.css"), SheetUri, SheetUri);
+        }
+
+        private string GetResourceFile (string filename)
+        {
+            using (var stream = GetType().Assembly.GetManifestResourceStream("Alba.CsCss.Tests.Files." + filename))
+            using (var reader = new StreamReader(stream))
+                return reader.ReadToEnd();
         }
     }
 }

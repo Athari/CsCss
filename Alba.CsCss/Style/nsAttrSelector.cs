@@ -24,9 +24,11 @@ namespace Alba.CsCss.Style
             mCaseSensitive = aCaseSensitive;
         }
 
-        internal nsAttrSelector Last
+        internal static void AddItem (ref nsAttrSelector @this, nsAttrSelector item)
         {
-            get { return this.TraverseList(i => i.mNext).Last(); }
+            while (@this != null)
+                @this = @this.mNext;
+            @this = item;
         }
 
         // Public interface

@@ -9,7 +9,7 @@ namespace Alba.CsCss.Style
         internal readonly List<nsCSSValueGradientStop> mStops = new List<nsCSSValueGradientStop>();
         internal readonly nsCSSValue[] mRadialValues = new nsCSSValue[2];
         internal bool mIsRadial, mIsRepeating, mIsExplicitSize, mIsLegacySyntax;
-        internal nsCSSValuePair mBgPos;
+        internal nsCSSValuePair mBgPos = new nsCSSValuePair();
         internal nsCSSValue mAngle;
 
         internal nsCSSValueGradient (bool aIsRadial, bool aIsRepeating)

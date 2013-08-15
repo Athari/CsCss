@@ -52,9 +52,11 @@ namespace Alba.CsCss.Style
             set { mData = value; }
         }
 
-        internal nsPseudoClassList Last
+        internal static void AddItem (ref nsPseudoClassList @this, nsPseudoClassList item)
         {
-            get { return this.TraverseList(i => i.mNext).Last(); }
+            while (@this != null)
+                @this = @this.mNext;
+            @this = item;
         }
 
         // Public interface

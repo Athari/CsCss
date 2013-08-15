@@ -64,6 +64,12 @@
       <Name>Alba.Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\bootstrap-responsive.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\bootstrap.css" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

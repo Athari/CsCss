@@ -21,13 +21,13 @@ namespace Alba.CsCss.Style
         internal void AddClass (string aClass)
         {
             if (aClass != "")
-                mClassList.Last.mNext = new nsAtomList(aClass);
+                nsAtomList.AddItem(ref mClassList, new nsAtomList(aClass));
         }
 
         internal void AddID (string aID)
         {
             if (aID != "")
-                mIDList.Last.mNext = new nsAtomList(aID);
+                nsAtomList.AddItem(ref mIDList, new nsAtomList(aID));
         }
 
         internal void AddAttribute (int aNameSpace, string aAttr, nsAttrFunc aFunc, string aValue, bool aCaseSensitive)
@@ -42,7 +42,7 @@ namespace Alba.CsCss.Style
 
         internal void AddAttributeInternal (nsAttrSelector aAttribute)
         {
-            mAttrList.Last.mNext = aAttribute;
+            nsAttrSelector.AddItem(ref mAttrList, aAttribute);
         }
 
         internal void AddPseudoClass (nsCSSPseudoClass aType, string aString)
@@ -67,7 +67,7 @@ namespace Alba.CsCss.Style
 
         internal void AddPseudoClassInternal (nsPseudoClassList aPseudoClass)
         {
-            mPseudoClassList.Last.mNext = aPseudoClass;
+            nsPseudoClassList.AddItem(ref mPseudoClassList, aPseudoClass);
         }
 
         internal bool IsPseudoElement ()

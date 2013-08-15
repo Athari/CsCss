@@ -2559,8 +2559,7 @@ namespace Alba.CsCss.Style
                                            object   aPseudoElementArgs,
                                            ref nsCSSPseudoElement aPseudoElementType)
         {
-          Debug.Assert(aIsNegated || (aPseudoElement != null && aPseudoElementArgs != null),
-                       "expected location to store pseudo element");
+          
           Debug.Assert(!aIsNegated || (aPseudoElement == null && aPseudoElementArgs == null),
                        "negated selectors shouldn't have a place to store pseudo elements");
           if (! GetToken(false)) { // premature eof
@@ -4772,7 +4771,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal int32_t ParseChoice(nsCSSValue[] aValues,
+        internal int32_t ParseChoice(ref nsCSSValue[] aValues,
                                    nsCSSProperty[] aPropIDs, int32_t aNumIDs)
         {
           int32_t found = 0;
@@ -6554,7 +6553,7 @@ namespace Alba.CsCss.Style
           uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
         
-          int32_t found = ParseChoice(values, aPropIDs, numProps);
+          int32_t found = ParseChoice(ref values, aPropIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
             return false;
           }
@@ -6641,7 +6640,7 @@ namespace Alba.CsCss.Style
           uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
         
-          int32_t found = ParseChoice(values, aPropIDs, numProps);
+          int32_t found = ParseChoice(ref values, aPropIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
             return false;
           }
@@ -7047,7 +7046,7 @@ namespace Alba.CsCss.Style
           uint32_t numProps = columnIDs.Length;
         
           var values = new nsCSSValue[numProps];
-          int32_t found = ParseChoice(values, columnIDs, numProps);
+          int32_t found = ParseChoice(ref values, columnIDs, numProps);
           if (found < 1 || !ExpectEndProperty()) {
             return false;
           }
@@ -7243,7 +7242,7 @@ namespace Alba.CsCss.Style
           // Get optional font-style, font-variant and font-weight (in any order)
           uint32_t numProps = 3;
           var values = new nsCSSValue[numProps];
-          int32_t found = ParseChoice(values, fontIDs, numProps);
+          int32_t found = ParseChoice(ref values, fontIDs, numProps);
           if ((found < 0) || (nsCSSUnit.Inherit == values[0].GetUnit()) ||
               (nsCSSUnit.Initial == values[0].GetUnit())) { // illegal data
             return false;
@@ -7686,7 +7685,7 @@ namespace Alba.CsCss.Style
         
           var values = new nsCSSValue[listStyleIDs.Length];
           int32_t found =
-            ParseChoice(values, listStyleIDs, listStyleIDs.Length);
+            ParseChoice(ref values, listStyleIDs, listStyleIDs.Length);
           if (found < 1 || !ExpectEndProperty()) {
             return false;
           }
@@ -7781,7 +7780,7 @@ namespace Alba.CsCss.Style
           };
         
           var values = new nsCSSValue[numProps];
-          int32_t found = ParseChoice(values, kOutlineIDs, numProps);
+          int32_t found = ParseChoice(ref values, kOutlineIDs, numProps);
           if ((found < 1) || (false == ExpectEndProperty())) {
             return false;
           }
@@ -8597,7 +8596,7 @@ namespace Alba.CsCss.Style
         }
         
         static nsCSSValueList
-        AppendValueToList(nsCSSValue aContainer,
+        AppendValueToList(ref nsCSSValue aContainer,
                           nsCSSValueList aTail,
                           nsCSSValue aValue)
         {
@@ -8618,7 +8617,7 @@ namespace Alba.CsCss.Style
         ParseAnimationOrTransitionShorthand(
                          nsCSSProperty[] aProperties,
                          nsCSSValue[] aInitialValues,
-                         nsCSSValue[] aValues,
+                         ref nsCSSValue[] aValues,
                          size_t aNumProperties)
         {
           var tempValue = new nsCSSValue();
@@ -8666,7 +8665,7 @@ namespace Alba.CsCss.Style
                   // if we haven't found this property yet, try to parse it
                   if (ParseSingleValueProperty(ref tempValue, aProperties[i])) {
                     parsedProperty[i] = true;
-                    cur[i] = AppendValueToList(aValues[i], cur[i], tempValue);
+                    cur[i] = AppendValueToList(ref aValues[i], cur[i], tempValue);
                     foundProperty = true;
                     break; // out of inner loop; continue looking for next sub-property
                   }
@@ -8685,7 +8684,7 @@ namespace Alba.CsCss.Style
               // If all of the subproperties were not explicitly specified, fill
               // in the missing ones with initial values.
               if (!parsedProperty[i]) {
-                cur[i] = AppendValueToList(aValues[i], cur[i], aInitialValues[i]);
+                cur[i] = AppendValueToList(ref aValues[i], cur[i], aInitialValues[i]);
               }
             }
         
@@ -8727,8 +8726,7 @@ namespace Alba.CsCss.Style
           var values = new nsCSSValue[numProps];
         
           ParseAnimationOrTransitionShorthandResult spres =
-            ParseAnimationOrTransitionShorthand(kTransitionProperties,
-                                                initialValues, values, numProps);
+            ParseAnimationOrTransitionShorthand(kTransitionProperties, initialValues, ref values, numProps);
           if (spres != ParseAnimationOrTransitionShorthandResult.Values) {
             return spres != ParseAnimationOrTransitionShorthandResult.Error;
           }
@@ -8810,8 +8808,7 @@ namespace Alba.CsCss.Style
           var values = new nsCSSValue[numProps];
         
           ParseAnimationOrTransitionShorthandResult spres =
-            ParseAnimationOrTransitionShorthand(kAnimationProperties,
-                                                initialValues, values, numProps);
+            ParseAnimationOrTransitionShorthand(kAnimationProperties, initialValues, ref values, numProps);
           if (spres != ParseAnimationOrTransitionShorthandResult.Values) {
             return spres != ParseAnimationOrTransitionShorthandResult.Error;
           }

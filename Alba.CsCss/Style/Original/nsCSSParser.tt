@@ -137,6 +137,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?s)if \(mHashlessColorQuirk\) {.*?\n  }", "// TODO support hashless colors") // drop support for hashless colors
             .ReReplace(@"(?s)Debug\.Assert\(!\(variantMask.*?""\);", "") // not worth maintaining
             .ReReplace(@"(?s)Debug\.Assert\(nsCSSProps::kContentKTable.*?""\);", "")
+            .ReReplace(@"(?s)Debug\.Assert\("+sArgs+@"""expected location to store pseudo element""\);", "")
 
             // specific classes
             .ReReplace(@"(?n)(const )?(mozilla::)?(css::)?(CSSParserImpl::)?\b(?<Name>"+
@@ -328,8 +329,9 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\b(nsCSSProperty|nsCSSValue)\b \b(subprops|aSourceProperties|aProperties|aValues|aInitialValues)\b(?!\[\])", "$1[] $2")
             .Replace(@"string aStopSymbolChars", "char[] aStopSymbolChars")
             .Replace(@"(string aURL)", "(ref string aURL)")
-            .ReReplace(@"\bnsCSSValue (aValue|aImage|aOut)\b", "ref nsCSSValue $1") // majority (~30) are ref, so listing exceptions is easier
-            .ReReplace(@"(?s)(AppendValue|AppendValueToList)\(([^\)]+) ref nsCSSValue aValue\)", "$1($2 nsCSSValue aValue)")
+            .ReReplace(@"\bnsCSSValue (aValue|aImage|aOut|aContainer)\b", "ref nsCSSValue $1") // majority (~30) are ref, so listing exceptions is easier
+            .ReReplace(@"(?s)(AppendValue|AppendValueToList)\(([^\)]+) ref nsCSSValue aValue\)", "$1($2 nsCSSValue aValue)")//;WriteLine(source);source=source
+            .ReReplace(@"\bnsCSSValue(\[\])? aValues(\[\])?", "ref nsCSSValue[] aValues")
             .Replace(@"ParseOneFamily(string aFamily", "ParseOneFamily(StringBuilder aFamily")
             // specific expressions: arg values
             .ReReplace(@"nsMediaQuery query;", "nsMediaQuery query = null;")
@@ -353,6 +355,7 @@ namespace Alba.CsCss.Style
                             "ParseFamily|ParseFontFeatureSettings|ParseFontWeight|ParseMarks|ParseTextDecorationLine|ParseTextOverflow|"+
                             "ParseFontSrc|ParseFontRanges|ParseFontFeatureSettings|ParseEnum|ParseShadowItem|TranslateDimension|"+
                             "ParseLinearGradient|ParseRadialGradient|ParseImageRect|ParseElement|ParseBackgroundPositionValues|"+
+                            "ParseChoice|AppendValueToList|"+
                             "ParseAttributeSelector|ParseTypeOrUniversalSelector|ParseVariant|aValue\\.GetStringValue"+
                        @")\((?<Arg1>(\w|\.|->|\[|\])+[,\)])", @"${Method}(ref ${Arg1}")
             .ReReplace(@"("+
@@ -365,7 +368,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"parsingStatus = ParsePseudoSelector\(ref aDataMask, newSel, true,\s+nullptr, nullptr, nullptr\);",
                         "{ string _1 = null; nsCSSPseudoElement _2 = 0; parsingStatus = ParsePseudoSelector(ref aDataMask, newSel, true, ref _1, null, ref _2); }")
             .Replace(@"return ParseBorderImageSlice(true, nullptr);", "{ bool? _ = null; return ParseBorderImageSlice(true, ref _); }")
-            .ReReplace(@"FindKeyword\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)\)", @"FindKeyword($1, $2, ref $3)")
+            .ReReplace(@"(FindKeyword|ParseAnimationOrTransitionShorthand)\((\w+),\s+([\w:]+),\s+(?!ref )(\w+)", @"$1($2, $3, ref $4")
             .ReReplace(@"GetFunctionParseInformation\((\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"GetFunctionParseInformation($1, $2, ref $3, ref $4, ref $5, ref $6)")
             .ReReplace(@"TryReplaceValue\((\w+),\s+(\w+),\s+(\w+),\s+(\w+)\)", @"TryReplaceValue($1, $2, $3, ref $4)")
             .ReReplace(@"ParseSingleTransform\((\w+),\s+([^,]+),\s+(\w+)\)", @"ParseSingleTransform($1, ref $2, ref $3)")
