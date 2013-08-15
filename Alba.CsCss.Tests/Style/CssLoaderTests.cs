@@ -19,6 +19,10 @@ namespace Alba.CsCss.Tests.Style
 
             Assert.AreEqual(SheetUri, css.SheetUri);
             Assert.AreEqual(SheetUri, css.BaseUri);
+            Assert.AreEqual(1, css.Rules.Count());
+            Assert.AreEqual(1, css.AllRules.Count());
+            Assert.AreEqual(1, css.GetRules<StyleRule>().Count());
+            Assert.AreEqual(1, css.GetAllRules<StyleRule>().Count());
             var h1 = css.GetRules<StyleRule>().Single();
             var h1sel = h1.SelectorGroups.Single().Selectors.Single();
             Assert.AreEqual("h1", h1sel.Tag);

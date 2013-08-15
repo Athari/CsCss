@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
@@ -94,6 +95,22 @@ namespace Alba.CsCss.Style
         public IEnumerable<TRule> GetRules<TRule> () where TRule : Rule
         {
             return mOrderedRules.OfType<TRule>();
+        }
+
+        public IEnumerable<Rule> AllRules
+        {
+            get
+            {
+                return mOrderedRules.SelectMany(rule => rule.TraverseTree(subRule => {
+                    var groupRule = subRule as GroupRule;
+                    return groupRule != null ? groupRule.Rules : Enumerable.Empty<Rule>();
+                }));
+            }
+        }
+
+        public IEnumerable<TRule> GetAllRules<TRule> () where TRule : Rule
+        {
+            return AllRules.OfType<TRule>();
         }
     }
 }

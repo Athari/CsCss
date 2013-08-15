@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Alba.CsCss.Gfx;
@@ -479,7 +480,7 @@ namespace Alba.CsCss.Style
             get { return GetStringBufferValue(); }
         }
 
-        public nsCSSValue[] Array
+        public IEnumerable<nsCSSValue> Array
         {
             get { return GetArrayValue(); }
         }
@@ -509,9 +510,9 @@ namespace Alba.CsCss.Style
             get { return GetRectValue(); }
         }
 
-        public nsCSSValueList List
+        public IEnumerable<nsCSSValue> List
         {
-            get { return GetListValue(); }
+            get { return GetListValue().Items; }
         }
 
         public nsCSSValuePair Pair
@@ -524,9 +525,9 @@ namespace Alba.CsCss.Style
             get { return GetTripletValue(); }
         }
 
-        public nsCSSValuePairList PairList
+        public IEnumerable<nsCSSValuePair> PairList
         {
-            get { return GetPairListValue(); }
+            get { return GetPairListValue().Items; }
         }
 
         nsCSSValue[] ICalcOpsInput.GetArrayValue ()
