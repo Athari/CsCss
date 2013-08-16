@@ -60,9 +60,9 @@ namespace Alba.CsCss.Style
 
         // public interface
 
-        public IEnumerable<CssValueGradientStop> Stops
+        public IReadOnlyList<CssValueGradientStop> Stops
         {
-            get { return mStops.AsReadOnly(); }
+            get { return mStops; }
         }
 
         public bool IsRadial

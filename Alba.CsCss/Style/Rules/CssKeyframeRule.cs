@@ -22,9 +22,9 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<float> Keys
+        public IReadOnlyList<float> Keys
         {
-            get { return mKeys.AsReadOnly(); }
+            get { return mKeys; }
         }
 
         public CssDeclaration Declaration

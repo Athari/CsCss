@@ -16,6 +16,11 @@
 
         internal abstract CssRuleKind GetKind ();
 
+        // My
+
+        internal virtual void Fix ()
+        {}
+
         // Public interface
 
         public CssRuleKind Kind

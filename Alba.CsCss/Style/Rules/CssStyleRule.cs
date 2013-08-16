@@ -26,6 +26,14 @@ namespace Alba.CsCss.Style
             return CssRuleKind.STYLE;
         }
 
+        // My
+
+        internal override void Fix ()
+        {
+            base.Fix();
+            mDeclaration.Fix();
+        }
+
         // Public interface
 
         public IEnumerable<CssSelectorGroup> SelectorGroups

@@ -21,6 +21,7 @@ namespace Alba.CsCss.Style
             parser.SetQuirkMode(Compatibility == BrowserCompatibility.Quirks);
             parser.SetStyleSheet(sheet);
             parser.ParseSheet(aInput, sheetUrl, baseUrl, nsIPrincipal.Default, 1, false);
+            sheet.Fix(); // My
             return sheet;
         }
 

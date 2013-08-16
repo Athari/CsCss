@@ -24,9 +24,9 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<CssRule> Rules
+        public IReadOnlyList<CssRule> Rules
         {
-            get { return mRules.AsReadOnly(); }
+            get { return mRules; }
         }
 
         public IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule

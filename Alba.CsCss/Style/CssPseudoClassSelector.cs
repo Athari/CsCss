@@ -70,7 +70,7 @@ namespace Alba.CsCss.Style
             get { return mString; }
         }
 
-        public IEnumerable<int> Numbers
+        public IReadOnlyList<int> Numbers
         {
             get { return mNumbers; }
         }

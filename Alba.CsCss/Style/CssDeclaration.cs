@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -73,26 +72,37 @@ namespace Alba.CsCss.Style
             mOrder.Clear();
         }
 
+        // My
+
+        internal void Fix ()
+        {
+            FixData(mData);
+            FixData(mImportantData);
+        }
+
+        internal void FixData (nsCSSCompressedDataBlock aDataBlock)
+        {
+            mData.mData = OrderDataByOrder(mData.mData).ToArray();
+            if (mImportantData != null)
+                mImportantData.mData = OrderDataByOrder(mImportantData.mData).ToArray();
+            mOrder.Clear();
+        }
+
+        private IEnumerable<CssPropertyValue> OrderDataByOrder (IEnumerable<CssPropertyValue> data)
+        {
+            return mOrder.Join(data, p => p, pv => pv.mProperty, (p, pv) => pv);
+        }
+
         // Public interface
 
-        public IEnumerable<CssPropertyValue> Data
+        public IReadOnlyList<CssPropertyValue> Data
         {
-            get { return new ReadOnlyCollection<CssPropertyValue>(mData.mData); }
+            get { return mData.mData; }
         }
 
-        public IEnumerable<CssPropertyValue> ImportantData
+        public IReadOnlyList<CssPropertyValue> ImportantData
         {
-            get { return new ReadOnlyCollection<CssPropertyValue>(mData.mData); }
-        }
-
-        public IEnumerable<CssPropertyValue> OrderedData
-        {
-            get { return OrderDataByOrder(mData.mData); }
-        }
-
-        public IEnumerable<CssPropertyValue> OrderedImportantData
-        {
-            get { return OrderDataByOrder(mImportantData.mData); }
+            get { return mImportantData.mData; }
         }
 
         public CssValue GetValue (CssProperty prop)
@@ -103,11 +113,6 @@ namespace Alba.CsCss.Style
         public CssValue GetImportantValue (CssProperty prop)
         {
             return mData.ValueFor(prop);
-        }
-
-        private IEnumerable<CssPropertyValue> OrderDataByOrder (IEnumerable<CssPropertyValue> data)
-        {
-            return mOrder.Join(data, p => p, pv => pv.mProperty, (p, pv) => pv);
         }
 
         internal string DebugDisplayCount

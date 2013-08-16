@@ -14,6 +14,9 @@ namespace Alba.CsCss.Style
         private Uri mBaseURI, mSheetURI;
         private readonly List<CssRule> mOrderedRules = new List<CssRule>();
 
+        internal CssStyleSheet ()
+        {}
+
         internal nsXMLNameSpaceMap GetNameSpaceMap ()
         {
             return mNameSpaceMap;
@@ -73,6 +76,14 @@ namespace Alba.CsCss.Style
             mNameSpaceMap.AddPrefix(null, nsNameSpace.Unknown);
         }
 
+        // My
+
+        internal void Fix ()
+        {
+            foreach (var rule in AllRules)
+                rule.Fix();
+        }
+
         // Public interface
 
         public Uri SheetUri
@@ -87,9 +98,9 @@ namespace Alba.CsCss.Style
             set { mBaseURI = value; }
         }
 
-        public IEnumerable<CssRule> Rules
+        public IReadOnlyList<CssRule> Rules
         {
-            get { return mOrderedRules.AsReadOnly(); }
+            get { return mOrderedRules; }
         }
 
         public IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule

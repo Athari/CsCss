@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("Count = {mData.Length}")]
     internal class nsCSSCompressedDataBlock : nsCSSDataBlock
     {
-        internal readonly CssPropertyValue[] mData;
+        internal CssPropertyValue[] mData;
         internal int mStyleBits;
 
         public nsCSSCompressedDataBlock (int aNumProps)
@@ -13,7 +13,7 @@ namespace Alba.CsCss.Style
             mData = new CssPropertyValue[aNumProps];
         }
 
-        private int IndexFor (CssProperty aProperty)
+        internal int IndexFor (CssProperty aProperty)
         {
             Debug.Assert(!nsCSSProps.IsShorthand(aProperty), "Don't call for shorthands");
             if ((nsCachedStyleData.GetBitForSID(nsCSSProps.kSIDTable[(int)aProperty]) & mStyleBits) == 0)

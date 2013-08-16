@@ -480,7 +480,7 @@ namespace Alba.CsCss.Style
             get { return GetStringBufferValue(); }
         }
 
-        public IEnumerable<CssValue> Array
+        public IReadOnlyList<CssValue> Array
         {
             get { return GetArrayValue(); }
         }
