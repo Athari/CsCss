@@ -53,6 +53,7 @@
     <Compile Include="Style\nsCSSScannerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style\CssLoaderTests.cs" />
+    <Compile Include="PublicInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alba.CsCss\Alba.CsCss.csproj">
