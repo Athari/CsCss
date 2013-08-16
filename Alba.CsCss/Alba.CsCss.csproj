@@ -193,7 +193,7 @@
     </Compile>
     <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
     <Compile Include="Style\Rules\CssCharsetRule.cs" />
-    <Compile Include="Style\Rules\CSSSupportsRule_.cs" />
+    <Compile Include="Style\Rules\CSSSupportsRule.cs" />
     <Compile Include="Style\Rules\CssDocumentRule.cs" />
     <Compile Include="Style\Rules\CssGroupRule.cs" />
     <Compile Include="Style\Rules\CssImportRule.cs" />
