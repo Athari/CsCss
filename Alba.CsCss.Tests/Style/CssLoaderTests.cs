@@ -10,27 +10,27 @@ namespace Alba.CsCss.Tests.Style
     [TestClass]
     public class CssLoaderTests
     {
-        private static readonly Uri SheetUri = new Uri("http://example.com/sheet.css");
+        private static readonly Uri SheetUri = new Uri("http://example.com/sheet.css"), BaseUri = new Uri("http://example.com/");
 
         [TestMethod]
         public void ParseSheet_Simple ()
         {
             var loader = new CssLoader();
-            var css = loader.ParseSheet("h1 { color: #123; }", SheetUri, SheetUri);
+            var css = loader.ParseSheet("h1 { color: #123; }", SheetUri, BaseUri);
 
             Assert.AreEqual(SheetUri, css.SheetUri);
-            Assert.AreEqual(SheetUri, css.BaseUri);
+            Assert.AreEqual(BaseUri, css.BaseUri);
             Assert.AreEqual(1, css.Rules.Count());
             Assert.AreEqual(1, css.AllRules.Count());
-            Assert.AreEqual(1, css.GetRules<CssStyleRule>().Count());
-            Assert.AreEqual(1, css.GetAllRules<CssStyleRule>().Count());
-            var h1 = css.GetRules<CssStyleRule>().Single();
+            Assert.AreEqual(1, css.StyleRules.Count());
+            Assert.AreEqual(1, css.AllStyleRules.Count());
+            var h1 = css.StyleRules.Single();
             var h1sel = h1.SelectorGroups.Single().Selectors.Single();
             Assert.AreEqual("h1", h1sel.Tag);
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(CssProperty.color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
-            //var h1colorval = css.GetRules<CssStyleRule>().Single().Declaration.GetValue(CssProperty.color).Color;
+            //var h1colorval = css.StyleRules.Single().Declaration.GetValue(CssProperty.color).Color;
         }
 
         [TestMethod]

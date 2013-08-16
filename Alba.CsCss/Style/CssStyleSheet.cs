@@ -7,7 +7,7 @@ using Alba.CsCss.Internal.Extensions;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("StyleSheet {mSheetURI}: Rules.Count = {mOrderedRules.Count}")]
-    public class CssStyleSheet
+    public partial class CssStyleSheet
     {
         // from nsCSSStyleSheetInner
         private nsXMLNameSpaceMap mNameSpaceMap;
@@ -58,7 +58,7 @@ namespace Alba.CsCss.Style
         {
             mOrderedRules.Add(aRule);
             aRule.SetStyleSheet(this);
-            if (aRule.GetKind() == CssRuleKind.NAMESPACE)
+            if (aRule.GetKind() == CssRuleKind.Namespace)
                 RegisterNamespaceRule((CssNamespaceRule)aRule);
         }
 
@@ -103,11 +103,6 @@ namespace Alba.CsCss.Style
             get { return mOrderedRules; }
         }
 
-        public IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule
-        {
-            return mOrderedRules.OfType<TRule>();
-        }
-
         public IEnumerable<CssRule> AllRules
         {
             get
@@ -119,7 +114,12 @@ namespace Alba.CsCss.Style
             }
         }
 
-        public IEnumerable<TRule> GetAllRules<TRule> () where TRule : CssRule
+        private IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule
+        {
+            return mOrderedRules.OfType<TRule>();
+        }
+
+        private IEnumerable<TRule> GetAllRules<TRule> () where TRule : CssRule
         {
             return AllRules.OfType<TRule>();
         }

@@ -1,0 +1,66 @@
+<#@ template hostspecific="true" debug="true" #>
+<#@ output extension="/" #>
+<#@ include file="..\..\T4\Common.ttinclude" #>
+<#
+    string source = LoadText(ext: "h");
+    source = source.ReReplace(@"\r", "");
+
+    var T4 = GetT4();
+    T4.GenerateFile("CssRuleKind.conv.cs", () => GenerateCssRuleKind(source));
+    T4.GenerateFile("CssStyleSheet.CssRuleKind.g.cs", () => GenerateCssStyleSheet(source));
+    T4.Process();
+#>
+<#+
+    void GenerateCssRuleKind (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+namespace Alba.CsCss.Style
+{
+    public enum CssRuleKind
+    {
+<#+   foreach (string val in GetRuleEnumValues(source)) { #>
+        <#=val#>,
+<#+   } #>
+    }
+}
+<#+
+    } // GenerateCssRuleKind
+
+    void GenerateCssStyleSheet (string source) {
+#>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.Collections.Generic;
+
+namespace Alba.CsCss.Style
+{
+    public partial class CssStyleSheet
+    {
+<#+   foreach (string val in GetRuleEnumValues(source).Where(v => v != "Unknown" && v != "Document")) { #>
+        public IEnumerable<Css<#=val#>Rule> <#=val#>Rules
+        {
+            get { return GetRules<Css<#=val#>Rule>(); }
+        }
+
+        public IEnumerable<Css<#=val#>Rule> All<#=val#>Rules
+        {
+            get { return GetAllRules<Css<#=val#>Rule>(); }
+        }
+
+<#+   } #>
+    }
+}
+<#+
+    } // GenerateCssStyleSheet
+
+    IEnumerable<string> GetRuleEnumValues (string source)
+    {
+        foreach (Match m in source.ReMatchGet(@"(?s)enum {\n(.*?)\s*}").ReMatches(@"(\w+)_RULE"))
+            yield return ToPascalId(m);
+    }
+#>

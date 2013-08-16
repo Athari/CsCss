@@ -118,6 +118,12 @@
     <Compile Include="Style\Original\CssPseudoElement.g.cs">
       <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\CssRuleKind.conv.cs">
+      <DependentUpon>Rule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssStyleSheet.CssRuleKind.g.cs">
+      <DependentUpon>Rule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\CssUnit.conv.cs">
       <DependentUpon>nsCSSValue.tt</DependentUpon>
     </Compile>
@@ -188,12 +194,9 @@
       <DependentUpon>nsStyleConsts.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
-      <DependentUpon>nsCSSPropsH.tt</DependentUpon>
-    </Compile>
     <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
     <Compile Include="Style\Rules\CssCharsetRule.cs" />
-    <Compile Include="Style\Rules\CssSupportsRule.cs" />
+    <Compile Include="Style\Rules\CssSupportsRule_.cs" />
     <Compile Include="Style\Rules\CssDocumentRule.cs" />
     <Compile Include="Style\Rules\CssGroupRule.cs" />
     <Compile Include="Style\Rules\CssImportRule.cs" />
@@ -204,7 +207,6 @@
     <Compile Include="Style\Rules\CssKeyframesRule.cs" />
     <Compile Include="Style\Rules\CssPageRule.cs" />
     <Compile Include="Style\Rules\CssRule.cs" />
-    <Compile Include="Style\Rules\CssRuleKind.cs" />
     <Compile Include="Style\Rules\CssStyleRule.cs" />
     <Compile Include="Style\Values\CssUriValue.cs" />
   </ItemGroup>
@@ -337,6 +339,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsStyleStructList.h</DependentUpon>
     </None>
+    <None Include="Style\Original\Rule.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rule.h</DependentUpon>
+    </None>
     <None Include="Style\Original\StyleRule.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -464,6 +472,12 @@
     <None Include="Style\Original\nsIWidget.h">
       <Generator>AttachT4</Generator>
       <LastGenOutput>nsIWidget.tt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Style\Original\Rule.h">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>Rule.tt</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />

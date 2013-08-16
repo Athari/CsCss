@@ -65,6 +65,27 @@
         return CSharpKeywords.Contains(name) ? "@" + name : name;
     }
 
+    string ToPascalId (string name)
+    {
+        var sb = new StringBuilder(name.Length);
+        bool isNextUpper = true;
+        foreach (var c in name) {
+            if (c == '_') {
+                isNextUpper = true;
+            }
+            else {
+                sb.Append(isNextUpper ? char.ToUpper(c) : char.ToLower(c));
+                isNextUpper = false;
+            }
+        }
+        return ToId(sb.ToString());
+    }
+
+    string ToPascalId (Match m)
+    {
+        return ToPascalId(m.Get());
+    }
+
     void WriteTypeRenames ()
     {
         foreach (var rename in TypeRenames) {
@@ -73,14 +94,12 @@
 <#+     }
     }
 
-    /*string Refactor (string source)
+    string Refactor (string source)
     {
         return source
             .ReReplace(@"(?x)\b(?<Type>
-                            nsCSSProperty|nsCSSPseudoClass|nsCSSPseudoElement|nsCSSUnit|nsAttrFunc|
-                            nsMediaFeature|nsMediaExpression|nsMediaQuery|
-                            Declaration|nscolor
+                            RuleKind
                         )\b", m => TypeRenames[m.Get("Type")])
             ;
-    }*/
+    }
 #>

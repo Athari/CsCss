@@ -17,7 +17,7 @@ namespace Alba.CsCss.Style
 
         internal override CssRuleKind GetKind ()
         {
-            return CssRuleKind.FONT_FACE;
+            return CssRuleKind.FontFace;
         }
 
         // Public interface

@@ -17,7 +17,7 @@ namespace Alba.CsCss.Style
 
         internal override CssRuleKind GetKind ()
         {
-            return CssRuleKind.KEYFRAME;
+            return CssRuleKind.Keyframe;
         }
 
         // Public interface

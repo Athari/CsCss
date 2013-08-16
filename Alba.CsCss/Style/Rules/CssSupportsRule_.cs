@@ -22,7 +22,7 @@ namespace Alba.CsCss.Style
 
         internal override CssRuleKind GetKind ()
         {
-            return CssRuleKind.SUPPORTS;
+            return CssRuleKind.Supports;
         }
 
         // Public interface

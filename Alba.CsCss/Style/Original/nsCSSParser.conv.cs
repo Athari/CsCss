@@ -269,11 +269,11 @@ namespace Alba.CsCss.Style
             mSheet.GetStyleRuleAt(ruleCount - 1, ref lastRule);
             if (lastRule != null) {
               switch (lastRule.GetKind()) {
-                case RuleKind.CHARSET:
-                case RuleKind.IMPORT:
+                case CssRuleKind.Charset:
+                case CssRuleKind.Import:
                   mSection = nsCSSSection.Import;
                   break;
-                case RuleKind.NAMESPACE:
+                case CssRuleKind.Namespace:
                   mSection = nsCSSSection.NameSpace;
                   break;
                 default:

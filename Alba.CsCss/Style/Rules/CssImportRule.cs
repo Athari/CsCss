@@ -17,7 +17,7 @@ namespace Alba.CsCss.Style
 
         internal override CssRuleKind GetKind ()
         {
-            return CssRuleKind.IMPORT;
+            return CssRuleKind.Import;
         }
 
         // Public interface

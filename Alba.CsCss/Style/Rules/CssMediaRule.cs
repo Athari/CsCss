@@ -18,7 +18,7 @@ namespace Alba.CsCss.Style
 
         internal override CssRuleKind GetKind ()
         {
-            return CssRuleKind.MEDIA;
+            return CssRuleKind.Media;
         }
 
         internal override void SetStyleSheet (CssStyleSheet aSheet)
