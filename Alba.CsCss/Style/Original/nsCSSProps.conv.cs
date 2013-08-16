@@ -2,11 +2,24 @@
 // Generated file. Do not edit manually.
 //
 
+using Alba.CsCss.Gfx;
+
 using int32_t = System.Int32;
 using uint32_t = System.Int32;
 
 namespace Alba.CsCss.Style
 {
+    using nsCSSProperty = CssProperty;
+    using nsCSSPseudoClass = CssPseudoClass;
+    using nsCSSPseudoElement = CssPseudoElement;
+    using nsCSSUnit = CssUnit;
+    using nsAttrFunc = CssAttrFunction;
+    using nsMediaFeature = CssMediaFeature;
+    using nsMediaExpression = CssMediaExpression;
+    using nsMediaQuery = CssMediaQuery;
+    using Declaration = CssDeclaration;
+    using nscolor = CssColor;
+
     internal partial class nsCSSProps
     {
         public static readonly int32_t[] kAnimationDirectionKTable = {
@@ -1143,496 +1156,496 @@ namespace Alba.CsCss.Style
           (int)nsCSSKeyword.UNKNOWN, -1
         };
 
-        public static readonly CssProperty[] gAnimationSubpropTable = {
-          CssProperty.animation_duration,
-          CssProperty.animation_timing_function,
-          CssProperty.animation_delay,
-          CssProperty.animation_direction,
-          CssProperty.animation_fill_mode,
-          CssProperty.animation_iteration_count,
+        public static readonly nsCSSProperty[] gAnimationSubpropTable = {
+          nsCSSProperty.animation_duration,
+          nsCSSProperty.animation_timing_function,
+          nsCSSProperty.animation_delay,
+          nsCSSProperty.animation_direction,
+          nsCSSProperty.animation_fill_mode,
+          nsCSSProperty.animation_iteration_count,
           // List animation-name last so we serialize it last, in case it has
           // a value that conflicts with one of the other properties.  (See
           // how Declaration::GetValue serializes 'animation'.
-          CssProperty.animation_name,
-          CssProperty.UNKNOWN
+          nsCSSProperty.animation_name,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderRadiusSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderRadiusSubpropTable = {
           // Code relies on these being in topleft-topright-bottomright-bottomleft
           // order.
-          CssProperty.border_top_left_radius,
-          CssProperty.border_top_right_radius,
-          CssProperty.border_bottom_right_radius,
-          CssProperty.border_bottom_left_radius,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_top_left_radius,
+          nsCSSProperty.border_top_right_radius,
+          nsCSSProperty.border_bottom_right_radius,
+          nsCSSProperty.border_bottom_left_radius,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gOutlineRadiusSubpropTable = {
+        public static readonly nsCSSProperty[] gOutlineRadiusSubpropTable = {
           // Code relies on these being in topleft-topright-bottomright-bottomleft
           // order.
-          CssProperty._moz_outline_radius_topLeft,
-          CssProperty._moz_outline_radius_topRight,
-          CssProperty._moz_outline_radius_bottomRight,
-          CssProperty._moz_outline_radius_bottomLeft,
-          CssProperty.UNKNOWN
+          nsCSSProperty._moz_outline_radius_topLeft,
+          nsCSSProperty._moz_outline_radius_topRight,
+          nsCSSProperty._moz_outline_radius_bottomRight,
+          nsCSSProperty._moz_outline_radius_bottomLeft,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBackgroundSubpropTable = {
-          CssProperty.background_color,
-          CssProperty.background_image,
-          CssProperty.background_repeat,
-          CssProperty.background_attachment,
-          CssProperty.background_position,
-          CssProperty.background_clip,
-          CssProperty.background_origin,
-          CssProperty.background_size,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gBackgroundSubpropTable = {
+          nsCSSProperty.background_color,
+          nsCSSProperty.background_image,
+          nsCSSProperty.background_repeat,
+          nsCSSProperty.background_attachment,
+          nsCSSProperty.background_position,
+          nsCSSProperty.background_clip,
+          nsCSSProperty.background_origin,
+          nsCSSProperty.background_size,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderSubpropTable = {
-          CssProperty.border_top_width,
-          CssProperty.border_right_width_value,
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.border_bottom_width,
-          CssProperty.border_left_width_value,
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.border_top_style,
-          CssProperty.border_right_style_value,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.border_bottom_style,
-          CssProperty.border_left_style_value,
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.border_top_color,
-          CssProperty.border_right_color_value,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.border_bottom_color,
-          CssProperty.border_left_color_value,
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.border_top_colors,
-          CssProperty.border_right_colors,
-          CssProperty.border_bottom_colors,
-          CssProperty.border_left_colors,
-          CssProperty.border_image_source,
-          CssProperty.border_image_slice,
-          CssProperty.border_image_width,
-          CssProperty.border_image_outset,
-          CssProperty.border_image_repeat,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gBorderSubpropTable = {
+          nsCSSProperty.border_top_width,
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.border_bottom_width,
+          nsCSSProperty.border_left_width_value,
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.border_top_style,
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.border_bottom_style,
+          nsCSSProperty.border_left_style_value,
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.border_top_color,
+          nsCSSProperty.border_right_color_value,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.border_bottom_color,
+          nsCSSProperty.border_left_color_value,
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.border_top_colors,
+          nsCSSProperty.border_right_colors,
+          nsCSSProperty.border_bottom_colors,
+          nsCSSProperty.border_left_colors,
+          nsCSSProperty.border_image_source,
+          nsCSSProperty.border_image_slice,
+          nsCSSProperty.border_image_width,
+          nsCSSProperty.border_image_outset,
+          nsCSSProperty.border_image_repeat,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderBottomSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderBottomSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_bottom_width,
-          CssProperty.border_bottom_style,
-          CssProperty.border_bottom_color,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_bottom_width,
+          nsCSSProperty.border_bottom_style,
+          nsCSSProperty.border_bottom_color,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderColorSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderColorSubpropTable = {
           // Code relies on these being in top-right-bottom-left order.
           // Code relies on these matching the NS_SIDE_* constants.
-          CssProperty.border_top_color,
-          CssProperty.border_right_color_value,
-          CssProperty.border_bottom_color,
-          CssProperty.border_left_color_value,
+          nsCSSProperty.border_top_color,
+          nsCSSProperty.border_right_color_value,
+          nsCSSProperty.border_bottom_color,
+          nsCSSProperty.border_left_color_value,
           // extras:
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderEndColorSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderEndColorSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_end_color_value,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_end_color_value,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderLeftColorSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderLeftColorSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_left_color_value,
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_color_value,
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderRightColorSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderRightColorSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_right_color_value,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_right_color_value,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderStartColorSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderStartColorSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_start_color_value,
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_start_color_value,
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderEndSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderEndSubpropTable = {
           // nsCSSDeclaration.cpp output the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_end_width_value,
-          CssProperty.border_end_style_value,
-          CssProperty.border_end_color_value,
+          nsCSSProperty.border_end_width_value,
+          nsCSSProperty.border_end_style_value,
+          nsCSSProperty.border_end_color_value,
           // extras:
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderLeftSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderLeftSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_left_width_value,
-          CssProperty.border_left_style_value,
-          CssProperty.border_left_color_value,
+          nsCSSProperty.border_left_width_value,
+          nsCSSProperty.border_left_style_value,
+          nsCSSProperty.border_left_color_value,
           // extras:
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_left_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_left_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderRightSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderRightSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_right_width_value,
-          CssProperty.border_right_style_value,
-          CssProperty.border_right_color_value,
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_right_color_value,
           // extras:
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.border_right_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.border_right_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderStartSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderStartSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_start_width_value,
-          CssProperty.border_start_style_value,
-          CssProperty.border_start_color_value,
+          nsCSSProperty.border_start_width_value,
+          nsCSSProperty.border_start_style_value,
+          nsCSSProperty.border_start_color_value,
           // extras:
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.border_left_color_ltr_source,
-          CssProperty.border_right_color_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.border_left_color_ltr_source,
+          nsCSSProperty.border_right_color_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderStyleSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderStyleSubpropTable = {
           // Code relies on these being in top-right-bottom-left order.
-          CssProperty.border_top_style,
-          CssProperty.border_right_style_value,
-          CssProperty.border_bottom_style,
-          CssProperty.border_left_style_value,
+          nsCSSProperty.border_top_style,
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_bottom_style,
+          nsCSSProperty.border_left_style_value,
           // extras:
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderLeftStyleSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderLeftStyleSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_left_style_value,
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_style_value,
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderRightStyleSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderRightStyleSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_right_style_value,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_right_style_value,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderStartStyleSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderStartStyleSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_start_style_value,
-          CssProperty.border_left_style_ltr_source,
-          CssProperty.border_right_style_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_start_style_value,
+          nsCSSProperty.border_left_style_ltr_source,
+          nsCSSProperty.border_right_style_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderEndStyleSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderEndStyleSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_end_style_value,
-          CssProperty.border_right_style_ltr_source,
-          CssProperty.border_left_style_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_end_style_value,
+          nsCSSProperty.border_right_style_ltr_source,
+          nsCSSProperty.border_left_style_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderTopSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderTopSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.border_top_width,
-          CssProperty.border_top_style,
-          CssProperty.border_top_color,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_top_width,
+          nsCSSProperty.border_top_style,
+          nsCSSProperty.border_top_color,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderWidthSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderWidthSubpropTable = {
           // Code relies on these being in top-right-bottom-left order.
-          CssProperty.border_top_width,
-          CssProperty.border_right_width_value,
-          CssProperty.border_bottom_width,
-          CssProperty.border_left_width_value,
+          nsCSSProperty.border_top_width,
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_bottom_width,
+          nsCSSProperty.border_left_width_value,
           // extras:
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderLeftWidthSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderLeftWidthSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_left_width_value,
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_left_width_value,
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderRightWidthSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderRightWidthSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_right_width_value,
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_right_width_value,
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderStartWidthSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderStartWidthSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_start_width_value,
-          CssProperty.border_left_width_ltr_source,
-          CssProperty.border_right_width_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_start_width_value,
+          nsCSSProperty.border_left_width_ltr_source,
+          nsCSSProperty.border_right_width_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderEndWidthSubpropTable = {
+        public static readonly nsCSSProperty[] gBorderEndWidthSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.border_end_width_value,
-          CssProperty.border_right_width_ltr_source,
-          CssProperty.border_left_width_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.border_end_width_value,
+          nsCSSProperty.border_right_width_ltr_source,
+          nsCSSProperty.border_left_width_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gFontSubpropTable = {
-          CssProperty.font_family,
-          CssProperty.font_style,
-          CssProperty.font_variant,
-          CssProperty.font_weight,
-          CssProperty.font_size,
-          CssProperty.line_height,
-          CssProperty.font_size_adjust, // XXX Added LDB.
-          CssProperty.font_stretch, // XXX Added LDB.
-          CssProperty._x_system_font,
-          CssProperty.font_feature_settings,
-          CssProperty.font_language_override,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gFontSubpropTable = {
+          nsCSSProperty.font_family,
+          nsCSSProperty.font_style,
+          nsCSSProperty.font_variant,
+          nsCSSProperty.font_weight,
+          nsCSSProperty.font_size,
+          nsCSSProperty.line_height,
+          nsCSSProperty.font_size_adjust, // XXX Added LDB.
+          nsCSSProperty.font_stretch, // XXX Added LDB.
+          nsCSSProperty._x_system_font,
+          nsCSSProperty.font_feature_settings,
+          nsCSSProperty.font_language_override,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gListStyleSubpropTable = {
-          CssProperty.list_style_type,
-          CssProperty.list_style_image,
-          CssProperty.list_style_position,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gListStyleSubpropTable = {
+          nsCSSProperty.list_style_type,
+          nsCSSProperty.list_style_image,
+          nsCSSProperty.list_style_position,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarginSubpropTable = {
+        public static readonly nsCSSProperty[] gMarginSubpropTable = {
           // Code relies on these being in top-right-bottom-left order.
-          CssProperty.margin_top,
-          CssProperty.margin_right_value,
-          CssProperty.margin_bottom,
-          CssProperty.margin_left_value,
+          nsCSSProperty.margin_top,
+          nsCSSProperty.margin_right_value,
+          nsCSSProperty.margin_bottom,
+          nsCSSProperty.margin_left_value,
           // extras:
-          CssProperty.margin_left_ltr_source,
-          CssProperty.margin_left_rtl_source,
-          CssProperty.margin_right_ltr_source,
-          CssProperty.margin_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.margin_left_ltr_source,
+          nsCSSProperty.margin_left_rtl_source,
+          nsCSSProperty.margin_right_ltr_source,
+          nsCSSProperty.margin_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarginLeftSubpropTable = {
+        public static readonly nsCSSProperty[] gMarginLeftSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.margin_left_value,
-          CssProperty.margin_left_ltr_source,
-          CssProperty.margin_left_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.margin_left_value,
+          nsCSSProperty.margin_left_ltr_source,
+          nsCSSProperty.margin_left_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarginRightSubpropTable = {
+        public static readonly nsCSSProperty[] gMarginRightSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.margin_right_value,
-          CssProperty.margin_right_ltr_source,
-          CssProperty.margin_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.margin_right_value,
+          nsCSSProperty.margin_right_ltr_source,
+          nsCSSProperty.margin_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarginStartSubpropTable = {
+        public static readonly nsCSSProperty[] gMarginStartSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.margin_start_value,
-          CssProperty.margin_left_ltr_source,
-          CssProperty.margin_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.margin_start_value,
+          nsCSSProperty.margin_left_ltr_source,
+          nsCSSProperty.margin_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarginEndSubpropTable = {
+        public static readonly nsCSSProperty[] gMarginEndSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.margin_end_value,
-          CssProperty.margin_right_ltr_source,
-          CssProperty.margin_left_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.margin_end_value,
+          nsCSSProperty.margin_right_ltr_source,
+          nsCSSProperty.margin_left_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gOutlineSubpropTable = {
+        public static readonly nsCSSProperty[] gOutlineSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty.outline_width,
-          CssProperty.outline_style,
-          CssProperty.outline_color,
-          CssProperty.UNKNOWN
+          nsCSSProperty.outline_width,
+          nsCSSProperty.outline_style,
+          nsCSSProperty.outline_color,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gColumnsSubpropTable = {
-          CssProperty._moz_column_count,
-          CssProperty._moz_column_width,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gColumnsSubpropTable = {
+          nsCSSProperty._moz_column_count,
+          nsCSSProperty._moz_column_width,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gColumnRuleSubpropTable = {
+        public static readonly nsCSSProperty[] gColumnRuleSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          CssProperty._moz_column_rule_width,
-          CssProperty._moz_column_rule_style,
-          CssProperty._moz_column_rule_color,
-          CssProperty.UNKNOWN
+          nsCSSProperty._moz_column_rule_width,
+          nsCSSProperty._moz_column_rule_style,
+          nsCSSProperty._moz_column_rule_color,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gFlexSubpropTable = {
-          CssProperty.flex_grow,
-          CssProperty.flex_shrink,
-          CssProperty.flex_basis,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gFlexSubpropTable = {
+          nsCSSProperty.flex_grow,
+          nsCSSProperty.flex_shrink,
+          nsCSSProperty.flex_basis,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gOverflowSubpropTable = {
-          CssProperty.overflow_x,
-          CssProperty.overflow_y,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gOverflowSubpropTable = {
+          nsCSSProperty.overflow_x,
+          nsCSSProperty.overflow_y,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gPaddingSubpropTable = {
+        public static readonly nsCSSProperty[] gPaddingSubpropTable = {
           // Code relies on these being in top-right-bottom-left order.
-          CssProperty.padding_top,
-          CssProperty.padding_right_value,
-          CssProperty.padding_bottom,
-          CssProperty.padding_left_value,
+          nsCSSProperty.padding_top,
+          nsCSSProperty.padding_right_value,
+          nsCSSProperty.padding_bottom,
+          nsCSSProperty.padding_left_value,
           // extras:
-          CssProperty.padding_left_ltr_source,
-          CssProperty.padding_left_rtl_source,
-          CssProperty.padding_right_ltr_source,
-          CssProperty.padding_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.padding_left_ltr_source,
+          nsCSSProperty.padding_left_rtl_source,
+          nsCSSProperty.padding_right_ltr_source,
+          nsCSSProperty.padding_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gPaddingLeftSubpropTable = {
+        public static readonly nsCSSProperty[] gPaddingLeftSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.padding_left_value,
-          CssProperty.padding_left_ltr_source,
-          CssProperty.padding_left_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.padding_left_value,
+          nsCSSProperty.padding_left_ltr_source,
+          nsCSSProperty.padding_left_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gPaddingRightSubpropTable = {
+        public static readonly nsCSSProperty[] gPaddingRightSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.padding_right_value,
-          CssProperty.padding_right_ltr_source,
-          CssProperty.padding_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.padding_right_value,
+          nsCSSProperty.padding_right_ltr_source,
+          nsCSSProperty.padding_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gPaddingStartSubpropTable = {
+        public static readonly nsCSSProperty[] gPaddingStartSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.padding_start_value,
-          CssProperty.padding_left_ltr_source,
-          CssProperty.padding_right_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.padding_start_value,
+          nsCSSProperty.padding_left_ltr_source,
+          nsCSSProperty.padding_right_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gPaddingEndSubpropTable = {
+        public static readonly nsCSSProperty[] gPaddingEndSubpropTable = {
           // nsCSSParser::ParseDirectionalBoxProperty depends on this order
-          CssProperty.padding_end_value,
-          CssProperty.padding_right_ltr_source,
-          CssProperty.padding_left_rtl_source,
-          CssProperty.UNKNOWN
+          nsCSSProperty.padding_end_value,
+          nsCSSProperty.padding_right_ltr_source,
+          nsCSSProperty.padding_left_rtl_source,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gTextDecorationSubpropTable = {
-          CssProperty.text_blink,
-          CssProperty.text_decoration_color,
-          CssProperty.text_decoration_line,
-          CssProperty.text_decoration_style,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gTextDecorationSubpropTable = {
+          nsCSSProperty.text_blink,
+          nsCSSProperty.text_decoration_color,
+          nsCSSProperty.text_decoration_line,
+          nsCSSProperty.text_decoration_style,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gTransitionSubpropTable = {
-          CssProperty.transition_property,
-          CssProperty.transition_duration,
-          CssProperty.transition_timing_function,
-          CssProperty.transition_delay,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gTransitionSubpropTable = {
+          nsCSSProperty.transition_property,
+          nsCSSProperty.transition_duration,
+          nsCSSProperty.transition_timing_function,
+          nsCSSProperty.transition_delay,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gBorderImageSubpropTable = {
-          CssProperty.border_image_source,
-          CssProperty.border_image_slice,
-          CssProperty.border_image_width,
-          CssProperty.border_image_outset,
-          CssProperty.border_image_repeat,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gBorderImageSubpropTable = {
+          nsCSSProperty.border_image_source,
+          nsCSSProperty.border_image_slice,
+          nsCSSProperty.border_image_width,
+          nsCSSProperty.border_image_outset,
+          nsCSSProperty.border_image_repeat,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMarkerSubpropTable = {
-          CssProperty.marker_start,
-          CssProperty.marker_mid,
-          CssProperty.marker_end,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gMarkerSubpropTable = {
+          nsCSSProperty.marker_start,
+          nsCSSProperty.marker_mid,
+          nsCSSProperty.marker_end,
+          nsCSSProperty.UNKNOWN
         };
 
-        public static readonly CssProperty[] gMozTransformSubpropTable = {
-          CssProperty.transform,
-          CssProperty.UNKNOWN
+        public static readonly nsCSSProperty[] gMozTransformSubpropTable = {
+          nsCSSProperty.transform,
+          nsCSSProperty.UNKNOWN
         };
 
         public static readonly int32_t[] kOrientationKeywords = {

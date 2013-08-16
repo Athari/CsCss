@@ -14,15 +14,19 @@
 // Generated file. Do not edit manually.
 //
 
+using Alba.CsCss.Gfx;
+
 using int32_t = System.Int32;
 using uint32_t = System.Int32;
 
 namespace Alba.CsCss.Style
 {
+<#+ WriteTypeRenames(); #>
+
     internal partial class nsCSSProps
     {
 <#+   foreach (string array in ConvertGlobalArrays(source)) { #>
-<#=     Refactor(array.Indent(8).NormalizeWhitespace()) #>
+<#=     array.Indent(8).NormalizeWhitespace() #>
 
 <#+   } #>
     }

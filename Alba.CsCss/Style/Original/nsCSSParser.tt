@@ -47,6 +47,8 @@ using size_t = System.Int32; // O RLY?
 
 namespace Alba.CsCss.Style
 {
+<#+ WriteTypeRenames(); #>
+
     internal partial class nsCSSParser
     {
 <#+   foreach (string line in ConvertVariantDefines(source)) { #>
@@ -65,7 +67,7 @@ namespace Alba.CsCss.Style
         int i = 0;
         Func<MatchEvaluator, MatchEvaluator, MatchEvaluator> GenerateVarListEvaluator = (evalType, evalValue) =>
             m => evalType(m) + " " + m.GetAll("Var").Select(v => v+" = "+evalValue(m)).JoinString(", ") + ";";
-        source = source
+        return source
 
             // whitespace
             .ReReplace(@"\r", "")
@@ -433,7 +435,6 @@ namespace Alba.CsCss.Style
             .ReReplace(@"\n", "\r\n")
             .Trim()
             ;
-        return Refactor(source);
     }
 
     IEnumerable<string> ConvertVariantDefines (string source)

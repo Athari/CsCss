@@ -17,13 +17,16 @@
 //
 
 using System.Collections.Generic;
+using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
+<#+ WriteTypeRenames(); #>
+
     internal partial class nsMediaFeatures
     {
         private static readonly List<CssMediaFeature> features = new List<CssMediaFeature> {
-<#=         Refactor(ConvertMediaFeaturesSource(source).Unindent(4).Indent(12)) #>
+<#=         ConvertMediaFeaturesSource(source).Unindent(4).Indent(12) #>
             //new CssMediaFeature()
         };
 
