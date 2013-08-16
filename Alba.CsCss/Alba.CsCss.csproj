@@ -139,18 +139,18 @@
     <Compile Include="Style\Original\nsStyleStructID.g.cs">
       <DependentUpon>nsStyleStructList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\Values\nsCSSRect.cs" />
+    <Compile Include="Style\Values\CssRect.cs" />
     <Compile Include="Style\nsCSSScanner.cs" />
     <Compile Include="Style\nsCSSToken.cs" />
     <Compile Include="Style\nsCSSTokenType.cs" />
     <Compile Include="Common\nsGkAtoms.cs" />
-    <Compile Include="Style\Values\nsCSSValueTriplet.cs" />
-    <Compile Include="Style\Values\nsCSSValue.cs" />
-    <Compile Include="Style\Values\nsCSSValueGradient.cs" />
-    <Compile Include="Style\Values\nsCSSValueGradientStop.cs" />
-    <Compile Include="Style\Values\nsCSSValueList.cs" />
-    <Compile Include="Style\Values\nsCSSValuePair.cs" />
-    <Compile Include="Style\Values\nsCSSValuePairList.cs" />
+    <Compile Include="Style\Values\CssValueTriplet.cs" />
+    <Compile Include="Style\Values\CssValue.cs" />
+    <Compile Include="Style\Values\CssValueGradient.cs" />
+    <Compile Include="Style\Values\CssValueGradientStop.cs" />
+    <Compile Include="Style\Values\CssValueList.cs" />
+    <Compile Include="Style\Values\CssValuePair.cs" />
+    <Compile Include="Style\Values\CssValuePairList.cs" />
     <Compile Include="Style\nsStyle.cs" />
     <Compile Include="Internal\nsStyleUtil.cs" />
     <Compile Include="Style\Calc\NumbersAlreadyNormalizedOps.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Style\Rules\Rule.cs" />
     <Compile Include="Style\Rules\RuleKind.cs" />
     <Compile Include="Style\Rules\StyleRule.cs" />
-    <Compile Include="Style\Values\URLValue.cs" />
+    <Compile Include="Style\Values\CssUriValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Common\Original\nsINameSpaceManager.tt">

@@ -53,10 +53,10 @@ namespace Alba.CsCss.Style
     public class nsCSSFontFaceStyleDecl
     {
 <#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
-        private nsCSSValue m<#=desc.Method#>;
+        private CssValue m<#=desc.Method#>;
 <#+   } #>
 
-        internal nsCSSValue GetValue (nsCSSFontDesc aDescID)
+        internal CssValue GetValue (nsCSSFontDesc aDescID)
         {
             switch (aDescID) {
 <#+           foreach (CssFontDesc desc in GetCssFontDescs()) { #>
@@ -66,7 +66,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        internal void SetValue (nsCSSFontDesc aDescID, nsCSSValue value)
+        internal void SetValue (nsCSSFontDesc aDescID, CssValue value)
         {
             switch (aDescID) {
 <#+           foreach (CssFontDesc desc in GetCssFontDescs()) { #>
@@ -79,7 +79,7 @@ namespace Alba.CsCss.Style
         // Public interface
 
 <#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
-        public nsCSSValue <#=desc.Method#>
+        public CssValue <#=desc.Method#>
         {
             get { return m<#=desc.Method#>; }
         }

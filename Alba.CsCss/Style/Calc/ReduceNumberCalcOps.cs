@@ -3,20 +3,20 @@ using Alba.CsCss.Internal;
 
 namespace Alba.CsCss.Style
 {
-    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/, ICalcOps<nsCSSValue, float>
+    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/, ICalcOps<CssValue, float>
     {
-        public float ComputeLeafValue (nsCSSValue aValue)
+        public float ComputeLeafValue (CssValue aValue)
         {
             Debug.Assert(aValue.GetUnit() == CssUnit.Number, "unexpected unit");
             return aValue.GetFloatValue();
         }
 
-        public float ComputeNumber (nsCSSValue aValue)
+        public float ComputeNumber (CssValue aValue)
         {
             return CommonUtil.ComputeCalc(aValue, this);
         }
 
-        public CssUnit GetUnit (nsCSSValue aValue)
+        public CssUnit GetUnit (CssValue aValue)
         {
             return aValue.GetUnit();
         }

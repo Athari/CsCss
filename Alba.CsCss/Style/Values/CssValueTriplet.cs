@@ -3,28 +3,28 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{mXValue}, {mYValue}, {mZValue}")]
-    public class nsCSSValueTriplet
+    public class CssValueTriplet
     {
-        internal nsCSSValue mXValue, mYValue, mZValue;
+        internal CssValue mXValue, mYValue, mZValue;
 
-        internal void SetBothValuesTo (nsCSSValue aValue)
+        internal void SetBothValuesTo (CssValue aValue)
         {
             mXValue = mYValue = mZValue = aValue;
         }
 
         // Public interface
 
-        public nsCSSValue X
+        public CssValue X
         {
             get { return mXValue; }
         }
 
-        public nsCSSValue Y
+        public CssValue Y
         {
             get { return mYValue; }
         }
 
-        public nsCSSValue Z
+        public CssValue Z
         {
             get { return mZValue; }
         }

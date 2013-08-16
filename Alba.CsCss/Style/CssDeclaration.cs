@@ -95,12 +95,12 @@ namespace Alba.CsCss.Style
             get { return OrderDataByOrder(mImportantData.mData); }
         }
 
-        public nsCSSValue GetValue (CssProperty prop)
+        public CssValue GetValue (CssProperty prop)
         {
             return mData.ValueFor(prop);
         }
 
-        public nsCSSValue GetImportantValue (CssProperty prop)
+        public CssValue GetImportantValue (CssProperty prop)
         {
             return mData.ValueFor(prop);
         }

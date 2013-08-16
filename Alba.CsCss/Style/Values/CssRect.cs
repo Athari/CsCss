@@ -5,38 +5,38 @@ using Alba.CsCss.Gfx;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{mLeft}, {mTop}, {mRight}, {mBottom}")]
-    public class nsCSSRect
+    public class CssRect
     {
-        internal nsCSSValue mTop, mRight, mBottom, mLeft;
+        internal CssValue mTop, mRight, mBottom, mLeft;
 
-        internal void SetAllSidesTo (nsCSSValue aValue)
+        internal void SetAllSidesTo (CssValue aValue)
         {
             mTop = mRight = mBottom = mLeft = aValue;
         }
 
         // Public interface
 
-        public nsCSSValue Top
+        public CssValue Top
         {
             get { return mTop; }
         }
 
-        public nsCSSValue Right
+        public CssValue Right
         {
             get { return mRight; }
         }
 
-        public nsCSSValue Bottom
+        public CssValue Bottom
         {
             get { return mBottom; }
         }
 
-        public nsCSSValue Left
+        public CssValue Left
         {
             get { return mLeft; }
         }
 
-        public nsCSSValue GetSide (Side side)
+        public CssValue GetSide (Side side)
         {
             switch (side) {
                 case Side.Top:
@@ -52,7 +52,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        public void SetSide (Side side, nsCSSValue aValue)
+        public void SetSide (Side side, CssValue aValue)
         {
             switch (side) {
                 case Side.Top:

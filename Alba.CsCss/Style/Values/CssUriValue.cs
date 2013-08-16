@@ -5,7 +5,7 @@ using Alba.CsCss.Internal;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{mString}")]
-    public class URLValue
+    public class CssUriValue
     {
         internal Uri mURI;
         internal readonly Uri mReferrer;
@@ -13,7 +13,7 @@ namespace Alba.CsCss.Style
         internal readonly nsIPrincipal mOriginPrincipal;
         internal bool mURIResolved;
 
-        internal URLValue (string aString, Uri aBaseURI, Uri aReferrer, nsIPrincipal aOriginPrincipal)
+        internal CssUriValue (string aString, Uri aBaseURI, Uri aReferrer, nsIPrincipal aOriginPrincipal)
         {
             mString = aString;
             mURI = aBaseURI;

@@ -4,7 +4,7 @@
     {
         internal CssMediaFeature mFeature;
         internal RangeType mRange;
-        internal nsCSSValue mValue;
+        internal CssValue mValue;
 
         // Public interface
 
@@ -18,7 +18,7 @@
             get { return mRange; }
         }
 
-        public nsCSSValue Value
+        public CssValue Value
         {
             get { return mValue; }
         }

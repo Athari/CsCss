@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
 {
     internal class nsCSSExpandedDataBlock : nsCSSDataBlock
     {
-        internal readonly nsCSSValue[] mValues = new nsCSSValue[(int)CssProperty.COUNT_no_shorthands];
+        internal readonly CssValue[] mValues = new CssValue[(int)CssProperty.COUNT_no_shorthands];
         internal readonly CssPropertySet mPropertiesSet = new CssPropertySet();
         internal readonly CssPropertySet mPropertiesImportant = new CssPropertySet();
 
@@ -18,7 +18,7 @@ namespace Alba.CsCss.Style
                 Debug.Assert(mValues[i].GetUnit() == CssUnit.Null);
         }
 
-        public void AddLonghandProperty (CssProperty aPropID, nsCSSValue aValue)
+        public void AddLonghandProperty (CssProperty aPropID, CssValue aValue)
         {
             mValues[(int)aPropID] = aValue;
             mPropertiesSet.AddProperty(aPropID);

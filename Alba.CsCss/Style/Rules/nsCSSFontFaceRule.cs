@@ -10,7 +10,7 @@ namespace Alba.CsCss.Style
         internal nsCSSFontFaceRule ()
         {}
 
-        internal void SetDesc (nsCSSFontDesc aDescId, nsCSSValue aValue)
+        internal void SetDesc (nsCSSFontDesc aDescId, CssValue aValue)
         {
             mDecl.SetValue(aDescId, aValue);
         }

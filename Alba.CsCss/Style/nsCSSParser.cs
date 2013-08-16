@@ -5,6 +5,8 @@ using uint8_t = System.SByte;
 using uint16_t = System.Int16;
 using uint32_t = System.Int32;
 using nsresult = System.UInt32; // TODO
+
+// ReSharper disable ParameterTypeCanBeEnumerable.Local
 namespace Alba.CsCss.Style
 {
     internal partial class nsCSSParser
@@ -70,28 +72,28 @@ namespace Alba.CsCss.Style
             return str.StartsWith(value);
         }
 
-        private void AppendValues (CssProperty[] aPropIDs, nsCSSValue aValue)
+        private void AppendValues (CssProperty[] aPropIDs, CssValue aValue)
         {
             foreach (CssProperty aPropId in aPropIDs)
                 if (aPropId != CssProperty.UNKNOWN)
                     AppendValue(aPropId, aValue);
         }
 
-        private bool ParseVariant (nsCSSValue aValue, Action<nsCSSValue> setValue, int32_t _1, int32_t[] _2)
+        private bool ParseVariant (CssValue aValue, Action<CssValue> setValue, int32_t _1, int32_t[] _2)
         {
             var res = ParseVariant(ref aValue, _1, _2);
             setValue(aValue);
             return res;
         }
 
-        private bool ParseNonNegativeVariant (nsCSSValue aValue, Action<nsCSSValue> setValue, int32_t _1, int32_t[] _2)
+        private bool ParseNonNegativeVariant (CssValue aValue, Action<CssValue> setValue, int32_t _1, int32_t[] _2)
         {
             var res = ParseNonNegativeVariant(ref aValue, _1, _2);
             setValue(aValue);
             return res;
         }
 
-        private bool ParseSingleValueProperty (nsCSSValue aValue, Action<nsCSSValue> setValue, CssProperty _1)
+        private bool ParseSingleValueProperty (CssValue aValue, Action<CssValue> setValue, CssProperty _1)
         {
             var res = ParseSingleValueProperty(ref aValue, _1);
             setValue(aValue);
@@ -208,16 +210,16 @@ namespace Alba.CsCss.Style
 
         internal class BackgroundParseState
         {
-            public nsCSSValue mColor;
-            public nsCSSValueList mImage;
-            public nsCSSValuePairList mRepeat;
-            public nsCSSValueList mAttachment;
-            public nsCSSValueList mClip;
-            public nsCSSValueList mOrigin;
-            public nsCSSValueList mPosition;
-            public nsCSSValuePairList mSize;
+            public CssValue mColor;
+            public CssValueList mImage;
+            public CssValuePairList mRepeat;
+            public CssValueList mAttachment;
+            public CssValueList mClip;
+            public CssValueList mOrigin;
+            public CssValueList mPosition;
+            public CssValuePairList mSize;
 
-            public BackgroundParseState (nsCSSValue mColor, nsCSSValueList mImage, nsCSSValuePairList mRepeat, nsCSSValueList mAttachment, nsCSSValueList mClip, nsCSSValueList mOrigin, nsCSSValueList mPosition, nsCSSValuePairList mSize)
+            public BackgroundParseState (CssValue mColor, CssValueList mImage, CssValuePairList mRepeat, CssValueList mAttachment, CssValueList mClip, CssValueList mOrigin, CssValueList mPosition, CssValuePairList mSize)
             {
                 this.mColor = mColor;
                 this.mImage = mImage;

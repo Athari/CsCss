@@ -6,14 +6,14 @@ namespace Alba.CsCss.Style
     public struct CssPropertyValue
     {
         internal CssProperty mProperty;
-        internal nsCSSValue mValue;
+        internal CssValue mValue;
 
         public CssProperty Property
         {
             get { return mProperty; }
         }
 
-        public nsCSSValue Value
+        public CssValue Value
         {
             get { return mValue; }
         }

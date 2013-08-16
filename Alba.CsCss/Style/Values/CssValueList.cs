@@ -6,14 +6,14 @@ using Alba.CsCss.Internal.Extensions;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{mValue} ...")]
-    internal class nsCSSValueList
+    internal class CssValueList
     {
-        internal nsCSSValue mValue;
-        internal nsCSSValueList mNext;
+        internal CssValue mValue;
+        internal CssValueList mNext;
 
         // Public interface
 
-        internal IEnumerable<nsCSSValue> Items
+        internal IEnumerable<CssValue> Items
         {
             get { return this.TraverseList(i => i.mNext).Select(i => i.mValue); }
         }

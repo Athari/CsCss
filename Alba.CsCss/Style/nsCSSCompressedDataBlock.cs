@@ -24,15 +24,15 @@ namespace Alba.CsCss.Style
             return -1;
         }
 
-        internal nsCSSValue ValueFor (CssProperty aProperty)
+        internal CssValue ValueFor (CssProperty aProperty)
         {
             int index = IndexFor(aProperty);
-            return index != -1 ? mData[index].mValue : nsCSSValue.NullValue;
+            return index != -1 ? mData[index].mValue : CssValue.NullValue;
         }
 
         public bool TryReplaceValue (CssProperty aProperty, nsCSSExpandedDataBlock aFromBlock, ref bool aChanged)
         {
-            nsCSSValue newValue = aFromBlock.mValues[(int)aProperty];
+            CssValue newValue = aFromBlock.mValues[(int)aProperty];
 
             int oldValue = IndexFor(aProperty);
             if (oldValue == -1) {

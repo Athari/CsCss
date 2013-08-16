@@ -13,10 +13,19 @@ namespace Alba.CsCss.Style
     using nsCSSProperty = CssProperty;
     using nsCSSPseudoClass = CssPseudoClass;
     using nsCSSPseudoElement = CssPseudoElement;
+    using nsCSSRect = CssRect;
     using nsCSSUnit = CssUnit;
+    using nsCSSValue = CssValue;
+    using nsCSSValueGradient = CssValueGradient;
+    using nsCSSValueGradientStop = CssValueGradientStop;
+    using nsCSSValueList = CssValueList;
+    using nsCSSValuePair = CssValuePair;
+    using nsCSSValuePairList = CssValuePairList;
+    using nsCSSValueTriplet = CssValueTriplet;
     using nsMediaExpression = CssMediaExpression;
     using nsMediaFeature = CssMediaFeature;
     using nsMediaQuery = CssMediaQuery;
+    using URLValue = CssUriValue;
 
     internal partial class nsMediaFeatures
     {

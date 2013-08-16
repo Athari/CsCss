@@ -8,16 +8,16 @@ namespace Alba.CsCss.Style
 {
     public class nsCSSFontFaceStyleDecl
     {
-        private nsCSSValue mFamily;
-        private nsCSSValue mStyle;
-        private nsCSSValue mWeight;
-        private nsCSSValue mStretch;
-        private nsCSSValue mSrc;
-        private nsCSSValue mUnicodeRange;
-        private nsCSSValue mFontFeatureSettings;
-        private nsCSSValue mFontLanguageOverride;
+        private CssValue mFamily;
+        private CssValue mStyle;
+        private CssValue mWeight;
+        private CssValue mStretch;
+        private CssValue mSrc;
+        private CssValue mUnicodeRange;
+        private CssValue mFontFeatureSettings;
+        private CssValue mFontLanguageOverride;
 
-        internal nsCSSValue GetValue (nsCSSFontDesc aDescID)
+        internal CssValue GetValue (nsCSSFontDesc aDescID)
         {
             switch (aDescID) {
                 case nsCSSFontDesc.Family: return mFamily;
@@ -32,7 +32,7 @@ namespace Alba.CsCss.Style
             }
         }
 
-        internal void SetValue (nsCSSFontDesc aDescID, nsCSSValue value)
+        internal void SetValue (nsCSSFontDesc aDescID, CssValue value)
         {
             switch (aDescID) {
                 case nsCSSFontDesc.Family: mFamily = value; break;
@@ -49,42 +49,42 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public nsCSSValue Family
+        public CssValue Family
         {
             get { return mFamily; }
         }
 
-        public nsCSSValue Style
+        public CssValue Style
         {
             get { return mStyle; }
         }
 
-        public nsCSSValue Weight
+        public CssValue Weight
         {
             get { return mWeight; }
         }
 
-        public nsCSSValue Stretch
+        public CssValue Stretch
         {
             get { return mStretch; }
         }
 
-        public nsCSSValue Src
+        public CssValue Src
         {
             get { return mSrc; }
         }
 
-        public nsCSSValue UnicodeRange
+        public CssValue UnicodeRange
         {
             get { return mUnicodeRange; }
         }
 
-        public nsCSSValue FontFeatureSettings
+        public CssValue FontFeatureSettings
         {
             get { return mFontFeatureSettings; }
         }
 
-        public nsCSSValue FontLanguageOverride
+        public CssValue FontLanguageOverride
         {
             get { return mFontLanguageOverride; }
         }

@@ -2,7 +2,7 @@
 {
     internal class nsCSSDataBlock
     {
-        protected static bool MoveValue (ref nsCSSValue aSource, ref nsCSSValue aDest)
+        protected static bool MoveValue (ref CssValue aSource, ref CssValue aDest)
         {
             bool changed = aSource != aDest;
             aDest = aSource;

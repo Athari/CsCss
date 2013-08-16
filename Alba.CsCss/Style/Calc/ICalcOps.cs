@@ -4,7 +4,7 @@ namespace Alba.CsCss.Style
 {
     using TUnit = CssUnit;
 
-    // Here TInput is nsCSSValue and TResult is float, but original code contains more combinations.
+    // Here TInput is CssValue and TResult is float, but original code contains more combinations.
     internal interface ICalcOps<TInput, TResult>
         where TInput : ICalcOpsInput<TInput>
     {

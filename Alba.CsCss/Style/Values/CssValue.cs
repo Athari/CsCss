@@ -9,12 +9,12 @@ using int32_t = System.Int32;
 // ReSharper disable NonReadonlyFieldInGetHashCode
 namespace Alba.CsCss.Style
 {
-    using ICalcOpsInput = ICalcOpsInput<nsCSSValue>;
+    using ICalcOpsInput = ICalcOpsInput<CssValue>;
 
     [DebuggerDisplay ("{mValue}")]
-    public struct nsCSSValue : ICalcOpsInput<nsCSSValue>, IEquatable<nsCSSValue>
+    public struct CssValue : ICalcOpsInput<CssValue>, IEquatable<CssValue>
     {
-        internal static readonly nsCSSValue NullValue = new nsCSSValue();
+        internal static readonly CssValue NullValue = new CssValue();
 
         private CssUnit mUnit /*= CssUnit.Null*/;
         private object mValue;
@@ -36,19 +36,19 @@ namespace Alba.CsCss.Style
             nsCSSValuePairList*         mPairListDependent;
         } mValue;*/
 
-        internal nsCSSValue (CssUnit aUnit)
+        internal CssValue (CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = null;
         }
 
-        internal nsCSSValue (nsCSSValue aValue)
+        internal CssValue (CssValue aValue)
         {
             mUnit = aValue.mUnit;
             mValue = aValue.mValue;
         }
 
-        internal nsCSSValue (int32_t aValue, CssUnit aUnit)
+        internal CssValue (int32_t aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
@@ -58,7 +58,7 @@ namespace Alba.CsCss.Style
             mValue = null;
         }
 
-        internal nsCSSValue (float aValue, CssUnit aUnit)
+        internal CssValue (float aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
@@ -68,7 +68,7 @@ namespace Alba.CsCss.Style
             mValue = null;
         }
 
-        internal nsCSSValue (string aValue, CssUnit aUnit)
+        internal CssValue (string aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
@@ -78,7 +78,7 @@ namespace Alba.CsCss.Style
             mValue = null;
         }
 
-        internal nsCSSValue (nsCSSValue[] aValue, CssUnit aUnit)
+        internal CssValue (CssValue[] aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
@@ -142,9 +142,9 @@ namespace Alba.CsCss.Style
             return (string)mValue;
         }
 
-        internal nsCSSValue[] GetArrayValue ()
+        internal CssValue[] GetArrayValue ()
         {
-            return (nsCSSValue[])mValue;
+            return (CssValue[])mValue;
         }
 
         internal Uri GetURLValue ()
@@ -157,9 +157,9 @@ namespace Alba.CsCss.Style
             return GetURLStructValue().mString;
         }
 
-        internal URLValue GetURLStructValue ()
+        internal CssUriValue GetURLStructValue ()
         {
-            return (URLValue)mValue;
+            return (CssUriValue)mValue;
         }
 
         internal CssColor GetColorValue ()
@@ -167,34 +167,34 @@ namespace Alba.CsCss.Style
             return (CssColor)mValue;
         }
 
-        internal nsCSSValueGradient GetGradientValue ()
+        internal CssValueGradient GetGradientValue ()
         {
-            return (nsCSSValueGradient)mValue;
+            return (CssValueGradient)mValue;
         }
 
-        internal nsCSSRect GetRectValue ()
+        internal CssRect GetRectValue ()
         {
-            return (nsCSSRect)mValue;
+            return (CssRect)mValue;
         }
 
-        internal nsCSSValueList GetListValue ()
+        internal CssValueList GetListValue ()
         {
-            return (nsCSSValueList)mValue;
+            return (CssValueList)mValue;
         }
 
-        internal nsCSSValuePair GetPairValue ()
+        internal CssValuePair GetPairValue ()
         {
-            return (nsCSSValuePair)mValue;
+            return (CssValuePair)mValue;
         }
 
-        internal nsCSSValueTriplet GetTripletValue ()
+        internal CssValueTriplet GetTripletValue ()
         {
-            return (nsCSSValueTriplet)mValue;
+            return (CssValueTriplet)mValue;
         }
 
-        internal nsCSSValuePairList GetPairListValue ()
+        internal CssValuePairList GetPairListValue ()
         {
-            return (nsCSSValuePairList)mValue;
+            return (CssValuePairList)mValue;
         }
 
         internal void SetIntValue (int aValue, CssUnit aUnit)
@@ -235,13 +235,13 @@ namespace Alba.CsCss.Style
             SetStringValue(aValue.ToString(), aUnit);
         }
 
-        internal void SetArrayValue (nsCSSValue[] aValue, CssUnit aUnit)
+        internal void SetArrayValue (CssValue[] aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
         }
 
-        internal void SetURLValue (URLValue aValue)
+        internal void SetURLValue (CssUriValue aValue)
         {
             mUnit = CssUnit.URL;
             mValue = aValue;
@@ -253,61 +253,61 @@ namespace Alba.CsCss.Style
             mValue = aValue;
         }
 
-        internal void SetGradientValue (nsCSSValueGradient aValue)
+        internal void SetGradientValue (CssValueGradient aValue)
         {
             mUnit = CssUnit.Gradient;
             mValue = aValue;
         }
 
-        internal nsCSSRect SetRectValue ()
+        internal CssRect SetRectValue ()
         {
-            var value = new nsCSSRect();
+            var value = new CssRect();
             mUnit = CssUnit.Rect;
             mValue = value;
             return value;
         }
 
-        internal nsCSSValueList SetListValue ()
+        internal CssValueList SetListValue ()
         {
-            var value = new nsCSSValueList();
+            var value = new CssValueList();
             mUnit = CssUnit.List;
             mValue = value;
             return value;
         }
 
-        internal void SetPairValue (nsCSSValuePair aValue)
+        internal void SetPairValue (CssValuePair aValue)
         {
             mUnit = CssUnit.Pair;
             mValue = aValue;
         }
 
-        internal void SetPairValue (nsCSSValue xValue, nsCSSValue yValue)
+        internal void SetPairValue (CssValue xValue, CssValue yValue)
         {
-            SetPairValue(new nsCSSValuePair { mXValue = xValue, mYValue = yValue });
+            SetPairValue(new CssValuePair { mXValue = xValue, mYValue = yValue });
         }
 
-        internal void SetTripletValue (nsCSSValueTriplet aValue)
+        internal void SetTripletValue (CssValueTriplet aValue)
         {
             mUnit = CssUnit.Triplet;
             mValue = aValue;
         }
 
-        internal void SetTripletValue (nsCSSValue xValue, nsCSSValue yValue, nsCSSValue zValue)
+        internal void SetTripletValue (CssValue xValue, CssValue yValue, CssValue zValue)
         {
-            SetTripletValue(new nsCSSValueTriplet { mXValue = xValue, mYValue = yValue, mZValue = zValue });
+            SetTripletValue(new CssValueTriplet { mXValue = xValue, mYValue = yValue, mZValue = zValue });
         }
 
-        internal nsCSSValuePairList SetPairListValue ()
+        internal CssValuePairList SetPairListValue ()
         {
-            var value = new nsCSSValuePairList();
+            var value = new CssValuePairList();
             mUnit = CssUnit.PairList;
             mValue = value;
             return value;
         }
 
-        internal nsCSSValue[] InitFunction (nsCSSKeyword aFunctionId, int aNumArgs)
+        internal CssValue[] InitFunction (nsCSSKeyword aFunctionId, int aNumArgs)
         {
-            var value = new nsCSSValue[aNumArgs + 1];
+            var value = new CssValue[aNumArgs + 1];
             value[0].SetIntValue((int)aFunctionId, CssUnit.Enumerated);
             SetArrayValue(value, CssUnit.Function);
             return value;
@@ -418,14 +418,14 @@ namespace Alba.CsCss.Style
 
         // Comparison
 
-        public bool Equals (nsCSSValue other)
+        public bool Equals (CssValue other)
         {
             return mUnit == other.mUnit && Equals(mValue, other.mValue);
         }
 
         public override bool Equals (object obj)
         {
-            return !ReferenceEquals(obj, null) && obj is nsCSSValue && Equals((nsCSSValue)obj);
+            return !ReferenceEquals(obj, null) && obj is CssValue && Equals((CssValue)obj);
         }
 
         public override int GetHashCode ()
@@ -433,12 +433,12 @@ namespace Alba.CsCss.Style
             return unchecked(((int)mUnit * 397) ^ (mValue != null ? mValue.GetHashCode() : 0));
         }
 
-        public static bool operator == (nsCSSValue left, nsCSSValue right)
+        public static bool operator == (CssValue left, CssValue right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator != (nsCSSValue left, nsCSSValue right)
+        public static bool operator != (CssValue left, CssValue right)
         {
             return !left.Equals(right);
         }
@@ -480,7 +480,7 @@ namespace Alba.CsCss.Style
             get { return GetStringBufferValue(); }
         }
 
-        public IEnumerable<nsCSSValue> Array
+        public IEnumerable<CssValue> Array
         {
             get { return GetArrayValue(); }
         }
@@ -500,37 +500,37 @@ namespace Alba.CsCss.Style
             get { return GetColorValue(); }
         }
 
-        public nsCSSValueGradient Gradient
+        public CssValueGradient Gradient
         {
             get { return GetGradientValue(); }
         }
 
-        public nsCSSRect Rect
+        public CssRect Rect
         {
             get { return GetRectValue(); }
         }
 
-        public IEnumerable<nsCSSValue> List
+        public IEnumerable<CssValue> List
         {
             get { return GetListValue().Items; }
         }
 
-        public nsCSSValuePair Pair
+        public CssValuePair Pair
         {
             get { return GetPairValue(); }
         }
 
-        public nsCSSValueTriplet Triplet
+        public CssValueTriplet Triplet
         {
             get { return GetTripletValue(); }
         }
 
-        public IEnumerable<nsCSSValuePair> PairList
+        public IEnumerable<CssValuePair> PairList
         {
             get { return GetPairListValue().Items; }
         }
 
-        nsCSSValue[] ICalcOpsInput.GetArrayValue ()
+        CssValue[] ICalcOpsInput.GetArrayValue ()
         {
             return GetArrayValue();
         }

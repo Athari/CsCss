@@ -1,18 +1,18 @@
 ﻿namespace Alba.CsCss.Style
 {
-    public class nsCSSValueGradientStop
+    public class CssValueGradientStop
     {
-        internal nsCSSValue mColor;
-        internal nsCSSValue mLocation;
+        internal CssValue mColor;
+        internal CssValue mLocation;
 
         // public interface
 
-        public nsCSSValue Color
+        public CssValue Color
         {
             get { return mColor; }
         }
 
-        public nsCSSValue Location
+        public CssValue Location
         {
             get { return mLocation; }
         }

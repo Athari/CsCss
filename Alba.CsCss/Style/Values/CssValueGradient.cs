@@ -4,63 +4,63 @@ using System.Diagnostics;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("gradient()")]
-    public class nsCSSValueGradient
+    public class CssValueGradient
     {
-        internal readonly List<nsCSSValueGradientStop> mStops = new List<nsCSSValueGradientStop>();
-        internal readonly nsCSSValue[] mRadialValues = new nsCSSValue[2];
+        internal readonly List<CssValueGradientStop> mStops = new List<CssValueGradientStop>();
+        internal readonly CssValue[] mRadialValues = new CssValue[2];
         internal bool mIsRadial, mIsRepeating, mIsExplicitSize, mIsLegacySyntax;
-        internal nsCSSValuePair mBgPos = new nsCSSValuePair();
-        internal nsCSSValue mAngle;
+        internal CssValuePair mBgPos = new CssValuePair();
+        internal CssValue mAngle;
 
-        internal nsCSSValueGradient (bool aIsRadial, bool aIsRepeating)
+        internal CssValueGradient (bool aIsRadial, bool aIsRepeating)
         {
             mIsRadial = aIsRadial;
             mIsRepeating = aIsRepeating;
         }
 
-        internal nsCSSValue GetRadialShape ()
+        internal CssValue GetRadialShape ()
         {
             return mRadialValues[0];
         }
 
-        internal nsCSSValue GetRadialSize ()
+        internal CssValue GetRadialSize ()
         {
             return mRadialValues[1];
         }
 
-        internal nsCSSValue GetRadiusX ()
+        internal CssValue GetRadiusX ()
         {
             return mRadialValues[0];
         }
 
-        internal nsCSSValue GetRadiusY ()
+        internal CssValue GetRadiusY ()
         {
             return mRadialValues[1];
         }
 
-        internal void SetRadialShape (nsCSSValue aValue)
+        internal void SetRadialShape (CssValue aValue)
         {
             mRadialValues[0] = aValue;
         }
 
-        internal void SetRadialSize (nsCSSValue aValue)
+        internal void SetRadialSize (CssValue aValue)
         {
             mRadialValues[1] = aValue;
         }
 
-        internal void SetRadiusX (nsCSSValue aValue)
+        internal void SetRadiusX (CssValue aValue)
         {
             mRadialValues[0] = aValue;
         }
 
-        internal void SetRadiusY (nsCSSValue aValue)
+        internal void SetRadiusY (CssValue aValue)
         {
             mRadialValues[1] = aValue;
         }
 
         // public interface
 
-        public IEnumerable<nsCSSValueGradientStop> Stops
+        public IEnumerable<CssValueGradientStop> Stops
         {
             get { return mStops.AsReadOnly(); }
         }
@@ -80,32 +80,32 @@ namespace Alba.CsCss.Style
             get { return mIsExplicitSize; }
         }
 
-        public nsCSSValuePair BgPos
+        public CssValuePair BgPos
         {
             get { return mBgPos; }
         }
 
-        public nsCSSValue Angle
+        public CssValue Angle
         {
             get { return mAngle; }
         }
 
-        public nsCSSValue RadialShape
+        public CssValue RadialShape
         {
             get { return mRadialValues[0]; }
         }
 
-        public nsCSSValue RadialSize
+        public CssValue RadialSize
         {
             get { return mRadialValues[1]; }
         }
 
-        public nsCSSValue RadiusX
+        public CssValue RadiusX
         {
             get { return mRadialValues[0]; }
         }
 
-        public nsCSSValue RadiusY
+        public CssValue RadiusY
         {
             get { return mRadialValues[1]; }
         }

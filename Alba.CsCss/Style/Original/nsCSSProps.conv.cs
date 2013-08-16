@@ -9,16 +9,25 @@ using uint32_t = System.Int32;
 
 namespace Alba.CsCss.Style
 {
+    using Declaration = CssDeclaration;
+    using nsAttrFunc = CssAttrFunction;
+    using nscolor = CssColor;
     using nsCSSProperty = CssProperty;
     using nsCSSPseudoClass = CssPseudoClass;
     using nsCSSPseudoElement = CssPseudoElement;
+    using nsCSSRect = CssRect;
     using nsCSSUnit = CssUnit;
-    using nsAttrFunc = CssAttrFunction;
-    using nsMediaFeature = CssMediaFeature;
+    using nsCSSValue = CssValue;
+    using nsCSSValueGradient = CssValueGradient;
+    using nsCSSValueGradientStop = CssValueGradientStop;
+    using nsCSSValueList = CssValueList;
+    using nsCSSValuePair = CssValuePair;
+    using nsCSSValuePairList = CssValuePairList;
+    using nsCSSValueTriplet = CssValueTriplet;
     using nsMediaExpression = CssMediaExpression;
+    using nsMediaFeature = CssMediaFeature;
     using nsMediaQuery = CssMediaQuery;
-    using Declaration = CssDeclaration;
-    using nscolor = CssColor;
+    using URLValue = CssUriValue;
 
     internal partial class nsCSSProps
     {
