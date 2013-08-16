@@ -12,9 +12,9 @@ namespace Alba.CsCss.Style
             mName = aName;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.KEYFRAMES;
+            return CssRuleKind.KEYFRAMES;
         }
 
         // Public interface

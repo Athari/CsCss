@@ -4,16 +4,16 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    public class nsAttrSelector
+    public class CssAttrSelector
     {
         internal string mLowercaseAttr, mCasedAttr;
         internal int mNameSpace;
         internal string mValue;
         internal bool mCaseSensitive;
         internal CssAttrFunction mFunction;
-        internal nsAttrSelector mNext;
+        internal CssAttrSelector mNext;
 
-        internal nsAttrSelector (int aNameSpace, string aAttr, CssAttrFunction aFunction = CssAttrFunction.SET, string aValue = null, bool aCaseSensitive = true)
+        internal CssAttrSelector (int aNameSpace, string aAttr, CssAttrFunction aFunction = CssAttrFunction.SET, string aValue = null, bool aCaseSensitive = true)
         {
             mNameSpace = aNameSpace;
             mCasedAttr = String.Intern(aAttr);
@@ -23,7 +23,7 @@ namespace Alba.CsCss.Style
             mCaseSensitive = aCaseSensitive;
         }
 
-        internal static void AddItem (ref nsAttrSelector @this, nsAttrSelector item)
+        internal static void AddItem (ref CssAttrSelector @this, CssAttrSelector item)
         {
             while (@this != null)
                 @this = @this.mNext;
@@ -72,7 +72,7 @@ namespace Alba.CsCss.Style
             get { return mValue; }
         }
 
-        internal IEnumerable<nsAttrSelector> Items
+        internal IEnumerable<CssAttrSelector> Items
         {
             get { return this.TraverseList(i => i.mNext); }
         }

@@ -4,19 +4,19 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    public class nsCSSSelector
+    public class CssSelector
     {
         // For case-sensitive documents, mLowercaseTag is the same as mCasedTag, but in case-insensitive documents (HTML) mLowercaseTag is lowercase.
         // Also, for pseudo-elements mCasedTag will be null but mLowercaseTag contains their name.
         internal string mLowercaseTag, mCasedTag;
         internal int mNameSpace = nsNameSpace.Unknown;
         internal char mOperator;
-        internal nsCSSSelector mNegations;
+        internal CssSelector mNegations;
         internal CssPseudoElement mPseudoType = CssPseudoElement.NotPseudoElement;
         internal nsAtomList mIDList, mClassList;
-        internal nsPseudoClassList mPseudoClassList;
-        internal nsAttrSelector mAttrList;
-        internal nsCSSSelector mNext;
+        internal CssPseudoClassSelector mPseudoClassList;
+        internal CssAttrSelector mAttrList;
+        internal CssSelector mNext;
 
         internal void AddClass (string aClass)
         {
@@ -32,42 +32,42 @@ namespace Alba.CsCss.Style
 
         internal void AddAttribute (int aNameSpace, string aAttr, CssAttrFunction aFunc, string aValue, bool aCaseSensitive)
         {
-            AddAttributeInternal(new nsAttrSelector(aNameSpace, aAttr, aFunc, aValue, aCaseSensitive));
+            AddAttributeInternal(new CssAttrSelector(aNameSpace, aAttr, aFunc, aValue, aCaseSensitive));
         }
 
         internal void AddAttribute (int aNameSpace, string aAttr)
         {
-            AddAttributeInternal(new nsAttrSelector(aNameSpace, aAttr));
+            AddAttributeInternal(new CssAttrSelector(aNameSpace, aAttr));
         }
 
-        internal void AddAttributeInternal (nsAttrSelector aAttribute)
+        internal void AddAttributeInternal (CssAttrSelector aAttribute)
         {
-            nsAttrSelector.AddItem(ref mAttrList, aAttribute);
+            CssAttrSelector.AddItem(ref mAttrList, aAttribute);
         }
 
         internal void AddPseudoClass (CssPseudoClass aType, string aString)
         {
-            AddPseudoClassInternal(new nsPseudoClassList(aType, aString));
+            AddPseudoClassInternal(new CssPseudoClassSelector(aType, aString));
         }
 
         internal void AddPseudoClass (CssPseudoClass aType, int[] aIntPair)
         {
-            AddPseudoClassInternal(new nsPseudoClassList(aType, aIntPair));
+            AddPseudoClassInternal(new CssPseudoClassSelector(aType, aIntPair));
         }
 
-        internal void AddPseudoClass (CssPseudoClass aType, nsCSSSelectorList aSelectorList)
+        internal void AddPseudoClass (CssPseudoClass aType, CssSelectorGroup aSelectorList)
         {
-            AddPseudoClassInternal(new nsPseudoClassList(aType, aSelectorList));
+            AddPseudoClassInternal(new CssPseudoClassSelector(aType, aSelectorList));
         }
 
         internal void AddPseudoClass (CssPseudoClass aType)
         {
-            AddPseudoClassInternal(new nsPseudoClassList(aType));
+            AddPseudoClassInternal(new CssPseudoClassSelector(aType));
         }
 
-        internal void AddPseudoClassInternal (nsPseudoClassList aPseudoClass)
+        internal void AddPseudoClassInternal (CssPseudoClassSelector aPseudoClass)
         {
-            nsPseudoClassList.AddItem(ref mPseudoClassList, aPseudoClass);
+            CssPseudoClassSelector.AddItem(ref mPseudoClassList, aPseudoClass);
         }
 
         internal bool IsPseudoElement ()
@@ -137,7 +137,7 @@ namespace Alba.CsCss.Style
             get { return mOperator; }
         }
 
-        public IEnumerable<nsCSSSelector> Negations
+        public IEnumerable<CssSelector> Negations
         {
             get { return mNegations.Items; }
         }
@@ -157,17 +157,17 @@ namespace Alba.CsCss.Style
             get { return mClassList.Items; }
         }
 
-        public IEnumerable<nsPseudoClassList> PseudoClasses
+        public IEnumerable<CssPseudoClassSelector> PseudoClasses
         {
             get { return mPseudoClassList.Items; }
         }
 
-        public IEnumerable<nsAttrSelector> Attrs
+        public IEnumerable<CssAttrSelector> Attrs
         {
             get { return mAttrList.Items; }
         }
 
-        internal IEnumerable<nsCSSSelector> Items
+        internal IEnumerable<CssSelector> Items
         {
             get { return this.TraverseList(i => i.mNext); }
         }

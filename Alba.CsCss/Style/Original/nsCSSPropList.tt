@@ -127,7 +127,7 @@ namespace Alba.CsCss.Style
 
         public static readonly int[] kParserVariantTable = {
 <#+       foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
-            <#=prop.ParseVariant.Replace("VARIANT_", "nsCSSParser.VARIANT_")#>,
+            <#=prop.ParseVariant.Replace("VARIANT_", "CssParser.VARIANT_")#>,
 <#+       } #>
         };
 

@@ -12,9 +12,9 @@ namespace Alba.CsCss.Style
             mDeclaration = aDeclaration;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.PAGE;
+            return CssRuleKind.PAGE;
         }
 
         // Public interface

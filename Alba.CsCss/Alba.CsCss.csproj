@@ -87,24 +87,27 @@
     <Compile Include="Style\Media\Original\nsMediaFeatures.conv.cs">
       <DependentUpon>nsMediaFeatures.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\nsAttrSelector.cs" />
+    <Compile Include="Style\CssAttrSelector.cs" />
     <Compile Include="Style\nsCachedStyleData.cs" />
     <Compile Include="Style\nsCSSAnonBoxes.cs" />
     <Compile Include="Style\nsCSSCompressedDataBlock.cs" />
     <Compile Include="Style\nsCSSDataBlock.cs" />
     <Compile Include="Style\nsCSSExpandedDataBlock.cs" />
     <Compile Include="Style\nsCSSKeywords.cs" />
-    <Compile Include="Style\nsCSSParser.cs" />
+    <Compile Include="Style\CssParser.cs" />
     <Compile Include="Style\CssPropertySet.cs" />
     <Compile Include="Style\nsCSSProps.cs" />
     <Compile Include="Style\nsCSSPseudoClasses.cs" />
     <Compile Include="Style\nsCSSPseudoElements.cs" />
-    <Compile Include="Style\nsCSSSelector.cs" />
-    <Compile Include="Style\nsCSSSelectorList.cs" />
-    <Compile Include="Style\nsCSSStyleSheet.cs" />
-    <Compile Include="Style\nsPseudoClassList.cs" />
+    <Compile Include="Style\CssSelector.cs" />
+    <Compile Include="Style\CssSelectorGroup.cs" />
+    <Compile Include="Style\CssStyleSheet.cs" />
+    <Compile Include="Style\CssPseudoClassSelector.cs" />
     <Compile Include="Style\Original\CssAttrFunction.conv.cs">
       <DependentUpon>StyleRule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssFontFace.g.cs">
+      <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\CssProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
@@ -157,9 +160,6 @@
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\Original\nsCSSFontFaceStyleDecl.g.cs">
-      <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
-    </Compile>
     <Compile Include="Style\Original\nsCSSKeyword.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
     </Compile>
@@ -204,7 +204,7 @@
     <Compile Include="Style\Rules\CssKeyframesRule.cs" />
     <Compile Include="Style\Rules\CssPageRule.cs" />
     <Compile Include="Style\Rules\CssRule.cs" />
-    <Compile Include="Style\Rules\RuleKind.cs" />
+    <Compile Include="Style\Rules\CssRuleKind.cs" />
     <Compile Include="Style\Rules\CssStyleRule.cs" />
     <Compile Include="Style\Values\CssUriValue.cs" />
   </ItemGroup>

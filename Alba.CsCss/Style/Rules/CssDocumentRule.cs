@@ -18,9 +18,9 @@ namespace Alba.CsCss.Style
             mURLs = aURLs;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.DOCUMENT;
+            return CssRuleKind.DOCUMENT;
         }
 
         // Public interface

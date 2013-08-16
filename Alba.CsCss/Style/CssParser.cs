@@ -9,7 +9,7 @@ using nsresult = System.UInt32; // TODO
 // ReSharper disable ParameterTypeCanBeEnumerable.Local
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSParser
+    internal partial class CssParser
     {
         private readonly nsCSSToken mToken = new nsCSSToken();
         private nsCSSScanner mScanner;
@@ -17,7 +17,7 @@ namespace Alba.CsCss.Style
         private Uri mBaseURI;
         private Uri mSheetURI;
         private nsIPrincipal mSheetPrincipal;
-        private nsCSSStyleSheet mSheet;
+        private CssStyleSheet mSheet;
         private CssLoader mChildLoader;
         private nsCSSSection mSection;
         private nsXMLNameSpaceMap mNameSpaceMap;
@@ -157,9 +157,9 @@ namespace Alba.CsCss.Style
 
         private struct nsAutoParseCompoundProperty : IDisposable
         {
-            private readonly nsCSSParser mParser;
+            private readonly CssParser mParser;
 
-            public nsAutoParseCompoundProperty (nsCSSParser aParser)
+            public nsAutoParseCompoundProperty (CssParser aParser)
             {
                 mParser = aParser;
                 mParser.SetParsingCompoundProperty(true);
@@ -173,10 +173,10 @@ namespace Alba.CsCss.Style
 
         private struct nsAutoFailingSupportsRule : IDisposable
         {
-            private readonly nsCSSParser mParser;
+            private readonly CssParser mParser;
             private readonly bool mOriginalValue;
 
-            public nsAutoFailingSupportsRule (nsCSSParser aParser, bool aCondition)
+            public nsAutoFailingSupportsRule (CssParser aParser, bool aCondition)
             {
                 mParser = aParser;
                 mOriginalValue = mParser.mInFailingSupportsRule;
@@ -192,10 +192,10 @@ namespace Alba.CsCss.Style
 
         private struct nsAutoSuppressErrors : IDisposable
         {
-            private readonly nsCSSParser mParser;
+            private readonly CssParser mParser;
             private readonly bool mOriginalValue;
 
-            public nsAutoSuppressErrors (nsCSSParser aParser, bool aSuppressErrors = true)
+            public nsAutoSuppressErrors (CssParser aParser, bool aSuppressErrors = true)
             {
                 mParser = aParser;
                 mOriginalValue = mParser.mSuppressErrors;

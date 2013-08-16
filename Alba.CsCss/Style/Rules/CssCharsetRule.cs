@@ -13,9 +13,9 @@ namespace Alba.CsCss.Style
             mEncoding = aEncoding;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.CHARSET;
+            return CssRuleKind.CHARSET;
         }
 
         // Public interface

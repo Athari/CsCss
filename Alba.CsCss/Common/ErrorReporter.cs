@@ -5,7 +5,7 @@ namespace Alba.CsCss
 {
     internal class ErrorReporter
     {
-        public ErrorReporter (nsCSSScanner scanner, nsCSSStyleSheet mSheet, CssLoader mChildLoader, Uri aUri)
+        public ErrorReporter (nsCSSScanner scanner, CssStyleSheet mSheet, CssLoader mChildLoader, Uri aUri)
         {
             // TODO
         }

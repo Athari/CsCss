@@ -16,12 +16,12 @@ namespace Alba.CsCss.Style
             mMedia = aMedia;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.MEDIA;
+            return CssRuleKind.MEDIA;
         }
 
-        internal override void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal override void SetStyleSheet (CssStyleSheet aSheet)
         {
             if (mMedia != null) {
                 mMedia.SetStyleSheet(null);

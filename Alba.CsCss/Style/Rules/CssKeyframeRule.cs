@@ -15,9 +15,9 @@ namespace Alba.CsCss.Style
             mDeclaration = aDeclaration;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.KEYFRAME;
+            return CssRuleKind.KEYFRAME;
         }
 
         // Public interface

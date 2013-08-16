@@ -5,26 +5,26 @@ namespace Alba.CsCss.Style
 {
     internal class CssLoader
     {
-        public BrowserCompatibility CompatibilityMode { get; set; }
+        public BrowserCompatibility Compatibility { get; set; }
 
         public CssLoader ()
         {
-            CompatibilityMode = BrowserCompatibility.FullStandards;
+            Compatibility = BrowserCompatibility.FullStandards;
         }
 
-        public nsCSSStyleSheet ParseSheet (string aInput, Uri sheetUrl, Uri baseUrl)
+        public CssStyleSheet ParseSheet (string aInput, Uri sheetUrl, Uri baseUrl)
         {
-            var sheet = new nsCSSStyleSheet();
+            var sheet = new CssStyleSheet();
             sheet.SetURIs(sheetUrl, baseUrl);
-            var parser = new nsCSSParser();
+            var parser = new CssParser();
             parser.SetChildLoader(this);
-            parser.SetQuirkMode(CompatibilityMode == BrowserCompatibility.NavQuirks);
+            parser.SetQuirkMode(Compatibility == BrowserCompatibility.Quirks);
             parser.SetStyleSheet(sheet);
             parser.ParseSheet(aInput, sheetUrl, baseUrl, nsIPrincipal.Default, 1, false);
             return sheet;
         }
 
-        public void LoadChildSheet (nsCSSStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
+        public void LoadChildSheet (CssStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
         {}
     }
 }

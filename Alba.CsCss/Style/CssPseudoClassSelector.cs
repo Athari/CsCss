@@ -3,31 +3,31 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    public class nsPseudoClassList
+    public class CssPseudoClassSelector
     {
         internal CssPseudoClass mType;
-        internal nsPseudoClassList mNext;
+        internal CssPseudoClassSelector mNext;
         private object mData;
 
-        internal nsPseudoClassList (CssPseudoClass aType, string aString)
+        internal CssPseudoClassSelector (CssPseudoClass aType, string aString)
         {
             mType = aType;
             mString = aString;
         }
 
-        internal nsPseudoClassList (CssPseudoClass aType, int[] aNumbers)
+        internal CssPseudoClassSelector (CssPseudoClass aType, int[] aNumbers)
         {
             mType = aType;
             mNumbers = aNumbers;
         }
 
-        internal nsPseudoClassList (CssPseudoClass aType, nsCSSSelectorList aSelectors)
+        internal CssPseudoClassSelector (CssPseudoClass aType, CssSelectorGroup aSelectors)
         {
             mType = aType;
             mSelectors = aSelectors;
         }
 
-        internal nsPseudoClassList (CssPseudoClass aType)
+        internal CssPseudoClassSelector (CssPseudoClass aType)
         {
             mType = aType;
             mData = null;
@@ -45,13 +45,13 @@ namespace Alba.CsCss.Style
             set { mData = value; }
         }
 
-        internal nsCSSSelectorList mSelectors
+        internal CssSelectorGroup mSelectors
         {
-            get { return (nsCSSSelectorList)mData; }
+            get { return (CssSelectorGroup)mData; }
             set { mData = value; }
         }
 
-        internal static void AddItem (ref nsPseudoClassList @this, nsPseudoClassList item)
+        internal static void AddItem (ref CssPseudoClassSelector @this, CssPseudoClassSelector item)
         {
             while (@this != null)
                 @this = @this.mNext;
@@ -59,6 +59,11 @@ namespace Alba.CsCss.Style
         }
 
         // Public interface
+
+        public CssPseudoClass Type
+        {
+            get { return mType; }
+        }
 
         public string String
         {
@@ -70,12 +75,12 @@ namespace Alba.CsCss.Style
             get { return mNumbers; }
         }
 
-        public IEnumerable<nsCSSSelectorList> Selectors
+        public IEnumerable<CssSelectorGroup> SelectorGroups
         {
             get { return mSelectors.Items; }
         }
 
-        internal IEnumerable<nsPseudoClassList> Items
+        internal IEnumerable<CssPseudoClassSelector> Items
         {
             get { return this.TraverseList(i => i.mNext); }
         }

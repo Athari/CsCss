@@ -3,18 +3,18 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    public class nsCSSSelectorList
+    public class CssSelectorGroup
     {
-        internal nsCSSSelectorList mNext;
-        internal nsCSSSelector mSelectors;
+        internal CssSelectorGroup mNext;
+        internal CssSelector mSelectors;
         internal int mWeight;
 
-        internal nsCSSSelectorList ()
+        internal CssSelectorGroup ()
         {}
 
-        internal nsCSSSelector AddSelector (char aOperator)
+        internal CssSelector AddSelector (char aOperator)
         {
-            var newSel = new nsCSSSelector();
+            var newSel = new CssSelector();
             if (mSelectors != null)
                 mSelectors.SetOperator(aOperator);
             newSel.mNext = mSelectors;
@@ -24,7 +24,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<nsCSSSelector> Selectors
+        public IEnumerable<CssSelector> Selectors
         {
             get { return mSelectors.Items; }
         }
@@ -34,7 +34,7 @@ namespace Alba.CsCss.Style
             get { return mWeight; }
         }
 
-        internal IEnumerable<nsCSSSelectorList> Items
+        internal IEnumerable<CssSelectorGroup> Items
         {
             get { return this.TraverseList(i => i.mNext); }
         }

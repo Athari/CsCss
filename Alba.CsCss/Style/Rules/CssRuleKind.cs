@@ -1,7 +1,7 @@
 ﻿namespace Alba.CsCss.Style
 {
     // from Rule.h
-    public enum RuleKind
+    public enum CssRuleKind
     {
         UNKNOWN = 0,
         CHARSET,

@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
     internal class nsMediaList
     {
         private readonly List<CssMediaQuery> mArray = new List<CssMediaQuery>();
-        private nsCSSStyleSheet mStyleSheet;
+        private CssStyleSheet mStyleSheet;
 
         internal void AppendQuery (CssMediaQuery query)
         {
@@ -22,7 +22,7 @@ namespace Alba.CsCss.Style
             return mArray.Count;
         }
 
-        internal void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal void SetStyleSheet (CssStyleSheet aSheet)
         {
             mStyleSheet = aSheet;
         }

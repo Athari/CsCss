@@ -15,9 +15,9 @@ namespace Alba.CsCss.Style
             mUrlSpec = aUrlSpec;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.IMPORT;
+            return CssRuleKind.IMPORT;
         }
 
         // Public interface

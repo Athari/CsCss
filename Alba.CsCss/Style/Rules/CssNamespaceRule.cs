@@ -24,9 +24,9 @@ namespace Alba.CsCss.Style
             return mUrlSpec;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.NAMESPACE;
+            return CssRuleKind.NAMESPACE;
         }
 
         // Public interface

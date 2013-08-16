@@ -48,7 +48,15 @@
         { "nsCSSKeyframesRule", "CssKeyframesRule" },
         { "nsCSSPageRule", "CssPageRule" },
         { "StyleRule", "CssStyleRule" },
+        { "nsCSSSelector", "CssSelector" },
+        { "nsCSSSelectorList", "CssSelectorGroup" },
+        { "nsCSSStyleSheet", "CssStyleSheet" },
+        { "nsCSSFontFaceStyleDecl", "CssFontFace" },
+        { "nsAttrSelector", "CssAttrSelector" },
+        { "nsPseudoClassList", "CssPseudoClassSelector" },
+        { "nsCSSParser", "CssParser" },
         { "Declaration", "CssDeclaration" },
+        { "RuleKind", "CssRuleKind" },
         { "nscolor", "CssColor" },
     };
 

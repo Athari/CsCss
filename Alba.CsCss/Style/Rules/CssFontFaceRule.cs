@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay (@"@font-face \{ font-family: {mDecl.mFamily}; src: {mDecl.mSrc} \}")]
     public class CssFontFaceRule : CssRule
     {
-        private readonly nsCSSFontFaceStyleDecl mDecl = new nsCSSFontFaceStyleDecl();
+        private readonly CssFontFace mDecl = new CssFontFace();
 
         internal CssFontFaceRule ()
         {}
@@ -15,14 +15,14 @@ namespace Alba.CsCss.Style
             mDecl.SetValue(aDescId, aValue);
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.FONT_FACE;
+            return CssRuleKind.FONT_FACE;
         }
 
         // Public interface
 
-        public nsCSSFontFaceStyleDecl Font
+        public CssFontFace Font
         {
             get { return mDecl; }
         }

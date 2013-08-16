@@ -6,11 +6,11 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay (@"{mSelector} \{ {mDeclaration.DebugDisplayCount,nq} \}")]
     public class CssStyleRule : CssRule
     {
-        private readonly nsCSSSelectorList mSelector;
+        private readonly CssSelectorGroup mSelector;
         private readonly CssDeclaration mDeclaration;
         private int mLineNumber;
 
-        internal CssStyleRule (nsCSSSelectorList aSelector, CssDeclaration aDeclaration)
+        internal CssStyleRule (CssSelectorGroup aSelector, CssDeclaration aDeclaration)
         {
             mSelector = aSelector;
             mDeclaration = aDeclaration;
@@ -21,14 +21,14 @@ namespace Alba.CsCss.Style
             mLineNumber = aLineNumber;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.STYLE;
+            return CssRuleKind.STYLE;
         }
 
         // Public interface
 
-        public IEnumerable<nsCSSSelectorList> SelectorGroups
+        public IEnumerable<CssSelectorGroup> SelectorGroups
         {
             get { return mSelector.Items; }
         }

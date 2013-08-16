@@ -6,7 +6,7 @@
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSFontDescList.g.txt", () => GenerateCssFontDescListText());
     T4.GenerateFile("nsCSSFontDesc.g.cs", () => GenerateCssFontDesc());
-    T4.GenerateFile("nsCSSFontFaceStyleDecl.g.cs", () => GenerateCssFontFaceStyleDecl());
+    T4.GenerateFile("CssFontFace.g.cs", () => GenerateCssFontFace());
     T4.GenerateFile("nsCSSProps.CSSFontDescList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
@@ -41,7 +41,7 @@ namespace Alba.CsCss.Style
 }
 <#+ } /* void GenerateCssFontDesc */ #>
 
-<#+ void GenerateCssFontFaceStyleDecl () { #>
+<#+ void GenerateCssFontFace () { #>
 //
 // Generated file. Do not edit manually.
 //
@@ -50,7 +50,7 @@ using System;
 
 namespace Alba.CsCss.Style
 {
-    public class nsCSSFontFaceStyleDecl
+    public class CssFontFace
     {
 <#+   foreach (CssFontDesc desc in GetCssFontDescs()) { #>
         private CssValue m<#=desc.Method#>;
@@ -87,7 +87,7 @@ namespace Alba.CsCss.Style
 <#+   } #>
     }
 }
-<#+ } /* void GenerateCssFontFaceStyleDecl */ #>
+<#+ } /* void GenerateCssFontFace */ #>
 
 <#+ void GenerateCssProps () { #>
 //

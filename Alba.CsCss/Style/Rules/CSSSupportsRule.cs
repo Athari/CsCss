@@ -20,9 +20,9 @@ namespace Alba.CsCss.Style
             return true;
         }
 
-        internal override RuleKind GetKind ()
+        internal override CssRuleKind GetKind ()
         {
-            return RuleKind.SUPPORTS;
+            return CssRuleKind.SUPPORTS;
         }
 
         // Public interface

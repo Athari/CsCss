@@ -12,7 +12,7 @@ namespace Alba.CsCss.Style
             mRules.Add(aRule);
         }
 
-        internal override void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal override void SetStyleSheet (CssStyleSheet aSheet)
         {
             if (aSheet == GetStyleSheet())
                 return;

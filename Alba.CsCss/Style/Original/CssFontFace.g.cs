@@ -6,7 +6,7 @@ using System;
 
 namespace Alba.CsCss.Style
 {
-    public class nsCSSFontFaceStyleDecl
+    public class CssFontFace
     {
         private CssValue mFamily;
         private CssValue mStyle;

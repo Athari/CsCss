@@ -49,7 +49,7 @@ namespace Alba.CsCss.Style
 {
 <#+ WriteTypeRenames(); #>
 
-    internal partial class nsCSSParser
+    internal partial class CssParser
     {
 <#+   foreach (string line in ConvertVariantDefines(source)) { #>
         <#=line#>

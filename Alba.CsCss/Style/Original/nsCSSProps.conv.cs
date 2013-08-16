@@ -18,15 +18,21 @@ namespace Alba.CsCss.Style
     using MediaRule = CssMediaRule;
     using NameSpaceRule = CssNamespaceRule;
     using nsAttrFunc = CssAttrFunction;
+    using nsAttrSelector = CssAttrSelector;
     using nscolor = CssColor;
     using nsCSSFontFaceRule = CssFontFaceRule;
+    using nsCSSFontFaceStyleDecl = CssFontFace;
     using nsCSSKeyframeRule = CssKeyframeRule;
     using nsCSSKeyframesRule = CssKeyframesRule;
     using nsCSSPageRule = CssPageRule;
+    using nsCSSParser = CssParser;
     using nsCSSProperty = CssProperty;
     using nsCSSPseudoClass = CssPseudoClass;
     using nsCSSPseudoElement = CssPseudoElement;
     using nsCSSRect = CssRect;
+    using nsCSSSelector = CssSelector;
+    using nsCSSSelectorList = CssSelectorGroup;
+    using nsCSSStyleSheet = CssStyleSheet;
     using nsCSSUnit = CssUnit;
     using nsCSSValue = CssValue;
     using nsCSSValueGradient = CssValueGradient;
@@ -38,7 +44,9 @@ namespace Alba.CsCss.Style
     using nsMediaExpression = CssMediaExpression;
     using nsMediaFeature = CssMediaFeature;
     using nsMediaQuery = CssMediaQuery;
+    using nsPseudoClassList = CssPseudoClassSelector;
     using Rule = CssRule;
+    using RuleKind = CssRuleKind;
     using StyleRule = CssStyleRule;
     using URLValue = CssUriValue;
 

@@ -2,23 +2,23 @@
 {
     public abstract class CssRule
     {
-        private nsCSSStyleSheet mSheet;
+        private CssStyleSheet mSheet;
 
-        internal virtual void SetStyleSheet (nsCSSStyleSheet aSheet)
+        internal virtual void SetStyleSheet (CssStyleSheet aSheet)
         {
             mSheet = aSheet;
         }
 
-        internal nsCSSStyleSheet GetStyleSheet ()
+        internal CssStyleSheet GetStyleSheet ()
         {
             return mSheet;
         }
 
-        internal abstract RuleKind GetKind ();
+        internal abstract CssRuleKind GetKind ();
 
         // Public interface
 
-        public RuleKind Kind
+        public CssRuleKind Kind
         {
             get { return GetKind(); }
         }
