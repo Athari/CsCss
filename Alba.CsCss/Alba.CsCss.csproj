@@ -196,7 +196,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
     <Compile Include="Style\Rules\CssCharsetRule.cs" />
-    <Compile Include="Style\Rules\CssSupportsRule_.cs" />
+    <Compile Include="Style\Rules\CssSupportsRule.cs" />
     <Compile Include="Style\Rules\CssDocumentRule.cs" />
     <Compile Include="Style\Rules\CssGroupRule.cs" />
     <Compile Include="Style\Rules\CssImportRule.cs" />
