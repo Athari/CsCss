@@ -13,9 +13,9 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        internal IEnumerable<CssValue> Items
+        internal static IEnumerable<CssValue> TraverseList (CssValueList @this)
         {
-            get { return this.TraverseList(i => i.mNext).Select(i => i.mValue); }
+            return @this.TraverseList(i => i.mNext).Select(i => i.mValue);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssSelector> Selectors
         {
-            get { return mSelectors.Items; }
+            get { return CssSelector.TraverseList(mSelectors); }
         }
 
         public int Weight
@@ -34,9 +34,9 @@ namespace Alba.CsCss.Style
             get { return mWeight; }
         }
 
-        internal IEnumerable<CssSelectorGroup> Items
+        internal static IEnumerable<CssSelectorGroup> TraverseList (CssSelectorGroup @this)
         {
-            get { return this.TraverseList(i => i.mNext); }
+            return @this.TraverseList(i => i.mNext);
         }
     }
 }

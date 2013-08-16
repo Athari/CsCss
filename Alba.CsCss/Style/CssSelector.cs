@@ -139,7 +139,7 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssSelector> Negations
         {
-            get { return mNegations.Items; }
+            get { return TraverseList(mNegations); }
         }
 
         public CssPseudoElement PseudoType
@@ -149,27 +149,27 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<string> Ids
         {
-            get { return mIDList.Items; }
+            get { return nsAtomList.TraverseList(mIDList); }
         }
 
         public IEnumerable<string> Classes
         {
-            get { return mClassList.Items; }
+            get { return nsAtomList.TraverseList(mClassList); }
         }
 
         public IEnumerable<CssPseudoClassSelector> PseudoClasses
         {
-            get { return mPseudoClassList.Items; }
+            get { return CssPseudoClassSelector.TraverseList(mPseudoClassList); }
         }
 
         public IEnumerable<CssAttrSelector> Attrs
         {
-            get { return mAttrList.Items; }
+            get { return CssAttrSelector.TraverseList(mAttrList); }
         }
 
-        internal IEnumerable<CssSelector> Items
+        internal static IEnumerable<CssSelector> TraverseList (CssSelector @this)
         {
-            get { return this.TraverseList(i => i.mNext); }
+            return @this.TraverseList(i => i.mNext);
         }
     }
 }

@@ -512,7 +512,7 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssValue> List
         {
-            get { return GetListValue().Items; }
+            get { return CssValueList.TraverseList(GetListValue()); }
         }
 
         public CssValuePair Pair
@@ -527,7 +527,7 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssValuePair> PairList
         {
-            get { return GetPairListValue().Items; }
+            get { return CssValuePairList.TraverseList(GetPairListValue()); }
         }
 
         CssValue[] ICalcOpsInput.GetArrayValue ()

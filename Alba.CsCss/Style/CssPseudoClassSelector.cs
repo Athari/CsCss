@@ -77,12 +77,12 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssSelectorGroup> SelectorGroups
         {
-            get { return mSelectors.Items; }
+            get { return CssSelectorGroup.TraverseList(mSelectors); }
         }
 
-        internal IEnumerable<CssPseudoClassSelector> Items
+        internal static IEnumerable<CssPseudoClassSelector> TraverseList (CssPseudoClassSelector @this)
         {
-            get { return this.TraverseList(i => i.mNext); }
+            return @this.TraverseList(i => i.mNext);
         }
     }
 }

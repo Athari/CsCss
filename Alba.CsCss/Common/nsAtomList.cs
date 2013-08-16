@@ -27,9 +27,9 @@ namespace Alba.CsCss
 
         // Public interface
 
-        internal IEnumerable<string> Items
+        internal static IEnumerable<string> TraverseList (nsAtomList @this)
         {
-            get { return this.TraverseList(i => i.mNext).Select(i => i.mAtom); }
+            return @this.TraverseList(i => i.mNext).Select(i => i.mAtom);
         }
     }
 }

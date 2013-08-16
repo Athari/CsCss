@@ -38,7 +38,7 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<CssSelectorGroup> SelectorGroups
         {
-            get { return mSelector.Items; }
+            get { return CssSelectorGroup.TraverseList(mSelector); }
         }
 
         public CssDeclaration Declaration

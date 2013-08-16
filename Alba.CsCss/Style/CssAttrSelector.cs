@@ -72,9 +72,9 @@ namespace Alba.CsCss.Style
             get { return mValue; }
         }
 
-        internal IEnumerable<CssAttrSelector> Items
+        internal static IEnumerable<CssAttrSelector> TraverseList (CssAttrSelector @this)
         {
-            get { return this.TraverseList(i => i.mNext); }
+            return @this.TraverseList(i => i.mNext);
         }
     }
 }
