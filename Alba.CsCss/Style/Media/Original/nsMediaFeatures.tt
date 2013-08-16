@@ -22,12 +22,12 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsMediaFeatures
     {
-        private static readonly List<nsMediaFeature> features = new List<nsMediaFeature> {
-<#=         ConvertMediaFeaturesSource(source).Unindent(4).Indent(12) #>
-            //new nsMediaFeature()
+        private static readonly List<CssMediaFeature> features = new List<CssMediaFeature> {
+<#=         Refactor(ConvertMediaFeaturesSource(source).Unindent(4).Indent(12)) #>
+            //new CssMediaFeature()
         };
 
-        private static readonly nsMediaFeature EmptyFeature = new nsMediaFeature();
+        private static readonly CssMediaFeature EmptyFeature = new CssMediaFeature();
     }
 }
 <#+

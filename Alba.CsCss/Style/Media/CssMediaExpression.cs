@@ -1,14 +1,14 @@
 ﻿namespace Alba.CsCss.Style
 {
-    public class nsMediaExpression
+    public class CssMediaExpression
     {
-        internal nsMediaFeature mFeature;
+        internal CssMediaFeature mFeature;
         internal RangeType mRange;
         internal nsCSSValue mValue;
 
         // Public interface
 
-        public nsMediaFeature Feature
+        public CssMediaFeature Feature
         {
             get { return mFeature; }
         }

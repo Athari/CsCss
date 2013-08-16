@@ -27,7 +27,7 @@ namespace Alba.CsCss.Style
             get { return mUrlSpec; }
         }
 
-        public IEnumerable<nsMediaQuery> MediaQueries
+        public IEnumerable<CssMediaQuery> MediaQueries
         {
             get { return mMedia.Queries; }
         }

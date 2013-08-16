@@ -32,7 +32,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<nsMediaQuery> MediaQueries
+        public IEnumerable<CssMediaQuery> MediaQueries
         {
             get { return mMedia.Queries; }
         }

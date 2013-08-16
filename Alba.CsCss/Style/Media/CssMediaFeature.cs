@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Alba.CsCss.Style
 {
-    public partial class nsMediaFeature
+    public partial class CssMediaFeature
     {
         internal string mName;
         internal RangeType mRangeType;
@@ -13,12 +13,12 @@ namespace Alba.CsCss.Style
         internal string mMetric;
 
         // union of mKeywordTable and mMetric
-        internal nsMediaFeature mData
+        internal CssMediaFeature mData
         {
             get { return this; }
         }
 
-        private nsMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, int[] aKeywordTable, string aMetric)
+        private CssMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, int[] aKeywordTable, string aMetric)
         {
             mName = aName;
             mRangeType = aRangeType;
@@ -27,19 +27,19 @@ namespace Alba.CsCss.Style
             mMetric = aMetric;
         }
 
-        internal nsMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, string aMetric)
+        internal CssMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, string aMetric)
             : this(aName, aRangeType, aValueType, null, aMetric)
         {}
 
-        internal nsMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, int[] aKeywordTable)
+        internal CssMediaFeature (string aName, RangeType aRangeType, ValueType aValueType, int[] aKeywordTable)
             : this(aName, aRangeType, aValueType, aKeywordTable, null)
         {}
 
-        internal nsMediaFeature (string aName, RangeType aRangeType, ValueType aValueType)
+        internal CssMediaFeature (string aName, RangeType aRangeType, ValueType aValueType)
             : this(aName, aRangeType, aValueType, null, null)
         {}
 
-        internal nsMediaFeature ()
+        internal CssMediaFeature ()
             : this(null, RangeType.MinMaxAllowed, ValueType.Integer, null, null)
         {}
 

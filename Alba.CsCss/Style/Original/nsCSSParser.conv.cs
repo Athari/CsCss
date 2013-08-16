@@ -952,7 +952,7 @@ namespace Alba.CsCss.Style
         }
         
         internal bool ParseMediaQuery(bool aInAtRule,
-                                       ref nsMediaQuery aQuery,
+                                       ref CssMediaQuery aQuery,
                                        ref bool aHitStop)
         {
           aQuery = null;
@@ -980,7 +980,7 @@ namespace Alba.CsCss.Style
           }
           UngetToken();
         
-          nsMediaQuery query = new nsMediaQuery();
+          CssMediaQuery query = new CssMediaQuery();
           aQuery = query;
         
           if (ExpectSymbol('(', true)) {
@@ -1066,7 +1066,7 @@ namespace Alba.CsCss.Style
                                    bool aInAtRule)
         {
           for (;;) {
-            nsMediaQuery query = null;
+            CssMediaQuery query = null;
             bool hitStop = false;
             if (!ParseMediaQuery(aInAtRule, ref query,
                                  ref hitStop)) {
@@ -1099,7 +1099,7 @@ namespace Alba.CsCss.Style
           return true;
         }
         
-        internal bool ParseMediaQueryExpression(nsMediaQuery aQuery)
+        internal bool ParseMediaQueryExpression(CssMediaQuery aQuery)
         {
           if (!ExpectSymbol('(', true)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedExpressionStart", mToken); };
@@ -1116,19 +1116,19 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          nsMediaExpression expr = aQuery.NewExpression();
+          CssMediaExpression expr = aQuery.NewExpression();
         
           // case insensitive from CSS - must be lower cased
           mToken.mIdentStr = mToken.mIdentStr.ToLower();
           string featureString;
           if (StringBeginsWith(mToken.mIdentStr, "min-")) {
-            expr.mRange = nsMediaExpression.RangeType.Min;
+            expr.mRange = CssMediaExpression.RangeType.Min;
             featureString = mToken.mIdentStr.Substring(4);
           } else if (StringBeginsWith(mToken.mIdentStr, "max-")) {
-            expr.mRange = nsMediaExpression.RangeType.Max;
+            expr.mRange = CssMediaExpression.RangeType.Max;
             featureString = mToken.mIdentStr.Substring(4);
           } else {
-            expr.mRange = nsMediaExpression.RangeType.Equal;
+            expr.mRange = CssMediaExpression.RangeType.Equal;
             featureString = mToken.mIdentStr;
           }
         
@@ -1136,10 +1136,10 @@ namespace Alba.CsCss.Style
           if (mediaFeatureAtom == null) {
             Debug.Fail("String.Intern failed - out of memory?");
           }
-          nsMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);
+          CssMediaFeature feature = nsMediaFeatures.GetFeature(mediaFeatureAtom);
           if (feature.mName == null ||
-              (expr.mRange != nsMediaExpression.RangeType.Equal &&
-               feature.mRangeType != nsMediaFeature.RangeType.MinMaxAllowed)) {
+              (expr.mRange != CssMediaExpression.RangeType.Equal &&
+               feature.mRangeType != CssMediaFeature.RangeType.MinMaxAllowed)) {
             { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQExpectedFeatureName", mToken); };
             SkipUntil(')');
             return false;
@@ -1149,7 +1149,7 @@ namespace Alba.CsCss.Style
           if (!GetToken(true) || mToken.IsSymbol(')')) {
             // Query expressions for any feature can be given without a value.
             // However, min/max prefixes are not allowed.
-            if (expr.mRange != nsMediaExpression.RangeType.Equal) {
+            if (expr.mRange != CssMediaExpression.RangeType.Equal) {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEMQNoMinMaxWithoutValue"); };
               return false;
             }
@@ -1166,22 +1166,22 @@ namespace Alba.CsCss.Style
         
           bool rv = false;
           switch (feature.mValueType) {
-            case nsMediaFeature.ValueType.Length:
+            case CssMediaFeature.ValueType.Length:
               rv = ParseNonNegativeVariant(ref expr.mValue, VARIANT_LENGTH, null);
               break;
-            case nsMediaFeature.ValueType.Integer:
-            case nsMediaFeature.ValueType.BoolInteger:
+            case CssMediaFeature.ValueType.Integer:
+            case CssMediaFeature.ValueType.BoolInteger:
               rv = ParseNonNegativeVariant(ref expr.mValue, VARIANT_INTEGER, null);
               // Enforce extra restrictions for eBoolInteger
               if (rv &&
-                  feature.mValueType == nsMediaFeature.ValueType.BoolInteger &&
+                  feature.mValueType == CssMediaFeature.ValueType.BoolInteger &&
                   expr.mValue.GetIntValue() > 1)
                 rv = false;
               break;
-            case nsMediaFeature.ValueType.Float:
+            case CssMediaFeature.ValueType.Float:
               rv = ParseNonNegativeVariant(ref expr.mValue, VARIANT_NUMBER, null);
               break;
-            case nsMediaFeature.ValueType.IntRatio:
+            case CssMediaFeature.ValueType.IntRatio:
               {
                 // Two integers separated by '/', with optional whitespace on
                 // either side of the '/'.
@@ -1197,7 +1197,7 @@ namespace Alba.CsCss.Style
                      a[1].GetIntValue() > 0;
               }
               break;
-            case nsMediaFeature.ValueType.Resolution:
+            case CssMediaFeature.ValueType.Resolution:
               rv = GetToken(true);
               if (!rv)
                 break;
@@ -1219,11 +1219,11 @@ namespace Alba.CsCss.Style
                 rv = false;
               }
               break;
-            case nsMediaFeature.ValueType.Enumerated:
+            case CssMediaFeature.ValueType.Enumerated:
               rv = ParseVariant(ref expr.mValue, VARIANT_KEYWORD,
                                 feature.mData.mKeywordTable);
               break;
-            case nsMediaFeature.ValueType.Ident:
+            case CssMediaFeature.ValueType.Ident:
               rv = ParseVariant(ref expr.mValue, VARIANT_IDENTIFIER, null);
               break;
           }

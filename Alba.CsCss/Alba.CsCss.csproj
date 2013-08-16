@@ -73,15 +73,15 @@
     <Compile Include="Common\BrowserCompatibility.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
     <Compile Include="Style\CssDeclaration.cs" />
-    <Compile Include="Style\Media\nsMediaExpression.cs" />
-    <Compile Include="Style\Media\nsMediaFeature.cs" />
+    <Compile Include="Style\Media\CssMediaExpression.cs" />
+    <Compile Include="Style\Media\CssMediaFeature.cs" />
     <Compile Include="Style\Media\nsMediaFeatures.cs" />
     <Compile Include="Style\Media\nsMediaList.cs" />
-    <Compile Include="Style\Media\nsMediaQuery.cs" />
-    <Compile Include="Style\Media\Original\nsMediaFeature.RangeType.conv.cs">
+    <Compile Include="Style\Media\CssMediaQuery.cs" />
+    <Compile Include="Style\Media\Original\CssMediaFeature.RangeType.conv.cs">
       <DependentUpon>nsMediaFeaturesH.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\Media\Original\nsMediaFeature.ValueType.conv.cs">
+    <Compile Include="Style\Media\Original\CssMediaFeature.ValueType.conv.cs">
       <DependentUpon>nsMediaFeaturesH.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Media\Original\nsMediaFeatures.conv.cs">

@@ -6,7 +6,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public partial class nsMediaFeature
+    public partial class CssMediaFeature
     {
         public enum RangeType {
             MinMaxAllowed, MinMaxNotAllowed

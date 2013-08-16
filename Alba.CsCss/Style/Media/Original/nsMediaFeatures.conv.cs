@@ -8,23 +8,23 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsMediaFeatures
     {
-        private static readonly List<nsMediaFeature> features = new List<nsMediaFeature> {
-            new nsMediaFeature(nsGkAtoms.width, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Length),
-            new nsMediaFeature(nsGkAtoms.height, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Length),
-            new nsMediaFeature(nsGkAtoms.deviceWidth, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Length),
-            new nsMediaFeature(nsGkAtoms.deviceHeight, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Length),
-            new nsMediaFeature(nsGkAtoms.orientation, nsMediaFeature.RangeType.MinMaxNotAllowed, nsMediaFeature.ValueType.Enumerated, nsCSSProps.kOrientationKeywords),
-            new nsMediaFeature(nsGkAtoms.aspectRatio, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.IntRatio),
-            new nsMediaFeature(nsGkAtoms.deviceAspectRatio, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.IntRatio),
-            new nsMediaFeature(nsGkAtoms.color, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Integer),
-            new nsMediaFeature(nsGkAtoms.colorIndex, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Integer),
-            new nsMediaFeature(nsGkAtoms.monochrome, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Integer),
-            new nsMediaFeature(nsGkAtoms.resolution, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Resolution),
-            new nsMediaFeature(nsGkAtoms.scan, nsMediaFeature.RangeType.MinMaxNotAllowed, nsMediaFeature.ValueType.Enumerated, nsCSSProps.kScanKeywords),
-            new nsMediaFeature(nsGkAtoms.grid, nsMediaFeature.RangeType.MinMaxNotAllowed, nsMediaFeature.ValueType.BoolInteger),
+        private static readonly List<CssMediaFeature> features = new List<CssMediaFeature> {
+            new CssMediaFeature(nsGkAtoms.width, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Length),
+            new CssMediaFeature(nsGkAtoms.height, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Length),
+            new CssMediaFeature(nsGkAtoms.deviceWidth, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Length),
+            new CssMediaFeature(nsGkAtoms.deviceHeight, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Length),
+            new CssMediaFeature(nsGkAtoms.orientation, CssMediaFeature.RangeType.MinMaxNotAllowed, CssMediaFeature.ValueType.Enumerated, nsCSSProps.kOrientationKeywords),
+            new CssMediaFeature(nsGkAtoms.aspectRatio, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.IntRatio),
+            new CssMediaFeature(nsGkAtoms.deviceAspectRatio, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.IntRatio),
+            new CssMediaFeature(nsGkAtoms.color, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Integer),
+            new CssMediaFeature(nsGkAtoms.colorIndex, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Integer),
+            new CssMediaFeature(nsGkAtoms.monochrome, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Integer),
+            new CssMediaFeature(nsGkAtoms.resolution, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Resolution),
+            new CssMediaFeature(nsGkAtoms.scan, CssMediaFeature.RangeType.MinMaxNotAllowed, CssMediaFeature.ValueType.Enumerated, nsCSSProps.kScanKeywords),
+            new CssMediaFeature(nsGkAtoms.grid, CssMediaFeature.RangeType.MinMaxNotAllowed, CssMediaFeature.ValueType.BoolInteger),
               // Mozilla extensions
-            new nsMediaFeature(nsGkAtoms._moz_device_pixel_ratio, nsMediaFeature.RangeType.MinMaxAllowed, nsMediaFeature.ValueType.Float),
-            new nsMediaFeature(nsGkAtoms._moz_device_orientation, nsMediaFeature.RangeType.MinMaxNotAllowed, nsMediaFeature.ValueType.Enumerated, nsCSSProps.kOrientationKeywords),
+            new CssMediaFeature(nsGkAtoms._moz_device_pixel_ratio, CssMediaFeature.RangeType.MinMaxAllowed, CssMediaFeature.ValueType.Float),
+            new CssMediaFeature(nsGkAtoms._moz_device_orientation, CssMediaFeature.RangeType.MinMaxNotAllowed, CssMediaFeature.ValueType.Enumerated, nsCSSProps.kOrientationKeywords),
             // nsGkAtoms._moz_is_resource_document,
             // nsGkAtoms._moz_scrollbar_start_backward,
             // nsGkAtoms._moz_scrollbar_start_forward,
@@ -49,9 +49,9 @@ namespace Alba.CsCss.Style
             // nsGkAtoms._moz_is_glyph,
             // Null-mName terminator:
             // null,
-            //new nsMediaFeature()
+            //new CssMediaFeature()
         };
 
-        private static readonly nsMediaFeature EmptyFeature = new nsMediaFeature();
+        private static readonly CssMediaFeature EmptyFeature = new CssMediaFeature();
     }
 }

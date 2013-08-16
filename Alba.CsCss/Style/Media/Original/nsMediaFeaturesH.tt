@@ -6,7 +6,7 @@
 
     var T4 = GetT4();
     foreach (Match m in source.ReMatches(@"(?ns)enum (?<Class>\w+) {(?<Code>.*?)};"))
-        T4.GenerateFile("nsMediaFeature.{0}.conv.cs".Fmt(m.Get("Class")), () => GenerateMediaFeatureEnum(m.Get("Code"), m.Get("Class")));
+        T4.GenerateFile("CssMediaFeature.{0}.conv.cs".Fmt(m.Get("Class")), () => GenerateMediaFeatureEnum(m.Get("Code"), m.Get("Class")));
     T4.Process();
 #>
 <#+
@@ -20,7 +20,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public partial class nsMediaFeature
+    public partial class CssMediaFeature
     {
         public enum <#=enumName#> {
 <#= source.ReReplace(@"\be(\w+)\b", "$1").NormalizeWhitespace().Unindent(8).Trim().Indent(12) #>

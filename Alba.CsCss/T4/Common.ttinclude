@@ -23,6 +23,9 @@
         { "nsCSSPseudoElement", "CssPseudoElement" },
         { "nsCSSUnit", "CssUnit" },
         { "nsAttrFunc", "CssAttrFunction" },
+        { "nsMediaFeature", "CssMediaFeature" },
+        { "nsMediaExpression", "CssMediaExpression" },
+        { "nsMediaQuery", "CssMediaQuery" },
         { "Declaration", "CssDeclaration" },
         { "nscolor", "CssColor" },
     };
@@ -37,6 +40,7 @@
         return source
             .ReReplace(@"(?x)\b(?<Type>
                             nsCSSProperty|nsCSSPseudoClass|nsCSSPseudoElement|nsCSSUnit|nsAttrFunc|
+                            nsMediaFeature|nsMediaExpression|nsMediaQuery|
                             Declaration|nscolor
                         )\b", m => TypeRenames[m.Get("Type")])
             ;

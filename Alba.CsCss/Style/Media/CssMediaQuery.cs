@@ -3,9 +3,9 @@ using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {
-    public class nsMediaQuery
+    public class CssMediaQuery
     {
-        private readonly List<nsMediaExpression> mExpressions = new List<nsMediaExpression>();
+        private readonly List<CssMediaExpression> mExpressions = new List<CssMediaExpression>();
         private bool mNegated;
         private bool mHasOnly; // only needed for serialization
         private bool mTypeOmitted; // only needed for serialization
@@ -37,14 +37,14 @@ namespace Alba.CsCss.Style
             mMediaType = aMediaType;
         }
 
-        internal nsMediaExpression NewExpression ()
+        internal CssMediaExpression NewExpression ()
         {
             return mExpressions.AppendElement();
         }
 
         // Public interface
 
-        public IEnumerable<nsMediaExpression> Expressions
+        public IEnumerable<CssMediaExpression> Expressions
         {
             get { return mExpressions.AsReadOnly(); }
         }
