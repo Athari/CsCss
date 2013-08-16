@@ -2,7 +2,7 @@
 
 namespace Alba.CsCss.Style
 {
-    internal class NumbersAlreadyNormalizedOps : CSSValueInputCalcOps
+    internal class NumbersAlreadyNormalizedOps : CssValueInputCalcOps
     {
         public float ComputeNumber (CssValue aValue)
         {

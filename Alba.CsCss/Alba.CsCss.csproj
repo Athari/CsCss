@@ -69,7 +69,7 @@
     <Compile Include="Style\Calc\ICalcOps.cs" />
     <Compile Include="Style\Calc\ICalcOpsInput.cs" />
     <Compile Include="Style\CssLoader.cs" />
-    <Compile Include="Style\Calc\CSSValueInputCalcOps.cs" />
+    <Compile Include="Style\Calc\CssValueInputCalcOps_.cs" />
     <Compile Include="Common\BrowserCompatibility.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
     <Compile Include="Style\CssDeclaration.cs" />
@@ -193,7 +193,7 @@
     </Compile>
     <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
     <Compile Include="Style\Rules\CssCharsetRule.cs" />
-    <Compile Include="Style\Rules\CSSSupportsRule.cs" />
+    <Compile Include="Style\Rules\CssSupportsRule.cs" />
     <Compile Include="Style\Rules\CssDocumentRule.cs" />
     <Compile Include="Style\Rules\CssGroupRule.cs" />
     <Compile Include="Style\Rules\CssImportRule.cs" />

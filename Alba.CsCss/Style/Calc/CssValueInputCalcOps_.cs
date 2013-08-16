@@ -1,6 +1,6 @@
 ﻿namespace Alba.CsCss.Style
 {
-    internal class CSSValueInputCalcOps
+    internal class CssValueInputCalcOps
     {
         //typedef nsCSSValue input_type;
         //typedef nsCSSValue::Array input_array_type;

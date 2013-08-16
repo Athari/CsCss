@@ -3,7 +3,7 @@ using Alba.CsCss.Internal;
 
 namespace Alba.CsCss.Style
 {
-    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CSSValueInputCalcOps*/, ICalcOps<CssValue, float>
+    internal class ReduceNumberCalcOps : BasicFloatCalcOps /*, CssValueInputCalcOps*/, ICalcOps<CssValue, float>
     {
         public float ComputeLeafValue (CssValue aValue)
         {
