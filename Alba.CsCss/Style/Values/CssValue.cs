@@ -485,12 +485,12 @@ namespace Alba.CsCss.Style
             get { return GetArrayValue(); }
         }
 
-        public Uri Url
+        public Uri Uri
         {
             get { return GetURLValue(); }
         }
 
-        public string OriginalUrl
+        public string OriginalUri
         {
             get { return GetOriginalURLValue(); }
         }

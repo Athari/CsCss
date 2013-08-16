@@ -35,12 +35,12 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public string OriginalUrl
+        public string OriginalUri
         {
             get { return mString; }
         }
 
-        public Uri Url
+        public Uri Uri
         {
             get { return GetURI(); }
         }
