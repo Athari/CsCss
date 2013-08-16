@@ -22,8 +22,8 @@ namespace Alba.CsCss.Style
     internal partial class nsStyle
     {
 <#=     ConvertStyleConstsSource(source).Indent(8) #>
-    } // class nsStyle
-} // namespace Alba.CsCss
+    }
+}
 <#+
     } // GenerateStyleConsts
 #>

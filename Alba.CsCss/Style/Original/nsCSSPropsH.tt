@@ -11,7 +11,6 @@
 
     var T4 = GetT4();
     T4.GenerateFile("nsCSSPropH.conv.cs", () => GenerateCssPropDefines(source));
-    T4.GenerateFile("nsStyleAnimType.conv.cs", () => GenerateStyleAnimType(source));
     T4.Process();
 #>
 <#+
@@ -28,29 +27,11 @@ namespace Alba.CsCss.Style
 <#+   foreach (string line in ConvertCssPropDefines(source)) { #>
         <#=line#>
 <#+   } #>
-    } // class nsCSSProps
-} // namespace Alba.CsCss.Style
+    }
+}
 <#+
     } // GenerateCssPropDefines
-#>
-<#+
-    void GenerateStyleAnimType (string source) {
-#>
-//
-// Generated file. Do not edit manually.
-//
 
-namespace Alba.CsCss.Style
-{
-    internal enum nsStyleAnimType
-    {
-<#=     source.ReMatchGet(@"(?s)enum nsStyleAnimType {\n(.*?)\n}").Replace("eStyleAnimType_", "").Replace("float", "@float").Indent(6).NormalizeWhitespace() #>
-    }
-} // namespace Alba.CsCss.Style
-<#+
-    } // GenerateStyleAnimType
-#>
-<#+
     IEnumerable<string> ConvertCssPropDefines (string source)
     {
         foreach (Match m in source.ReMatches(

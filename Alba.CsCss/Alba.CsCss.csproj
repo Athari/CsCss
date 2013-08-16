@@ -145,6 +145,9 @@
     <Compile Include="Style\Original\nsStyle.nsIWidget.conv.cs">
       <DependentUpon>nsIWidget.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
+      <DependentUpon>nsCSSPropsH.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\nsStyleStructID.g.cs">
       <DependentUpon>nsStyleStructList.tt</DependentUpon>
     </Compile>

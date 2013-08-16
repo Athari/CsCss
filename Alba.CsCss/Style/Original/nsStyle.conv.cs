@@ -910,5 +910,5 @@ namespace Alba.CsCss.Style
         // scan
         public const int SCAN_PROGRESSIVE = 0;
         public const int SCAN_INTERLACE = 1;
-    } // class nsStyle
-} // namespace Alba.CsCss
+    }
+}

@@ -30,5 +30,5 @@ namespace Alba.CsCss.Style
         public const int APPLIES_TO_PLACEHOLDER = (1<<18);
         public const int APPLIES_TO_PAGE_RULE = (1<<19);
         public const int APPLIES_TO_FIRST_LETTER_AND_FIRST_LINE = APPLIES_TO_FIRST_LETTER | APPLIES_TO_FIRST_LINE;
-    } // class nsCSSProps
-} // namespace Alba.CsCss.Style
+    }
+}
