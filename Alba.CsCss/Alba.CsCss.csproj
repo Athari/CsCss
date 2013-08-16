@@ -69,7 +69,7 @@
     <Compile Include="Style\Calc\ICalcOps.cs" />
     <Compile Include="Style\Calc\ICalcOpsInput.cs" />
     <Compile Include="Style\CssLoader.cs" />
-    <Compile Include="Style\Calc\CssValueInputCalcOps_.cs" />
+    <Compile Include="Style\Calc\CssValueInputCalcOps.cs" />
     <Compile Include="Common\BrowserCompatibility.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
     <Compile Include="Style\CssDeclaration.cs" />
