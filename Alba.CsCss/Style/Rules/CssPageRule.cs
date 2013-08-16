@@ -3,11 +3,11 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@page \{ {mDeclaration.DebugDisplayCount,nq} \}")]
-    public class nsCSSPageRule : Rule
+    public class CssPageRule : CssRule
     {
         private readonly CssDeclaration mDeclaration;
 
-        internal nsCSSPageRule (CssDeclaration aDeclaration)
+        internal CssPageRule (CssDeclaration aDeclaration)
         {
             mDeclaration = aDeclaration;
         }

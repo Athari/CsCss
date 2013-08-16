@@ -4,12 +4,12 @@ using System.Text;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@supports {mCondition} \{ ({mRules.Count}) \}")]
-    public class CSSSupportsRule : GroupRule
+    public class CssSupportsRule : CssGroupRule
     {
         private readonly bool mUseGroup;
         private readonly string mCondition;
 
-        internal CSSSupportsRule (ref bool aConditionMet, StringBuilder aCondition)
+        internal CssSupportsRule (ref bool aConditionMet, StringBuilder aCondition)
         {
             mUseGroup = aConditionMet;
             mCondition = aCondition.ToString();

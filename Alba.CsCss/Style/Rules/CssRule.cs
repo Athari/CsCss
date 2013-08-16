@@ -1,6 +1,6 @@
 ﻿namespace Alba.CsCss.Style
 {
-    public abstract class Rule
+    public abstract class CssRule
     {
         private nsCSSStyleSheet mSheet;
 

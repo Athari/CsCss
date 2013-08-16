@@ -4,11 +4,11 @@ using System.Diagnostics;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@media ... \{ ({mRules.Count}) \}")]
-    public class MediaRule : GroupRule
+    public class CssMediaRule : CssGroupRule
     {
         private nsMediaList mMedia;
 
-        internal MediaRule ()
+        internal CssMediaRule ()
         {}
 
         internal void SetMedia (nsMediaList aMedia)

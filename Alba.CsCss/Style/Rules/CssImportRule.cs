@@ -4,12 +4,12 @@ using System.Diagnostics;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@import ""{mUrlSpec}""")]
-    public class ImportRule : Rule
+    public class CssImportRule : CssRule
     {
         private readonly nsMediaList mMedia;
         private readonly string mUrlSpec;
 
-        internal ImportRule (nsMediaList aMedia, string aUrlSpec)
+        internal CssImportRule (nsMediaList aMedia, string aUrlSpec)
         {
             mMedia = aMedia;
             mUrlSpec = aUrlSpec;

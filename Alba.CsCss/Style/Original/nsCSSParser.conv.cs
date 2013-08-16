@@ -31,9 +31,20 @@ using size_t = System.Int32; // O RLY?
 
 namespace Alba.CsCss.Style
 {
+    using CharsetRule = CssCharsetRule;
+    using CSSSupportsRule = CssSupportsRule;
     using Declaration = CssDeclaration;
+    using DocumentRule = CssDocumentRule;
+    using GroupRule = CssGroupRule;
+    using ImportRule = CssImportRule;
+    using MediaRule = CssMediaRule;
+    using NameSpaceRule = CssNamespaceRule;
     using nsAttrFunc = CssAttrFunction;
     using nscolor = CssColor;
+    using nsCSSFontFaceRule = CssFontFaceRule;
+    using nsCSSKeyframeRule = CssKeyframeRule;
+    using nsCSSKeyframesRule = CssKeyframesRule;
+    using nsCSSPageRule = CssPageRule;
     using nsCSSProperty = CssProperty;
     using nsCSSPseudoClass = CssPseudoClass;
     using nsCSSPseudoElement = CssPseudoElement;
@@ -49,6 +60,8 @@ namespace Alba.CsCss.Style
     using nsMediaExpression = CssMediaExpression;
     using nsMediaFeature = CssMediaFeature;
     using nsMediaQuery = CssMediaQuery;
+    using Rule = CssRule;
+    using StyleRule = CssStyleRule;
     using URLValue = CssUriValue;
 
     internal partial class nsCSSParser

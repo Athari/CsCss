@@ -24,7 +24,7 @@ namespace Alba.CsCss.Style
             return sheet;
         }
 
-        public void LoadChildSheet (nsCSSStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, ImportRule aRule)
+        public void LoadChildSheet (nsCSSStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
         {}
     }
 }

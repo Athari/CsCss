@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace Alba.CsCss.Style
 {
-    public abstract class GroupRule : Rule
+    public abstract class CssGroupRule : CssRule
     {
-        private readonly List<Rule> mRules = new List<Rule>();
+        private readonly List<CssRule> mRules = new List<CssRule>();
 
-        internal void AppendStyleRule (Rule aRule)
+        internal void AppendStyleRule (CssRule aRule)
         {
             mRules.Add(aRule);
         }
@@ -16,7 +16,7 @@ namespace Alba.CsCss.Style
         {
             if (aSheet == GetStyleSheet())
                 return;
-            foreach (Rule rule in mRules)
+            foreach (CssRule rule in mRules)
                 if (rule != null)
                     rule.SetStyleSheet(aSheet);
             base.SetStyleSheet(aSheet);
@@ -24,12 +24,12 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IEnumerable<Rule> Rules
+        public IEnumerable<CssRule> Rules
         {
             get { return mRules.AsReadOnly(); }
         }
 
-        public IEnumerable<TRule> GetRules<TRule> () where TRule : Rule
+        public IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule
         {
             return mRules.OfType<TRule>();
         }

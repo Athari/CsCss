@@ -3,12 +3,12 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@namespace {mPrefix} ""{mUrlSpec}""")]
-    public class NameSpaceRule : Rule
+    public class CssNamespaceRule : CssRule
     {
         private readonly string mPrefix;
         private readonly string mUrlSpec;
 
-        internal NameSpaceRule (string aPrefix, string aUrlSpec)
+        internal CssNamespaceRule (string aPrefix, string aUrlSpec)
         {
             mPrefix = aPrefix;
             mUrlSpec = aUrlSpec;

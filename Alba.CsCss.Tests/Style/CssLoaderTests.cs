@@ -22,15 +22,15 @@ namespace Alba.CsCss.Tests.Style
             Assert.AreEqual(SheetUri, css.BaseUri);
             Assert.AreEqual(1, css.Rules.Count());
             Assert.AreEqual(1, css.AllRules.Count());
-            Assert.AreEqual(1, css.GetRules<StyleRule>().Count());
-            Assert.AreEqual(1, css.GetAllRules<StyleRule>().Count());
-            var h1 = css.GetRules<StyleRule>().Single();
+            Assert.AreEqual(1, css.GetRules<CssStyleRule>().Count());
+            Assert.AreEqual(1, css.GetAllRules<CssStyleRule>().Count());
+            var h1 = css.GetRules<CssStyleRule>().Single();
             var h1sel = h1.SelectorGroups.Single().Selectors.Single();
             Assert.AreEqual("h1", h1sel.Tag);
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(CssProperty.color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
-            //var h1colorval = css.GetRules<StyleRule>().Single().Declaration.GetValue(CssProperty.color).Color;
+            //var h1colorval = css.GetRules<CssStyleRule>().Single().Declaration.GetValue(CssProperty.color).Color;
         }
 
         [TestMethod]

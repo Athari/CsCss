@@ -4,11 +4,11 @@ using System.Text;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@charset ""{mEncoding}\""")]
-    public class CharsetRule : Rule
+    public class CssCharsetRule : CssRule
     {
         private readonly string mEncoding;
 
-        internal CharsetRule (string aEncoding)
+        internal CssCharsetRule (string aEncoding)
         {
             mEncoding = aEncoding;
         }

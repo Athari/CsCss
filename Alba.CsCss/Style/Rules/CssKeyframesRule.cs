@@ -3,11 +3,11 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@keyframes {mName} \{ ({mRules.Count}) \}")]
-    public class nsCSSKeyframesRule : GroupRule
+    public class CssKeyframesRule : CssGroupRule
     {
         private readonly string mName;
 
-        internal nsCSSKeyframesRule (string aName)
+        internal CssKeyframesRule (string aName)
         {
             mName = aName;
         }

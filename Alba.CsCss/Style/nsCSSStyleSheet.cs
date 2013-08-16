@@ -12,7 +12,7 @@ namespace Alba.CsCss.Style
         // from nsCSSStyleSheetInner
         private nsXMLNameSpaceMap mNameSpaceMap;
         private Uri mBaseURI, mSheetURI;
-        private readonly List<Rule> mOrderedRules = new List<Rule>();
+        private readonly List<CssRule> mOrderedRules = new List<CssRule>();
 
         internal nsXMLNameSpaceMap GetNameSpaceMap ()
         {
@@ -45,21 +45,21 @@ namespace Alba.CsCss.Style
             return mOrderedRules.Count;
         }
 
-        internal nsresult GetStyleRuleAt (int aIndex, ref Rule aRule)
+        internal nsresult GetStyleRuleAt (int aIndex, ref CssRule aRule)
         {
             aRule = mOrderedRules[aIndex];
             return nsresult.OK;
         }
 
-        internal void AppendStyleRule (Rule aRule)
+        internal void AppendStyleRule (CssRule aRule)
         {
             mOrderedRules.Add(aRule);
             aRule.SetStyleSheet(this);
             if (aRule.GetKind() == RuleKind.NAMESPACE)
-                RegisterNamespaceRule((NameSpaceRule)aRule);
+                RegisterNamespaceRule((CssNamespaceRule)aRule);
         }
 
-        private void RegisterNamespaceRule (NameSpaceRule aRule)
+        private void RegisterNamespaceRule (CssNamespaceRule aRule)
         {
             if (mNameSpaceMap == null)
                 CreateNamespaceMap();
@@ -87,28 +87,28 @@ namespace Alba.CsCss.Style
             set { mBaseURI = value; }
         }
 
-        public IEnumerable<Rule> Rules
+        public IEnumerable<CssRule> Rules
         {
             get { return mOrderedRules.AsReadOnly(); }
         }
 
-        public IEnumerable<TRule> GetRules<TRule> () where TRule : Rule
+        public IEnumerable<TRule> GetRules<TRule> () where TRule : CssRule
         {
             return mOrderedRules.OfType<TRule>();
         }
 
-        public IEnumerable<Rule> AllRules
+        public IEnumerable<CssRule> AllRules
         {
             get
             {
                 return mOrderedRules.SelectMany(rule => rule.TraverseTree(subRule => {
-                    var groupRule = subRule as GroupRule;
-                    return groupRule != null ? groupRule.Rules : Enumerable.Empty<Rule>();
+                    var groupRule = subRule as CssGroupRule;
+                    return groupRule != null ? groupRule.Rules : Enumerable.Empty<CssRule>();
                 }));
             }
         }
 
-        public IEnumerable<TRule> GetAllRules<TRule> () where TRule : Rule
+        public IEnumerable<TRule> GetAllRules<TRule> () where TRule : CssRule
         {
             return AllRules.OfType<TRule>();
         }

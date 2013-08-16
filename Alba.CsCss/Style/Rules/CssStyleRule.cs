@@ -4,13 +4,13 @@ using System.Diagnostics;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"{mSelector} \{ {mDeclaration.DebugDisplayCount,nq} \}")]
-    public class StyleRule : Rule
+    public class CssStyleRule : CssRule
     {
         private readonly nsCSSSelectorList mSelector;
         private readonly CssDeclaration mDeclaration;
         private int mLineNumber;
 
-        internal StyleRule (nsCSSSelectorList aSelector, CssDeclaration aDeclaration)
+        internal CssStyleRule (nsCSSSelectorList aSelector, CssDeclaration aDeclaration)
         {
             mSelector = aSelector;
             mDeclaration = aDeclaration;

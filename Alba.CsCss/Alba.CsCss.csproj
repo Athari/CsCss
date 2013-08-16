@@ -192,20 +192,20 @@
       <DependentUpon>nsCSSPropsH.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Calc\ReduceNumberCalcOps.cs" />
-    <Compile Include="Style\Rules\CharsetRule.cs" />
-    <Compile Include="Style\Rules\CSSSupportsRule.cs" />
-    <Compile Include="Style\Rules\DocumentRule.cs" />
-    <Compile Include="Style\Rules\GroupRule.cs" />
-    <Compile Include="Style\Rules\ImportRule.cs" />
-    <Compile Include="Style\Rules\MediaRule.cs" />
-    <Compile Include="Style\Rules\NameSpaceRule.cs" />
-    <Compile Include="Style\Rules\nsCSSFontFaceRule.cs" />
-    <Compile Include="Style\Rules\nsCSSKeyframeRule.cs" />
-    <Compile Include="Style\Rules\nsCSSKeyframesRule.cs" />
-    <Compile Include="Style\Rules\nsCSSPageRule.cs" />
-    <Compile Include="Style\Rules\Rule.cs" />
+    <Compile Include="Style\Rules\CssCharsetRule.cs" />
+    <Compile Include="Style\Rules\CSSSupportsRule_.cs" />
+    <Compile Include="Style\Rules\CssDocumentRule.cs" />
+    <Compile Include="Style\Rules\CssGroupRule.cs" />
+    <Compile Include="Style\Rules\CssImportRule.cs" />
+    <Compile Include="Style\Rules\CssMediaRule.cs" />
+    <Compile Include="Style\Rules\CssNamespaceRule.cs" />
+    <Compile Include="Style\Rules\CssFontFaceRule.cs" />
+    <Compile Include="Style\Rules\CssKeyframeRule.cs" />
+    <Compile Include="Style\Rules\CssKeyframesRule.cs" />
+    <Compile Include="Style\Rules\CssPageRule.cs" />
+    <Compile Include="Style\Rules\CssRule.cs" />
     <Compile Include="Style\Rules\RuleKind.cs" />
-    <Compile Include="Style\Rules\StyleRule.cs" />
+    <Compile Include="Style\Rules\CssStyleRule.cs" />
     <Compile Include="Style\Values\CssUriValue.cs" />
   </ItemGroup>
   <ItemGroup>

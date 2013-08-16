@@ -3,11 +3,11 @@
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"@font-face \{ font-family: {mDecl.mFamily}; src: {mDecl.mSrc} \}")]
-    public class nsCSSFontFaceRule : Rule
+    public class CssFontFaceRule : CssRule
     {
         private readonly nsCSSFontFaceStyleDecl mDecl = new nsCSSFontFaceStyleDecl();
 
-        internal nsCSSFontFaceRule ()
+        internal CssFontFaceRule ()
         {}
 
         internal void SetDesc (nsCSSFontDesc aDescId, CssValue aValue)

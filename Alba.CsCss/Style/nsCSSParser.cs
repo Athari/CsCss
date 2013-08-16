@@ -21,7 +21,7 @@ namespace Alba.CsCss.Style
         private CssLoader mChildLoader;
         private nsCSSSection mSection;
         private nsXMLNameSpaceMap mNameSpaceMap;
-        private readonly List<GroupRule> mGroupStack = new List<GroupRule>();
+        private readonly List<CssGroupRule> mGroupStack = new List<CssGroupRule>();
         private readonly nsCSSExpandedDataBlock mTempData = new nsCSSExpandedDataBlock();
         private readonly nsCSSExpandedDataBlock mData = new nsCSSExpandedDataBlock();
 
@@ -100,7 +100,7 @@ namespace Alba.CsCss.Style
             return res;
         }
 
-        internal delegate void RuleAppendFunc (Rule aRule, object aData);
+        internal delegate void RuleAppendFunc (CssRule aRule, object aData);
 
         internal enum nsSelectorParsingStatus
         {

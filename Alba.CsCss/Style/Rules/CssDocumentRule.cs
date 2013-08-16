@@ -6,11 +6,11 @@ namespace Alba.CsCss.Style
 {
     // TODO support for @document
     [DebuggerDisplay (@"@document {mURLs.url} \{ ({mRules.Count}) \}")]
-    public class DocumentRule : GroupRule
+    public class CssDocumentRule : CssGroupRule
     {
         private URL mURLs;
 
-        internal DocumentRule ()
+        internal CssDocumentRule ()
         {}
 
         internal void SetURLs (URL aURLs)

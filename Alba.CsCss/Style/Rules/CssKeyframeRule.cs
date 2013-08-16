@@ -4,12 +4,12 @@ using System.Diagnostics;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay (@"{mKeys[0]}% \{ {mDeclaration.DebugDisplayCount,nq} \}")]
-    public class nsCSSKeyframeRule : Rule
+    public class CssKeyframeRule : CssRule
     {
         private readonly List<float> mKeys;
         private readonly CssDeclaration mDeclaration;
 
-        internal nsCSSKeyframeRule (List<float> aKeys, CssDeclaration aDeclaration)
+        internal CssKeyframeRule (List<float> aKeys, CssDeclaration aDeclaration)
         {
             mKeys = aKeys;
             mDeclaration = aDeclaration;
