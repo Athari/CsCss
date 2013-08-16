@@ -27,25 +27,25 @@ namespace Alba.CsCss.Style
         public static string mozMeterBar = ":-moz-meter-bar";
         public static string mozPlaceholder = ":-moz-placeholder";
 
-        private static readonly IDictionary<string, nsCSSPseudoElement> sPseudoElements =
-            new Dictionary<string, nsCSSPseudoElement>(ReferenceEqualityComparer<object>.Default) {
-                { ":after", nsCSSPseudoElement.after },
-                { ":before", nsCSSPseudoElement.before },
-                { ":first-letter", nsCSSPseudoElement.firstLetter },
-                { ":first-line", nsCSSPseudoElement.firstLine },
-                { ":-moz-selection", nsCSSPseudoElement.mozSelection },
-                { ":-moz-focus-inner", nsCSSPseudoElement.mozFocusInner },
-                { ":-moz-focus-outer", nsCSSPseudoElement.mozFocusOuter },
-                { ":-moz-list-bullet", nsCSSPseudoElement.mozListBullet },
-                { ":-moz-list-number", nsCSSPseudoElement.mozListNumber },
-                { ":-moz-math-stretchy", nsCSSPseudoElement.mozMathStretchy },
-                { ":-moz-math-anonymous", nsCSSPseudoElement.mozMathAnonymous },
-                { ":-moz-progress-bar", nsCSSPseudoElement.mozProgressBar },
-                { ":-moz-range-track", nsCSSPseudoElement.mozRangeTrack },
-                { ":-moz-range-progress", nsCSSPseudoElement.mozRangeProgress },
-                { ":-moz-range-thumb", nsCSSPseudoElement.mozRangeThumb },
-                { ":-moz-meter-bar", nsCSSPseudoElement.mozMeterBar },
-                { ":-moz-placeholder", nsCSSPseudoElement.mozPlaceholder },
+        private static readonly IDictionary<string, CssPseudoElement> sPseudoElements =
+            new Dictionary<string, CssPseudoElement>(ReferenceEqualityComparer<object>.Default) {
+                { ":after", CssPseudoElement.after },
+                { ":before", CssPseudoElement.before },
+                { ":first-letter", CssPseudoElement.firstLetter },
+                { ":first-line", CssPseudoElement.firstLine },
+                { ":-moz-selection", CssPseudoElement.mozSelection },
+                { ":-moz-focus-inner", CssPseudoElement.mozFocusInner },
+                { ":-moz-focus-outer", CssPseudoElement.mozFocusOuter },
+                { ":-moz-list-bullet", CssPseudoElement.mozListBullet },
+                { ":-moz-list-number", CssPseudoElement.mozListNumber },
+                { ":-moz-math-stretchy", CssPseudoElement.mozMathStretchy },
+                { ":-moz-math-anonymous", CssPseudoElement.mozMathAnonymous },
+                { ":-moz-progress-bar", CssPseudoElement.mozProgressBar },
+                { ":-moz-range-track", CssPseudoElement.mozRangeTrack },
+                { ":-moz-range-progress", CssPseudoElement.mozRangeProgress },
+                { ":-moz-range-thumb", CssPseudoElement.mozRangeThumb },
+                { ":-moz-meter-bar", CssPseudoElement.mozMeterBar },
+                { ":-moz-placeholder", CssPseudoElement.mozPlaceholder },
             };
     }
 }

@@ -2,19 +2,19 @@
 {
     internal static partial class nsCSSPseudoElements
     {
-        public static nsCSSPseudoElement GetPseudoType (string aAtom)
+        public static CssPseudoElement GetPseudoType (string aAtom)
         {
-            nsCSSPseudoElement res;
+            CssPseudoElement res;
             if (sPseudoElements.TryGetValue(aAtom, out res))
                 return res;
             if (nsCSSAnonBoxes.IsAnonBox(aAtom)) {
 #if MOZ_XUL
                 if (nsCSSAnonBoxes.IsTreePseudoElement(aAtom))
-                    return nsCSSPseudoElement.XULTree;
+                    return CssPseudoElement.XULTree;
 #endif
-                return nsCSSPseudoElement.AnonBox;
+                return CssPseudoElement.AnonBox;
             }
-            return nsCSSPseudoElement.NotPseudoElement;
+            return CssPseudoElement.NotPseudoElement;
         }
 
         public static bool IsCSS2PseudoElement (string aAtom)

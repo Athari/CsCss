@@ -239,7 +239,7 @@ namespace Alba.CsCss.Style
         private class UnitInfo
         {
             public string name;
-            public nsCSSUnit unit;
+            public CssUnit unit;
             public int32_t type;
 
             public uint32_t length

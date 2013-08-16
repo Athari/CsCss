@@ -10,7 +10,7 @@
         .ReReplace(@"\\\n", "");
 
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSUnit.conv.cs", () => GenerateCssUnit(source));
+    T4.GenerateFile("CssUnit.conv.cs", () => GenerateCssUnit(source));
     T4.Process();
 #>
 <#+
@@ -23,7 +23,7 @@
 // TODO Convert comments to doc-comments
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSUnit
+    public enum CssUnit
     {
 <#=     source.ReMatchGet(@"(?s)enum nsCSSUnit {\n(.*?)\n}").Replace("eCSSUnit_", "").Indent(6).NormalizeWhitespace() #>
     }

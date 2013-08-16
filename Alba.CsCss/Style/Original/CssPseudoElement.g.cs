@@ -4,7 +4,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSPseudoElement
+    public enum CssPseudoElement
     {
         after,
         before,

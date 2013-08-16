@@ -23,26 +23,26 @@ namespace Alba.CsCss.Internal
             where TInput : ICalcOpsInput<TInput>
         {
             switch (aOps.GetUnit(aValue)) {
-                case nsCSSUnit.Calc: {
+                case CssUnit.Calc: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 1, "unexpected length");
                     return ComputeCalc(arr.Item(0), aOps);
                 }
-                case nsCSSUnit.Calc_Plus:
-                case nsCSSUnit.Calc_Minus: {
+                case CssUnit.Calc_Plus:
+                case CssUnit.Calc_Minus: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = ComputeCalc(arr.Item(0), aOps), rhs = ComputeCalc(arr.Item(1), aOps);
                     return aOps.MergeAdditive(aOps.GetUnit(aValue), lhs, rhs);
                 }
-                case nsCSSUnit.Calc_Times_L: {
+                case CssUnit.Calc_Times_L: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = aOps.ComputeNumber(arr.Item(0)), rhs = ComputeCalc(arr.Item(1), aOps);
                     return aOps.MergeMultiplicativeL(aOps.GetUnit(aValue), lhs, rhs);
                 }
-                case nsCSSUnit.Calc_Times_R:
-                case nsCSSUnit.Calc_Divided: {
+                case CssUnit.Calc_Times_R:
+                case CssUnit.Calc_Divided: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = ComputeCalc(arr.Item(0), aOps), rhs = aOps.ComputeNumber(arr.Item(1));

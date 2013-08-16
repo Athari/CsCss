@@ -4,7 +4,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public enum nsAttrFunc
+    public enum CssAttrFunction
     {
         SET = 0,// [attr]
         EQUALS = 1,// [attr=value]

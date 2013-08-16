@@ -15,7 +15,7 @@ namespace Alba.CsCss.Style
             mPropertiesSet.AssertIsEmpty("not initial state");
             mPropertiesImportant.AssertIsEmpty("not initial state");
             for (int i = 0; i < mValues.Length; i++)
-                Debug.Assert(mValues[i].GetUnit() == nsCSSUnit.Null);
+                Debug.Assert(mValues[i].GetUnit() == CssUnit.Null);
         }
 
         public void AddLonghandProperty (CssProperty aPropID, nsCSSValue aValue)

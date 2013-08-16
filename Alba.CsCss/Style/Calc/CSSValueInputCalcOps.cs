@@ -5,7 +5,7 @@
         //typedef nsCSSValue input_type;
         //typedef nsCSSValue::Array input_array_type;
 
-        public static nsCSSUnit GetUnit (nsCSSValue aValue)
+        public static CssUnit GetUnit (nsCSSValue aValue)
         {
             return aValue.GetUnit();
         }

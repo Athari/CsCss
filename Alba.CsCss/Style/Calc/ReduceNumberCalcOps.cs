@@ -7,7 +7,7 @@ namespace Alba.CsCss.Style
     {
         public float ComputeLeafValue (nsCSSValue aValue)
         {
-            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
+            Debug.Assert(aValue.GetUnit() == CssUnit.Number, "unexpected unit");
             return aValue.GetFloatValue();
         }
 
@@ -16,7 +16,7 @@ namespace Alba.CsCss.Style
             return CommonUtil.ComputeCalc(aValue, this);
         }
 
-        public nsCSSUnit GetUnit (nsCSSValue aValue)
+        public CssUnit GetUnit (nsCSSValue aValue)
         {
             return aValue.GetUnit();
         }

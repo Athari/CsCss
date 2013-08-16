@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
@@ -11,10 +10,10 @@ namespace Alba.CsCss.Style
         internal int mNameSpace;
         internal string mValue;
         internal bool mCaseSensitive;
-        internal nsAttrFunc mFunction;
+        internal CssAttrFunction mFunction;
         internal nsAttrSelector mNext;
 
-        internal nsAttrSelector (int aNameSpace, string aAttr, nsAttrFunc aFunction = nsAttrFunc.SET, string aValue = null, bool aCaseSensitive = true)
+        internal nsAttrSelector (int aNameSpace, string aAttr, CssAttrFunction aFunction = CssAttrFunction.SET, string aValue = null, bool aCaseSensitive = true)
         {
             mNameSpace = aNameSpace;
             mCasedAttr = String.Intern(aAttr);
@@ -63,7 +62,7 @@ namespace Alba.CsCss.Style
             get { return nsNameSpaceManager.Instance.GetNameSpaceURI(mNameSpace); }
         }
 
-        public nsAttrFunc Function
+        public CssAttrFunction Function
         {
             get { return mFunction; }
         }

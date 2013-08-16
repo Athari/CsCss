@@ -20,6 +20,9 @@
     IDictionary<string, string> TypeRenames = new Dictionary<string, string> {
         { "nsCSSProperty", "CssProperty" },
         { "nsCSSPseudoClass", "CssPseudoClass" },
+        { "nsCSSPseudoElement", "CssPseudoElement" },
+        { "nsCSSUnit", "CssUnit" },
+        { "nsAttrFunc", "CssAttrFunction" },
         { "Declaration", "CssDeclaration" },
     };
 
@@ -32,7 +35,8 @@
     {
         return source
             .ReReplace(@"(?x)\b(?<Type>
-                            nsCSSProperty|Declaration|nsCSSPseudoClass
+                            nsCSSProperty|nsCSSPseudoClass|nsCSSPseudoElement|nsCSSUnit|nsAttrFunc|
+                            Declaration
                         )\b", m => TypeRenames[m.Get("Type")])
             ;
     }

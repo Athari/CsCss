@@ -4,7 +4,7 @@
 <#
     string source = LoadText(ext: "h");
     var T4 = GetT4();
-    T4.GenerateFile("nsAttrFunc.conv.cs", () => GenerateAttrFunc(source));
+    T4.GenerateFile("CssAttrFunction.conv.cs", () => GenerateAttrFunc(source));
     T4.Process();
 #>
 
@@ -15,7 +15,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public enum nsAttrFunc
+    public enum CssAttrFunction
     {
 <#+   foreach (Match m in source.ReMatches(@"#define NS_ATTR_FUNC_(?<Name>\w+) +(?<Value>-?\d+)(?<Comment> *// .*)?")) { #>
         <#=m.Get("Name")#> = <#=m.Get("Value")#>,<#=m.Get("Comment").Trim()#>

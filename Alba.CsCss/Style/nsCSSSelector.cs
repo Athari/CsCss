@@ -12,7 +12,7 @@ namespace Alba.CsCss.Style
         internal int mNameSpace = nsNameSpace.Unknown;
         internal char mOperator;
         internal nsCSSSelector mNegations;
-        internal nsCSSPseudoElement mPseudoType = nsCSSPseudoElement.NotPseudoElement;
+        internal CssPseudoElement mPseudoType = CssPseudoElement.NotPseudoElement;
         internal nsAtomList mIDList, mClassList;
         internal nsPseudoClassList mPseudoClassList;
         internal nsAttrSelector mAttrList;
@@ -30,7 +30,7 @@ namespace Alba.CsCss.Style
                 nsAtomList.AddItem(ref mIDList, new nsAtomList(aID));
         }
 
-        internal void AddAttribute (int aNameSpace, string aAttr, nsAttrFunc aFunc, string aValue, bool aCaseSensitive)
+        internal void AddAttribute (int aNameSpace, string aAttr, CssAttrFunction aFunc, string aValue, bool aCaseSensitive)
         {
             AddAttributeInternal(new nsAttrSelector(aNameSpace, aAttr, aFunc, aValue, aCaseSensitive));
         }
@@ -85,7 +85,7 @@ namespace Alba.CsCss.Style
             mOperator = aOperator;
         }
 
-        internal void SetPseudoType (nsCSSPseudoElement aPseudoType)
+        internal void SetPseudoType (CssPseudoElement aPseudoType)
         {
             mPseudoType = aPseudoType;
         }
@@ -142,7 +142,7 @@ namespace Alba.CsCss.Style
             get { return mNegations.Items; }
         }
 
-        public nsCSSPseudoElement PseudoType
+        public CssPseudoElement PseudoType
         {
             get { return mPseudoType; }
         }

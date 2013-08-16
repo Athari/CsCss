@@ -6,7 +6,7 @@ namespace Alba.CsCss.Style
     {
         public float ComputeNumber (nsCSSValue aValue)
         {
-            Debug.Assert(aValue.GetUnit() == nsCSSUnit.Number, "unexpected unit");
+            Debug.Assert(aValue.GetUnit() == CssUnit.Number, "unexpected unit");
             return aValue.GetFloatValue();
         }
     };

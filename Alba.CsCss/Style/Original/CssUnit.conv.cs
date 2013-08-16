@@ -5,7 +5,7 @@
 // TODO Convert comments to doc-comments
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSUnit
+    public enum CssUnit
     {
         Null         = 0,      // (n/a) null unit, value is not specified
         Auto         = 1,      // (n/a) value is algorithmic

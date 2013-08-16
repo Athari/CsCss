@@ -109,11 +109,20 @@
     <Compile Include="Style\nsCSSSelectorList.cs" />
     <Compile Include="Style\nsCSSStyleSheet.cs" />
     <Compile Include="Style\nsPseudoClassList.cs" />
+    <Compile Include="Style\Original\CssAttrFunction.conv.cs">
+      <DependentUpon>StyleRule.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\CssProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\CssPseudoClass.g.cs">
       <DependentUpon>nsCSSPseudoClassList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssPseudoElement.g.cs">
+      <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssUnit.conv.cs">
+      <DependentUpon>nsCSSValue.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\LookAndFeel.conv.cs">
       <DependentUpon>LookAndFeel.tt</DependentUpon>
@@ -151,9 +160,6 @@
     <Compile Include="Style\nsStyle.cs" />
     <Compile Include="Internal\nsStyleUtil.cs" />
     <Compile Include="Style\Calc\NumbersAlreadyNormalizedOps.cs" />
-    <Compile Include="Style\Original\nsAttrFunc.conv.cs">
-      <DependentUpon>StyleRule.tt</DependentUpon>
-    </Compile>
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
@@ -175,9 +181,6 @@
     <Compile Include="Style\Original\nsCSSPseudoClasses.g.cs">
       <DependentUpon>nsCSSPseudoClassList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\Original\nsCSSPseudoElement.g.cs">
-      <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
-    </Compile>
     <Compile Include="Style\Original\nsCSSPseudoElements.g.cs">
       <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
     </Compile>
@@ -186,9 +189,6 @@
     </Compile>
     <Compile Include="Style\Original\nsCSSToken.conv.cs">
       <DependentUpon>nsCSSScanner.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Style\Original\nsCSSUnit.conv.cs">
-      <DependentUpon>nsCSSValue.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsStyle.conv.cs">
       <DependentUpon>nsStyleConsts.tt</DependentUpon>

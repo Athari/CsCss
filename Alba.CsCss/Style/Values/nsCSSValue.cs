@@ -16,7 +16,7 @@ namespace Alba.CsCss.Style
     {
         internal static readonly nsCSSValue NullValue = new nsCSSValue();
 
-        private nsCSSUnit mUnit /*= nsCSSUnit.Null*/;
+        private CssUnit mUnit /*= CssUnit.Null*/;
         private object mValue;
         /*union {
             int32_t                     mInt;
@@ -36,7 +36,7 @@ namespace Alba.CsCss.Style
             nsCSSValuePairList*         mPairListDependent;
         } mValue;*/
 
-        internal nsCSSValue (nsCSSUnit aUnit)
+        internal nsCSSValue (CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = null;
@@ -48,47 +48,47 @@ namespace Alba.CsCss.Style
             mValue = aValue.mValue;
         }
 
-        internal nsCSSValue (int32_t aValue, nsCSSUnit aUnit)
+        internal nsCSSValue (int32_t aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
-            if (aUnit == nsCSSUnit.Integer || aUnit == nsCSSUnit.Enumerated || aUnit == nsCSSUnit.EnumColor)
+            if (aUnit == CssUnit.Integer || aUnit == CssUnit.Enumerated || aUnit == CssUnit.EnumColor)
                 return;
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
-        internal nsCSSValue (float aValue, nsCSSUnit aUnit)
+        internal nsCSSValue (float aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
-            if (aUnit >= nsCSSUnit.Percent)
+            if (aUnit >= CssUnit.Percent)
                 return;
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
-        internal nsCSSValue (string aValue, nsCSSUnit aUnit)
+        internal nsCSSValue (string aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
             if (UnitHasStringValue() && mValue != null)
                 return;
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
-        internal nsCSSValue (nsCSSValue[] aValue, nsCSSUnit aUnit)
+        internal nsCSSValue (nsCSSValue[] aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
             if (UnitHasArrayValue() && mValue != null)
                 return;
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
-        internal nsCSSUnit GetUnit ()
+        internal CssUnit GetUnit ()
         {
             return mUnit;
         }
@@ -117,13 +117,13 @@ namespace Alba.CsCss.Style
         {
             double angle = GetAngleValue();
             switch (GetUnit()) {
-                case nsCSSUnit.Radian:
+                case CssUnit.Radian:
                     return (float)angle;
-                case nsCSSUnit.Turn:
+                case CssUnit.Turn:
                     return (float)(angle * 2 * Math.PI);
-                case nsCSSUnit.Degree:
+                case CssUnit.Degree:
                     return (float)(angle * Math.PI / 180.0);
-                case nsCSSUnit.Grad:
+                case CssUnit.Grad:
                     return (float)(angle * Math.PI / 200.0);
                 default:
                     return (float)0.0;
@@ -197,45 +197,45 @@ namespace Alba.CsCss.Style
             return (nsCSSValuePairList)mValue;
         }
 
-        internal void SetIntValue (int aValue, nsCSSUnit aUnit)
+        internal void SetIntValue (int aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
         }
 
-        internal void SetFloatValue (float aValue, nsCSSUnit aUnit)
+        internal void SetFloatValue (float aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
         }
 
-        internal void SetFloatValue (double aValue, nsCSSUnit aUnit)
+        internal void SetFloatValue (double aValue, CssUnit aUnit)
         {
             SetFloatValue((float)aValue, aUnit);
         }
 
         internal void SetPercentValue (float aValue)
         {
-            mUnit = nsCSSUnit.Percent;
+            mUnit = CssUnit.Percent;
             mValue = aValue;
         }
 
-        internal void SetStringValue (string aValue, nsCSSUnit aUnit)
+        internal void SetStringValue (string aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
             if (UnitHasStringValue() && aValue != null)
                 return;
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
-        internal void SetStringValue (StringBuilder aValue, nsCSSUnit aUnit)
+        internal void SetStringValue (StringBuilder aValue, CssUnit aUnit)
         {
             SetStringValue(aValue.ToString(), aUnit);
         }
 
-        internal void SetArrayValue (nsCSSValue[] aValue, nsCSSUnit aUnit)
+        internal void SetArrayValue (nsCSSValue[] aValue, CssUnit aUnit)
         {
             mUnit = aUnit;
             mValue = aValue;
@@ -243,26 +243,26 @@ namespace Alba.CsCss.Style
 
         internal void SetURLValue (URLValue aValue)
         {
-            mUnit = nsCSSUnit.URL;
+            mUnit = CssUnit.URL;
             mValue = aValue;
         }
 
         internal void SetColorValue (nscolor aValue)
         {
-            mUnit = nsCSSUnit.Color;
+            mUnit = CssUnit.Color;
             mValue = aValue;
         }
 
         internal void SetGradientValue (nsCSSValueGradient aValue)
         {
-            mUnit = nsCSSUnit.Gradient;
+            mUnit = CssUnit.Gradient;
             mValue = aValue;
         }
 
         internal nsCSSRect SetRectValue ()
         {
             var value = new nsCSSRect();
-            mUnit = nsCSSUnit.Rect;
+            mUnit = CssUnit.Rect;
             mValue = value;
             return value;
         }
@@ -270,14 +270,14 @@ namespace Alba.CsCss.Style
         internal nsCSSValueList SetListValue ()
         {
             var value = new nsCSSValueList();
-            mUnit = nsCSSUnit.List;
+            mUnit = CssUnit.List;
             mValue = value;
             return value;
         }
 
         internal void SetPairValue (nsCSSValuePair aValue)
         {
-            mUnit = nsCSSUnit.Pair;
+            mUnit = CssUnit.Pair;
             mValue = aValue;
         }
 
@@ -288,7 +288,7 @@ namespace Alba.CsCss.Style
 
         internal void SetTripletValue (nsCSSValueTriplet aValue)
         {
-            mUnit = nsCSSUnit.Triplet;
+            mUnit = CssUnit.Triplet;
             mValue = aValue;
         }
 
@@ -300,7 +300,7 @@ namespace Alba.CsCss.Style
         internal nsCSSValuePairList SetPairListValue ()
         {
             var value = new nsCSSValuePairList();
-            mUnit = nsCSSUnit.PairList;
+            mUnit = CssUnit.PairList;
             mValue = value;
             return value;
         }
@@ -308,97 +308,97 @@ namespace Alba.CsCss.Style
         internal nsCSSValue[] InitFunction (nsCSSKeyword aFunctionId, int aNumArgs)
         {
             var value = new nsCSSValue[aNumArgs + 1];
-            value[0].SetIntValue((int)aFunctionId, nsCSSUnit.Enumerated);
-            SetArrayValue(value, nsCSSUnit.Function);
+            value[0].SetIntValue((int)aFunctionId, CssUnit.Enumerated);
+            SetArrayValue(value, CssUnit.Function);
             return value;
         }
 
         internal void SetAutoValue ()
         {
-            mUnit = nsCSSUnit.Auto;
+            mUnit = CssUnit.Auto;
             mValue = null;
         }
 
         internal void SetInheritValue ()
         {
-            mUnit = nsCSSUnit.Inherit;
+            mUnit = CssUnit.Inherit;
             mValue = null;
         }
 
         internal void SetInitialValue ()
         {
-            mUnit = nsCSSUnit.Initial;
+            mUnit = CssUnit.Initial;
             mValue = null;
         }
 
         internal void SetNoneValue ()
         {
-            mUnit = nsCSSUnit.None;
+            mUnit = CssUnit.None;
             mValue = null;
         }
 
         internal void SetAllValue ()
         {
-            mUnit = nsCSSUnit.All;
+            mUnit = CssUnit.All;
             mValue = null;
         }
 
         internal void SetNormalValue ()
         {
-            mUnit = nsCSSUnit.Normal;
+            mUnit = CssUnit.Normal;
             mValue = null;
         }
 
         internal void SetSystemFontValue ()
         {
-            mUnit = nsCSSUnit.System_Font;
+            mUnit = CssUnit.System_Font;
             mValue = null;
         }
 
         internal void Reset ()
         {
-            mUnit = nsCSSUnit.Null;
+            mUnit = CssUnit.Null;
             mValue = null;
         }
 
         internal bool IsLengthUnit ()
         {
-            return nsCSSUnit.PhysicalMillimeter <= mUnit && mUnit <= nsCSSUnit.Pixel;
+            return CssUnit.PhysicalMillimeter <= mUnit && mUnit <= CssUnit.Pixel;
         }
 
         internal bool IsFixedLengthUnit ()
         {
-            return mUnit == nsCSSUnit.PhysicalMillimeter;
+            return mUnit == CssUnit.PhysicalMillimeter;
         }
 
         internal bool IsRelativeLengthUnit ()
         {
-            return nsCSSUnit.EM <= mUnit && mUnit <= nsCSSUnit.RootEM;
+            return CssUnit.EM <= mUnit && mUnit <= CssUnit.RootEM;
         }
 
         internal bool IsPixelLengthUnit ()
         {
-            return nsCSSUnit.Point <= mUnit && mUnit <= nsCSSUnit.Pixel;
+            return CssUnit.Point <= mUnit && mUnit <= CssUnit.Pixel;
         }
 
         internal bool IsAngularUnit ()
         {
-            return nsCSSUnit.Degree <= mUnit && mUnit <= nsCSSUnit.Turn;
+            return CssUnit.Degree <= mUnit && mUnit <= CssUnit.Turn;
         }
 
         internal bool IsFrequencyUnit ()
         {
-            return nsCSSUnit.Hertz <= mUnit && mUnit <= nsCSSUnit.Kilohertz;
+            return CssUnit.Hertz <= mUnit && mUnit <= CssUnit.Kilohertz;
         }
 
         internal bool IsTimeUnit ()
         {
-            return nsCSSUnit.Seconds <= mUnit && mUnit <= nsCSSUnit.Milliseconds;
+            return CssUnit.Seconds <= mUnit && mUnit <= CssUnit.Milliseconds;
         }
 
         internal bool IsCalcUnit ()
         {
-            return nsCSSUnit.Calc <= mUnit && mUnit <= nsCSSUnit.Calc_Divided;
+            return CssUnit.Calc <= mUnit && mUnit <= CssUnit.Calc_Divided;
         }
 
         internal static string BufferFromString (string str)
@@ -408,12 +408,12 @@ namespace Alba.CsCss.Style
 
         internal bool UnitHasStringValue ()
         {
-            return nsCSSUnit.String <= mUnit && mUnit <= nsCSSUnit.Element;
+            return CssUnit.String <= mUnit && mUnit <= CssUnit.Element;
         }
 
         internal bool UnitHasArrayValue ()
         {
-            return nsCSSUnit.Array <= mUnit && mUnit <= nsCSSUnit.Calc_Divided;
+            return CssUnit.Array <= mUnit && mUnit <= CssUnit.Calc_Divided;
         }
 
         // Comparison

@@ -5,7 +5,7 @@
 <#
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSPseudoElementList.g.txt", () => GenerateCssPseudoElementListText());
-    T4.GenerateFile("nsCSSPseudoElement.g.cs", () => GenerateCssPseudoElement());
+    T4.GenerateFile("CssPseudoElement.g.cs", () => GenerateCssPseudoElement());
     T4.GenerateFile("nsCSSPseudoElements.g.cs", () => GenerateCssPseudoElements());
     T4.Process();
 #>
@@ -30,7 +30,7 @@
 
 namespace Alba.CsCss.Style
 {
-    public enum nsCSSPseudoElement
+    public enum CssPseudoElement
     {
 <#+   foreach (CssPseudoElement el in GetCssPseudoElements()) { #>
         <#=el.Name#>,
@@ -62,10 +62,10 @@ namespace Alba.CsCss.Style
         public static string <#=ToId(cls.Name)#> = <#=cls.Value#>;
 <#+   } #>
 
-        private static readonly IDictionary<string, nsCSSPseudoElement> sPseudoElements =
-            new Dictionary<string, nsCSSPseudoElement>(ReferenceEqualityComparer<object>.Default) {
+        private static readonly IDictionary<string, CssPseudoElement> sPseudoElements =
+            new Dictionary<string, CssPseudoElement>(ReferenceEqualityComparer<object>.Default) {
 <#+           foreach (CssPseudoElement cls in GetCssPseudoElements()) { #>
-                { <#=cls.Value#>, nsCSSPseudoElement.<#=ToId(cls.Name)#> },
+                { <#=cls.Value#>, CssPseudoElement.<#=ToId(cls.Name)#> },
 <#+           } #>
             };
     }
