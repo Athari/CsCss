@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Alba.CsCss.Gfx
 {
-    public partial struct nscolor
+    public partial struct CssColor
     {
         private static readonly string[] kColorNames = {
             "aliceblue",
@@ -160,7 +160,7 @@ namespace Alba.CsCss.Gfx
             "yellowgreen",
         };
 
-        private static readonly nscolor[] kColors = {
+        private static readonly CssColor[] kColors = {
             RGB(240, 248, 255),
             RGB(250, 235, 215),
             RGB(  0, 255, 255),

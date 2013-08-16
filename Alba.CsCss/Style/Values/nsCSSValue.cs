@@ -162,9 +162,9 @@ namespace Alba.CsCss.Style
             return (URLValue)mValue;
         }
 
-        internal nscolor GetColorValue ()
+        internal CssColor GetColorValue ()
         {
-            return (nscolor)mValue;
+            return (CssColor)mValue;
         }
 
         internal nsCSSValueGradient GetGradientValue ()
@@ -247,7 +247,7 @@ namespace Alba.CsCss.Style
             mValue = aValue;
         }
 
-        internal void SetColorValue (nscolor aValue)
+        internal void SetColorValue (CssColor aValue)
         {
             mUnit = CssUnit.Color;
             mValue = aValue;
@@ -495,7 +495,7 @@ namespace Alba.CsCss.Style
             get { return GetOriginalURLValue(); }
         }
 
-        public nscolor Color
+        public CssColor Color
         {
             get { return GetColorValue(); }
         }

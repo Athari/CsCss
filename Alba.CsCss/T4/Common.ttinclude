@@ -24,6 +24,7 @@
         { "nsCSSUnit", "CssUnit" },
         { "nsAttrFunc", "CssAttrFunction" },
         { "Declaration", "CssDeclaration" },
+        { "nscolor", "CssColor" },
     };
 
     string ToId (string name)
@@ -36,7 +37,7 @@
         return source
             .ReReplace(@"(?x)\b(?<Type>
                             nsCSSProperty|nsCSSPseudoClass|nsCSSPseudoElement|nsCSSUnit|nsAttrFunc|
-                            Declaration
+                            Declaration|nscolor
                         )\b", m => TypeRenames[m.Get("Type")])
             ;
     }

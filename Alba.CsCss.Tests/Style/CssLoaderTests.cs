@@ -29,7 +29,7 @@ namespace Alba.CsCss.Tests.Style
             Assert.AreEqual("h1", h1sel.Tag);
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(CssProperty.color, h1color.Property);
-            Assert.AreEqual(nscolor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
+            Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
             //var h1colorval = css.GetRules<StyleRule>().Single().Declaration.GetValue(CssProperty.color).Color;
         }
 

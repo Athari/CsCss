@@ -6,11 +6,11 @@ using PRUnichar = System.Char;
 namespace Alba.CsCss.Gfx
 {
     [DebuggerDisplay ("rgba({R}, {G}, {B}, {A})")]
-    public partial struct nscolor : IEquatable<nscolor>
+    public partial struct CssColor : IEquatable<CssColor>
     {
         private readonly UInt32 _rgba;
 
-        private nscolor (uint rgba)
+        private CssColor (uint rgba)
         {
             _rgba = rgba;
         }
@@ -35,17 +35,17 @@ namespace Alba.CsCss.Gfx
             get { return (byte)((_rgba >> 24) & 0xff); }
         }
 
-        public static nscolor RGB (byte r, byte g, byte b)
+        public static CssColor RGB (byte r, byte g, byte b)
         {
-            return new nscolor(((uint)255 << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
+            return new CssColor(((uint)255 << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
         }
 
-        public static nscolor RGBA (byte r, byte g, byte b, byte a)
+        public static CssColor RGBA (byte r, byte g, byte b, byte a)
         {
-            return new nscolor(((uint)a << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
+            return new CssColor(((uint)a << 24) | ((uint)(b) << 16) | ((uint)(g) << 8) | (r));
         }
 
-        public static bool HexToRGB (string aColorSpec, ref nscolor aResult)
+        public static bool HexToRGB (string aColorSpec, ref CssColor aResult)
         {
             string buffer = aColorSpec;
 
@@ -85,7 +85,7 @@ namespace Alba.CsCss.Gfx
             return false;
         }
 
-        public static bool LooseHexToRGB (string aColorSpec, ref nscolor aResult)
+        public static bool LooseHexToRGB (string aColorSpec, ref CssColor aResult)
         {
             if (aColorSpec.EqualsLiteral("transparent")) {
                 return false;
@@ -146,7 +146,7 @@ namespace Alba.CsCss.Gfx
             return true;
         }
 
-        public static bool ColorNameToRGB (string aColorName, ref nscolor aResult)
+        public static bool ColorNameToRGB (string aColorName, ref CssColor aResult)
         {
             if (gColorTable == null)
                 return false;
@@ -159,7 +159,7 @@ namespace Alba.CsCss.Gfx
             return false;
         }
 
-        public static nscolor HSL2RGB (float h, float s, float l)
+        public static CssColor HSL2RGB (float h, float s, float l)
         {
             float m2 = l <= 0.5f ? (l * (s + 1)) : (l + s - l * s);
             float m1 = l * 2 - m2;
@@ -184,7 +184,7 @@ namespace Alba.CsCss.Gfx
             return m1;
         }
 
-        public static string RGBToColorName (nscolor aColor)
+        public static string RGBToColorName (CssColor aColor)
         {
             for (int idx = 0; idx < kColors.Length; ++idx) {
                 if (kColors[idx] == aColor) {
@@ -218,14 +218,14 @@ namespace Alba.CsCss.Gfx
             return (byte)component;
         }
 
-        public bool Equals (nscolor other)
+        public bool Equals (CssColor other)
         {
             return _rgba == other._rgba;
         }
 
         public override bool Equals (object obj)
         {
-            return !ReferenceEquals(null, obj) && (obj is nscolor && Equals((nscolor)obj));
+            return !ReferenceEquals(null, obj) && (obj is CssColor && Equals((CssColor)obj));
         }
 
         public override int GetHashCode ()
@@ -233,12 +233,12 @@ namespace Alba.CsCss.Gfx
             return (int)_rgba;
         }
 
-        public static bool operator == (nscolor left, nscolor right)
+        public static bool operator == (CssColor left, CssColor right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator != (nscolor left, nscolor right)
+        public static bool operator != (CssColor left, CssColor right)
         {
             return !left.Equals(right);
         }

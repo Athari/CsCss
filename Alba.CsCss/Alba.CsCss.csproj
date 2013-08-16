@@ -44,6 +44,9 @@
     <Compile Include="Common\Original\nsNameSpace.conv.cs">
       <DependentUpon>nsINameSpaceManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gfx\Original\CssColor.g.cs">
+      <DependentUpon>nsColorNameList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Internal\Extensions\ArrayExts.cs" />
     <Compile Include="Internal\Extensions\ListExts.cs" />
     <Compile Include="Internal\Extensions\ObjectExts.cs" />
@@ -56,17 +59,8 @@
     <Compile Include="Internal\Extensions\StringExts.cs" />
     <Compile Include="Gfx\gfxFontFeature.cs" />
     <Compile Include="Gfx\nsFont.cs" />
-    <Compile Include="Gfx\nsIntRect.cs" />
-    <Compile Include="Gfx\nsIntMargin.cs" />
-    <Compile Include="Gfx\nsIntPoint.cs" />
-    <Compile Include="Gfx\nscolor.cs" />
+    <Compile Include="Gfx\CssColor.cs" />
     <Compile Include="Gfx\nscoord.cs" />
-    <Compile Include="Gfx\nsMargin.cs" />
-    <Compile Include="Gfx\nsPoint.cs" />
-    <Compile Include="Gfx\nsRect.cs" />
-    <Compile Include="Gfx\Original\nscolor.g.cs">
-      <DependentUpon>nsColorNameList.tt</DependentUpon>
-    </Compile>
     <Compile Include="Gfx\Original\nsFont.conv.cs">
       <DependentUpon>gfxFontConstants.tt</DependentUpon>
     </Compile>

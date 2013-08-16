@@ -3189,19 +3189,19 @@ namespace Alba.CsCss.Style
           }
         
           nsCSSToken tk = mToken;
-          var rgba = new nscolor();
+          var rgba = new CssColor();
           switch (tk.mType) {
             case nsCSSTokenType.ID:
             case nsCSSTokenType.Hash:
               // #xxyyzz
-              if (nscolor.HexToRGB(tk.mIdentStr, ref rgba)) {
+              if (CssColor.HexToRGB(tk.mIdentStr, ref rgba)) {
                 aValue.SetColorValue(rgba);
                 return true;
               }
               break;
         
             case nsCSSTokenType.Ident:
-              if (nscolor.ColorNameToRGB(tk.mIdentStr, ref rgba)) {
+              if (CssColor.ColorNameToRGB(tk.mIdentStr, ref rgba)) {
                 aValue.SetStringValue(tk.mIdentStr, CssUnit.Ident);
                 return true;
               }
@@ -3224,7 +3224,7 @@ namespace Alba.CsCss.Style
                 if (ParseColorComponent(ref r, ref type, ',') &&
                     ParseColorComponent(ref g, ref type, ',') &&
                     ParseColorComponent(ref b, ref type, ')')) {
-                  aValue.SetColorValue(nscolor.RGB(r,g,b));
+                  aValue.SetColorValue(CssColor.RGB(r,g,b));
                   return true;
                 }
                 SkipUntil(')');
@@ -3239,7 +3239,7 @@ namespace Alba.CsCss.Style
                     ParseColorComponent(ref g, ref type, ',') &&
                     ParseColorComponent(ref b, ref type, ',') &&
                     ParseColorOpacity(ref a)) {
-                  aValue.SetColorValue(nscolor.RGBA(r, g, b, a));
+                  aValue.SetColorValue(CssColor.RGBA(r, g, b, a));
                   return true;
                 }
                 SkipUntil(')');
@@ -3263,7 +3263,7 @@ namespace Alba.CsCss.Style
                 uint8_t a = 0;
                 if (ParseHSLColor(ref rgba, ',') &&
                     ParseColorOpacity(ref a)) {
-                  aValue.SetColorValue(nscolor.RGBA(rgba.R, rgba.G,
+                  aValue.SetColorValue(CssColor.RGBA(rgba.R, rgba.G,
                                                rgba.B, a));
                   return true;
                 }
@@ -3352,7 +3352,7 @@ namespace Alba.CsCss.Style
           return false;
         }
         
-        internal bool ParseHSLColor(ref nscolor aColor,
+        internal bool ParseHSLColor(ref CssColor aColor,
                                      char aStop)
         {
           float h = 0, s = 0, l = 0;
@@ -3411,7 +3411,7 @@ namespace Alba.CsCss.Style
           if (l > 1.0f) l = 1.0f;
         
           if (ExpectSymbol(aStop, true)) {
-            aColor = nscolor.HSL2RGB(h, s, l);
+            aColor = CssColor.HSL2RGB(h, s, l);
             return true;
           }
         
@@ -5579,7 +5579,7 @@ namespace Alba.CsCss.Style
           
             // If we get to this point without seeing a color, provide a default.
             if (color.GetUnit() == CssUnit.Null) {
-              color.SetColorValue(nscolor.RGBA(0,0,0,0));
+              color.SetColorValue(CssColor.RGBA(0,0,0,0));
             }
           
             AppendValue(CssProperty.background_image,      image);

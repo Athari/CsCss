@@ -5,7 +5,7 @@
 <#
     var T4 = GetT4();
     //T4.GenerateFile("nsColorNameList.g.txt", () => GenerateGfxColorNameListText());
-    T4.GenerateFile("nscolor.g.cs", () => GenerateGfxColor());
+    T4.GenerateFile("CssColor.g.cs", () => GenerateGfxColor());
     T4.Process();
 #>
 
@@ -31,7 +31,7 @@ using System.Linq;
 
 namespace Alba.CsCss.Gfx
 {
-    public partial struct nscolor
+    public partial struct CssColor
     {
         private static readonly string[] kColorNames = {
 <#+       foreach (GfxColorName color in GetGfxColorNames()) { #>
@@ -39,7 +39,7 @@ namespace Alba.CsCss.Gfx
 <#+       } #>
         };
 
-        private static readonly nscolor[] kColors = {
+        private static readonly CssColor[] kColors = {
 <#+       foreach (GfxColorName color in GetGfxColorNames()) { #>
             <#= color.Value.Replace("NS_", "") #>,
 <#+       } #>
