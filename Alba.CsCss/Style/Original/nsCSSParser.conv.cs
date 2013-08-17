@@ -3691,9 +3691,9 @@ namespace Alba.CsCss.Style
           nsCSSProperty.BorderEndColor
         };
         static nsCSSProperty[] kColumnRuleIDs = new nsCSSProperty[] {
-          nsCSSProperty._mozColumnRuleWidth,
-          nsCSSProperty._mozColumnRuleStyle,
-          nsCSSProperty._mozColumnRuleColor
+          nsCSSProperty.MozColumnRuleWidth,
+          nsCSSProperty.MozColumnRuleStyle,
+          nsCSSProperty.MozColumnRuleColor
         };
         
         internal bool ParseEnum(ref nsCSSValue aValue,
@@ -5106,10 +5106,10 @@ namespace Alba.CsCss.Style
           nsCSSProperty.BorderBottomLeftRadius
         };
         static nsCSSProperty[] kOutlineRadiusIDs = new nsCSSProperty[] {
-          nsCSSProperty._mozOutlineRadiusTopLeft,
-          nsCSSProperty._mozOutlineRadiusTopRight,
-          nsCSSProperty._mozOutlineRadiusBottomRight,
-          nsCSSProperty._mozOutlineRadiusBottomLeft
+          nsCSSProperty.MozOutlineRadiusTopLeft,
+          nsCSSProperty.MozOutlineRadiusTopRight,
+          nsCSSProperty.MozOutlineRadiusBottomRight,
+          nsCSSProperty.MozOutlineRadiusBottomLeft
         };
         
         internal bool ParseProperty(nsCSSProperty aPropID)
@@ -5268,17 +5268,17 @@ namespace Alba.CsCss.Style
                                                nsStyle.BOXPROP_SOURCE_LOGICAL);
           case nsCSSProperty.BorderRadius:
             return ParseBoxCornerRadii(kBorderRadiusIDs);
-          case nsCSSProperty._mozOutlineRadius:
+          case nsCSSProperty.MozOutlineRadius:
             return ParseBoxCornerRadii(kOutlineRadiusIDs);
         
           case nsCSSProperty.BorderTopLeftRadius:
           case nsCSSProperty.BorderTopRightRadius:
           case nsCSSProperty.BorderBottomRightRadius:
           case nsCSSProperty.BorderBottomLeftRadius:
-          case nsCSSProperty._mozOutlineRadiusTopLeft:
-          case nsCSSProperty._mozOutlineRadiusTopRight:
-          case nsCSSProperty._mozOutlineRadiusBottomRight:
-          case nsCSSProperty._mozOutlineRadiusBottomLeft:
+          case nsCSSProperty.MozOutlineRadiusTopLeft:
+          case nsCSSProperty.MozOutlineRadiusTopRight:
+          case nsCSSProperty.MozOutlineRadiusBottomRight:
+          case nsCSSProperty.MozOutlineRadiusBottomLeft:
             return ParseBoxCornerRadius(aPropID);
         
           case nsCSSProperty.BoxShadow:
@@ -5287,9 +5287,9 @@ namespace Alba.CsCss.Style
         
           case nsCSSProperty.Clip:
             return ParseRect(nsCSSProperty.Clip);
-          case nsCSSProperty._mozColumns:
+          case nsCSSProperty.MozColumns:
             return ParseColumns();
-          case nsCSSProperty._mozColumnRule:
+          case nsCSSProperty.MozColumnRule:
             return ParseBorderSide(kColumnRuleIDs, false);
           case nsCSSProperty.Content:
             return ParseContent();
@@ -5350,7 +5350,7 @@ namespace Alba.CsCss.Style
             return ParseTextDecoration();
           case nsCSSProperty.Transform:
             return ParseTransform(false);
-          case nsCSSProperty._mozTransform:
+          case nsCSSProperty.MozTransform:
             return ParseTransform(true);
           case nsCSSProperty.TransformOrigin:
             return ParseTransformOrigin(false);
@@ -7080,8 +7080,8 @@ namespace Alba.CsCss.Style
           // find.
           /*TODO: static*/ nsCSSProperty[] columnIDs = {
             nsCSSProperty.ExtraXAutoValue,
-            nsCSSProperty._mozColumnCount,
-            nsCSSProperty._mozColumnWidth
+            nsCSSProperty.MozColumnCount,
+            nsCSSProperty.MozColumnWidth
           };
           uint32_t numProps = columnIDs.Length;
         

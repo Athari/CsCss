@@ -69,14 +69,18 @@
         if (name == "COUNT") {
             return countPrefix == null ? "Count" : countPrefix + "Count";
         }
-        if (name.StartsWith("COUNT_")) {
+        else if (name.StartsWith("COUNT_")) {
             sb.Append(countPrefix == null ? "Count" : countPrefix + "Count");
             name = name.Substring(6);
         }
 
         if (name.StartsWith("_moz")) {
-            sb.Append("_moz");
+            sb.Append("Moz");
             name = name.Substring(4);
+        }
+        else if (name.StartsWith("moz")) {
+            sb.Append("Moz");
+            name = name.Substring(3);
         }
 
         bool isNextUpper = true, isPrevLower = false;

@@ -11,15 +11,15 @@ namespace Alba.CsCss.Style
         Unknown = -1,
         Appearance,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozOutlineRadiusTopLeft,
+        MozOutlineRadiusTopLeft,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozOutlineRadiusTopRight,
+        MozOutlineRadiusTopRight,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozOutlineRadiusBottomRight,
+        MozOutlineRadiusBottomRight,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozOutlineRadiusBottomLeft,
+        MozOutlineRadiusBottomLeft,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozTabSize,
+        MozTabSize,
         XSystemFont,
         AnimationDelay,
         AnimationDirection,
@@ -34,7 +34,7 @@ namespace Alba.CsCss.Style
         BackgroundColor,
         BackgroundImage,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozBackgroundInlinePolicy,
+        MozBackgroundInlinePolicy,
         BackgroundOrigin,
         BackgroundPosition,
         BackgroundRepeat,
@@ -93,19 +93,19 @@ namespace Alba.CsCss.Style
         Clip,
         Color,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnCount,
+        MozColumnCount,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnFill,
+        MozColumnFill,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnWidth,
+        MozColumnWidth,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnGap,
+        MozColumnGap,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnRuleColor,
+        MozColumnRuleColor,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnRuleStyle,
+        MozColumnRuleStyle,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozColumnRuleWidth,
+        MozColumnRuleWidth,
         Content,
         CounterIncrement,
         CounterReset,
@@ -222,7 +222,7 @@ namespace Alba.CsCss.Style
         Widows,
         Width,
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        _mozWindowShadow,
+        MozWindowShadow,
         WordBreak,
         WordSpacing,
         WordWrap,
@@ -275,7 +275,7 @@ namespace Alba.CsCss.Style
         PropertyCountNoShorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]
         PropertyCountDummy1 = PropertyCountNoShorthands - 1,
-        _mozOutlineRadius,
+        MozOutlineRadius,
         Animation,
         Background,
         Border,
@@ -302,8 +302,8 @@ namespace Alba.CsCss.Style
         BorderTop,
         BorderWidth,
         BorderRadius,
-        _mozColumns,
-        _mozColumnRule,
+        MozColumns,
+        MozColumnRule,
         Flex,
         Font,
         ListStyle,
@@ -322,7 +322,7 @@ namespace Alba.CsCss.Style
         TextDecoration,
         Transition,
         Marker,
-        _mozTransform,
+        MozTransform,
         PropertyCount,
         [EditorBrowsable(EditorBrowsableState.Never)]
         PropertyCountDummy2 = PropertyCount - 1,

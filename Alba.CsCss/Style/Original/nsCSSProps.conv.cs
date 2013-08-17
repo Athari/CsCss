@@ -1172,10 +1172,10 @@ namespace Alba.CsCss.Style
         public static readonly nsCSSProperty[] gOutlineRadiusSubpropTable = {
           // Code relies on these being in topleft-topright-bottomright-bottomleft
           // order.
-          nsCSSProperty._mozOutlineRadiusTopLeft,
-          nsCSSProperty._mozOutlineRadiusTopRight,
-          nsCSSProperty._mozOutlineRadiusBottomRight,
-          nsCSSProperty._mozOutlineRadiusBottomLeft,
+          nsCSSProperty.MozOutlineRadiusTopLeft,
+          nsCSSProperty.MozOutlineRadiusTopRight,
+          nsCSSProperty.MozOutlineRadiusBottomRight,
+          nsCSSProperty.MozOutlineRadiusBottomLeft,
           nsCSSProperty.Unknown
         };
 
@@ -1527,17 +1527,17 @@ namespace Alba.CsCss.Style
         };
 
         public static readonly nsCSSProperty[] gColumnsSubpropTable = {
-          nsCSSProperty._mozColumnCount,
-          nsCSSProperty._mozColumnWidth,
+          nsCSSProperty.MozColumnCount,
+          nsCSSProperty.MozColumnWidth,
           nsCSSProperty.Unknown
         };
 
         public static readonly nsCSSProperty[] gColumnRuleSubpropTable = {
           // nsCSSDeclaration.cpp outputs the subproperties in this order.
           // It also depends on the color being third.
-          nsCSSProperty._mozColumnRuleWidth,
-          nsCSSProperty._mozColumnRuleStyle,
-          nsCSSProperty._mozColumnRuleColor,
+          nsCSSProperty.MozColumnRuleWidth,
+          nsCSSProperty.MozColumnRuleStyle,
+          nsCSSProperty.MozColumnRuleColor,
           nsCSSProperty.Unknown
         };
 

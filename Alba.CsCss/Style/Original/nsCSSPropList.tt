@@ -60,7 +60,7 @@ namespace Alba.CsCss.Style
     {
         Unknown = -1,
 <#+   foreach (string propId in GetCssProps(CommonDefs).Select(p => ToPascalId(p.Id))) { #>
-<#+    if (propId.StartsWith("_")) { #>
+<#+    if (propId.StartsWith("Moz")) { #>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
 <#+    } #>
         <#=propId#>,
@@ -103,7 +103,7 @@ namespace Alba.CsCss.Style
         // My
 
 <#+   foreach (string propId in GetCssProps(CommonDefs).Select(p => ToPascalId(p.Id))) { #>
-<#+    if (propId.StartsWith("_")) { #>
+<#+    if (propId.StartsWith("Moz")) { #>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
 <#+    } #>
         public CssValue <#=propId#>

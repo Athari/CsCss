@@ -16,33 +16,33 @@ namespace Alba.CsCss.Style
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozOutlineRadiusTopLeft
+        public CssValue MozOutlineRadiusTopLeft
         {
-            get { return GetValue(CssProperty._mozOutlineRadiusTopLeft); }
+            get { return GetValue(CssProperty.MozOutlineRadiusTopLeft); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozOutlineRadiusTopRight
+        public CssValue MozOutlineRadiusTopRight
         {
-            get { return GetValue(CssProperty._mozOutlineRadiusTopRight); }
+            get { return GetValue(CssProperty.MozOutlineRadiusTopRight); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozOutlineRadiusBottomRight
+        public CssValue MozOutlineRadiusBottomRight
         {
-            get { return GetValue(CssProperty._mozOutlineRadiusBottomRight); }
+            get { return GetValue(CssProperty.MozOutlineRadiusBottomRight); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozOutlineRadiusBottomLeft
+        public CssValue MozOutlineRadiusBottomLeft
         {
-            get { return GetValue(CssProperty._mozOutlineRadiusBottomLeft); }
+            get { return GetValue(CssProperty.MozOutlineRadiusBottomLeft); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozTabSize
+        public CssValue MozTabSize
         {
-            get { return GetValue(CssProperty._mozTabSize); }
+            get { return GetValue(CssProperty.MozTabSize); }
         }
 
         public CssValue XSystemFont
@@ -111,9 +111,9 @@ namespace Alba.CsCss.Style
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozBackgroundInlinePolicy
+        public CssValue MozBackgroundInlinePolicy
         {
-            get { return GetValue(CssProperty._mozBackgroundInlinePolicy); }
+            get { return GetValue(CssProperty.MozBackgroundInlinePolicy); }
         }
 
         public CssValue BackgroundOrigin
@@ -402,45 +402,45 @@ namespace Alba.CsCss.Style
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnCount
+        public CssValue MozColumnCount
         {
-            get { return GetValue(CssProperty._mozColumnCount); }
+            get { return GetValue(CssProperty.MozColumnCount); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnFill
+        public CssValue MozColumnFill
         {
-            get { return GetValue(CssProperty._mozColumnFill); }
+            get { return GetValue(CssProperty.MozColumnFill); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnWidth
+        public CssValue MozColumnWidth
         {
-            get { return GetValue(CssProperty._mozColumnWidth); }
+            get { return GetValue(CssProperty.MozColumnWidth); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnGap
+        public CssValue MozColumnGap
         {
-            get { return GetValue(CssProperty._mozColumnGap); }
+            get { return GetValue(CssProperty.MozColumnGap); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnRuleColor
+        public CssValue MozColumnRuleColor
         {
-            get { return GetValue(CssProperty._mozColumnRuleColor); }
+            get { return GetValue(CssProperty.MozColumnRuleColor); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnRuleStyle
+        public CssValue MozColumnRuleStyle
         {
-            get { return GetValue(CssProperty._mozColumnRuleStyle); }
+            get { return GetValue(CssProperty.MozColumnRuleStyle); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozColumnRuleWidth
+        public CssValue MozColumnRuleWidth
         {
-            get { return GetValue(CssProperty._mozColumnRuleWidth); }
+            get { return GetValue(CssProperty.MozColumnRuleWidth); }
         }
 
         public CssValue Content
@@ -1019,9 +1019,9 @@ namespace Alba.CsCss.Style
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CssValue _mozWindowShadow
+        public CssValue MozWindowShadow
         {
-            get { return GetValue(CssProperty._mozWindowShadow); }
+            get { return GetValue(CssProperty.MozWindowShadow); }
         }
 
         public CssValue WordBreak

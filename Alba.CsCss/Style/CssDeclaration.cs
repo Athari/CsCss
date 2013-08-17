@@ -104,12 +104,15 @@ namespace Alba.CsCss.Style
 
         public CssValue GetValue (CssProperty prop)
         {
-            return mData.ValueFor(prop);
-        }
-
-        public CssValue GetImportantValue (CssProperty prop)
-        {
-            return mData.ValueFor(prop);
+            int index = mData.IndexFor(prop);
+            if (index != -1)
+                return mData.mData[index].Value;
+            if (mImportantData == null)
+                return CssValue.NullValue;
+            index = mImportantData.IndexFor(prop);
+            if (index != -1)
+                return mImportantData.mData[index].Value;
+            return CssValue.NullValue;
         }
 
         internal string DebugDisplayCount
