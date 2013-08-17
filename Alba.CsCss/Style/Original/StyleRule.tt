@@ -18,7 +18,7 @@ namespace Alba.CsCss.Style
     public enum CssAttrFunction
     {
 <#+   foreach (Match m in source.ReMatches(@"#define NS_ATTR_FUNC_(?<Name>\w+) +(?<Value>-?\d+)(?<Comment> *// .*)?")) { #>
-        <#=m.Get("Name")#> = <#=m.Get("Value")#>,<#=m.Get("Comment").Trim()#>
+        <#=ToPascalId(m.Get("Name")).Replace("match", "Match")#> = <#=m.Get("Value")#>,<#=m.Get("Comment").Trim()#>
 <#+   } #>
     }
 }

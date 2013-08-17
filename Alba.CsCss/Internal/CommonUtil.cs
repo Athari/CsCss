@@ -28,21 +28,21 @@ namespace Alba.CsCss.Internal
                     Debug.Assert(arr.Count() == 1, "unexpected length");
                     return ComputeCalc(arr.Item(0), aOps);
                 }
-                case CssUnit.Calc_Plus:
-                case CssUnit.Calc_Minus: {
+                case CssUnit.CalcPlus:
+                case CssUnit.CalcMinus: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = ComputeCalc(arr.Item(0), aOps), rhs = ComputeCalc(arr.Item(1), aOps);
                     return aOps.MergeAdditive(aOps.GetUnit(aValue), lhs, rhs);
                 }
-                case CssUnit.Calc_Times_L: {
+                case CssUnit.CalcTimesL: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = aOps.ComputeNumber(arr.Item(0)), rhs = ComputeCalc(arr.Item(1), aOps);
                     return aOps.MergeMultiplicativeL(aOps.GetUnit(aValue), lhs, rhs);
                 }
-                case CssUnit.Calc_Times_R:
-                case CssUnit.Calc_Divided: {
+                case CssUnit.CalcTimesR:
+                case CssUnit.CalcDivided: {
                     TInput[] arr = aValue.GetArrayValue();
                     Debug.Assert(arr.Count() == 2, "unexpected length");
                     TResult lhs = ComputeCalc(arr.Item(0), aOps), rhs = aOps.ComputeNumber(arr.Item(1));

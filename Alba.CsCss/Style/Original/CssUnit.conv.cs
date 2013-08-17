@@ -13,7 +13,7 @@ namespace Alba.CsCss.Style
         Initial      = 3,      // (n/a) value is default UA value
         None         = 4,      // (n/a) value is none
         Normal       = 5,      // (n/a) value is normal (algorithmic, different than auto)
-        System_Font  = 6,      // (n/a) value is -moz-use-system-font
+        SystemFont  = 6,      // (n/a) value is -moz-use-system-font
         All          = 7,      // (n/a) value is all
         Dummy        = 8,      // (n/a) a fake but specified value, used
                                         //       only in temporary values
@@ -24,21 +24,21 @@ namespace Alba.CsCss.Style
         Ident        = 12,     // (PRUnichar*) a string value
         Families     = 13,     // (PRUnichar*) a string value
         Attr         = 14,     // (PRUnichar*) a attr(string) value
-        Local_Font   = 15,     // (PRUnichar*) a local font name
-        Font_Format  = 16,     // (PRUnichar*) a font format name
+        LocalFont   = 15,     // (PRUnichar*) a local font name
+        FontFormat  = 16,     // (PRUnichar*) a font format name
         Element      = 17,     // (PRUnichar*) an element id
       
         Array        = 20,     // (nsCSSValue::Array*) a list of values
         Counter      = 21,     // (nsCSSValue::Array*) a counter(string,[string]) value
         Counters     = 22,     // (nsCSSValue::Array*) a counters(string,string[,string]) value
-        Cubic_Bezier = 23,     // (nsCSSValue::Array*) a list of float values
+        CubicBezier = 23,     // (nsCSSValue::Array*) a list of float values
         Steps        = 24,     // (nsCSSValue::Array*) a list of (integer, enumerated)
         Function     = 25,     // (nsCSSValue::Array*) a function with
                                         //  parameters.  First elem of array is name,
                                         //  the rest of the values are arguments.
       
         // The top level of a calc() expression is Calc.  All
-        // remaining Calc_* units only occur inside these toplevel
+        // remaining Calc* units only occur inside these toplevel
         // calc values.
       
         // Calc has an array with exactly 1 element.  Calc
@@ -48,13 +48,13 @@ namespace Alba.CsCss.Style
         Calc         = 30,     // (nsCSSValue::Array*) calc() value
         // Plus, Minus, Times_* and Divided have arrays with exactly 2
         // elements.  a + b + c + d is grouped as ((a + b) + c) + d
-        Calc_Plus    = 31,     // (nsCSSValue::Array*) + node within calc()
-        Calc_Minus   = 32,     // (nsCSSValue::Array*) - within calc
-        Calc_Times_L = 33,     // (nsCSSValue::Array*) num * val within calc
-        Calc_Times_R = 34,     // (nsCSSValue::Array*) val * num within calc
-        Calc_Divided = 35,     // (nsCSSValue::Array*) / within calc
+        CalcPlus    = 31,     // (nsCSSValue::Array*) + node within calc()
+        CalcMinus   = 32,     // (nsCSSValue::Array*) - within calc
+        CalcTimesL = 33,     // (nsCSSValue::Array*) num * val within calc
+        CalcTimesR = 34,     // (nsCSSValue::Array*) val * num within calc
+        CalcDivided = 35,     // (nsCSSValue::Array*) / within calc
       
-        URL          = 40,     // (nsCSSValue::URL*) value
+        Url          = 40,     // (nsCSSValue::URL*) value
         Image        = 41,     // (nsCSSValue::Image*) value
         Gradient     = 42,     // (nsCSSValueGradient*) value
       
@@ -88,10 +88,10 @@ namespace Alba.CsCss.Style
         ViewportMax    = 703,    // (float) larger of ViewportWidth and ViewportHeight
       
         // Font relative measure
-        EM           = 800,    // (float) == current font size
-        XHeight      = 801,    // (float) distance from top of lower case x to baseline
+        Em           = 800,    // (float) == current font size
+        Xheight      = 801,    // (float) distance from top of lower case x to baseline
         Char         = 802,    // (float) number of characters, used for width with monospace font
-        RootEM       = 803,    // (float) == root element font size
+        RootEm       = 803,    // (float) == root element font size
       
         // Screen relative measure
         Point        = 900,    // (float) 4/3 of a CSS pixel

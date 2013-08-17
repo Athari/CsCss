@@ -114,9 +114,15 @@
     {
         return source
             .ReReplace(@"(?nx)\b(?<Enum>
-                            nsCSS(?<CountPrefix>Property)
+                            nsCSS(?<CountPrefix>Property) |
+                            nsCSS(?<CountPrefix>PseudoClass) |
+                            nsCSS(?<CountPrefix>PseudoElement) |
+                            nsCSSUnit |
+                            nsAttrFunc
                         ) \. (?<Value>\w+)",
-                        m => "{0}.{1}".Fmt(m.Get("Enum"), ToPascalId(m.Get("Value"), countPrefix: m.Get("CountPrefix"))))
+                        m => "{0}.{1}".Fmt(
+                            m.Get("Enum"),
+                            ToPascalId(m.Get("Value"), countPrefix: m.Get("CountPrefix")).Replace("match", "Match"))) // "match" case for nsAttrFunc
             ;
     }
 #>

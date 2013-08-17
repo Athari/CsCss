@@ -12,24 +12,24 @@ namespace Alba.CsCss.Style
 
         public static bool HasSelectorListArg (CssPseudoClass aType)
         {
-            return aType == CssPseudoClass.any;
+            return aType == CssPseudoClass.Any;
         }
 
         public static bool HasStringArg (CssPseudoClass aType)
         {
-            return aType == CssPseudoClass.lang ||
-                   aType == CssPseudoClass.mozEmptyExceptChildrenWithLocalname ||
-                   aType == CssPseudoClass.mozSystemMetric ||
-                   aType == CssPseudoClass.mozLocaleDir ||
-                   aType == CssPseudoClass.dir;
+            return aType == CssPseudoClass.Lang ||
+                   aType == CssPseudoClass.MozEmptyExceptChildrenWithLocalname ||
+                   aType == CssPseudoClass.MozSystemMetric ||
+                   aType == CssPseudoClass.MozLocaleDir ||
+                   aType == CssPseudoClass.Dir;
         }
 
         public static bool HasNthPairArg (CssPseudoClass aType)
         {
-            return aType == CssPseudoClass.nthChild ||
-                   aType == CssPseudoClass.nthLastChild ||
-                   aType == CssPseudoClass.nthOfType ||
-                   aType == CssPseudoClass.nthLastOfType;
+            return aType == CssPseudoClass.NthChild ||
+                   aType == CssPseudoClass.NthLastChild ||
+                   aType == CssPseudoClass.NthOfType ||
+                   aType == CssPseudoClass.NthLastOfType;
         }
     }
 }

@@ -30,13 +30,20 @@
 // Generated file. Do not edit manually.
 //
 
+using System.ComponentModel;
+
 namespace Alba.CsCss.Style
 {
     public enum CssPseudoClass {
-<#+   foreach (CssPseudoClass cls in GetCssPseudoClasses()) { #>
-        <#=ToId(cls.Name)#>,
+<#+   foreach (string clsName in GetCssPseudoClasses().Select(cls => ToPascalId(cls.Name))) { #>
+<#+    if (clsName.StartsWith("Moz")) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+    } #>
+        <#=clsName#>,
 <#+   } #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         Count,
+        [EditorBrowsable(EditorBrowsableState.Never)]
         NotPseudoClass,
     }
 }
@@ -57,7 +64,7 @@ namespace Alba.CsCss.Style
         private static readonly IDictionary<string, CssPseudoClass> sPseudoClasses =
             new Dictionary<string, CssPseudoClass>(ReferenceEqualityComparer<object>.Default) {
 <#+           foreach (CssPseudoClass cls in GetCssPseudoClasses()) { #>
-                { <#=cls.Value#>, CssPseudoClass.<#=ToId(cls.Name)#> },
+                { <#=cls.Value#>, CssPseudoClass.<#=ToPascalId(cls.Name)#> },
 <#+           } #>
             };
     }

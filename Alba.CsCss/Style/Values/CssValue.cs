@@ -243,7 +243,7 @@ namespace Alba.CsCss.Style
 
         internal void SetURLValue (CssUriValue aValue)
         {
-            mUnit = CssUnit.URL;
+            mUnit = CssUnit.Url;
             mValue = aValue;
         }
 
@@ -351,7 +351,7 @@ namespace Alba.CsCss.Style
 
         internal void SetSystemFontValue ()
         {
-            mUnit = CssUnit.System_Font;
+            mUnit = CssUnit.SystemFont;
             mValue = null;
         }
 
@@ -373,7 +373,7 @@ namespace Alba.CsCss.Style
 
         internal bool IsRelativeLengthUnit ()
         {
-            return CssUnit.EM <= mUnit && mUnit <= CssUnit.RootEM;
+            return CssUnit.Em <= mUnit && mUnit <= CssUnit.RootEm;
         }
 
         internal bool IsPixelLengthUnit ()
@@ -398,7 +398,7 @@ namespace Alba.CsCss.Style
 
         internal bool IsCalcUnit ()
         {
-            return CssUnit.Calc <= mUnit && mUnit <= CssUnit.Calc_Divided;
+            return CssUnit.Calc <= mUnit && mUnit <= CssUnit.CalcDivided;
         }
 
         internal static string BufferFromString (string str)
@@ -413,7 +413,7 @@ namespace Alba.CsCss.Style
 
         internal bool UnitHasArrayValue ()
         {
-            return CssUnit.Array <= mUnit && mUnit <= CssUnit.Calc_Divided;
+            return CssUnit.Array <= mUnit && mUnit <= CssUnit.CalcDivided;
         }
 
         // Comparison

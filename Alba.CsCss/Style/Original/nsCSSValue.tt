@@ -25,7 +25,9 @@ namespace Alba.CsCss.Style
 {
     public enum CssUnit
     {
-<#=     source.ReMatchGet(@"(?s)enum nsCSSUnit {\n(.*?)\n}").Replace("eCSSUnit_", "").Indent(6).NormalizeWhitespace() #>
+<#=     source.ReMatchGet(@"(?s)enum nsCSSUnit {\n(.*?)\n}")
+            .ReReplace(@"eCSSUnit_(\w+)", ToPascalId)
+            .Indent(6).NormalizeWhitespace() #>
     }
 }
 <#+

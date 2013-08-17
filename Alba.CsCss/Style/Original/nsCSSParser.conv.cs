@@ -2458,34 +2458,34 @@ namespace Alba.CsCss.Style
               (nsCSSTokenType.Containsmatch == mToken.mType)) {
             nsAttrFunc func;
             if (nsCSSTokenType.Includes == mToken.mType) {
-              func = nsAttrFunc.INCLUDES;
+              func = nsAttrFunc.Includes;
             }
             else if (nsCSSTokenType.Dashmatch == mToken.mType) {
-              func = nsAttrFunc.DASHMATCH;
+              func = nsAttrFunc.DashMatch;
             }
             else if (nsCSSTokenType.Beginsmatch == mToken.mType) {
-              func = nsAttrFunc.BEGINSMATCH;
+              func = nsAttrFunc.BeginsMatch;
             }
             else if (nsCSSTokenType.Endsmatch == mToken.mType) {
-              func = nsAttrFunc.ENDSMATCH;
+              func = nsAttrFunc.EndsMatch;
             }
             else if (nsCSSTokenType.Containsmatch == mToken.mType) {
-              func = nsAttrFunc.CONTAINSMATCH;
+              func = nsAttrFunc.ContainsMatch;
             }
             else if (']' == mToken.mSymbol) {
               aDataMask |= SEL_MASK_ATTRIB;
               aSelector.AddAttribute(nameSpaceID, attr);
-              func = nsAttrFunc.SET;
+              func = nsAttrFunc.Set;
             }
             else if ('=' == mToken.mSymbol) {
-              func = nsAttrFunc.EQUALS;
+              func = nsAttrFunc.Equals;
             }
             else {
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelUnexpected", mToken); };
               UngetToken(); // bad function
               return nsSelectorParsingStatus.Error;
             }
-            if (nsAttrFunc.SET != func) { // get value
+            if (nsAttrFunc.Set != func) { // get value
               if (! GetToken(true)) { // premature EOF
                 { if (!mSuppressErrors) mReporter.ReportUnexpected("PEAttSelValueEOF"); };
                 return nsSelectorParsingStatus.Error;
@@ -2638,8 +2638,8 @@ namespace Alba.CsCss.Style
         
           // We currently allow :-moz-placeholder and .-moz-placeholder. We have to
           // be a bit stricter regarding the pseudo-element parsing rules.
-          if (pseudoElementType == nsCSSPseudoElement.mozPlaceholder &&
-              pseudoClassType == nsCSSPseudoClass.mozPlaceholder) {
+          if (pseudoElementType == nsCSSPseudoElement.MozPlaceholder &&
+              pseudoClassType == nsCSSPseudoClass.MozPlaceholder) {
             if (parsingPseudoElement) {
               pseudoClassType = nsCSSPseudoClass.NotPseudoClass;
             } else {
@@ -2648,7 +2648,7 @@ namespace Alba.CsCss.Style
           }
         
         #if MOZ_XUL
-          isTreePseudo = (pseudoElementType == nsCSSPseudoElement.XULTree);
+          isTreePseudo = (pseudoElementType == nsCSSPseudoElement.Xultree);
           // If a tree pseudo-element is using the function syntax, it will
           // get isTree set here and will pass the check below that only
           // allows functions if they are in our list of things allowed to be
@@ -2688,7 +2688,7 @@ namespace Alba.CsCss.Style
         #if MOZ_XUL
                isTree ||
         #endif
-               nsCSSPseudoClass.notPseudo == pseudoClassType ||
+               nsCSSPseudoClass.NotPseudo == pseudoClassType ||
                nsCSSPseudoClasses.HasStringArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasNthPairArg(pseudoClassType) ||
                nsCSSPseudoClasses.HasSelectorListArg(pseudoClassType))) {
@@ -2708,7 +2708,7 @@ namespace Alba.CsCss.Style
           }
         
           if (!parsingPseudoElement &&
-              nsCSSPseudoClass.notPseudo == pseudoClassType) {
+              nsCSSPseudoClass.NotPseudo == pseudoClassType) {
             if (aIsNegated) { // :not() can't be itself negated
               { if (!mSuppressErrors) mReporter.ReportUnexpected("PEPseudoSelDoubleNot", mToken); };
               UngetToken();
@@ -2912,8 +2912,8 @@ namespace Alba.CsCss.Style
           }
         
           // -moz-locale-dir and -moz-dir can only have values of 'ltr' or 'rtl'.
-          if (aType == nsCSSPseudoClass.mozLocaleDir ||
-              aType == nsCSSPseudoClass.dir) {
+          if (aType == nsCSSPseudoClass.MozLocaleDir ||
+              aType == nsCSSPseudoClass.Dir) {
             mToken.mIdentStr = mToken.mIdentStr.ToLower(); // case insensitive
             if (!mToken.mIdentStr.EqualsLiteral("ltr") &&
                 !mToken.mIdentStr.EqualsLiteral("rtl")) {
@@ -3719,13 +3719,13 @@ namespace Alba.CsCss.Style
         
         static UnitInfo[] UnitData = new UnitInfo[] {
           new UnitInfo { name = "px", unit = nsCSSUnit.Pixel, type = VARIANT_LENGTH },
-          new UnitInfo { name = "em", unit = nsCSSUnit.EM, type = VARIANT_LENGTH },
-          new UnitInfo { name = "ex", unit = nsCSSUnit.XHeight, type = VARIANT_LENGTH },
+          new UnitInfo { name = "em", unit = nsCSSUnit.Em, type = VARIANT_LENGTH },
+          new UnitInfo { name = "ex", unit = nsCSSUnit.Xheight, type = VARIANT_LENGTH },
           new UnitInfo { name = "pt", unit = nsCSSUnit.Point, type = VARIANT_LENGTH },
           new UnitInfo { name = "in", unit = nsCSSUnit.Inch, type = VARIANT_LENGTH },
           new UnitInfo { name = "cm", unit = nsCSSUnit.Centimeter, type = VARIANT_LENGTH },
           new UnitInfo { name = "ch", unit = nsCSSUnit.Char, type = VARIANT_LENGTH },
-          new UnitInfo { name = "rem", unit = nsCSSUnit.RootEM, type = VARIANT_LENGTH },
+          new UnitInfo { name = "rem", unit = nsCSSUnit.RootEm, type = VARIANT_LENGTH },
           new UnitInfo { name = "mm", unit = nsCSSUnit.Millimeter, type = VARIANT_LENGTH },
           new UnitInfo { name = "mozmm", unit = nsCSSUnit.PhysicalMillimeter, type = VARIANT_LENGTH },
           new UnitInfo { name = "vw", unit = nsCSSUnit.ViewportWidth, type = VARIANT_LENGTH },
@@ -6824,9 +6824,9 @@ namespace Alba.CsCss.Style
               return true;
             nsCSSUnit unit = 0;
             if (mToken.IsSymbol('+')) {
-              unit = nsCSSUnit.Calc_Plus;
+              unit = nsCSSUnit.CalcPlus;
             } else if (mToken.IsSymbol('-')) {
-              unit = nsCSSUnit.Calc_Minus;
+              unit = nsCSSUnit.CalcMinus;
             } else {
               UngetToken();
               return true;
@@ -6906,10 +6906,10 @@ namespace Alba.CsCss.Style
             }
             nsCSSUnit unit = 0;
             if (mToken.IsSymbol('*')) {
-              unit = gotValue ? nsCSSUnit.Calc_Times_R : nsCSSUnit.Calc_Times_L;
+              unit = gotValue ? nsCSSUnit.CalcTimesR : nsCSSUnit.CalcTimesL;
               afterDivision = false;
             } else if (mToken.IsSymbol('/')) {
-              unit = nsCSSUnit.Calc_Divided;
+              unit = nsCSSUnit.CalcDivided;
               afterDivision = true;
             } else {
               UngetToken();
@@ -7204,7 +7204,7 @@ namespace Alba.CsCss.Style
               if (!ParseVariant(ref cur.mValue, VARIANT_UK, nsCSSProps.kCursorKTable)) {
                 return false;
               }
-              if (cur.mValue.GetUnit() != nsCSSUnit.URL) { // keyword must be last
+              if (cur.mValue.GetUnit() != nsCSSUnit.Url) { // keyword must be last
                 if (ExpectEndProperty()) {
                   break;
                 }
@@ -7262,7 +7262,7 @@ namespace Alba.CsCss.Style
               }
               else {
                 AppendValue(nsCSSProperty.XSystemFont, family);
-                var systemFont = new nsCSSValue(nsCSSUnit.System_Font);
+                var systemFont = new nsCSSValue(nsCSSUnit.SystemFont);
                 AppendValue(nsCSSProperty.FontFamily, systemFont);
                 AppendValue(nsCSSProperty.FontStyle, systemFont);
                 AppendValue(nsCSSProperty.FontVariant, systemFont);
@@ -7526,7 +7526,7 @@ namespace Alba.CsCss.Style
               if (!dat.mGood)
                 return false;
         
-              cur.SetStringValue(dat.mFamilyName, nsCSSUnit.Local_Font);
+              cur.SetStringValue(dat.mFamilyName, nsCSSUnit.LocalFont);
               values.AppendElement(cur);
             } else {
               // We don't know what to do with this token; unget it and error out
@@ -7571,7 +7571,7 @@ namespace Alba.CsCss.Style
               return false;
             }
         
-            var cur = new nsCSSValue(mToken.mIdentStr, nsCSSUnit.Font_Format);
+            var cur = new nsCSSValue(mToken.mIdentStr, nsCSSUnit.FontFormat);
             values.AppendElement(cur);
           } while (ExpectSymbol(',', true));
         
@@ -8568,7 +8568,7 @@ namespace Alba.CsCss.Style
           val[2].SetFloatValue(x2, nsCSSUnit.Number);
           val[3].SetFloatValue(y2, nsCSSUnit.Number);
         
-          aValue.SetArrayValue(val, nsCSSUnit.Cubic_Bezier);
+          aValue.SetArrayValue(val, nsCSSUnit.CubicBezier);
         
           return true;
         }
@@ -9012,7 +9012,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          bool canHaveFallback = x.GetUnit() == nsCSSUnit.URL ||
+          bool canHaveFallback = x.GetUnit() == nsCSSUnit.Url ||
                                  x.GetUnit() == nsCSSUnit.Enumerated;
           if (canHaveFallback) {
             if (!ParseVariant(ref y, VARIANT_COLOR | VARIANT_NONE, null))

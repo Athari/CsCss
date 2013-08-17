@@ -13,7 +13,7 @@ namespace Alba.CsCss.Style
         internal CssAttrFunction mFunction;
         internal CssAttrSelector mNext;
 
-        internal CssAttrSelector (int aNameSpace, string aAttr, CssAttrFunction aFunction = CssAttrFunction.SET, string aValue = null, bool aCaseSensitive = true)
+        internal CssAttrSelector (int aNameSpace, string aAttr, CssAttrFunction aFunction = CssAttrFunction.Set, string aValue = null, bool aCaseSensitive = true)
         {
             mNameSpace = aNameSpace;
             mCasedAttr = String.Intern(aAttr);

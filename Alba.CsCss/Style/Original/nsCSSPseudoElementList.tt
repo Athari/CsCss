@@ -28,19 +28,28 @@
 // Generated file. Do not edit manually.
 //
 
+using System.ComponentModel;
+
 namespace Alba.CsCss.Style
 {
     public enum CssPseudoElement
     {
-<#+   foreach (CssPseudoElement el in GetCssPseudoElements()) { #>
-        <#=el.Name#>,
+<#+   foreach (string elName in GetCssPseudoElements().Select(el => ToPascalId(el.Name))) { #>
+<#+    if (elName.StartsWith("Moz")) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+    } #>
+        <#=elName#>,
 <#+   } #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         PseudoElementCount,
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         AnonBox = PseudoElementCount,
 #if MOZ_XUL
         XULTree,
 #endif
+        [EditorBrowsable(EditorBrowsableState.Never)]
         NotPseudoElement,
+        [EditorBrowsable(EditorBrowsableState.Never)]
         MAX,
     }
 }
@@ -65,7 +74,7 @@ namespace Alba.CsCss.Style
         private static readonly IDictionary<string, CssPseudoElement> sPseudoElements =
             new Dictionary<string, CssPseudoElement>(ReferenceEqualityComparer<object>.Default) {
 <#+           foreach (CssPseudoElement cls in GetCssPseudoElements()) { #>
-                { <#=cls.Value#>, CssPseudoElement.<#=ToId(cls.Name)#> },
+                { <#=cls.Value#>, CssPseudoElement.<#=ToPascalId(cls.Name)#> },
 <#+           } #>
             };
     }
