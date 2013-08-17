@@ -1,0 +1,3 @@
+<#@ template hostspecific="true" debug="true" #><#@ output extension="/" #>
+<#@ include file="..\T4\ResX.ttinclude" #>
+<#  GenerateResxFromProperties(fileName: "CssResources.resx"); #>

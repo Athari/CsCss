@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MimeNotCss" xml:space="preserve">
+    <value>The stylesheet {0} was not loaded because its MIME type, "{1}", is not "text/css".</value>
+  </data>
+  <data name="MimeNotCssWarn" xml:space="preserve">
+    <value>The stylesheet {0} was loaded as CSS even though its MIME type, "{1}", is not "text/css".</value>
+  </data>
+  <data name="PEUnexpEOF2" xml:space="preserve">
+    <value>Unexpected end of file while searching for {0}.</value>
+  </data>
+  <data name="PEParseRuleWSOnly" xml:space="preserve">
+    <value>Whitespace-only string given to be parsed as rule.</value>
+  </data>
+  <data name="PEDeclDropped" xml:space="preserve">
+    <value>Declaration dropped.</value>
+  </data>
+  <data name="PEDeclSkipped" xml:space="preserve">
+    <value>Skipped to next declaration.</value>
+  </data>
+  <data name="PEUnknownProperty" xml:space="preserve">
+    <value>Unknown property '{0}'.</value>
+  </data>
+  <data name="PEValueParsingError" xml:space="preserve">
+    <value>Error in parsing value for '{0}'.</value>
+  </data>
+  <data name="PEExpectEndValue" xml:space="preserve">
+    <value>Expected end of value but found '{0}'.</value>
+  </data>
+  <data name="PERuleTrailing" xml:space="preserve">
+    <value>Expected end of rule but found '{0}'.</value>
+  </data>
+  <data name="PESkipAtRuleEOF2" xml:space="preserve">
+    <value>end of at-rule</value>
+  </data>
+  <data name="PEUnknownAtRule" xml:space="preserve">
+    <value>Unrecognized at-rule or error parsing at-rule '{0}'.</value>
+  </data>
+  <data name="PECharsetRuleEOF" xml:space="preserve">
+    <value>charset string in @charset rule</value>
+  </data>
+  <data name="PECharsetRuleNotString" xml:space="preserve">
+    <value>Expected charset string but found '{0}'.</value>
+  </data>
+  <data name="PEGatherMediaEOF" xml:space="preserve">
+    <value>end of media list in @import or @media rule</value>
+  </data>
+  <data name="PEGatherMediaNotComma" xml:space="preserve">
+    <value>Expected ',' in media list but found '{0}'.</value>
+  </data>
+  <data name="PEGatherMediaNotIdent" xml:space="preserve">
+    <value>Expected identifier in media list but found '{0}'.</value>
+  </data>
+  <data name="PEImportNotURI" xml:space="preserve">
+    <value>Expected URI in @import rule but found '{0}'.</value>
+  </data>
+  <data name="PEImportBadURI" xml:space="preserve">
+    <value>Invalid URI in @import rule: '{0}'.</value>
+  </data>
+  <data name="PEImportUnexpected" xml:space="preserve">
+    <value>Found unexpected '{0}' within @import.</value>
+  </data>
+  <data name="PEGroupRuleEOF2" xml:space="preserve">
+    <value>end of @media, @supports or @-moz-document rule</value>
+  </data>
+  <data name="PEGroupRuleNestedAtRule" xml:space="preserve">
+    <value>{0} rule not allowed within @media or @-moz-document rule.</value>
+  </data>
+  <data name="PEMozDocRuleBadFunc" xml:space="preserve">
+    <value>Expected url(), url-prefix(), or domain() in @-moz-document rule but found '{0}'.</value>
+  </data>
+  <data name="PEMozDocRuleNotURI" xml:space="preserve">
+    <value>Expected URI in @-moz-document rule but found '{0}'.</value>
+  </data>
+  <data name="PEMozDocRuleNotString" xml:space="preserve">
+    <value>Expected string in @-moz-document rule regexp() function but found '{0}'.</value>
+  </data>
+  <data name="PEMozDocRuleEOF" xml:space="preserve">
+    <value>next URI in @-moz-document rule</value>
+  </data>
+  <data name="PEAtNSPrefixEOF" xml:space="preserve">
+    <value>namespace prefix in @namespace rule</value>
+  </data>
+  <data name="PEAtNSURIEOF" xml:space="preserve">
+    <value>namespace URI in @namespace rule</value>
+  </data>
+  <data name="PEAtNSUnexpected" xml:space="preserve">
+    <value>Unexpected token within @namespace: '{0}'.</value>
+  </data>
+  <data name="PEKeyframeNameEOF" xml:space="preserve">
+    <value>name of @keyframes rule.</value>
+  </data>
+  <data name="PEKeyframeBadName" xml:space="preserve">
+    <value>Expected identifier for name of @keyframes rule.</value>
+  </data>
+  <data name="PEKeyframeBrace" xml:space="preserve">
+    <value>Expected opening { of @keyframes rule.</value>
+  </data>
+  <data name="PESkipDeclBraceEOF" xml:space="preserve">
+    <value>closing } of declaration block</value>
+  </data>
+  <data name="PESkipRSBraceEOF" xml:space="preserve">
+    <value>closing } of invalid rule set</value>
+  </data>
+  <data name="PEBadSelectorRSIgnored" xml:space="preserve">
+    <value>Ruleset ignored due to bad selector.</value>
+  </data>
+  <data name="PEBadSelectorKeyframeRuleIgnored" xml:space="preserve">
+    <value>Keyframe rule ignored due to bad selector.</value>
+  </data>
+  <data name="PESelectorListExtraEOF" xml:space="preserve">
+    <value>',' or '{'</value>
+  </data>
+  <data name="PESelectorListExtra" xml:space="preserve">
+    <value>Expected ',' or '{' but found '{0}'.</value>
+  </data>
+  <data name="PESelectorGroupNoSelector" xml:space="preserve">
+    <value>Selector expected.</value>
+  </data>
+  <data name="PESelectorGroupExtraCombinator" xml:space="preserve">
+    <value>Dangling combinator.</value>
+  </data>
+  <data name="PEClassSelEOF" xml:space="preserve">
+    <value>class name</value>
+  </data>
+  <data name="PEClassSelNotIdent" xml:space="preserve">
+    <value>Expected identifier for class selector but found '{0}'.</value>
+  </data>
+  <data name="PETypeSelEOF" xml:space="preserve">
+    <value>element type</value>
+  </data>
+  <data name="PETypeSelNotType" xml:space="preserve">
+    <value>Expected element name or '*' but found '{0}'.</value>
+  </data>
+  <data name="PEUnknownNamespacePrefix" xml:space="preserve">
+    <value>Unknown namespace prefix '{0}'.</value>
+  </data>
+  <data name="PEAttributeNameEOF" xml:space="preserve">
+    <value>attribute name</value>
+  </data>
+  <data name="PEAttributeNameExpected" xml:space="preserve">
+    <value>Expected identifier for attribute name but found '{0}'.</value>
+  </data>
+  <data name="PEAttributeNameOrNamespaceExpected" xml:space="preserve">
+    <value>Expected attribute name or namespace but found '{0}'.</value>
+  </data>
+  <data name="PEAttSelNoBar" xml:space="preserve">
+    <value>Expected '|' but found '{0}'.</value>
+  </data>
+  <data name="PEAttSelInnerEOF" xml:space="preserve">
+    <value>part of attribute selector</value>
+  </data>
+  <data name="PEAttSelUnexpected" xml:space="preserve">
+    <value>Unexpected token in attribute selector: '{0}'.</value>
+  </data>
+  <data name="PEAttSelValueEOF" xml:space="preserve">
+    <value>attribute value</value>
+  </data>
+  <data name="PEAttSelCloseEOF" xml:space="preserve">
+    <value>']' to end attribute selector</value>
+  </data>
+  <data name="PEAttSelNoClose" xml:space="preserve">
+    <value>Expected ']' to terminate attribute selector but found '{0}'.</value>
+  </data>
+  <data name="PEAttSelBadValue" xml:space="preserve">
+    <value>Expected identifier or string for value in attribute selector but found '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelEOF" xml:space="preserve">
+    <value>name of pseudo-class or pseudo-element</value>
+  </data>
+  <data name="PEPseudoSelBadName" xml:space="preserve">
+    <value>Expected identifier for pseudo-class or pseudo-element but found '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelNonFunc" xml:space="preserve">
+    <value>Function token for non-function pseudo-class or pseudo-element, or the other way around, when reading '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelNotPE" xml:space="preserve">
+    <value>Expected pseudo-element but found '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelDoubleNot" xml:space="preserve">
+    <value>Negation pseudo-class can't be negated '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelPEInNot" xml:space="preserve">
+    <value>Pseudo-elements can't be negated '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelNewStyleOnly" xml:space="preserve">
+    <value>This pseudo-element must use the "::" form: '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelTrailing" xml:space="preserve">
+    <value>Found trailing token after pseudo-element, which must be the last part of a selector:  '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelMultiplePE" xml:space="preserve">
+    <value>Extra pseudo-element '{0}'.</value>
+  </data>
+  <data name="PEPseudoSelUnknown" xml:space="preserve">
+    <value>Unknown pseudo-class or pseudo-element '{0}'.</value>
+  </data>
+  <data name="PENegationEOF" xml:space="preserve">
+    <value>selector within negation</value>
+  </data>
+  <data name="PENegationBadInner" xml:space="preserve">
+    <value>Malformed simple selector as negation pseudo-class argument '{0}'.</value>
+  </data>
+  <data name="PENegationNoClose" xml:space="preserve">
+    <value>Missing closing ')' in negation pseudo-class '{0}'.</value>
+  </data>
+  <data name="PENegationBadArg" xml:space="preserve">
+    <value>Missing argument in negation pseudo-class '{0}'.</value>
+  </data>
+  <data name="PEPseudoClassArgEOF" xml:space="preserve">
+    <value>argument to pseudo-class selector</value>
+  </data>
+  <data name="PEPseudoClassArgNotIdent" xml:space="preserve">
+    <value>Expected identifier for pseudo-class parameter but found '{0}'.</value>
+  </data>
+  <data name="PEPseudoClassArgNotNth" xml:space="preserve">
+    <value>Expected part of argument to pseudo-class but found '{0}'.</value>
+  </data>
+  <data name="PEPseudoClassNoClose" xml:space="preserve">
+    <value>Missing closing ')' in pseudo-class, found '{0}' instead.</value>
+  </data>
+  <data name="PEPseudoClassNoArg" xml:space="preserve">
+    <value>Missing argument in pseudo-class '{0}'.</value>
+  </data>
+  <data name="PESelectorEOF" xml:space="preserve">
+    <value>selector</value>
+  </data>
+  <data name="PEBadDeclBlockStart" xml:space="preserve">
+    <value>Expected '{' to begin declaration block but found '{0}'.</value>
+  </data>
+  <data name="PEColorEOF" xml:space="preserve">
+    <value>color</value>
+  </data>
+  <data name="PEColorNotColor" xml:space="preserve">
+    <value>Expected color but found '{0}'.</value>
+  </data>
+  <data name="PEColorComponentEOF" xml:space="preserve">
+    <value>color component</value>
+  </data>
+  <data name="PEExpectedPercent" xml:space="preserve">
+    <value>Expected a percentage but found '{0}'.</value>
+  </data>
+  <data name="PEExpectedInt" xml:space="preserve">
+    <value>Expected an integer but found '{0}'.</value>
+  </data>
+  <data name="PEColorBadRGBContents" xml:space="preserve">
+    <value>Expected number or percentage in rgb() but found '{0}'.</value>
+  </data>
+  <data name="PEColorComponentBadTerm" xml:space="preserve">
+    <value>Expected '{1}' but found '{0}'.</value>
+  </data>
+  <data name="PEColorHueEOF" xml:space="preserve">
+    <value>hue</value>
+  </data>
+  <data name="PEExpectedComma" xml:space="preserve">
+    <value>Expected ',' but found '{0}'.</value>
+  </data>
+  <data name="PEColorSaturationEOF" xml:space="preserve">
+    <value>saturation</value>
+  </data>
+  <data name="PEColorLightnessEOF" xml:space="preserve">
+    <value>lightness</value>
+  </data>
+  <data name="PEColorOpacityEOF" xml:space="preserve">
+    <value>opacity in color value</value>
+  </data>
+  <data name="PEExpectedNumber" xml:space="preserve">
+    <value>Expected a number but found '{0}'.</value>
+  </data>
+  <data name="PEExpectedCloseParen" xml:space="preserve">
+    <value>Expected ')' but found '{0}'.</value>
+  </data>
+  <data name="PEDeclEndEOF" xml:space="preserve">
+    <value>';' or '}' to end declaration</value>
+  </data>
+  <data name="PEParseDeclarationNoColon" xml:space="preserve">
+    <value>Expected ':' but found '{0}'.</value>
+  </data>
+  <data name="PEParseDeclarationDeclExpected" xml:space="preserve">
+    <value>Expected declaration but found '{0}'.</value>
+  </data>
+  <data name="PEEndOfDeclEOF" xml:space="preserve">
+    <value>end of declaration</value>
+  </data>
+  <data name="PEImportantEOF" xml:space="preserve">
+    <value>important</value>
+  </data>
+  <data name="PEExpectedImportant" xml:space="preserve">
+    <value>Expected 'important' but found '{0}'.</value>
+  </data>
+  <data name="PEBadDeclEnd" xml:space="preserve">
+    <value>Expected ';' to terminate declaration but found '{0}'.</value>
+  </data>
+  <data name="PEBadDeclOrRuleEnd2" xml:space="preserve">
+    <value>Expected ';' or '}' to terminate declaration but found '{0}'.</value>
+  </data>
+  <data name="PEInaccessibleProperty2" xml:space="preserve">
+    <value>Cannot specify value for internal property.</value>
+  </data>
+  <data name="PECommentEOF" xml:space="preserve">
+    <value>end of comment</value>
+  </data>
+  <data name="SEUnterminatedString" xml:space="preserve">
+    <value>Found unclosed string '{0}'.</value>
+  </data>
+  <data name="PEFontDescExpected" xml:space="preserve">
+    <value>Expected font descriptor but found '{0}'.</value>
+  </data>
+  <data name="PEUnknownFontDesc" xml:space="preserve">
+    <value>Unknown descriptor '{0}' in @font-face rule.</value>
+  </data>
+  <data name="PEMQExpectedExpressionStart" xml:space="preserve">
+    <value>Expected '(' to start media query expression but found '{0}'.</value>
+  </data>
+  <data name="PEMQExpressionEOF" xml:space="preserve">
+    <value>contents of media query expression</value>
+  </data>
+  <data name="PEMQExpectedFeatureName" xml:space="preserve">
+    <value>Expected media feature name but found '{0}'.</value>
+  </data>
+  <data name="PEMQExpectedFeatureNameEnd" xml:space="preserve">
+    <value>Expected ':' or ')' after media feature name but found '{0}'.</value>
+  </data>
+  <data name="PEMQNoMinMaxWithoutValue" xml:space="preserve">
+    <value>Media features with min- or max- must have a value.</value>
+  </data>
+  <data name="PEMQExpectedFeatureValue" xml:space="preserve">
+    <value>Found invalid value for media feature.</value>
+  </data>
+  <data name="PEBadFontBlockStart" xml:space="preserve">
+    <value>Expected '{' to begin @font-face rule but found '{0}'.</value>
+  </data>
+  <data name="PEBadFontBlockEnd" xml:space="preserve">
+    <value>Expected '}' to end @font-face rule but found '{0}'.</value>
+  </data>
+  <data name="PEAnonBoxNotAlone" xml:space="preserve">
+    <value>Did not expect anonymous box.</value>
+  </data>
+  <data name="PEBadDirValue" xml:space="preserve">
+    <value>Expected 'ltr' or 'rtl' in direction selector but found '{0}'.</value>
+  </data>
+  <data name="PESupportsConditionStartEOF2" xml:space="preserve">
+    <value>'not', '(', or function</value>
+  </data>
+  <data name="PESupportsConditionInParensEOF" xml:space="preserve">
+    <value>')'</value>
+  </data>
+  <data name="PESupportsConditionNotEOF" xml:space="preserve">
+    <value>'not'</value>
+  </data>
+  <data name="PESupportsWhitespaceRequired" xml:space="preserve">
+    <value>Expected whitespace after 'not', 'and', or 'or'.</value>
+  </data>
+  <data name="PESupportsConditionExpectedOpenParenOrFunction" xml:space="preserve">
+    <value>Expected '(' or function while parsing supports condition but found '{0}'.</value>
+  </data>
+  <data name="PESupportsConditionExpectedCloseParen" xml:space="preserve">
+    <value>Expected ')' while parsing supports condition but found '{0}'.</value>
+  </data>
+  <data name="PESupportsConditionExpectedStart2" xml:space="preserve">
+    <value>Expected 'not', '(', or function while parsing supports condition but found '{0}'.</value>
+  </data>
+  <data name="PESupportsConditionExpectedNot" xml:space="preserve">
+    <value>Expected 'not' while parsing supports condition but found '{0}'.</value>
+  </data>
+  <data name="PESupportsGroupRuleStart" xml:space="preserve">
+    <value>Expected '{' to begin @supports rule but found '{0}'.</value>
+  </data>
+</root>

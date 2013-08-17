@@ -1,0 +1,16 @@
+﻿<#@   include file="Include.ttinclude"
+#><#@ include file="$(SolutionDir)\Alba.Framework\Alba.Framework.CodeGeneration\T4\ResX.ttinclude"
+#><#+
+    void GenerateResxFromProperties (string fileName = null)
+    {
+        IEnumerable<KeyValuePair<string, string>> lines = LoadText(ext: "properties")
+            .ReSplit(@"\r?\n")
+            .Select(s => s.Trim())
+            .Where(s => !string.IsNullOrEmpty(s) && !s.StartsWith("#"))
+            .Select(s => s
+                .ReReplace(@"%(\d+)\$.", m => string.Format("{{{0}}}", m.Get().ToInt32Inv() - 1)) // %2$S -> {1}
+                .Split(new[] { '=' }, 2))
+            .Select(ss => new KeyValuePair<string, string>(ss[0], ss[1]));
+        GenerateResx(lines, fileName);
+    }
+#>

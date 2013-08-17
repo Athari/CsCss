@@ -1,0 +1,6 @@
+﻿<#@   assembly name="$(SolutionDir)\bin\Debug\Alba.Framework.dll"
+#><#@ import namespace="System.Collections.Generic"
+#><#@ import namespace="Alba.Framework.Text"
+#><#@ import namespace="Alba.Framework.Collections"
+#><#@ import namespace="Alba.Framework.Globalization"
+#>

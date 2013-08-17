@@ -47,6 +47,9 @@
     <Compile Include="Gfx\Original\CssColor.g.cs">
       <DependentUpon>nsColorNameList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Globalization\CssResources.g.cs">
+      <DependentUpon>CssResources.tt</DependentUpon>
+    </Compile>
     <Compile Include="Internal\Extensions\ArrayExts.cs" />
     <Compile Include="Internal\Extensions\ListExts.cs" />
     <Compile Include="Internal\Extensions\ObjectExts.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Common\BrowserCompatibility.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
     <Compile Include="Style\CssDeclaration.cs" />
+    <Compile Include="Common\AlbaCsCssTraceSources.cs" />
     <Compile Include="Style\Media\CssMediaExpression.cs" />
     <Compile Include="Style\Media\CssMediaFeature.cs" />
     <Compile Include="Style\Media\nsMediaFeatures.cs" />
@@ -144,9 +148,6 @@
     </Compile>
     <Compile Include="Style\Original\nsStyle.nsIWidget.conv.cs">
       <DependentUpon>nsIWidget.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Style\Original\nsStyleAnimType.conv.cs">
-      <DependentUpon>nsCSSPropsH.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsStyleStructID.g.cs">
       <DependentUpon>nsStyleStructList.tt</DependentUpon>
@@ -233,6 +234,22 @@
       <DependentUpon>nsColorNameList.h</DependentUpon>
     </None>
     <None Include="Gfx\Original\nsColorNameList.ttinclude" />
+    <None Include="Globalization\css.properties">
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>css.tt</LastGenOutput>
+    </None>
+    <None Include="Globalization\css.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>css.properties</DependentUpon>
+    </None>
+    <None Include="Globalization\CssResources.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CssResources.resx</DependentUpon>
+    </None>
     <None Include="Style\Media\Original\nsMediaFeatures.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
@@ -355,6 +372,8 @@
       <DependentUpon>StyleRule.h</DependentUpon>
     </None>
     <None Include="T4\Common.ttinclude" />
+    <None Include="T4\Include.ttinclude" />
+    <None Include="T4\ResX.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gfx\Original\nsColorNameList.h">
@@ -482,6 +501,13 @@
       <Generator>AttachT4</Generator>
       <LastGenOutput>Rule.tt</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Globalization\CssResources.resx">
+      <DependentUpon>css.tt</DependentUpon>
+      <Generator>AttachT4</Generator>
+      <LastGenOutput>CssResources.tt</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(SolutionDir)\Build\Common.targets" Condition="Exists('$(SolutionDir)\Build\Common.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

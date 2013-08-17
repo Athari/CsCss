@@ -1,7 +1,4 @@
-﻿<#@   assembly name="$(SolutionDir)\bin\Debug\Alba.Framework.dll"
-#><#@ import namespace="System.Collections.Generic"
-#><#@ import namespace="Alba.Framework.Text"
-#><#@ import namespace="Alba.Framework.Collections"
+﻿<#@   include file="Include.ttinclude"
 #><#@ include file="$(SolutionDir)\Alba.Framework\Alba.Framework.CodeGeneration\T4\Common.ttinclude"
 #><#+
     string sArg = @"(?:[^,()]|(?<b>\()|(?<-b>\)))+(?(b)(?!))";
