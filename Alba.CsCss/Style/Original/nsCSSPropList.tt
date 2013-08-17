@@ -7,6 +7,7 @@
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSPropList.g.txt", () => GenerateCssPropListText());
     T4.GenerateFile("CssProperty.g.cs", () => GenerateCssProperty());
+    T4.GenerateFile("CssDeclaration.CSSPropList.g.cs", () => GenerateCssDeclaration());
     T4.GenerateFile("nsCSSProps.CSSPropList.g.cs", () => GenerateCssProps());
     T4.Process();
 #>
@@ -58,8 +59,11 @@ namespace Alba.CsCss.Style
     public enum CssProperty
     {
         Unknown = -1,
-<#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
-        <#=ToPascalId(prop.Id)#>,
+<#+   foreach (string propId in GetCssProps(CommonDefs).Select(p => ToPascalId(p.Id))) { #>
+<#+    if (propId.StartsWith("_")) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+    } #>
+        <#=propId#>,
 <#+   } #>
         PropertyCountNoShorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -84,6 +88,33 @@ namespace Alba.CsCss.Style
     }
 }
 <#+ } /* void GenerateCssProperty */ #>
+
+<#+ void GenerateCssDeclaration () { #>
+//
+// Generated file. Do not edit manually.
+//
+
+using System.ComponentModel;
+
+namespace Alba.CsCss.Style
+{
+    public partial class CssDeclaration
+    {
+        // My
+
+<#+   foreach (string propId in GetCssProps(CommonDefs).Select(p => ToPascalId(p.Id))) { #>
+<#+    if (propId.StartsWith("_")) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+    } #>
+        public CssValue <#=propId#>
+        {
+            get { return GetValue(CssProperty.<#=propId#>); }
+        }
+
+<#+   } #>
+    }
+}
+<#+ } /* void GenerateCssDeclaration */ #>
 
 <#+ void GenerateCssProps () { #>
 //

@@ -30,7 +30,7 @@ namespace Alba.CsCss.Tests.Style
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(CssProperty.Color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
-            var h1colorval = css.StyleRules.Single().Declaration.GetValue(CssProperty.Color).Color;
+            CssColor h1colorval = css.StyleRules.Single().Declaration.Color.Color;
         }
 
         [TestMethod]

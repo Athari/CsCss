@@ -7,7 +7,7 @@ using System.Linq;
 namespace Alba.CsCss.Style
 {
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
-    public class CssDeclaration
+    public partial class CssDeclaration
     {
         private static readonly IReadOnlyList<CssPropertyValue> EmptyData = new ReadOnlyCollection<CssPropertyValue>(new CssPropertyValue[0]);
 

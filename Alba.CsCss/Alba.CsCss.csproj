@@ -111,6 +111,9 @@
     <Compile Include="Style\Original\CssAttrFunction.conv.cs">
       <DependentUpon>StyleRule.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\CssDeclaration.CSSPropList.g.cs">
+      <DependentUpon>nsCSSPropList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\CssFontFace.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
