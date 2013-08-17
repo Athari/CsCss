@@ -75,7 +75,7 @@ namespace Alba.CsCss.Style
         private void AppendValues (CssProperty[] aPropIDs, CssValue aValue)
         {
             foreach (CssProperty aPropId in aPropIDs)
-                if (aPropId != CssProperty.UNKNOWN)
+                if (aPropId != CssProperty.Unknown)
                     AppendValue(aPropId, aValue);
         }
 

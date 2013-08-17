@@ -40,7 +40,7 @@ namespace Alba.CsCss.Style
 
         public static bool IsShorthand (CssProperty aProperty)
         {
-            return (aProperty >= CssProperty.COUNT_no_shorthands);
+            return (aProperty >= CssProperty.PropertyCountNoShorthands);
         }
 
         public static nsCSSFontDesc LookupFontDesc (string aFontDesc)
@@ -51,17 +51,17 @@ namespace Alba.CsCss.Style
         public static CssProperty LookupProperty (string aProperty, EnabledState aEnabled)
         {
             CssProperty res = (CssProperty)gPropertyTable.GetOrDefault(aProperty, -1);
-            if (res >= CssProperty.COUNT) {
+            if (res >= CssProperty.PropertyCount) {
                 if (IsEnabled(res) || aEnabled == EnabledState.Any) {
-                    res = gAliases[res - CssProperty.COUNT];
-                    Debug.Assert(0 <= res && res < CssProperty.COUNT, "aliases must not point to other aliases");
+                    res = gAliases[res - CssProperty.PropertyCount];
+                    Debug.Assert(0 <= res && res < CssProperty.PropertyCount, "aliases must not point to other aliases");
                 }
                 else {
-                    res = CssProperty.UNKNOWN;
+                    res = CssProperty.Unknown;
                 }
             }
-            if (res != CssProperty.UNKNOWN && aEnabled == EnabledState.Enabled && !IsEnabled(res)) {
-                res = CssProperty.UNKNOWN;
+            if (res != CssProperty.Unknown && aEnabled == EnabledState.Enabled && !IsEnabled(res)) {
+                res = CssProperty.Unknown;
             }
             return res;
         }
@@ -83,8 +83,8 @@ namespace Alba.CsCss.Style
 
         public static CssProperty[] SubpropertyEntryFor (CssProperty aProperty, bool skipUnknown = false)
         {
-            CssProperty[] res = kSubpropertyTable[aProperty - CssProperty.COUNT_no_shorthands];
-            return skipUnknown ? res.Where(p => p != CssProperty.UNKNOWN).ToArray() : res;
+            CssProperty[] res = kSubpropertyTable[aProperty - CssProperty.PropertyCountNoShorthands];
+            return skipUnknown ? res.Where(p => p != CssProperty.Unknown).ToArray() : res;
         }
 
         public static int ValueRestrictions (CssProperty aProperty)

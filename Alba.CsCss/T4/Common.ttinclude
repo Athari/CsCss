@@ -62,17 +62,32 @@
         return CSharpKeywords.Contains(name) ? "@" + name : name;
     }
 
-    string ToPascalId (string name)
+    string ToPascalId (string name, string countPrefix = null)
     {
         var sb = new StringBuilder(name.Length);
-        bool isNextUpper = true;
+
+        if (name == "COUNT") {
+            return countPrefix == null ? "Count" : countPrefix + "Count";
+        }
+        if (name.StartsWith("COUNT_")) {
+            sb.Append(countPrefix == null ? "Count" : countPrefix + "Count");
+            name = name.Substring(6);
+        }
+
+        if (name.StartsWith("_moz")) {
+            sb.Append("_moz");
+            name = name.Substring(4);
+        }
+
+        bool isNextUpper = true, isPrevLower = false;
         foreach (var c in name) {
             if (c == '_') {
                 isNextUpper = true;
             }
             else {
-                sb.Append(isNextUpper ? char.ToUpper(c) : char.ToLower(c));
+                sb.Append(isNextUpper ? char.ToUpper(c) : isPrevLower ? c : char.ToLower(c));
                 isNextUpper = false;
+                isPrevLower = char.IsLower(c);
             }
         }
         return ToId(sb.ToString());
@@ -94,9 +109,10 @@
     string Refactor (string source)
     {
         return source
-            .ReReplace(@"(?x)\b(?<Type>
-                            RuleKind
-                        )\b", m => TypeRenames[m.Get("Type")])
+            .ReReplace(@"(?nx)\b(?<Enum>
+                            nsCSS(?<CountPrefix>Property)
+                        ) \. (?<Value>\w+)",
+                        m => "{0}.{1}".Fmt(m.Get("Enum"), ToPascalId(m.Get("Value"), countPrefix: m.Get("CountPrefix"))))
             ;
     }
 #>

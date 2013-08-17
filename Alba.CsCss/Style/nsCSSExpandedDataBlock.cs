@@ -5,7 +5,7 @@ namespace Alba.CsCss.Style
 {
     internal class nsCSSExpandedDataBlock : nsCSSDataBlock
     {
-        internal readonly CssValue[] mValues = new CssValue[(int)CssProperty.COUNT_no_shorthands];
+        internal readonly CssValue[] mValues = new CssValue[(int)CssProperty.PropertyCountNoShorthands];
         internal readonly CssPropertySet mPropertiesSet = new CssPropertySet();
         internal readonly CssPropertySet mPropertiesImportant = new CssPropertySet();
 
@@ -110,7 +110,7 @@ namespace Alba.CsCss.Style
             var result_important = numPropsImportant != 0 ? new nsCSSCompressedDataBlock(numPropsImportant) : null;
 
             int i_normal = 0, i_important = 0;
-            for (CssProperty iProp = 0; iProp < CssProperty.COUNT_no_shorthands; iProp++) {
+            for (CssProperty iProp = 0; iProp < CssProperty.PropertyCountNoShorthands; iProp++) {
                 if (!mPropertiesSet.HasProperty(iProp))
                     continue;
                 if (mPropertiesImportant.HasProperty(iProp))
@@ -138,7 +138,7 @@ namespace Alba.CsCss.Style
         private void ComputeNumProps (out int aNumPropsNormal, out int aNumPropsImportant)
         {
             aNumPropsNormal = aNumPropsImportant = 0;
-            for (CssProperty iProp = 0; iProp < CssProperty.COUNT_no_shorthands; iProp++) {
+            for (CssProperty iProp = 0; iProp < CssProperty.PropertyCountNoShorthands; iProp++) {
                 if (!mPropertiesSet.HasProperty(iProp))
                     continue;
                 if (mPropertiesImportant.HasProperty(iProp))

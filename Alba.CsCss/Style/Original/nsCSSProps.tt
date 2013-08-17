@@ -51,6 +51,7 @@ namespace Alba.CsCss.Style
     IEnumerable<string> ConvertGlobalArrays (string source)
     {
         foreach (Match m in source.ReMatches(@"(?ns)(static )?(const )?(?<Type>u?int\d+_t|nsCSSProperty) (nsCSSProps::)?(?<Var>\w+)\[\] = {(?<Code>.*?)};"))
-            yield return m.Result("public static readonly ${Type}[] ${Var} = {${Code}};");
+            yield return "public static readonly {0}[] {1} = {{{2}}};"
+                .Fmt(m.Get("Type"), m.Get("Var"), Refactor(m.Get("Code")));
     }
 #>

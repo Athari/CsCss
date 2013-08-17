@@ -34,7 +34,7 @@ namespace Alba.CsCss.Style
     {
         private static readonly CssProperty[] gAliases = {
 <#+       foreach (CssPropAlias prop in GetCssPropAliases()) { #>
-            CssProperty.<#=prop.Id#>,
+            CssProperty.<#=ToPascalId(prop.Id)#>,
 <#+       } #>
         };
     }

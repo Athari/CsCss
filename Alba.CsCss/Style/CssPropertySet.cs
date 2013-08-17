@@ -6,7 +6,7 @@ namespace Alba.CsCss.Style
 {
     internal class CssPropertySet
     {
-        private readonly BitArray mProperties = new BitArray((int)CssProperty.COUNT_no_shorthands);
+        private readonly BitArray mProperties = new BitArray((int)CssProperty.PropertyCountNoShorthands);
 
         public void AddProperty (CssProperty aProperty)
         {

@@ -57,29 +57,30 @@ namespace Alba.CsCss.Style
 {
     public enum CssProperty
     {
-        UNKNOWN = -1,
+        Unknown = -1,
 <#+   foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
-        <#=ToId(prop.Id)#>,
+        <#=ToPascalId(prop.Id)#>,
 <#+   } #>
-        COUNT_no_shorthands,
+        PropertyCountNoShorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]
-        COUNT_DUMMY = COUNT_no_shorthands - 1,
+        PropertyCountDummy1 = PropertyCountNoShorthands - 1,
 <#+   foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
-        <#=prop.Id#>,
+        <#=ToPascalId(prop.Id)#>,
 <#+   } #>
-        COUNT,
+        PropertyCount,
         [EditorBrowsable(EditorBrowsableState.Never)]
-        COUNT_DUMMY2 = COUNT - 1,
+        PropertyCountDummy2 = PropertyCount - 1,
 <#+   foreach (CssPropAlias prop in GetCssPropAliases()) { #>
-        Alias_<#=prop.Method#>,
-<#+   } #>
-        COUNT_with_aliases,
         [EditorBrowsable(EditorBrowsableState.Never)]
-        COUNT_DUMMY3 = COUNT_with_aliases - 1,
-        Extra_no_properties,
-        Extra_all_properties,
-        Extra_x_none_value,
-        Extra_x_auto_value,
+        <#=ToPascalId("Alias"+prop.Method)#>,
+<#+   } #>
+        PropertyCountWithAliases,
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        PropertyCountDummy3 = PropertyCountWithAliases - 1,
+        //ExtraNoProperties,
+        //ExtraAllProperties,
+        ExtraXNoneValue,
+        ExtraXAutoValue,
     }
 }
 <#+ } /* void GenerateCssProperty */ #>
