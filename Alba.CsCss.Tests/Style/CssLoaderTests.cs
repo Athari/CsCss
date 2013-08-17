@@ -34,10 +34,28 @@ namespace Alba.CsCss.Tests.Style
         }
 
         [TestMethod]
+        public void ParseSheet_ParseErrorEvent ()
+        {
+            int nErrors = 0;
+            var loader = new CssLoader();
+            loader.ParseError += (o, a) => {
+                Assert.AreEqual(SheetUri, a.Uri);
+                Assert.AreEqual("b {*}", a.Line);
+                Assert.AreEqual(1, a.LineNumber);
+                Assert.AreEqual(3, a.ColumnNumber);
+                Assert.IsTrue(a.Message.Contains("found '*'"));
+                Assert.IsTrue(a.Message.Contains("Skipped to next"));
+                nErrors++;
+            };
+            loader.ParseSheet("a {}\nb {*}\nc {}", SheetUri, BaseUri);
+            Assert.AreEqual(1, nErrors);
+        }
+
+        [TestMethod]
         public void ParseSheet_TwitterBootstrap ()
         {
             var loader = new CssLoader();
-            var css = loader.ParseSheet(GetResourceFile("bootstrap.css"), SheetUri, SheetUri);
+            loader.ParseSheet(GetResourceFile("bootstrap.css"), SheetUri, SheetUri);
         }
 
         private string GetResourceFile (string filename)

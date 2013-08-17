@@ -1587,8 +1587,7 @@ namespace Alba.CsCss.Style
                                 nsParseDeclaration.AllowImportant;
         
           // Forbid viewport units in @page rules. See bug 811391.
-          Debug.Assert(mViewportUnitsEnabled,
-                            "Viewport units should be enabled outside of @page rules.");
+          
           mViewportUnitsEnabled = false;
           Declaration declaration = 
                                         ParseDeclarationBlock(parseFlags,

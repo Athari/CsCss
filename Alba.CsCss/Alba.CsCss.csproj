@@ -74,6 +74,7 @@
     <Compile Include="Style\CssLoader.cs" />
     <Compile Include="Style\Calc\CssValueInputCalcOps.cs" />
     <Compile Include="Common\BrowserCompatibility.cs" />
+    <Compile Include="Style\CssParserErrorEventArgs.cs" />
     <Compile Include="Style\CssPropertyValue.cs" />
     <Compile Include="Style\CssDeclaration.cs" />
     <Compile Include="Common\AlbaCsCssTraceSources.cs" />

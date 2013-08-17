@@ -68,7 +68,7 @@ namespace Alba.CsCss.Style
             while (end < mCount && !IsVertSpace(mBuffer[end])) {
                 end++;
             }
-            return mBuffer.Substring(mTokenLineOffset, end);
+            return mBuffer.Substring(mTokenLineOffset, end - mTokenLineOffset);
         }
     }
 }

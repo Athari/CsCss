@@ -139,6 +139,7 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(?s)if \(mHashlessColorQuirk\) {.*?\n  }", "// TODO support hashless colors") // drop support for hashless colors
             .ReReplace(@"(?s)Debug\.Assert\(!\(variantMask.*?""\);", "") // not worth maintaining
             .ReReplace(@"(?s)Debug\.Assert\(nsCSSProps::kContentKTable.*?""\);", "")
+            .ReReplace(@"(?s)Debug\.Assert\(mViewportUnitsEnabled.*?""\);", "")
             .ReReplace(@"(?s)Debug\.Assert\("+sArgs+@"""expected location to store pseudo element""\);", "")
 
             // specific classes

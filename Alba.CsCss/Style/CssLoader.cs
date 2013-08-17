@@ -3,9 +3,10 @@
 // TODO Implement other CssLoader methods, support @charset etc.
 namespace Alba.CsCss.Style
 {
-    internal class CssLoader
+    public class CssLoader
     {
         public BrowserCompatibility Compatibility { get; set; }
+        public event EventHandler<CssParserErrorEventArgs> ParseError;
 
         public CssLoader ()
         {
@@ -25,7 +26,14 @@ namespace Alba.CsCss.Style
             return sheet;
         }
 
-        public void LoadChildSheet (CssStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
+        internal void LoadChildSheet (CssStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
         {}
+
+        internal void FireParseError (ErrorReporter aErrorReporter)
+        {
+            var handler = ParseError;
+            if (handler != null)
+                handler(this, new CssParserErrorEventArgs(aErrorReporter));
+        }
     }
 }

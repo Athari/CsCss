@@ -11,10 +11,11 @@ namespace Alba.CsCss
         private readonly nsCSSScanner mScanner;
         private readonly CssStyleSheet mSheet;
         private readonly CssLoader mLoader;
-        private readonly Uri mUri;
-        private readonly StringBuilder mError = new StringBuilder();
-        private string mFileName, mErrorLine;
-        private int mErrorLineNumber, mPrevErrorLineNumber, mErrorColumnNumber;
+        internal readonly Uri mUri;
+        internal readonly StringBuilder mError = new StringBuilder();
+        internal string mFileName, mErrorLine;
+        internal int mErrorLineNumber, mErrorColumnNumber;
+        private int mPrevErrorLineNumber;
 
         internal ErrorReporter (nsCSSScanner aScanner, CssStyleSheet aSheet, CssLoader aLoader, Uri aUri)
         {
@@ -31,8 +32,9 @@ namespace Alba.CsCss
             if (mFileName == null)
                 mFileName = mUri != null ? mUri.AbsoluteUri : "dynamic";
             AlbaCsCssTraceSources.CssParser.TraceEvent(TraceEventType.Warning, 0,
-                "{0} at {1}:{2}({3})",
+                "{0}  Source: {1} (line {2}, column {3})",
                 mError, mFileName, mErrorLineNumber, mErrorColumnNumber);
+            mLoader.FireParseError(this);
             ClearError();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -8,6 +9,8 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
     public class CssDeclaration
     {
+        private static readonly IReadOnlyList<CssPropertyValue> EmptyData = new ReadOnlyCollection<CssPropertyValue>(new CssPropertyValue[0]);
+
         private readonly List<CssProperty> mOrder = new List<CssProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;
         private bool mImmutable;
@@ -76,12 +79,6 @@ namespace Alba.CsCss.Style
 
         internal void Fix ()
         {
-            FixData(mData);
-            FixData(mImportantData);
-        }
-
-        internal void FixData (nsCSSCompressedDataBlock aDataBlock)
-        {
             mData.mData = OrderDataByOrder(mData.mData).ToArray();
             if (mImportantData != null)
                 mImportantData.mData = OrderDataByOrder(mImportantData.mData).ToArray();
@@ -102,7 +99,7 @@ namespace Alba.CsCss.Style
 
         public IReadOnlyList<CssPropertyValue> ImportantData
         {
-            get { return mImportantData.mData; }
+            get { return mImportantData != null ? mImportantData.mData : EmptyData; }
         }
 
         public CssValue GetValue (CssProperty prop)
