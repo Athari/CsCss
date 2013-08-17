@@ -83,9 +83,9 @@
         return ToPascalId(m.Get());
     }
 
-    void WriteTypeRenames ()
+    void WriteTypeRenames (params string[] types)
     {
-        foreach (var rename in TypeRenames) {
+        foreach (var rename in TypeRenames.Where(t => types.Length == 0 || types.Contains(t.Key))) {
 #>
     using <#=rename.Key#> = <#=rename.Value#>;
 <#+     }

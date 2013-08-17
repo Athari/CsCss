@@ -17,11 +17,10 @@
 //
 
 using System.Collections.Generic;
-using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
-<#+ WriteTypeRenames(); #>
+<#+ WriteTypeRenames("nsMediaFeature"); #>
 
     internal partial class nsMediaFeatures
     {
