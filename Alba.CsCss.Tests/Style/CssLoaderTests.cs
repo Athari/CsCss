@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Alba.CsCss.Gfx;
@@ -30,7 +31,7 @@ namespace Alba.CsCss.Tests.Style
             var h1color = h1.Declaration.Data.Single();
             Assert.AreEqual(CssProperty.Color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), h1color.Value.Color);
-            CssColor h1colorval = css.StyleRules.Single().Declaration.Color.Color;
+            Assert.AreEqual(CssColor.RGB(0x11, 0x22, 0x33), css.StyleRules.Single().Declaration.Color.Color);
         }
 
         [TestMethod]
@@ -55,7 +56,24 @@ namespace Alba.CsCss.Tests.Style
         public void ParseSheet_TwitterBootstrap ()
         {
             var loader = new CssLoader();
-            loader.ParseSheet(GetResourceFile("bootstrap.css"), SheetUri, SheetUri);
+            loader.ParseSheet(TwitterBootstrap, SheetUri, SheetUri);
+        }
+
+        [TestMethod]
+        public void GetUris_TwitterBootstrap ()
+        {
+            var loader = new CssLoader();
+            int nUris = 0;
+            foreach (string uri in loader.GetUris(TwitterBootstrap)) {
+                Trace.WriteLine(string.Format("Uri: {0}", uri));
+                nUris++;
+            }
+            Assert.AreEqual(2, nUris);
+        }
+
+        private string TwitterBootstrap
+        {
+            get { return GetResourceFile("bootstrap.css"); }
         }
 
         private string GetResourceFile (string filename)

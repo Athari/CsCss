@@ -1,6 +1,8 @@
-﻿using System;
+﻿// TODO Implement other CssLoader methods, support @charset etc.
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-// TODO Implement other CssLoader methods, support @charset etc.
 namespace Alba.CsCss.Style
 {
     public class CssLoader
@@ -24,6 +26,20 @@ namespace Alba.CsCss.Style
             parser.ParseSheet(aInput, sheetUrl, baseUrl, nsIPrincipal.Default, 1, false);
             sheet.Fix(); // My
             return sheet;
+        }
+
+        public IEnumerable<string> GetUris (string aInput)
+        {
+            var lexer = new nsCSSScanner(aInput, 1);
+            var token = new nsCSSToken();
+            while (lexer.Next(token, true))
+                if (token.mType == nsCSSTokenType.URL)
+                    yield return token.mIdentStr;
+        }
+
+        public IEnumerable<Uri> GetUris (string aInput, Uri baseUri)
+        {
+            return GetUris(aInput).Select(s => new Uri(baseUri, s));
         }
 
         internal void LoadChildSheet (CssStyleSheet aParentSheet, Uri aUrl, nsMediaList aMedia, CssImportRule aRule)
