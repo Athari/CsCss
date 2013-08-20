@@ -56,7 +56,8 @@ namespace Alba.CsCss.Tests.Style
         public void ParseSheet_TwitterBootstrap ()
         {
             var loader = new CssLoader();
-            loader.ParseSheet(TwitterBootstrap, SheetUri, SheetUri);
+            var css = loader.ParseSheet(TwitterBootstrap, SheetUri, SheetUri);
+            //var q = css.AllStyleRules.Where(r => r.Declaration.BackgroundImage.GetUnit() != CssUnit.Null).Select(r => r.Declaration.BackgroundImage);
         }
 
         [TestMethod]
