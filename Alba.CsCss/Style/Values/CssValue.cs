@@ -305,7 +305,7 @@ namespace Alba.CsCss.Style
             return value;
         }
 
-        internal CssValue[] InitFunction (nsCSSKeyword aFunctionId, int aNumArgs)
+        internal CssValue[] InitFunction (CssKeyword aFunctionId, int aNumArgs)
         {
             var value = new CssValue[aNumArgs + 1];
             value[0].SetIntValue((int)aFunctionId, CssUnit.Enumerated);

@@ -19,7 +19,7 @@ using uint32_t = System.Int32;
 
 namespace Alba.CsCss.Style
 {
-<#+ WriteTypeRenames("nsCSSProperty"); #>
+<#+ WriteTypeRenames("nsCSSProperty", "nsCSSKeyword"); #>
 
     internal partial class nsCSSProps
     {
@@ -36,8 +36,8 @@ namespace Alba.CsCss.Style
     {
         return source
             // specific enums
-            .ReReplace(@"eCSSKeyword_(\w+)", m => "(int)nsCSSKeyword." + ToId(m.Get()))
-            .ReReplace(@"eCSSProperty_(\w+)", m => "nsCSSProperty." + ToId(m.Get()))
+            .ReReplace(@"eCSSKeyword_(\w+)", "(int)nsCSSKeyword.$1")
+            .ReReplace(@"eCSSProperty_(\w+)", "nsCSSProperty.$1")
             .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
             .ReReplace(@"NS_((?:BOXPROP|COLOR)_\w+)", "nsStyle.$1")
             .ReReplace(@"NS_THEME_(\w+)", "0/*unused*/")

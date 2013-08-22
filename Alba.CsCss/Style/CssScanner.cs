@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSScanner
+    internal partial class CssScanner
     {
         private readonly string mBuffer;
         private Int32 mOffset;
@@ -23,7 +23,7 @@ namespace Alba.CsCss.Style
         private bool mSVGMode;
         private bool mRecording;
 
-        internal nsCSSScanner (string aBuffer, Int32 aLineNumber)
+        internal CssScanner (string aBuffer, Int32 aLineNumber)
         {
             mBuffer = aBuffer;
             mCount = aBuffer.Length;

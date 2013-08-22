@@ -15,6 +15,10 @@
         "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
     }.ToSet();
     IDictionary<string, string> TypeRenames = new SortedList<string, string> {
+        { "nsCSSKeyword", "CssKeyword" },
+        { "nsCSSToken", "CssToken" },
+        { "nsCSSTokenType", "CssTokenType" },
+        { "nsCSSScanner", "CssScanner" },
         { "nsCSSProperty", "CssProperty" },
         { "nsCSSPseudoClass", "CssPseudoClass" },
         { "nsCSSPseudoElement", "CssPseudoElement" },
@@ -114,6 +118,7 @@
     {
         return source
             .ReReplace(@"(?nx)\b(?<Enum>
+                            nsCSS(?<CountPrefix>Keyword) |
                             nsCSS(?<CountPrefix>Property) |
                             nsCSS(?<CountPrefix>PseudoClass) |
                             nsCSS(?<CountPrefix>PseudoElement) |

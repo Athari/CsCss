@@ -5,7 +5,7 @@
     // the fault of css3-selectors, which has requirements that can only be
     // met by changing the generic tokenization.)  The comment on each line
     // illustrates the form of each identifier.
-    internal enum nsCSSTokenType
+    public enum CssTokenType
     {
         // White space of any kind.  No value fields are used.  Note that
         // comments do *not* count as white space; comments separate tokens

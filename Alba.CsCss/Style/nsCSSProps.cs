@@ -7,18 +7,18 @@ namespace Alba.CsCss.Style
 {
     internal partial class nsCSSProps
     {
-        private static int FindIndexOfKeyword (nsCSSKeyword aKeyword, int[] aTable)
+        private static int FindIndexOfKeyword (CssKeyword aKeyword, int[] aTable)
         {
             int32_t index = 0;
-            while ((nsCSSKeyword)(aTable[index]) != nsCSSKeyword.UNKNOWN) {
-                if ((nsCSSKeyword)(aTable[index]) == aKeyword)
+            while ((CssKeyword)(aTable[index]) != CssKeyword.Unknown) {
+                if ((CssKeyword)(aTable[index]) == aKeyword)
                     return index;
                 index += 2;
             }
             return -1;
         }
 
-        public static bool FindKeyword (nsCSSKeyword aKeyword, int[] aTable, ref int aResult)
+        public static bool FindKeyword (CssKeyword aKeyword, int[] aTable, ref int aResult)
         {
             int32_t index = FindIndexOfKeyword(aKeyword, aTable);
             if (index >= 0) {

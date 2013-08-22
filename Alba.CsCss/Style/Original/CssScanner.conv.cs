@@ -17,7 +17,10 @@ using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSScanner
+    using nsCSSToken = CssToken;
+    using nsCSSTokenType = CssTokenType;
+
+    internal partial class CssScanner
     {
                 /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
         /* This Source Code Form is subject to the terms of the Mozilla Public

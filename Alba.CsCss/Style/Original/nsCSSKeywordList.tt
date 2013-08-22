@@ -5,7 +5,7 @@
 <#
     var T4 = GetT4();
     //T4.GenerateFile("nsCSSKeywordList.g.txt", () => GenerateCssKeywordListText());
-    T4.GenerateFile("nsCSSKeyword.g.cs", () => GenerateCssKeyword());
+    T4.GenerateFile("CssKeyword.g.cs", () => GenerateCssKeyword());
     T4.GenerateFile("nsCSSKeywords.g.cs", () => GenerateCssKeywords());
     T4.Process();
 #>
@@ -27,15 +27,22 @@
 // Generated file. Do not edit manually.
 //
 
+using System.ComponentModel;
+
 namespace Alba.CsCss.Style
 {
-    internal enum nsCSSKeyword
+    public enum CssKeyword
     {
-        UNKNOWN = -1,
+        Unknown = -1,
 <#+   foreach (CssKeyword key in GetCssKeywords()) { #>
-        <#=ToId(key.Id)#>,
+        /// <summary>Keyword "<#=key.Name#>"</summary>
+<#+    if (key.IsExtension) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+    } #>
+        <#=ToPascalId(key.Id)#>,
 <#+   } #>
-        COUNT
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        KeywordCount
     }
 }
 <#+ } /* void GenerateCssKeyword */ #>

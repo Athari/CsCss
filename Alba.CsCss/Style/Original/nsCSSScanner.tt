@@ -9,8 +9,8 @@
     string sourceToken = source.ReMatchGet(reSourceToken);
 
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSToken.conv.cs", () => GenerateSource(sourceToken, "nsCSSToken"));
-    T4.GenerateFile("nsCSSScanner.conv.cs", () => GenerateSource(sourceScanner, "nsCSSScanner"));
+    T4.GenerateFile("CssToken.conv.cs", () => GenerateSource(sourceToken, "CssToken"));
+    T4.GenerateFile("CssScanner.conv.cs", () => GenerateSource(sourceScanner, "CssScanner"));
     T4.Process();
 #>
 <#+
@@ -35,6 +35,8 @@ using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Style
 {
+<#+ WriteTypeRenames("nsCSSToken", "nsCSSTokenType"); #>
+
     internal partial class <#=className#>
     {
         <#= ConvertSource(source).Indent(8) #>

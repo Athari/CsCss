@@ -30,10 +30,10 @@ namespace Alba.CsCss.Style
 
         public IEnumerable<string> GetUris (string aInput)
         {
-            var lexer = new nsCSSScanner(aInput, 1);
-            var token = new nsCSSToken();
+            var lexer = new CssScanner(aInput, 1);
+            var token = new CssToken();
             while (lexer.Next(token, true))
-                if (token.mType == nsCSSTokenType.URL)
+                if (token.mType == CssTokenType.URL)
                     yield return token.mIdentStr;
         }
 

@@ -24,5 +24,7 @@
     class CssKeyword
     {
         public string Name, Id;
+
+        public bool IsExtension { get { return Name.StartsWith("-"); } }
     }
 #>

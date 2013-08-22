@@ -17,7 +17,10 @@ using PRUnichar = System.Char;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsCSSToken
+    using nsCSSToken = CssToken;
+    using nsCSSTokenType = CssTokenType;
+
+    internal partial class CssToken
     {
                 /**
          * Append the textual representation of |this| to |aBuffer|.

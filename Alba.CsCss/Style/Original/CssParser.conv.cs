@@ -46,15 +46,19 @@ namespace Alba.CsCss.Style
     using nsCSSFontFaceStyleDecl = CssFontFace;
     using nsCSSKeyframeRule = CssKeyframeRule;
     using nsCSSKeyframesRule = CssKeyframesRule;
+    using nsCSSKeyword = CssKeyword;
     using nsCSSPageRule = CssPageRule;
     using nsCSSParser = CssParser;
     using nsCSSProperty = CssProperty;
     using nsCSSPseudoClass = CssPseudoClass;
     using nsCSSPseudoElement = CssPseudoElement;
     using nsCSSRect = CssRect;
+    using nsCSSScanner = CssScanner;
     using nsCSSSelector = CssSelector;
     using nsCSSSelectorList = CssSelectorGroup;
     using nsCSSStyleSheet = CssStyleSheet;
+    using nsCSSToken = CssToken;
+    using nsCSSTokenType = CssTokenType;
     using nsCSSUnit = CssUnit;
     using nsCSSValue = CssValue;
     using nsCSSValueGradient = CssValueGradient;
@@ -3247,7 +3251,7 @@ namespace Alba.CsCss.Style
               }
               else {
                 nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(tk.mIdentStr);
-                if (nsCSSKeyword.UNKNOWN < keyword) { // known keyword
+                if (nsCSSKeyword.Unknown < keyword) { // known keyword
                   int32_t value = 0;
                   if (nsCSSProps.FindKeyword(keyword, nsCSSProps.kColorKTable, ref value)) {
                     aValue.SetIntValue(value, nsCSSUnit.EnumColor);
@@ -3704,7 +3708,7 @@ namespace Alba.CsCss.Style
             return false;
           }
           nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(ident);
-          if (nsCSSKeyword.UNKNOWN < keyword) {
+          if (nsCSSKeyword.Unknown < keyword) {
             int32_t value = 0;
             if (nsCSSProps.FindKeyword(keyword, aKeywordTable, ref value)) {
               aValue.SetIntValue(value, nsCSSUnit.Enumerated);
@@ -3903,9 +3907,9 @@ namespace Alba.CsCss.Style
           if (((aVariantMask & (VARIANT_AHK | VARIANT_NORMAL | VARIANT_NONE | VARIANT_ALL)) != 0) &&
               (nsCSSTokenType.Ident == tk.mType)) {
             nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(tk.mIdentStr);
-            if (nsCSSKeyword.UNKNOWN < keyword) { // known keyword
+            if (nsCSSKeyword.Unknown < keyword) { // known keyword
               if ((aVariantMask & VARIANT_AUTO) != 0) {
-                if (nsCSSKeyword.auto == keyword) {
+                if (nsCSSKeyword.Auto == keyword) {
                   aValue.SetAutoValue();
                   return true;
                 }
@@ -3914,36 +3918,36 @@ namespace Alba.CsCss.Style
                 // XXX Should we check IsParsingCompoundProperty, or do all
                 // callers handle it?  (Not all callers set it, though, since
                 // they want the quirks that are disabled by setting it.)
-                if (nsCSSKeyword.inherit == keyword) {
+                if (nsCSSKeyword.Inherit == keyword) {
                   aValue.SetInheritValue();
                   return true;
                 }
-                else if (nsCSSKeyword._moz_initial == keyword ||
-                         nsCSSKeyword.initial == keyword) { // anything that can inherit can also take an initial val.
+                else if (nsCSSKeyword.MozInitial == keyword ||
+                         nsCSSKeyword.Initial == keyword) { // anything that can inherit can also take an initial val.
                   aValue.SetInitialValue();
                   return true;
                 }
               }
               if ((aVariantMask & VARIANT_NONE) != 0) {
-                if (nsCSSKeyword.none == keyword) {
+                if (nsCSSKeyword.None == keyword) {
                   aValue.SetNoneValue();
                   return true;
                 }
               }
               if ((aVariantMask & VARIANT_ALL) != 0) {
-                if (nsCSSKeyword.all == keyword) {
+                if (nsCSSKeyword.All == keyword) {
                   aValue.SetAllValue();
                   return true;
                 }
               }
               if ((aVariantMask & VARIANT_NORMAL) != 0) {
-                if (nsCSSKeyword.normal == keyword) {
+                if (nsCSSKeyword.Normal == keyword) {
                   aValue.SetNormalValue();
                   return true;
                 }
               }
               if ((aVariantMask & VARIANT_SYSFONT) != 0) {
-                if (nsCSSKeyword._moz_use_system_font == keyword &&
+                if (nsCSSKeyword.MozUseSystemFont == keyword &&
                     !IsParsingCompoundProperty()) {
                   aValue.SetSystemFontValue();
                   return true;
@@ -4172,7 +4176,7 @@ namespace Alba.CsCss.Style
               nsCSSKeyword keyword;
               if (nsCSSTokenType.Ident != mToken.mType ||
                   (keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr)) ==
-                    nsCSSKeyword.UNKNOWN ||
+                    nsCSSKeyword.Unknown ||
                   !nsCSSProps.FindKeyword(keyword, nsCSSProps.kListStyleKTable, ref type)) {
                 UngetToken();
                 break;
@@ -4286,7 +4290,7 @@ namespace Alba.CsCss.Style
             var newFunction = new nsCSSValue();
             const uint32_t kNumArgs = 5;
             nsCSSValue[] func =
-              newFunction.InitFunction(nsCSSKeyword._moz_image_rect, kNumArgs);
+              newFunction.InitFunction(nsCSSKeyword.MozImageRect, kNumArgs);
         
             // func[0] is reserved for the function name.
             nsCSSValue url    = func[1];
@@ -4766,7 +4770,7 @@ namespace Alba.CsCss.Style
             // This is only a gradient line if it's a box position keyword.
             nsCSSKeyword kw = nsCSSKeywords.LookupKeyword(aId);
             int32_t junk = 0;
-            if (kw != nsCSSKeyword.UNKNOWN &&
+            if (kw != nsCSSKeyword.Unknown &&
                 nsCSSProps.FindKeyword(kw, nsCSSProps.kBackgroundPositionKTable,
                                         ref junk)) {
               haveGradientLine = true;
@@ -5677,11 +5681,11 @@ namespace Alba.CsCss.Style
             if (tt == nsCSSTokenType.Ident) {
               nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
               int32_t dummy = 0;
-              if (keyword == nsCSSKeyword.inherit ||
-                  keyword == nsCSSKeyword._moz_initial ||
-                  keyword == nsCSSKeyword.initial) {
+              if (keyword == nsCSSKeyword.Inherit ||
+                  keyword == nsCSSKeyword.MozInitial ||
+                  keyword == nsCSSKeyword.Initial) {
                 return false;
-              } else if (keyword == nsCSSKeyword.none) {
+              } else if (keyword == nsCSSKeyword.None) {
                 if (haveImage)
                   return false;
                 haveImage = true;
@@ -7014,20 +7018,20 @@ namespace Alba.CsCss.Style
           if (mToken.mType == nsCSSTokenType.Ident) {
             nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(mToken.mIdentStr);
             switch (keyword) {
-              case nsCSSKeyword.auto:
+              case nsCSSKeyword.Auto:
                 if (!ExpectEndProperty()) {
                   return false;
                 }
                 val.SetAutoValue();
                 break;
-              case nsCSSKeyword.inherit:
+              case nsCSSKeyword.Inherit:
                 if (!ExpectEndProperty()) {
                   return false;
                 }
                 val.SetInheritValue();
                 break;
-              case nsCSSKeyword.initial:
-              case nsCSSKeyword._moz_initial:
+              case nsCSSKeyword.Initial:
+              case nsCSSKeyword.MozInitial:
                 if (!ExpectEndProperty()) {
                   return false;
                 }
@@ -7117,16 +7121,16 @@ namespace Alba.CsCss.Style
           // We need to divide the 'content' keywords into two classes for
           // ParseVariant's sake, so we can't just use nsCSSProps.kContentKTable.
           /*TODO: static*/ int32_t[] kContentListKWs = {
-            (int32_t)nsCSSKeyword.open_quote, nsStyle.CONTENT_OPEN_QUOTE,
-            (int32_t)nsCSSKeyword.close_quote, nsStyle.CONTENT_CLOSE_QUOTE,
-            (int32_t)nsCSSKeyword.no_open_quote, nsStyle.CONTENT_NO_OPEN_QUOTE,
-            (int32_t)nsCSSKeyword.no_close_quote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
-            (int32_t)nsCSSKeyword.UNKNOWN,-1
+            (int32_t)nsCSSKeyword.OpenQuote, nsStyle.CONTENT_OPEN_QUOTE,
+            (int32_t)nsCSSKeyword.CloseQuote, nsStyle.CONTENT_CLOSE_QUOTE,
+            (int32_t)nsCSSKeyword.NoOpenQuote, nsStyle.CONTENT_NO_OPEN_QUOTE,
+            (int32_t)nsCSSKeyword.NoCloseQuote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
+            (int32_t)nsCSSKeyword.Unknown,-1
           };
         
           /*TODO: static*/ int32_t[] kContentSolitaryKWs = {
-            (int32_t)nsCSSKeyword._moz_alt_content, nsStyle.CONTENT_ALT_CONTENT,
-            (int32_t)nsCSSKeyword.UNKNOWN,-1
+            (int32_t)nsCSSKeyword.MozAltContent, nsStyle.CONTENT_ALT_CONTENT,
+            (int32_t)nsCSSKeyword.Unknown,-1
           };
         
           // Verify that these two lists add up to the size of
@@ -7424,19 +7428,19 @@ namespace Alba.CsCss.Style
           // i.e. not in compounds such as font-family: default blah;
           if (single) {
             nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(family);
-            if (keyword == nsCSSKeyword.inherit) {
+            if (keyword == nsCSSKeyword.Inherit) {
               aValue.SetInheritValue();
               return true;
             }
             // 605231 - don't parse unquoted 'default' reserved keyword
-            if (keyword == nsCSSKeyword.@default) {
+            if (keyword == nsCSSKeyword.Default) {
               return false;
             }
-            if (keyword == nsCSSKeyword._moz_initial || keyword == nsCSSKeyword.initial) {
+            if (keyword == nsCSSKeyword.MozInitial || keyword == nsCSSKeyword.Initial) {
               aValue.SetInitialValue();
               return true;
             }
-            if (keyword == nsCSSKeyword._moz_use_system_font &&
+            if (keyword == nsCSSKeyword.MozUseSystemFont &&
                 !IsParsingCompoundProperty()) {
               aValue.SetSystemFontValue();
               return true;
@@ -7458,11 +7462,11 @@ namespace Alba.CsCss.Style
             if (single) {
               nsCSSKeyword keyword = nsCSSKeywords.LookupKeyword(nextFamily);
               switch (keyword) {
-                case nsCSSKeyword.inherit:
-                case nsCSSKeyword.initial:
-                case nsCSSKeyword.@default:
-                case nsCSSKeyword._moz_initial:
-                case nsCSSKeyword._moz_use_system_font:
+                case nsCSSKeyword.Inherit:
+                case nsCSSKeyword.Initial:
+                case nsCSSKeyword.Default:
+                case nsCSSKeyword.MozInitial:
+                case nsCSSKeyword.MozUseSystemFont:
                   return false;
                 default:
                   break;
@@ -7957,13 +7961,13 @@ namespace Alba.CsCss.Style
           const int eDecorationPrefAnchors  = nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS;
         
           /*TODO: static*/ int32_t[] kTextDecorationKTable = {
-            (int32_t)nsCSSKeyword.none,                   eDecorationNone,
-            (int32_t)nsCSSKeyword.underline,              eDecorationUnderline,
-            (int32_t)nsCSSKeyword.overline,               eDecorationOverline,
-            (int32_t)nsCSSKeyword.line_through,           eDecorationLineThrough,
-            (int32_t)nsCSSKeyword.blink,                  eDecorationBlink,
-            (int32_t)nsCSSKeyword._moz_anchor_decoration, eDecorationPrefAnchors,
-            (int32_t)nsCSSKeyword.UNKNOWN,-1
+            (int32_t)nsCSSKeyword.None,                   eDecorationNone,
+            (int32_t)nsCSSKeyword.Underline,              eDecorationUnderline,
+            (int32_t)nsCSSKeyword.Overline,               eDecorationOverline,
+            (int32_t)nsCSSKeyword.LineThrough,           eDecorationLineThrough,
+            (int32_t)nsCSSKeyword.Blink,                  eDecorationBlink,
+            (int32_t)nsCSSKeyword.MozAnchorDecoration, eDecorationPrefAnchors,
+            (int32_t)nsCSSKeyword.Unknown,-1
           };
         
           var value = new nsCSSValue();
@@ -8251,105 +8255,105 @@ namespace Alba.CsCss.Style
           aIs3D = false;
         
           switch (aToken) {
-          case nsCSSKeyword.translatex:
-          case nsCSSKeyword.translatey:
+          case nsCSSKeyword.Translatex:
+          case nsCSSKeyword.Translatey:
             /* Exactly one length or percent. */
             variantIndex = eLengthPercentCalc;
             aMinElems = 1;
             aMaxElems = 1;
             break;
-          case nsCSSKeyword.translatez:
+          case nsCSSKeyword.Translatez:
             /* Exactly one length */
             variantIndex = eLengthCalc;
             aMinElems = 1;
             aMaxElems = 1;
             aIs3D = true;
             break;
-          case nsCSSKeyword.translate3d:
+          case nsCSSKeyword.Translate3d:
             /* Exactly two lengthds or percents and a number */
             variantIndex = eTwoLengthPercentCalcsOneLengthCalc;
             aMinElems = 3;
             aMaxElems = 3;
             aIs3D = true;
             break;
-          case nsCSSKeyword.scalez:
+          case nsCSSKeyword.Scalez:
             aIs3D = true;
-            goto case nsCSSKeyword.scalex;
-          case nsCSSKeyword.scalex:
-          case nsCSSKeyword.scaley:
+            goto case nsCSSKeyword.Scalex;
+          case nsCSSKeyword.Scalex:
+          case nsCSSKeyword.Scaley:
             /* Exactly one scale factor. */
             variantIndex = eNumber;
             aMinElems = 1;
             aMaxElems = 1;
             break;
-          case nsCSSKeyword.scale3d:
+          case nsCSSKeyword.Scale3d:
             /* Exactly three scale factors. */
             variantIndex = eThreeNumbers;
             aMinElems = 3;
             aMaxElems = 3;
             aIs3D = true;
             break;
-          case nsCSSKeyword.rotatex:
-          case nsCSSKeyword.rotatey:
+          case nsCSSKeyword.Rotatex:
+          case nsCSSKeyword.Rotatey:
             aIs3D = true;
-            goto case nsCSSKeyword.rotate;
-          case nsCSSKeyword.rotate:
-          case nsCSSKeyword.rotatez:
+            goto case nsCSSKeyword.Rotate;
+          case nsCSSKeyword.Rotate:
+          case nsCSSKeyword.Rotatez:
             /* Exactly one angle. */
             variantIndex = eAngle;
             aMinElems = 1;
             aMaxElems = 1;
             break;
-          case nsCSSKeyword.rotate3d:
+          case nsCSSKeyword.Rotate3d:
             variantIndex = eThreeNumbersOneAngle;
             aMinElems = 4;
             aMaxElems = 4;
             aIs3D = true;
             break;
-          case nsCSSKeyword.translate:
+          case nsCSSKeyword.Translate:
             /* One or two lengths or percents. */
             variantIndex = eTwoLengthPercentCalcs;
             aMinElems = 1;
             aMaxElems = 2;
             break;
-          case nsCSSKeyword.skew:
+          case nsCSSKeyword.Skew:
             /* Exactly one or two angles. */
             variantIndex = eTwoAngles;
             aMinElems = 1;
             aMaxElems = 2;
             break;
-          case nsCSSKeyword.scale:
+          case nsCSSKeyword.Scale:
             /* One or two scale factors. */
             variantIndex = eTwoNumbers;
             aMinElems = 1;
             aMaxElems = 2;
             break;
-          case nsCSSKeyword.skewx:
+          case nsCSSKeyword.Skewx:
             /* Exactly one angle. */
             variantIndex = eAngle;
             aMinElems = 1;
             aMaxElems = 1;
             break;
-          case nsCSSKeyword.skewy:
+          case nsCSSKeyword.Skewy:
             /* Exactly one angle. */
             variantIndex = eAngle;
             aMinElems = 1;
             aMaxElems = 1;
             break;
-          case nsCSSKeyword.matrix:
+          case nsCSSKeyword.Matrix:
             /* Six values, all numbers. */
             variantIndex = aIsPrefixed ? eMatrixPrefixed : eMatrix;
             aMinElems = 6;
             aMaxElems = 6;
             break;
-          case nsCSSKeyword.matrix3d:
+          case nsCSSKeyword.Matrix3d:
             /* 16 matrix values, all numbers */
             variantIndex = aIsPrefixed ? eMatrix3dPrefixed : eMatrix3d;
             aMinElems = 6;
             aMaxElems = 6;
             aIs3D = true;
             break;
-          case nsCSSKeyword.perspective:
+          case nsCSSKeyword.Perspective:
             /* Exactly one scale number. */
             variantIndex = ePositiveLength;
             aMinElems = 1;
@@ -8403,23 +8407,23 @@ namespace Alba.CsCss.Style
           // what other browsers do.
           mToken.mIdentStr = mToken.mIdentStr.ToLower();
           switch (keyword) {
-            case nsCSSKeyword.rotatex:
-            case nsCSSKeyword.scalex:
-            case nsCSSKeyword.skewx:
-            case nsCSSKeyword.translatex:
+            case nsCSSKeyword.Rotatex:
+            case nsCSSKeyword.Scalex:
+            case nsCSSKeyword.Skewx:
+            case nsCSSKeyword.Translatex:
               mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'X';
               break;
         
-            case nsCSSKeyword.rotatey:
-            case nsCSSKeyword.scaley:
-            case nsCSSKeyword.skewy:
-            case nsCSSKeyword.translatey:
+            case nsCSSKeyword.Rotatey:
+            case nsCSSKeyword.Scaley:
+            case nsCSSKeyword.Skewy:
+            case nsCSSKeyword.Translatey:
               mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'Y';
               break;
         
-            case nsCSSKeyword.rotatez:
-            case nsCSSKeyword.scalez:
-            case nsCSSKeyword.translatez:
+            case nsCSSKeyword.Rotatez:
+            case nsCSSKeyword.Scalez:
+            case nsCSSKeyword.Translatez:
               mToken.mIdentStr = mToken.mIdentStr.Substring(0, mToken.mIdentStr.Length - 1) + 'Z';
               break;
         
@@ -9078,11 +9082,11 @@ namespace Alba.CsCss.Style
         {
         
           /*TODO: static*/ int32_t[] kPaintOrderKTable = {
-            (int32_t)nsCSSKeyword.normal,  nsStyle.PAINT_ORDER_NORMAL,
-            (int32_t)nsCSSKeyword.fill,    nsStyle.PAINT_ORDER_FILL,
-            (int32_t)nsCSSKeyword.stroke,  nsStyle.PAINT_ORDER_STROKE,
-            (int32_t)nsCSSKeyword.markers, nsStyle.PAINT_ORDER_MARKERS,
-            (int32_t)nsCSSKeyword.UNKNOWN,-1
+            (int32_t)nsCSSKeyword.Normal,  nsStyle.PAINT_ORDER_NORMAL,
+            (int32_t)nsCSSKeyword.Fill,    nsStyle.PAINT_ORDER_FILL,
+            (int32_t)nsCSSKeyword.Stroke,  nsStyle.PAINT_ORDER_STROKE,
+            (int32_t)nsCSSKeyword.Markers, nsStyle.PAINT_ORDER_MARKERS,
+            (int32_t)nsCSSKeyword.Unknown,-1
           };
         
           var value = new nsCSSValue();

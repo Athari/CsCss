@@ -11,8 +11,8 @@ namespace Alba.CsCss.Style
 {
     internal partial class CssParser
     {
-        private readonly nsCSSToken mToken = new nsCSSToken();
-        private nsCSSScanner mScanner;
+        private readonly CssToken mToken = new CssToken();
+        private CssScanner mScanner;
         private ErrorReporter mReporter;
         private Uri mBaseURI;
         private Uri mSheetURI;

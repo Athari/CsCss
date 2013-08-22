@@ -8,7 +8,7 @@ namespace Alba.CsCss
 {
     internal class ErrorReporter
     {
-        private readonly nsCSSScanner mScanner;
+        private readonly CssScanner mScanner;
         private readonly CssStyleSheet mSheet;
         private readonly CssLoader mLoader;
         internal readonly Uri mUri;
@@ -17,7 +17,7 @@ namespace Alba.CsCss
         internal int mErrorLineNumber, mErrorColumnNumber;
         private int mPrevErrorLineNumber;
 
-        internal ErrorReporter (nsCSSScanner aScanner, CssStyleSheet aSheet, CssLoader aLoader, Uri aUri)
+        internal ErrorReporter (CssScanner aScanner, CssStyleSheet aSheet, CssLoader aLoader, Uri aUri)
         {
             mScanner = aScanner;
             mSheet = aSheet;
@@ -70,14 +70,14 @@ namespace Alba.CsCss
             AddToError(CssResources.FormatString(aMessage, aParam));
         }
 
-        internal void ReportUnexpected (string aMessage, nsCSSToken aToken)
+        internal void ReportUnexpected (string aMessage, CssToken aToken)
         {
             var sbToken = new StringBuilder();
             aToken.AppendToString(sbToken);
             AddToError(CssResources.FormatString(aMessage, sbToken.ToString()));
         }
 
-        internal void ReportUnexpected (string aMessage, nsCSSToken aToken, char aChar)
+        internal void ReportUnexpected (string aMessage, CssToken aToken, char aChar)
         {
             AddToError(CssResources.FormatString(aMessage, aToken, aChar));
         }

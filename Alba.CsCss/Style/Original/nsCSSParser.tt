@@ -8,7 +8,7 @@
     string sourceParser = source.ReMatchGet(reSourceParser);
 
     var T4 = GetT4();
-    T4.GenerateFile("nsCSSParser.conv.cs", () => GenerateCssParser(source, sourceParser));
+    T4.GenerateFile("CssParser.conv.cs", () => GenerateCssParser(source, sourceParser));
     T4.Process();
 #>
 <#+
@@ -177,7 +177,8 @@ namespace Alba.CsCss.Style
             .ReReplace(@"(aPropIDs|kBorderColorsProps|kKeywordTableTable)\[(side|index|aPropID)\]", "$1[(int)$2]")
 
             // specific enums
-            .ReReplace(@"e(CSSSection|CSSFontDesc|CSSProperty|CSSUnit|CSSKeyword|ParseDeclaration|SelectorParsingStatus)_(\w+)", m => "ns"+m.Get(1)+"."+ToId(m.Get(2)))
+            .ReReplace(@"e(CSSSection|CSSFontDesc|ParseDeclaration|SelectorParsingStatus)_(\w+)", m => "ns"+m.Get(1)+"."+ToId(m.Get(2)))
+            .ReReplace(@"e(CSSProperty|CSSUnit|CSSKeyword)_(\w+)", "ns$1.$2") // converted in Refactor()
             .ReReplace(@"eCSSToken_(\w+)", "nsCSSTokenType.$1")
             .ReReplace(@"ePriority_(\w+)", "PriorityParsingStatus.$1")
             .ReReplace(@"eCSSContext_(\w+)", "nsCSSContextType.$1")

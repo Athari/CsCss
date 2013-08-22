@@ -118,6 +118,12 @@
     <Compile Include="Style\Original\CssFontFace.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\CssKeyword.g.cs">
+      <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssParser.conv.cs">
+      <DependentUpon>nsCSSParser.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\CssProperty.g.cs">
       <DependentUpon>nsCSSPropList.tt</DependentUpon>
     </Compile>
@@ -130,8 +136,14 @@
     <Compile Include="Style\Original\CssRuleKind.conv.cs">
       <DependentUpon>Rule.tt</DependentUpon>
     </Compile>
+    <Compile Include="Style\Original\CssScanner.conv.cs">
+      <DependentUpon>nsCSSScanner.tt</DependentUpon>
+    </Compile>
     <Compile Include="Style\Original\CssStyleSheet.CssRuleKind.g.cs">
       <DependentUpon>Rule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Style\Original\CssToken.conv.cs">
+      <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\CssUnit.conv.cs">
       <DependentUpon>nsCSSValue.tt</DependentUpon>
@@ -158,9 +170,9 @@
       <DependentUpon>nsStyleStructList.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Values\CssRect.cs" />
-    <Compile Include="Style\nsCSSScanner.cs" />
-    <Compile Include="Style\nsCSSToken.cs" />
-    <Compile Include="Style\nsCSSTokenType.cs" />
+    <Compile Include="Style\CssScanner.cs" />
+    <Compile Include="Style\CssToken.cs" />
+    <Compile Include="Style\CssTokenType.cs" />
     <Compile Include="Common\nsGkAtoms.cs" />
     <Compile Include="Style\Values\CssValueTriplet.cs" />
     <Compile Include="Style\Values\CssValue.cs" />
@@ -175,14 +187,8 @@
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">
       <DependentUpon>nsCSSFontDescList.tt</DependentUpon>
     </Compile>
-    <Compile Include="Style\Original\nsCSSKeyword.g.cs">
-      <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
-    </Compile>
     <Compile Include="Style\Original\nsCSSKeywords.g.cs">
       <DependentUpon>nsCSSKeywordList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Style\Original\nsCSSParser.conv.cs">
-      <DependentUpon>nsCSSParser.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsCSSPropH.conv.cs">
       <DependentUpon>nsCSSPropsH.tt</DependentUpon>
@@ -192,12 +198,6 @@
     </Compile>
     <Compile Include="Style\Original\nsCSSPseudoElements.g.cs">
       <DependentUpon>nsCSSPseudoElementList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Style\Original\nsCSSScanner.conv.cs">
-      <DependentUpon>nsCSSScanner.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Style\Original\nsCSSToken.conv.cs">
-      <DependentUpon>nsCSSScanner.tt</DependentUpon>
     </Compile>
     <Compile Include="Style\Original\nsStyle.conv.cs">
       <DependentUpon>nsStyleConsts.tt</DependentUpon>
