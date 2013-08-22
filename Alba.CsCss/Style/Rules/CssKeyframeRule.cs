@@ -22,7 +22,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IReadOnlyList<float> Keys
+        public IList<float> Keys
         {
             get { return mKeys; }
         }

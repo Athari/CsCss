@@ -9,7 +9,7 @@ namespace Alba.CsCss.Style
     [DebuggerDisplay ("{DebugDisplayCount,nq}")]
     public partial class CssDeclaration
     {
-        private static readonly IReadOnlyList<CssPropertyValue> EmptyData = new ReadOnlyCollection<CssPropertyValue>(new CssPropertyValue[0]);
+        private static readonly IList<CssPropertyValue> EmptyData = new ReadOnlyCollection<CssPropertyValue>(new CssPropertyValue[0]);
 
         private readonly List<CssProperty> mOrder = new List<CssProperty>();
         private nsCSSCompressedDataBlock mData, mImportantData;
@@ -92,12 +92,12 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IReadOnlyList<CssPropertyValue> Data
+        public IList<CssPropertyValue> Data
         {
             get { return mData.mData; }
         }
 
-        public IReadOnlyList<CssPropertyValue> ImportantData
+        public IList<CssPropertyValue> ImportantData
         {
             get { return mImportantData != null ? mImportantData.mData : EmptyData; }
         }

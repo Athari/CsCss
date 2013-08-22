@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Alba.CsCss.Internal.Extensions;
 
 namespace Alba.CsCss.Style
 {

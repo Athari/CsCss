@@ -29,7 +29,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        internal IReadOnlyList<CssMediaQuery> Queries
+        internal IList<CssMediaQuery> Queries
         {
             get { return mArray; }
         }

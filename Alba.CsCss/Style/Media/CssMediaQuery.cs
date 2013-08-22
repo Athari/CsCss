@@ -44,7 +44,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IReadOnlyList<CssMediaExpression> Expressions
+        public IList<CssMediaExpression> Expressions
         {
             get { return mExpressions; }
         }

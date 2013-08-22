@@ -60,7 +60,7 @@ namespace Alba.CsCss.Style
 
         // public interface
 
-        public IReadOnlyList<CssValueGradientStop> Stops
+        public IList<CssValueGradientStop> Stops
         {
             get { return mStops; }
         }

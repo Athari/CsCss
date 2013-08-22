@@ -24,7 +24,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IReadOnlyList<CssRule> Rules
+        public IList<CssRule> Rules
         {
             get { return mRules; }
         }

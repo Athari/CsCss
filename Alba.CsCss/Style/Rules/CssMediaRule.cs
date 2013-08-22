@@ -32,7 +32,7 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
-        public IReadOnlyList<CssMediaQuery> MediaQueries
+        public IList<CssMediaQuery> MediaQueries
         {
             get { return mMedia.Queries; }
         }

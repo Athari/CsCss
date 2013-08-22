@@ -28,7 +28,7 @@ namespace Alba.CsCss.Style
         public static string mozPlaceholder = ":-moz-placeholder";
 
         private static readonly IDictionary<string, CssPseudoElement> sPseudoElements =
-            new Dictionary<string, CssPseudoElement>(ReferenceEqualityComparer<object>.Default) {
+            new Dictionary<string, CssPseudoElement>(ReferenceEqualityComparer<string>.Default) {
                 { ":after", CssPseudoElement.After },
                 { ":before", CssPseudoElement.Before },
                 { ":first-letter", CssPseudoElement.FirstLetter },

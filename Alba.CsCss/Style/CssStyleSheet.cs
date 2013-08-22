@@ -98,7 +98,7 @@ namespace Alba.CsCss.Style
             set { mBaseURI = value; }
         }
 
-        public IReadOnlyList<CssRule> Rules
+        public IList<CssRule> Rules
         {
             get { return mOrderedRules; }
         }

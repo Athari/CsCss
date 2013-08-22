@@ -68,5 +68,10 @@ namespace Alba.CsCss.Internal.Extensions
             @this.Clear();
             @this.Append(val);
         }
+
+        internal static void Clear (this StringBuilder @this) // missing in .NET 3.5
+        {
+            @this.Length = 0;
+        }
     }
 }

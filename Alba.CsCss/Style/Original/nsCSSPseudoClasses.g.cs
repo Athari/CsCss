@@ -10,7 +10,7 @@ namespace Alba.CsCss.Style
     internal static partial class nsCSSPseudoClasses
     {
         private static readonly IDictionary<string, CssPseudoClass> sPseudoClasses =
-            new Dictionary<string, CssPseudoClass>(ReferenceEqualityComparer<object>.Default) {
+            new Dictionary<string, CssPseudoClass>(ReferenceEqualityComparer<string>.Default) {
                 { ":empty", CssPseudoClass.Empty },
                 { ":-moz-only-whitespace", CssPseudoClass.MozOnlyWhitespace },
                 { ":-moz-empty-except-children-with-localname", CssPseudoClass.MozEmptyExceptChildrenWithLocalname },
