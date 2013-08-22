@@ -56,28 +56,84 @@ using System.ComponentModel;
 
 namespace Alba.CsCss.Style
 {
+    /// <summary>
+    /// A property is a named style attribute or parameter for a markup element specified in a stylesheet declaration, e.g. color, background, font-family, margin etc., which is assigned a specific value. Properties are always followed by a colon to separate them from their value pair.
+    /// </summary>
     public enum CssProperty
     {
         Unknown = -1,
-<#+   foreach (string propId in GetCssProps(CommonDefs).Select(p => ToPascalId(p.Id))) { #>
-<#+    if (propId.StartsWith("Moz")) { #>
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+ foreach (CssProp prop in GetCssProps(CommonDefs)) { #>
+        /// <summary>
+        /// Longhand property "<#=prop.Name#>".
+<#+   if (prop.IsExtension) { CssProp unprefixedProp = GetCssProps(CommonDefs).FirstOrDefault(p => p.Name == prop.UnprefixedName); #>
+        /// It is specific to Mozilla Firefox (experimental or internal).
+<#+    if (unprefixedProp != null) { /* never happens, but just in case */ #>
+        /// Unprefixed property is <see cref="<#=ToPascalId(unprefixedProp.Id)#>">"<#=prop.UnprefixedName#>"</see>.
+<#+    } else { #>
+        /// Unprefixed property "<#=prop.UnprefixedName#>" is not supported.
 <#+    } #>
-        <#=propId#>,
 <#+   } #>
+<#+   if (prop.HasFlag("PARSE_INACCESSIBLE")) { #>
+        /// The property is internal, its value cannot be specified in a CSS file.
+<#+   } else if (prop.HasFlag("PARSE_VALUE") || prop.HasFlag("PARSE_VALUE_LIST")) { #>
+<#+    if (prop.HasFlag("PARSE_VALUE")) { #>
+        /// The property contains a single value of one of the following types:
+<#+    } else { #>
+        /// The property contains a list of values of one of the following types:
+<#+    } #>
+<#+    var valueDescs = GetPropVariantDesc(prop.ParseVariant).ToList(); #>
+<#+    for (int i = 0; i < valueDescs.Count; i++) { string valueDesc = valueDescs[i]; #>
+        ///   <#=valueDescs[i]#><#=i != valueDescs.Count - 1 ? "," : "."#>
+<#+    } #>
+<#+   } else if (prop.HasFlag("PARSE_FUNCTION")) { #>
+        /// See implementation for a list of possible values.
+<#+   } else { #>
+        /// TODO Unexpected parse type.
+<#+   } #>
+        /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/<#=prop.Name#>
+        /// </summary>
+<#+   if (prop.HasFlag("PARSE_INACCESSIBLE")) { #>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+<#+   } else if (prop.IsExtension) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+   } #>
+        <#=ToPascalId(prop.Id)#>,
+<#+ } /* foreach GetCssProps(CommonDefs) */ #>
         PropertyCountNoShorthands,
         [EditorBrowsable(EditorBrowsableState.Never)]
         PropertyCountDummy1 = PropertyCountNoShorthands - 1,
-<#+   foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
-        <#=ToPascalId(prop.Id)#>,
+<#+ foreach (CssPropShort prop in GetCssPropsShort(CommonDefs)) { #>
+        /// <summary>
+        /// Shorthand property "<#=prop.Name#>".
+<#+   if (prop.IsExtension) { CssProp unprefixedProp = GetCssProps(CommonDefs).FirstOrDefault(p => p.Name == prop.UnprefixedName); #>
+        /// It is specific to Mozilla Firefox (experimental or internal).
+<#+    if (unprefixedProp != null) { /* never happens, but just in case */ #>
+        /// Unprefixed property is <see cref="<#=ToPascalId(unprefixedProp.Id)#>">"<#=prop.UnprefixedName#>"</see>.
+<#+    } else { #>
+        /// Unprefixed property "<#=prop.UnprefixedName#>" is not supported.
+<#+    } #>
 <#+   } #>
+        /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/<#=prop.Name#>
+        /// </summary>
+<#+   if (prop.HasFlag("PARSE_INACCESSIBLE")) { #>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+<#+   } else if (prop.IsExtension) { #>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+<#+   } #>
+        <#=ToPascalId(prop.Id)#>,
+<#+ } /* foreach GetCssPropsShort(CommonDefs) */ #>
         PropertyCount,
         [EditorBrowsable(EditorBrowsableState.Never)]
         PropertyCountDummy2 = PropertyCount - 1,
-<#+   foreach (CssPropAlias prop in GetCssPropAliases()) { #>
+<#+ foreach (CssPropAlias prop in GetCssPropAliases()) { #>
+        /// <summary>
+        /// Property "<#=prop.Name#>" in an alias for <see cref="<#=ToPascalId(prop.Id)#>"/>.
+        /// It is specific to Mozilla Firefox (obsolete).
+        /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/<#=prop.Name#>
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         <#=ToPascalId("Alias"+prop.Method)#>,
-<#+   } #>
+<#+ } #>
         PropertyCountWithAliases,
         [EditorBrowsable(EditorBrowsableState.Never)]
         PropertyCountDummy3 = PropertyCountWithAliases - 1,
@@ -185,3 +241,87 @@ namespace Alba.CsCss.Style
     }
 }
 <#+ } /* void GenerateCssProps */ #>
+<#+
+    Dictionary<string, string> ParseVariantDescs = new Dictionary<string, string> {
+        { "KEYWORD", "<see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>)" },
+        { "LENGTH", "<see cref='CssValue.Float'>length</see>" },
+        { "PERCENT", "<see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>)" },
+        { "COLOR", "<see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>)" },
+        { "URL", "<see cref='CssValue.Uri'>URL</see> (<see cref='CssUnit.Url'/>)" },
+        { "NUMBER", "<see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>)" },
+        { "INTEGER", "<see cref='CssValue.Int'>integer</see> (<see cref='CssUnit.Integer'/>)" },
+        { "ANGLE", "<see cref='CssValue.Angle'>angle</see> (<see cref='CssUnit.Degrees'/> etc.)" },
+        { "ANGLE_OR_ZERO", "<see cref='CssValue.Angle'>angle</see> (<see cref='CssUnit.Degrees'/> etc.)" },
+        { "FREQUENCY", "<see cref='CssValue.Float'>frequency</see> (<see cref='CssUnit.Hertz'/> etc.)" },
+        { "TIME", "<see cref='CssValue.Float'>time</see> (<see cref='CssUnit.Seconds'/> etc.)" },
+        { "STRING", "<see cref='CssValue.String'>string</see> (<see cref='CssUnit.String'/>)" },
+        { "COUNTER", "<see cref='CssValue.Array'>array of strings</see> (<see cref='CssUnit.Counter'/> etc.)" },
+        { "ATTR", "<see cref='CssValue.String'>attribute</see> (<see cref='CssUnit.Attr'/>)" },
+        { "IDENTIFIER", "<see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>)" },
+        { "IDENTIFIER_NO_INHERIT", "<see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>)" },
+        { "AUTO", "auto (<see cref='CssUnit.Auto'/>)" },
+        { "INHERIT", "inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>)" },
+        { "NONE", "none (<see cref='CssUnit.None'/>)" },
+        { "NORMAL", "normal (<see cref='CssUnit.Normal'/>)" },
+        { "SYSFONT", "system font (<see cref='CssUnit.SystemFont'/>)" },
+        { "GRADIENT", "<see cref='CssValue.Gradient'>gradient</see> (<see cref='CssUnit.Gradient'/>)" },
+        { "TIMING_FUNCTION", "<see cref='CssValue.Array'>cubic-bezier() or steps()</see> (<see cref='CssUnit.CubicBezier'/> or <see cref='CssUnit.Steps'/>)" },
+        { "ALL", "all (<see cref='CssUnit.All'/>)" },
+        { "IMAGE_RECT", "<see cref='CssValue.Array'>function</see> (<see cref='CssUnit.Function'/>)" },
+        { "ZERO_ANGLE", "" },
+        { "CALC", "<see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>)" },
+        { "ELEMENT", "<see cref='CssValue.String'>element</see> (<see cref='CssUnit.Element'/>)" },
+        { "POSITIVE_DIMENSION", "" },
+        { "NONNEGATIVE_DIMENSION", "" },
+        { "IMAGE", "=URL, NONE, GRADIENT, IMAGE_RECT, ELEMENT" },
+    };
+    Dictionary<char, string> ParseVariantShortcuts = new Dictionary<char, string> {
+        { 'K', "KEYWORD" },
+        { 'L', "LENGTH" },
+        { 'P', "PERCENT" },
+        { 'C', "COLOR" },
+        { 'U', "URL" },
+        { 'N', "NUMBER" },
+        { 'I', "INTEGER" },
+        { 'G', "ANGLE" },
+        { 'F', "FREQUENCY" },
+        { 'T', "TIME" },
+        { 'S', "STRING" },
+        { 'D', "IDENTIFIER" },
+        { 'A', "AUTO" },
+        { 'H', "INHERIT" },
+        { 'O', "NONE" },
+        { 'M', "NORMAL" },
+    };
+
+    IEnumerable<string> GetPropVariantDesc (string variant)
+    {
+        foreach (string v_ in variant.ReMatchesGet(@"VARIANT_(\w+)")) {
+            string v = v_;
+            string desc = ParseVariantDescs.GetOrDefault(v);
+            if (desc != null) {
+                if (desc.StartsWith("="))
+                    desc = desc.ReReplace(@"(\w+)", m => ParseVariantDescs[m.Get()]).Substring(1);
+                if (desc != "")
+                    yield return desc;
+            }
+            else {
+                if (v.EndsWith("CALC")) {
+                    yield return ParseVariantDescs["CALC"];
+                    v = v.Substring(0, v.Length - 4);
+                }
+                foreach (char vc in v) {
+                    string shortcut;
+                    try {
+                        shortcut = ParseVariantShortcuts[vc];
+                    }
+                    catch (KeyNotFoundException) {
+                        Error("Shortcut '{0}' from '{1}' not found.".Fmt(vc, v));
+                        break;
+                    }
+                    yield return ParseVariantDescs[shortcut];
+                }
+            }
+        }
+    }
+#>

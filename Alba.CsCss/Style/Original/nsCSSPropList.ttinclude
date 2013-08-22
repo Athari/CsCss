@@ -140,6 +140,10 @@
     class CssPropBase
     {
         public string Name, Id, MethodPublic, MethodPrivate, Flags, Pref, IfDef;
+
+        public string UnprefixedName { get { return IsExtension ? Name.Substring(Name.IndexOf('-', 1) + 1) : Name; } }
+        public bool IsExtension { get { return Name.StartsWith("-"); } }
+        public bool HasFlag (string flag) { return Flags.IsReMatch(@"\b(?:CSS_PROPERTY_)?" + flag.ReEscape() + @"\b"); }
     }
 
     class CssProp : CssPropBase
