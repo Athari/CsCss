@@ -6,11 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Alba.CsCss")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(@"CSS Parser written in C#, based on Mozilla Firefox code.
+Supports parsing of all modern CSS expressions. Supports Quirks mode. Values are parsed into detailed structures. Detailed error logging. Debugging via SymbolSource.org.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Alba")]
 [assembly: AssemblyProduct("Alba.CsCss")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © 2013 Athari")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +33,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]
 
 [assembly: InternalsVisibleTo("Alba.CsCss.Tests")]

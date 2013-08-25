@@ -4,6 +4,7 @@
 /Temp
 bin/
 obj/
+*.nupkg
 *.suo
 *.DotSettings.user
 *.csproj.user

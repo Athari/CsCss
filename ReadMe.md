@@ -16,23 +16,23 @@ Features
 * Values are parsed into complex structures. For example, shortcut `background` property is converted into multiple longhand properties, one of which, `background-image`, is represented by a list of values corresponding to multiple backgrounds; each value in the list can be a URL or a gradient structure; in case of a gradient it contains a list of gradient stops.
 * Error detection and handling according to CSS specification. Parsing will not stop if any unsupported feature is used in the CSS file, parser will just skip to the next declaration.
 * Detailed error logging. All warning messages about unsupported or invalid CSS properties or syntax are logged into a `TraceSource` named `Alba.CsCss.CssParser` and are reported as event on `CssLoader.ParsingError`.
+* Installation via [NuGet](https://www.nuget.org/packages/Alba.CsCss/) with debugging symbols and sources via [SymbolSource](http://www.symbolsource.org/Public/Metadata/NuGet/Project/Alba.CsCss/).
 
-Not supported (yet)
-===================
+Not supported (ToDo)
+====================
 
 * Different encodings. You need to convert string to Unicode before passing it to `CssLoader`.
 * Modifying of a parsed style sheet and serializing it back into string.
 * Document Object Model CSS. DOM methods do not comply with C# coding standards, so the necessity is questionable.
 * Prefixed and vendor-specific CSS properties (-webkit-*, -ms-*, -o-*, zoom etc.) are ignored.
 * Unit tests are almost non-existent. Tests for CSS from Firefox are written in JavaScript and as such are very problematic to convert to C#.
-* .NET 4.0 and lower.
-* NuGet package.
 
-Example
-=======
+Examples
+========
 
+##### Getting color of H1 header style defined in a CSS file
+Two URLs are specified: the first one is used for logging puposes; the second one is used as a base for resolving relative `url()` expressions.
 ```cs
-// Parse CSS file, specify sheet URI (for logging) and base URI (for resolving url() functions)
 CssStyleSheet css = new CssLoader().ParseSheet("h1, h2 { color: #123; }",
     "http://example.com/sheet.css", "http://example.com/");
 Console.WriteLine(css.SheetUri); // http://example.com/sheet.css
@@ -44,10 +44,45 @@ Console.WriteLine(css.Rules.OfType<CssStyleRule>.Single().Declaration
 Console.WriteLine(css.StyleRules.Single().SelectorGroups.First().Selectors.Single().Tag);
 ```
 
+##### Extracting all URLs from a CSS file *(using tokenizer)*
+This method will not analyze wether CSS file is valid, it will merely find all `url()` expressions.
+```cs
+List<string> uris = new CssLoader().GetUris(source).ToList();
+```
+
+##### Extracting all URLs from a CSS file *(using parser)*
+This method will extract URLs only from valid CSS expressions. It most closely matches behavior of web browsers.
+```cs
+CssStyleSheet css = new CssLoader().ParseSheet(source, sheetUri, baseUri);
+// Get rules of CssStyleRule type on all levels (including style rules inside media rules)
+List<string> uris = css.AllStyleRules
+    // Get property-value pairs, both non-important and important (marked with !important)
+    .SelectMany(styleRule => styleRule.Declaration.AllData)
+    // A property can be a list of values (background-image, for example, contains a list of URLs)
+    .SelectMany(prop => prop.Value.Unit == CssUnit.List ? prop.Value.List : new[] { prop.Value })
+    // Filter values of CssUrlValue type
+    .Where(val => val.Unit == CssUnit.Url)
+    // Get unresolved URLs (you can use Uri property to get resolved URLs)
+    .Select(val => val.OriginalUri)
+    .ToList();
+```
+
 Requirements
 ============
 
-* .NET 4.5
+* .NET 3.5
+
+Installation
+============
+
+1. Install using [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget):
+
+        PM> Install-Package Alba.CsCss
+
+2. Build from sources:
+
+    1. Download sources from [GitHub](https://github.com/Athari/CsCss)
+    2. Add `Alba.CsCss/Alba.CsCss.csproj` project to your solution.
 
 Architecture
 ============
@@ -77,13 +112,21 @@ License
 
 [TL;DR](http://www.tldrlegal.com/license/mozilla-public-license): As long as you include copyright notice, you can do whatever you want, but any *source code file* licensed under MPL must remain under MPL and freely available in source form.
 
+CSS icon by [David Vignoni](http://www.icon-king.com/).
+
 Links
 =====
 
-Parsing CSS:
+##### Alba.CsCss:
+* [**GitHub project**](https://github.com/Athari/CsCss)
+* [**NuGet.org package**](https://www.nuget.org/packages/Alba.CsCss/)
+* [**SymbolSource.org package**](http://www.symbolsource.org/Public/Metadata/NuGet/Project/Alba.CsCss/)
+* [**Article on Habrahabr**](http://habrahabr.ru/post/190820/) *(Russian)*
+
+##### Parsing CSS:
 * [**ExCSS**](https://github.com/TylerBrinks/ExCSS) — another CSS parser for .NET. Stops parsing after some expressions. Analysis of expressions is much simpler (they are respresented as a list of terms). However, it supports modification, serialization to string, and is much more lightweight.
 
-Parsing HTML:
+##### Parsing HTML:
 * [**CsQuery**](https://github.com/jamietre/CsQuery) — jQuery port for .NET (HTML parser + fluent queries). Relies on HTML parser (see below) used in Mozilla Firefox, so very reliable.
 * [HtmlParserSharp](https://github.com/jamietre/HtmlParserSharp) — validator.nu HTML parser port for .NET. Port of validator.nu code to C++ is used in Mozilla Firefox, so parsing is as good as it can get.
 * [Html Agility Pack](http://htmlagilitypack.codeplex.com/) — older HTML parser. Fails to correctly parse even valid HTML4 code (optional closing tags), has no built-in fluent queries.

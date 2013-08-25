@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>Alba.CsCss Stylesheet Parser</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Athari/CsCss/blob/master/License.md</licenseUrl>
+    <projectUrl>https://github.com/Athari/CsCss</projectUrl>
+    <iconUrl>https://raw.github.com/Athari/CsCss/master/.nuget/css.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2013</copyright>
+    <tags>CSS CSS3 Style Stylesheet Parser Lexer Scanner Parse Syntax LINQ</tags>
+  </metadata>
+  <files>
+    <file src="..\ReadMe.txt" target="" />
+  </files>
+</package>
