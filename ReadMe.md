@@ -34,11 +34,11 @@ Examples
 Two URLs are specified: the first one is used for logging puposes; the second one is used as a base for resolving relative `url()` expressions.
 ```cs
 CssStyleSheet css = new CssLoader().ParseSheet("h1, h2 { color: #123; }",
-    "http://example.com/sheet.css", "http://example.com/");
+    new Uri("http://example.com/sheet.css"), new Uri("http://example.com/"));
 Console.WriteLine(css.SheetUri); // http://example.com/sheet.css
 // Get color property (equivalent code)
 Console.WriteLine(css.StyleRules.Single().Declaration.Color.Color.R); // 17
-Console.WriteLine(css.Rules.OfType<CssStyleRule>.Single().Declaration
+Console.WriteLine(css.Rules.OfType<CssStyleRule>().Single().Declaration
                                .GetValue(CssProperty.Color).Color.R); // 17
 // Get h1 selector
 Console.WriteLine(css.StyleRules.Single().SelectorGroups.First().Selectors.Single().Tag);
