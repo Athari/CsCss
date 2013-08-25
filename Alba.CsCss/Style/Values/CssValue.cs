@@ -450,6 +450,11 @@ namespace Alba.CsCss.Style
 
         // Public interface
 
+        public CssUnit Unit
+        {
+            get { return GetUnit(); }
+        }
+
         public int Int
         {
             get { return GetIntValue(); }

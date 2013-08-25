@@ -1,0 +1,14 @@
+﻿b { background: url(img0) }
+b { background: url("img1") }
+b { background: url('img2') }
+b { background: url( img3 ) }
+b { background: url( "img4" ) }
+b { background: url( 'img5' ) }
+b { background: url (noimg0) }
+b { background: url ("noimg1") }
+b { background: url ('noimg2') }
+/*b { background: url(noimg3) }*/
+b { color: url(noimg4) }
+b { content: 'url(noimg5)' }
+@media screen and (max-width: 1280px) { b { background: url(img6) } }
+b { background: url(img7) }

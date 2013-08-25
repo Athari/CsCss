@@ -102,6 +102,11 @@ namespace Alba.CsCss.Style
             get { return mImportantData != null ? mImportantData.mData : EmptyData; }
         }
 
+        public IEnumerable<CssPropertyValue> AllData
+        {
+            get { return Data.Concat(ImportantData); }
+        }
+
         public CssValue GetValue (CssProperty prop)
         {
             int index = mData.IndexFor(prop);

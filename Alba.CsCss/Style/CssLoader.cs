@@ -31,6 +31,7 @@ namespace Alba.CsCss.Style
         public IEnumerable<string> GetUris (string aInput)
         {
             var lexer = new CssScanner(aInput, 1);
+            lexer.SetErrorReporter(new ErrorReporter(lexer, null, this, null));
             var token = new CssToken();
             while (lexer.Next(token, true))
                 if (token.mType == CssTokenType.URL)

@@ -76,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Files\bootstrap.css" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\StackOverflow18262390.css" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

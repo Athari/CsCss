@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace Alba.CsCss.Tests.Style
         public void ParseSheet_TwitterBootstrap ()
         {
             var loader = new CssLoader();
-            var css = loader.ParseSheet(TwitterBootstrap, SheetUri, SheetUri);
+            var css = loader.ParseSheet(CssTwitterBootstrap, SheetUri, SheetUri);
             //var q = css.AllStyleRules.Where(r => r.Declaration.BackgroundImage.GetUnit() != CssUnit.Null).Select(r => r.Declaration.BackgroundImage);
         }
 
@@ -65,16 +66,46 @@ namespace Alba.CsCss.Tests.Style
         {
             var loader = new CssLoader();
             int nUris = 0;
-            foreach (string uri in loader.GetUris(TwitterBootstrap)) {
+            foreach (string uri in loader.GetUris(CssTwitterBootstrap)) {
                 Trace.WriteLine(string.Format("Uri: {0}", uri));
                 nUris++;
             }
             Assert.AreEqual(2, nUris);
         }
 
-        private string TwitterBootstrap
+        [TestMethod]
+        public void ParseSheet_GetUris_StackOverflow18262390 ()
+        {
+            var loader = new CssLoader();
+            var css = loader.ParseSheet(CssStackOverflow18262390, SheetUri, BaseUri);
+            List<string> uris = css.AllStyleRules
+                .SelectMany(styleRule => styleRule.Declaration.AllData)
+                .SelectMany(prop => prop.Value.Unit == CssUnit.List ? prop.Value.List : new[] { prop.Value })
+                .Where(value => value.Unit == CssUnit.Url)
+                .Select(value => value.OriginalUri)
+                .ToList();
+            CollectionAssert.AreEqual(
+                new[] { "img0", "img1", "img2", "img3", "img4", "img5", "img6", "img7" },
+                uris);
+        }
+
+        [TestMethod]
+        public void GetUris_StackOverflow18262390 ()
+        {
+            List<string> uris = new CssLoader().GetUris(CssStackOverflow18262390).ToList();
+            CollectionAssert.AreEqual(
+                new[] { "img0", "img1", "img2", "img3", "img4", "img5", "noimg4", "img6", "img7" },
+                uris);
+        }
+
+        private string CssTwitterBootstrap
         {
             get { return GetResourceFile("bootstrap.css"); }
+        }
+
+        private string CssStackOverflow18262390
+        {
+            get { return GetResourceFile("StackOverflow18262390.css"); }
         }
 
         private string GetResourceFile (string filename)
