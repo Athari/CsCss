@@ -179,17 +179,17 @@
       <Field Name="mSelector" Hidden="true" />
       <Method Name="SetLineNumber" Hidden="true" />
     </Members>
+    <AssociationLine Name="SelectorGroups" Type="Alba.CsCss.Style.CssSelectorGroup" FixedFromPoint="true">
+      <Path>
+        <Point X="1.25" Y="5.483" />
+        <Point X="1.25" Y="7" />
+      </Path>
+    </AssociationLine>
     <AssociationLine Name="Declaration" Type="Alba.CsCss.Style.CssDeclaration" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="1.688" Y="5.483" />
         <Point X="1.688" Y="6.513" />
         <Point X="5.75" Y="6.513" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="SelectorGroups" Type="Alba.CsCss.Style.CssSelectorGroup" FixedFromPoint="true">
-      <Path>
-        <Point X="1.25" Y="5.483" />
-        <Point X="1.25" Y="7" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -689,9 +689,9 @@
       <FileName>Style\CssSelector.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Attrs" />
       <Property Name="Negations" />
       <Property Name="PseudoClasses" />
+      <Property Name="Attrs" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Alba.CsCss.Style.CssAttrSelector">
@@ -736,6 +736,67 @@
     <ShowAsCollectionAssociation>
       <Property Name="SelectorGroups" />
     </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssValueGradient">
+    <Position X="10.75" Y="9" Width="1.5" />
+    <Members>
+      <Method Name="CssValueGradient" Hidden="true" />
+      <Method Name="GetRadialShape" Hidden="true" />
+      <Method Name="GetRadialSize" Hidden="true" />
+      <Method Name="GetRadiusX" Hidden="true" />
+      <Method Name="GetRadiusY" Hidden="true" />
+      <Field Name="mAngle" Hidden="true" />
+      <Field Name="mBgPos" Hidden="true" />
+      <Field Name="mIsExplicitSize" Hidden="true" />
+      <Field Name="mIsLegacySyntax" Hidden="true" />
+      <Field Name="mIsRadial" Hidden="true" />
+      <Field Name="mIsRepeating" Hidden="true" />
+      <Field Name="mRadialValues" Hidden="true" />
+      <Field Name="mStops" Hidden="true" />
+      <Method Name="SetRadialShape" Hidden="true" />
+      <Method Name="SetRadialSize" Hidden="true" />
+      <Method Name="SetRadiusX" Hidden="true" />
+      <Method Name="SetRadiusY" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIABSAACAAgAAAAAMAAFGDAAAAAAAAIACUACAREAEAM=</HashCode>
+      <FileName>Style\Values\CssValueGradient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Stops" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssValueGradientStop">
+    <Position X="10.75" Y="12.25" Width="1.5" />
+    <Members>
+      <Field Name="mColor" Hidden="true" />
+      <Field Name="mLocation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAiAAAAgA=</HashCode>
+      <FileName>Style\Values\CssValueGradientStop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssValuePair" Collapsed="true">
+    <Position X="8.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAYAA=</HashCode>
+      <FileName>Style\Values\CssValuePair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssRect" Collapsed="true">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAEAAACAAAAACAAAAYAAAAAAAIAAAACACAAAAAAQA=</HashCode>
+      <FileName>Style\Values\CssRect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssValueTriplet" Collapsed="true">
+    <Position X="8.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAIAACAAAAAAAAAAAAAAAAAAAIAAAAAAAYAE=</HashCode>
+      <FileName>Style\Values\CssValueTriplet.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Struct Name="Alba.CsCss.Style.CssPropertyValue">
     <Position X="5.75" Y="7.5" Width="1.5" />
@@ -817,9 +878,57 @@
       <Method Name="UnitHasArrayValue" Hidden="true" />
       <Method Name="UnitHasStringValue" Hidden="true" />
     </Members>
+    <AssociationLine Name="Array" Type="Alba.CsCss.Style.CssValue" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="10" />
+        <Point X="5.5" Y="10" />
+        <Point X="5.5" Y="10.375" />
+        <Point X="5.75" Y="10.375" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="List" Type="Alba.CsCss.Style.CssValue" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="9.25" />
+        <Point X="5.5" Y="9.25" />
+        <Point X="5.5" Y="9.625" />
+        <Point X="5.75" Y="9.625" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Pair" Type="Alba.CsCss.Style.CssValuePair" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="10.188" />
+        <Point X="8.25" Y="10.188" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="PairList" Type="Alba.CsCss.Style.CssValuePair" FixedFromPoint="true">
+      <Path>
+        <Point X="7.25" Y="9.812" />
+        <Point X="8.25" Y="9.812" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>BAABACIIkQ5gTZEU4CPQgDRgAjAFAKQACEACjCUlijo=</HashCode>
       <FileName>Style\Values\CssValue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Color" />
+      <Property Name="Gradient" />
+      <Property Name="Pair" />
+      <Property Name="Rect" />
+      <Property Name="Triplet" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Array" />
+      <Property Name="List" />
+      <Property Name="PairList" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="Alba.CsCss.Gfx.CssColor" Collapsed="true">
+    <Position X="8.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAKgAAAAAAAAggABAAAAAEgAAoAAYQgAKAEAAyQ=</HashCode>
+      <FileName>Gfx\CssColor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
