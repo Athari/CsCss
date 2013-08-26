@@ -1,0 +1,827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Alba.CsCss.Style.CssStyleSheet">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Property Name="AllCharsetRules" Hidden="true" />
+      <Property Name="AllFontFaceRules" Hidden="true" />
+      <Property Name="AllImportRules" Hidden="true" />
+      <Property Name="AllKeyframeRules" Hidden="true" />
+      <Property Name="AllKeyframesRules" Hidden="true" />
+      <Property Name="AllMediaRules" Hidden="true" />
+      <Property Name="AllNamespaceRules" Hidden="true" />
+      <Property Name="AllPageRules" Hidden="true" />
+      <Property Name="AllRules" Hidden="true" />
+      <Property Name="AllStyleRules" Hidden="true" />
+      <Property Name="AllSupportsRules" Hidden="true" />
+      <Method Name="AppendStyleRule" Hidden="true" />
+      <Property Name="CharsetRules" Hidden="true" />
+      <Method Name="CreateNamespaceMap" Hidden="true" />
+      <Method Name="CssStyleSheet" Hidden="true" />
+      <Method Name="Fix" Hidden="true" />
+      <Property Name="FontFaceRules" Hidden="true" />
+      <Method Name="GetAllRules" Hidden="true" />
+      <Method Name="GetBaseURI" Hidden="true" />
+      <Method Name="GetNameSpaceMap" Hidden="true" />
+      <Method Name="GetRules" Hidden="true" />
+      <Method Name="GetSheetURI" Hidden="true" />
+      <Method Name="GetStyleRuleAt" Hidden="true" />
+      <Property Name="ImportRules" Hidden="true" />
+      <Property Name="KeyframeRules" Hidden="true" />
+      <Property Name="KeyframesRules" Hidden="true" />
+      <Field Name="mBaseURI" Hidden="true" />
+      <Property Name="MediaRules" Hidden="true" />
+      <Field Name="mNameSpaceMap" Hidden="true" />
+      <Field Name="mOrderedRules" Hidden="true" />
+      <Field Name="mSheetURI" Hidden="true" />
+      <Property Name="NamespaceRules" Hidden="true" />
+      <Property Name="PageRules" Hidden="true" />
+      <Method Name="Principal" Hidden="true" />
+      <Method Name="RegisterNamespaceRule" Hidden="true" />
+      <Method Name="SetURIs" Hidden="true" />
+      <Method Name="StyleRuleCount" Hidden="true" />
+      <Property Name="StyleRules" Hidden="true" />
+      <Property Name="SupportsRules" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgB4CAAEIACBARLAApAEBAAAhhEKAAMBYQQCAIAIYAA=</HashCode>
+      <FileName>Style\CssStyleSheet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Rules" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssRule">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="Fix" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Method Name="GetStyleSheet" Hidden="true" />
+      <Field Name="mSheet" Hidden="true" />
+      <Method Name="SetStyleSheet" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAQAIAAAAhAAACAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssCharsetRule">
+    <Position X="2.25" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssCharsetRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mEncoding" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAIAAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssCharsetRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssFontFaceRule" Collapsed="true">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssFontFaceRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mDecl" Hidden="true" />
+      <Method Name="SetDesc" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAQAQAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Style\Rules\CssFontFaceRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Font" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssGroupRule">
+    <Position X="12.75" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="AppendStyleRule" Hidden="true" />
+      <Method Name="GetRules" Hidden="true" />
+      <Field Name="mRules" Hidden="true" />
+      <Method Name="SetStyleSheet" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAIAIAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssGroupRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssImportRule">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssImportRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mMedia" Hidden="true" />
+      <Field Name="mUrlSpec" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAQIAAAAAAAAAAAAAACAAAAAQAAAA=</HashCode>
+      <FileName>Style\Rules\CssImportRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="MediaQueries" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssKeyframeRule">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssKeyframeRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mDeclaration" Hidden="true" />
+      <Field Name="mKeys" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAQAAAAAAASAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssKeyframeRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Declaration" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssNamespaceRule">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssNamespaceRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Method Name="GetPrefix" Hidden="true" />
+      <Method Name="GetURLSpec" Hidden="true" />
+      <Field Name="mPrefix" Hidden="true" />
+      <Field Name="mUrlSpec" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAQAAIAAAAAAAAAQAAAAAACAAAAAAAACAACAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssNamespaceRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssPageRule">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssPageRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mDeclaration" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAQAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssPageRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Declaration" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssStyleRule">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="CssStyleRule" Hidden="true" />
+      <Method Name="Fix" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mDeclaration" Hidden="true" />
+      <Field Name="mLineNumber" Hidden="true" />
+      <Field Name="mSelector" Hidden="true" />
+      <Method Name="SetLineNumber" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Declaration" Type="Alba.CsCss.Style.CssDeclaration" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.688" Y="5.483" />
+        <Point X="1.688" Y="6.513" />
+        <Point X="5.75" Y="6.513" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="SelectorGroups" Type="Alba.CsCss.Style.CssSelectorGroup" FixedFromPoint="true">
+      <Path>
+        <Point X="1.25" Y="5.483" />
+        <Point X="1.25" Y="7" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAQAAAAACAQAAIAAAAAJAACAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Style\Rules\CssStyleRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Declaration" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="SelectorGroups" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssDeclaration">
+    <Position X="5.75" Y="6" Width="1.5" />
+    <Members>
+      <Property Name="AlignItems" Hidden="true" />
+      <Property Name="AlignSelf" Hidden="true" />
+      <Property Name="AllData" Hidden="true" />
+      <Property Name="AnimationDelay" Hidden="true" />
+      <Property Name="AnimationDirection" Hidden="true" />
+      <Property Name="AnimationDuration" Hidden="true" />
+      <Property Name="AnimationFillMode" Hidden="true" />
+      <Property Name="AnimationIterationCount" Hidden="true" />
+      <Property Name="AnimationName" Hidden="true" />
+      <Property Name="AnimationPlayState" Hidden="true" />
+      <Property Name="AnimationTimingFunction" Hidden="true" />
+      <Property Name="Appearance" Hidden="true" />
+      <Method Name="AssertMutable" Hidden="true" />
+      <Property Name="BackfaceVisibility" Hidden="true" />
+      <Property Name="BackgroundAttachment" Hidden="true" />
+      <Property Name="BackgroundClip" Hidden="true" />
+      <Property Name="BackgroundColor" Hidden="true" />
+      <Property Name="BackgroundImage" Hidden="true" />
+      <Property Name="BackgroundOrigin" Hidden="true" />
+      <Property Name="BackgroundPosition" Hidden="true" />
+      <Property Name="BackgroundRepeat" Hidden="true" />
+      <Property Name="BackgroundSize" Hidden="true" />
+      <Property Name="Binding" Hidden="true" />
+      <Property Name="BorderBottomColor" Hidden="true" />
+      <Property Name="BorderBottomColors" Hidden="true" />
+      <Property Name="BorderBottomLeftRadius" Hidden="true" />
+      <Property Name="BorderBottomRightRadius" Hidden="true" />
+      <Property Name="BorderBottomStyle" Hidden="true" />
+      <Property Name="BorderBottomWidth" Hidden="true" />
+      <Property Name="BorderCollapse" Hidden="true" />
+      <Property Name="BorderEndColorValue" Hidden="true" />
+      <Property Name="BorderEndStyleValue" Hidden="true" />
+      <Property Name="BorderEndWidthValue" Hidden="true" />
+      <Property Name="BorderImageOutset" Hidden="true" />
+      <Property Name="BorderImageRepeat" Hidden="true" />
+      <Property Name="BorderImageSlice" Hidden="true" />
+      <Property Name="BorderImageSource" Hidden="true" />
+      <Property Name="BorderImageWidth" Hidden="true" />
+      <Property Name="BorderLeftColorLtrSource" Hidden="true" />
+      <Property Name="BorderLeftColorRtlSource" Hidden="true" />
+      <Property Name="BorderLeftColors" Hidden="true" />
+      <Property Name="BorderLeftColorValue" Hidden="true" />
+      <Property Name="BorderLeftStyleLtrSource" Hidden="true" />
+      <Property Name="BorderLeftStyleRtlSource" Hidden="true" />
+      <Property Name="BorderLeftStyleValue" Hidden="true" />
+      <Property Name="BorderLeftWidthLtrSource" Hidden="true" />
+      <Property Name="BorderLeftWidthRtlSource" Hidden="true" />
+      <Property Name="BorderLeftWidthValue" Hidden="true" />
+      <Property Name="BorderRightColorLtrSource" Hidden="true" />
+      <Property Name="BorderRightColorRtlSource" Hidden="true" />
+      <Property Name="BorderRightColors" Hidden="true" />
+      <Property Name="BorderRightColorValue" Hidden="true" />
+      <Property Name="BorderRightStyleLtrSource" Hidden="true" />
+      <Property Name="BorderRightStyleRtlSource" Hidden="true" />
+      <Property Name="BorderRightStyleValue" Hidden="true" />
+      <Property Name="BorderRightWidthLtrSource" Hidden="true" />
+      <Property Name="BorderRightWidthRtlSource" Hidden="true" />
+      <Property Name="BorderRightWidthValue" Hidden="true" />
+      <Property Name="BorderSpacing" Hidden="true" />
+      <Property Name="BorderStartColorValue" Hidden="true" />
+      <Property Name="BorderStartStyleValue" Hidden="true" />
+      <Property Name="BorderStartWidthValue" Hidden="true" />
+      <Property Name="BorderTopColor" Hidden="true" />
+      <Property Name="BorderTopColors" Hidden="true" />
+      <Property Name="BorderTopLeftRadius" Hidden="true" />
+      <Property Name="BorderTopRightRadius" Hidden="true" />
+      <Property Name="BorderTopStyle" Hidden="true" />
+      <Property Name="BorderTopWidth" Hidden="true" />
+      <Property Name="Bottom" Hidden="true" />
+      <Property Name="BoxAlign" Hidden="true" />
+      <Property Name="BoxDirection" Hidden="true" />
+      <Property Name="BoxFlex" Hidden="true" />
+      <Property Name="BoxOrdinalGroup" Hidden="true" />
+      <Property Name="BoxOrient" Hidden="true" />
+      <Property Name="BoxPack" Hidden="true" />
+      <Property Name="BoxShadow" Hidden="true" />
+      <Property Name="BoxSizing" Hidden="true" />
+      <Property Name="CaptionSide" Hidden="true" />
+      <Property Name="Clear" Hidden="true" />
+      <Method Name="ClearData" Hidden="true" />
+      <Property Name="Clip" Hidden="true" />
+      <Property Name="ClipPath" Hidden="true" />
+      <Property Name="ClipRule" Hidden="true" />
+      <Property Name="Color" Hidden="true" />
+      <Property Name="ColorInterpolation" Hidden="true" />
+      <Property Name="ColorInterpolationFilters" Hidden="true" />
+      <Method Name="CompressFrom" Hidden="true" />
+      <Property Name="Content" Hidden="true" />
+      <Property Name="CounterIncrement" Hidden="true" />
+      <Property Name="CounterReset" Hidden="true" />
+      <Property Name="Cursor" Hidden="true" />
+      <Property Name="DebugDisplayCount" Hidden="true" />
+      <Property Name="Direction" Hidden="true" />
+      <Property Name="Display" Hidden="true" />
+      <Property Name="DominantBaseline" Hidden="true" />
+      <Property Name="EmptyCells" Hidden="true" />
+      <Field Name="EmptyData" Hidden="true" />
+      <Method Name="ExpandTo" Hidden="true" />
+      <Property Name="Fill" Hidden="true" />
+      <Property Name="FillOpacity" Hidden="true" />
+      <Property Name="FillRule" Hidden="true" />
+      <Property Name="Filter" Hidden="true" />
+      <Method Name="Fix" Hidden="true" />
+      <Property Name="FlexBasis" Hidden="true" />
+      <Property Name="FlexDirection" Hidden="true" />
+      <Property Name="FlexGrow" Hidden="true" />
+      <Property Name="FlexShrink" Hidden="true" />
+      <Property Name="Float" Hidden="true" />
+      <Property Name="FloatEdge" Hidden="true" />
+      <Property Name="FloodColor" Hidden="true" />
+      <Property Name="FloodOpacity" Hidden="true" />
+      <Property Name="FontFamily" Hidden="true" />
+      <Property Name="FontFeatureSettings" Hidden="true" />
+      <Property Name="FontLanguageOverride" Hidden="true" />
+      <Property Name="FontSize" Hidden="true" />
+      <Property Name="FontSizeAdjust" Hidden="true" />
+      <Property Name="FontStretch" Hidden="true" />
+      <Property Name="FontStyle" Hidden="true" />
+      <Property Name="FontVariant" Hidden="true" />
+      <Property Name="FontWeight" Hidden="true" />
+      <Property Name="ForceBrokenImageIcon" Hidden="true" />
+      <Property Name="Height" Hidden="true" />
+      <Property Name="Hyphens" Hidden="true" />
+      <Property Name="ImageRegion" Hidden="true" />
+      <Property Name="ImageRendering" Hidden="true" />
+      <Property Name="ImeMode" Hidden="true" />
+      <Method Name="IsMutable" Hidden="true" />
+      <Property Name="JustifyContent" Hidden="true" />
+      <Property Name="Left" Hidden="true" />
+      <Property Name="LetterSpacing" Hidden="true" />
+      <Property Name="LightingColor" Hidden="true" />
+      <Property Name="LineHeight" Hidden="true" />
+      <Property Name="ListStyleImage" Hidden="true" />
+      <Property Name="ListStylePosition" Hidden="true" />
+      <Property Name="ListStyleType" Hidden="true" />
+      <Property Name="MarginBottom" Hidden="true" />
+      <Property Name="MarginEndValue" Hidden="true" />
+      <Property Name="MarginLeftLtrSource" Hidden="true" />
+      <Property Name="MarginLeftRtlSource" Hidden="true" />
+      <Property Name="MarginLeftValue" Hidden="true" />
+      <Property Name="MarginRightLtrSource" Hidden="true" />
+      <Property Name="MarginRightRtlSource" Hidden="true" />
+      <Property Name="MarginRightValue" Hidden="true" />
+      <Property Name="MarginStartValue" Hidden="true" />
+      <Property Name="MarginTop" Hidden="true" />
+      <Property Name="MarkerEnd" Hidden="true" />
+      <Property Name="MarkerMid" Hidden="true" />
+      <Property Name="MarkerOffset" Hidden="true" />
+      <Property Name="MarkerStart" Hidden="true" />
+      <Property Name="Marks" Hidden="true" />
+      <Property Name="Mask" Hidden="true" />
+      <Property Name="MaskType" Hidden="true" />
+      <Property Name="MaxHeight" Hidden="true" />
+      <Property Name="MaxWidth" Hidden="true" />
+      <Field Name="mData" Hidden="true" />
+      <Field Name="mImmutable" Hidden="true" />
+      <Field Name="mImportantData" Hidden="true" />
+      <Property Name="MinHeight" Hidden="true" />
+      <Property Name="MinWidth" Hidden="true" />
+      <Field Name="mOrder" Hidden="true" />
+      <Property Name="MozBackgroundInlinePolicy" Hidden="true" />
+      <Property Name="MozColumnCount" Hidden="true" />
+      <Property Name="MozColumnFill" Hidden="true" />
+      <Property Name="MozColumnGap" Hidden="true" />
+      <Property Name="MozColumnRuleColor" Hidden="true" />
+      <Property Name="MozColumnRuleStyle" Hidden="true" />
+      <Property Name="MozColumnRuleWidth" Hidden="true" />
+      <Property Name="MozColumnWidth" Hidden="true" />
+      <Property Name="MozOutlineRadiusBottomLeft" Hidden="true" />
+      <Property Name="MozOutlineRadiusBottomRight" Hidden="true" />
+      <Property Name="MozOutlineRadiusTopLeft" Hidden="true" />
+      <Property Name="MozOutlineRadiusTopRight" Hidden="true" />
+      <Property Name="MozTabSize" Hidden="true" />
+      <Property Name="MozWindowShadow" Hidden="true" />
+      <Property Name="Opacity" Hidden="true" />
+      <Property Name="Order" Hidden="true" />
+      <Method Name="OrderDataByOrder" Hidden="true" />
+      <Property Name="Orient" Hidden="true" />
+      <Property Name="Orphans" Hidden="true" />
+      <Property Name="OutlineColor" Hidden="true" />
+      <Property Name="OutlineOffset" Hidden="true" />
+      <Property Name="OutlineStyle" Hidden="true" />
+      <Property Name="OutlineWidth" Hidden="true" />
+      <Property Name="OverflowX" Hidden="true" />
+      <Property Name="OverflowY" Hidden="true" />
+      <Property Name="PaddingBottom" Hidden="true" />
+      <Property Name="PaddingEndValue" Hidden="true" />
+      <Property Name="PaddingLeftLtrSource" Hidden="true" />
+      <Property Name="PaddingLeftRtlSource" Hidden="true" />
+      <Property Name="PaddingLeftValue" Hidden="true" />
+      <Property Name="PaddingRightLtrSource" Hidden="true" />
+      <Property Name="PaddingRightRtlSource" Hidden="true" />
+      <Property Name="PaddingRightValue" Hidden="true" />
+      <Property Name="PaddingStartValue" Hidden="true" />
+      <Property Name="PaddingTop" Hidden="true" />
+      <Property Name="Page" Hidden="true" />
+      <Property Name="PageBreakAfter" Hidden="true" />
+      <Property Name="PageBreakBefore" Hidden="true" />
+      <Property Name="PageBreakInside" Hidden="true" />
+      <Property Name="PaintOrder" Hidden="true" />
+      <Property Name="Perspective" Hidden="true" />
+      <Property Name="PerspectiveOrigin" Hidden="true" />
+      <Property Name="PointerEvents" Hidden="true" />
+      <Property Name="Position" Hidden="true" />
+      <Property Name="Quotes" Hidden="true" />
+      <Property Name="Resize" Hidden="true" />
+      <Property Name="Right" Hidden="true" />
+      <Property Name="ScriptLevel" Hidden="true" />
+      <Property Name="ScriptMinSize" Hidden="true" />
+      <Property Name="ScriptSizeMultiplier" Hidden="true" />
+      <Method Name="SetImmutable" Hidden="true" />
+      <Property Name="ShapeRendering" Hidden="true" />
+      <Property Name="Size" Hidden="true" />
+      <Property Name="StackSizing" Hidden="true" />
+      <Property Name="StopColor" Hidden="true" />
+      <Property Name="StopOpacity" Hidden="true" />
+      <Property Name="Stroke" Hidden="true" />
+      <Property Name="StrokeDasharray" Hidden="true" />
+      <Property Name="StrokeDashoffset" Hidden="true" />
+      <Property Name="StrokeLinecap" Hidden="true" />
+      <Property Name="StrokeLinejoin" Hidden="true" />
+      <Property Name="StrokeMiterlimit" Hidden="true" />
+      <Property Name="StrokeOpacity" Hidden="true" />
+      <Property Name="StrokeWidth" Hidden="true" />
+      <Property Name="TableLayout" Hidden="true" />
+      <Property Name="TextAlign" Hidden="true" />
+      <Property Name="TextAlignLast" Hidden="true" />
+      <Property Name="TextAnchor" Hidden="true" />
+      <Property Name="TextBlink" Hidden="true" />
+      <Property Name="TextDecorationColor" Hidden="true" />
+      <Property Name="TextDecorationLine" Hidden="true" />
+      <Property Name="TextDecorationStyle" Hidden="true" />
+      <Property Name="TextIndent" Hidden="true" />
+      <Property Name="TextOverflow" Hidden="true" />
+      <Property Name="TextRendering" Hidden="true" />
+      <Property Name="TextShadow" Hidden="true" />
+      <Property Name="TextSizeAdjust" Hidden="true" />
+      <Property Name="TextTransform" Hidden="true" />
+      <Property Name="Top" Hidden="true" />
+      <Property Name="Transform" Hidden="true" />
+      <Property Name="TransformOrigin" Hidden="true" />
+      <Property Name="TransformStyle" Hidden="true" />
+      <Property Name="TransitionDelay" Hidden="true" />
+      <Property Name="TransitionDuration" Hidden="true" />
+      <Property Name="TransitionProperty" Hidden="true" />
+      <Property Name="TransitionTimingFunction" Hidden="true" />
+      <Method Name="TryReplaceValue" Hidden="true" />
+      <Property Name="UnicodeBidi" Hidden="true" />
+      <Property Name="UserFocus" Hidden="true" />
+      <Property Name="UserInput" Hidden="true" />
+      <Property Name="UserModify" Hidden="true" />
+      <Property Name="UserSelect" Hidden="true" />
+      <Method Name="ValueAppended" Hidden="true" />
+      <Property Name="VectorEffect" Hidden="true" />
+      <Property Name="VerticalAlign" Hidden="true" />
+      <Property Name="Visibility" Hidden="true" />
+      <Property Name="WhiteSpace" Hidden="true" />
+      <Property Name="Widows" Hidden="true" />
+      <Property Name="Width" Hidden="true" />
+      <Property Name="WordBreak" Hidden="true" />
+      <Property Name="WordSpacing" Hidden="true" />
+      <Property Name="WordWrap" Hidden="true" />
+      <Property Name="XLang" Hidden="true" />
+      <Property Name="XSpan" Hidden="true" />
+      <Property Name="XSystemFont" Hidden="true" />
+      <Property Name="ZIndex" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Data" Type="Alba.CsCss.Style.CssPropertyValue" FixedFromPoint="true">
+      <Path>
+        <Point X="6.938" Y="7.103" />
+        <Point X="6.938" Y="7.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="ImportantData" Type="Alba.CsCss.Style.CssPropertyValue" FixedFromPoint="true">
+      <Path>
+        <Point X="6.062" Y="7.103" />
+        <Point X="6.062" Y="7.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>4meRNdLF90f5l0fnFuWfC/7/z5hbfLdT3fyQ61Pz9bc=</HashCode>
+      <FileName>Style\CssDeclaration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Data" />
+      <Property Name="ImportantData" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssSelectorGroup">
+    <Position X="0.5" Y="7" Width="1.5" />
+    <Members>
+      <Method Name="AddSelector" Hidden="true" />
+      <Method Name="CssSelectorGroup" Hidden="true" />
+      <Field Name="mNext" Hidden="true" />
+      <Field Name="mSelectors" Hidden="true" />
+      <Field Name="mWeight" Hidden="true" />
+      <Method Name="TraverseList" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIACAAAAAAQAAAAAAAAAAAAIAiAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Style\CssSelectorGroup.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Selectors" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssFontFace" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAJAAIAAAAgAAAAAIIAEAACAAAAgCBEIQQAEABAA=</HashCode>
+      <FileName>Style\Original\CssFontFace.g.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssMediaQuery">
+    <Position X="11" Y="6" Width="1.5" />
+    <Members>
+      <Field Name="mExpressions" Hidden="true" />
+      <Field Name="mHadUnknownExpression" Hidden="true" />
+      <Field Name="mHasOnly" Hidden="true" />
+      <Field Name="mMediaType" Hidden="true" />
+      <Field Name="mNegated" Hidden="true" />
+      <Field Name="mTypeOmitted" Hidden="true" />
+      <Method Name="NewExpression" Hidden="true" />
+      <Method Name="SetHadUnknownExpression" Hidden="true" />
+      <Method Name="SetHasOnly" Hidden="true" />
+      <Method Name="SetNegated" Hidden="true" />
+      <Method Name="SetType" Hidden="true" />
+      <Method Name="SetTypeOmitted" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACgAAAEAAAAgAQAAAAISgEIAigAAAEA=</HashCode>
+      <FileName>Style\Media\CssMediaQuery.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Expressions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssMediaExpression" Collapsed="true">
+    <Position X="11" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAEACAAAAAgCAAEAAA=</HashCode>
+      <FileName>Style\Media\CssMediaExpression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssDocumentRule">
+    <Position X="14" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="CssDocumentRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mURLs" Hidden="true" />
+      <Method Name="SetURLs" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="Alba.CsCss.Style.CssDocumentRule.Function" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Style\Rules\CssDocumentRule.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="Alba.CsCss.Style.CssDocumentRule.URL" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Style\Rules\CssDocumentRule.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <InheritanceLine Type="Alba.CsCss.Style.CssGroupRule" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="5.483" />
+        <Point X="13.5" Y="7.562" />
+        <Point X="14" Y="7.562" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAEAAQAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssDocumentRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssKeyframesRule">
+    <Position X="14" Y="9" Width="1.5" />
+    <Members>
+      <Method Name="CssKeyframesRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mName" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Alba.CsCss.Style.CssGroupRule" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="5.483" />
+        <Point X="13.5" Y="9.625" />
+        <Point X="14" Y="9.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAQAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssKeyframesRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssMediaRule" Collapsed="true">
+    <Position X="14" Y="6.25" Width="1.5" />
+    <Members>
+      <Method Name="CssMediaRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mMedia" Hidden="true" />
+      <Method Name="SetMedia" Hidden="true" />
+      <Method Name="SetStyleSheet" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Alba.CsCss.Style.CssGroupRule" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="5.483" />
+        <Point X="13.5" Y="6.345" />
+        <Point X="14" Y="6.345" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAQIAAAAAAAAQAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Style\Rules\CssMediaRule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="MediaQueries" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssSupportsRule">
+    <Position X="14" Y="10.5" Width="1.5" />
+    <Members>
+      <Method Name="CssSupportsRule" Hidden="true" />
+      <Method Name="GetKind" Hidden="true" />
+      <Field Name="mCondition" Hidden="true" />
+      <Field Name="mUseGroup" Hidden="true" />
+      <Method Name="PrefEnabled" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Alba.CsCss.Style.CssGroupRule" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="5.483" />
+        <Point X="13.5" Y="11.188" />
+        <Point X="14" Y="11.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAEAAAQAAAAAAgACgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Style\Rules\CssSupportsRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssSelector">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <Members>
+      <Method Name="AddAttribute" Hidden="true" />
+      <Method Name="AddAttributeInternal" Hidden="true" />
+      <Method Name="AddClass" Hidden="true" />
+      <Method Name="AddID" Hidden="true" />
+      <Method Name="AddPseudoClass" Hidden="true" />
+      <Method Name="AddPseudoClassInternal" Hidden="true" />
+      <Method Name="CalcWeight" Hidden="true" />
+      <Method Name="IsPseudoElement" Hidden="true" />
+      <Field Name="mAttrList" Hidden="true" />
+      <Field Name="mCasedTag" Hidden="true" />
+      <Field Name="mClassList" Hidden="true" />
+      <Field Name="mIDList" Hidden="true" />
+      <Field Name="mLowercaseTag" Hidden="true" />
+      <Field Name="mNameSpace" Hidden="true" />
+      <Field Name="mNegations" Hidden="true" />
+      <Field Name="mNext" Hidden="true" />
+      <Field Name="mOperator" Hidden="true" />
+      <Field Name="mPseudoClassList" Hidden="true" />
+      <Field Name="mPseudoType" Hidden="true" />
+      <Property Name="NamespaceId" Hidden="true" />
+      <Method Name="SetNameSpace" Hidden="true" />
+      <Method Name="SetOperator" Hidden="true" />
+      <Method Name="SetPseudoType" Hidden="true" />
+      <Method Name="SetTag" Hidden="true" />
+      <Property Name="TagCased" Hidden="true" />
+      <Property Name="TagLower" Hidden="true" />
+      <Method Name="TraverseList" Hidden="true" />
+    </Members>
+    <AssociationLine Name="PseudoClasses" Type="Alba.CsCss.Style.CssPseudoClassSelector" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="8.812" />
+        <Point X="3.938" Y="8.812" />
+        <Point X="3.938" Y="8.488" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAQSCQAABAFgAAAqAUJAApAIAAIBIQBBAIBgEAABIAI=</HashCode>
+      <FileName>Style\CssSelector.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attrs" />
+      <Property Name="Negations" />
+      <Property Name="PseudoClasses" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssAttrSelector">
+    <Position X="3.25" Y="9" Width="1.5" />
+    <Members>
+      <Method Name="AddItem" Hidden="true" />
+      <Property Name="AttrCased" Hidden="true" />
+      <Property Name="AttrLower" Hidden="true" />
+      <Method Name="CssAttrSelector" Hidden="true" />
+      <Field Name="mCasedAttr" Hidden="true" />
+      <Field Name="mCaseSensitive" Hidden="true" />
+      <Field Name="mFunction" Hidden="true" />
+      <Field Name="mLowercaseAttr" Hidden="true" />
+      <Field Name="mNameSpace" Hidden="true" />
+      <Field Name="mNext" Hidden="true" />
+      <Field Name="mValue" Hidden="true" />
+      <Property Name="NamespaceId" Hidden="true" />
+      <Method Name="TraverseList" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQCCQAAAAiAAAAgAAAgAAIIgAAEAAAAQAEgAAAACIA=</HashCode>
+      <FileName>Style\CssAttrSelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Alba.CsCss.Style.CssPseudoClassSelector">
+    <Position X="3.25" Y="7" Width="1.5" />
+    <Members>
+      <Method Name="AddItem" Hidden="true" />
+      <Method Name="CssPseudoClassSelector" Hidden="true" />
+      <Field Name="mData" Hidden="true" />
+      <Field Name="mNext" Hidden="true" />
+      <Property Name="mNumbers" Hidden="true" />
+      <Property Name="mSelectors" Hidden="true" />
+      <Property Name="mString" Hidden="true" />
+      <Field Name="mType" Hidden="true" />
+      <Method Name="TraverseList" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAgUAEAABAIggAAAAAAAQAAAIAAAIA=</HashCode>
+      <FileName>Style\CssPseudoClassSelector.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="SelectorGroups" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Struct Name="Alba.CsCss.Style.CssPropertyValue">
+    <Position X="5.75" Y="7.5" Width="1.5" />
+    <Members>
+      <Field Name="mProperty" Hidden="true" />
+      <Field Name="mValue" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAQAAAAA=</HashCode>
+      <FileName>Style\CssPropertyValue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Value" />
+    </ShowAsAssociation>
+  </Struct>
+  <Struct Name="Alba.CsCss.Style.CssValue">
+    <Position X="5.75" Y="9" Width="1.5" />
+    <Members>
+      <Method Name="BufferFromString" Hidden="true" />
+      <Method Name="CssValue" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Method Name="GetAngleValue" Hidden="true" />
+      <Method Name="GetAngleValueInRadians" Hidden="true" />
+      <Method Name="GetArrayValue" Hidden="true" />
+      <Method Name="GetColorValue" Hidden="true" />
+      <Method Name="GetFloatValue" Hidden="true" />
+      <Method Name="GetGradientValue" Hidden="true" />
+      <Method Name="GetHashCode" Hidden="true" />
+      <Method Name="GetIntValue" Hidden="true" />
+      <Method Name="GetListValue" Hidden="true" />
+      <Method Name="GetOriginalURLValue" Hidden="true" />
+      <Method Name="GetPairListValue" Hidden="true" />
+      <Method Name="GetPairValue" Hidden="true" />
+      <Method Name="GetPercentValue" Hidden="true" />
+      <Method Name="GetRectValue" Hidden="true" />
+      <Method Name="GetStringBufferValue" Hidden="true" />
+      <Method Name="GetStringValue" Hidden="true" />
+      <Method Name="GetTripletValue" Hidden="true" />
+      <Method Name="GetUnit" Hidden="true" />
+      <Method Name="GetURLStructValue" Hidden="true" />
+      <Method Name="GetURLValue" Hidden="true" />
+      <Method Name="ICalcOpsInput.GetArrayValue" Hidden="true" />
+      <Method Name="InitFunction" Hidden="true" />
+      <Method Name="IsAngularUnit" Hidden="true" />
+      <Method Name="IsCalcUnit" Hidden="true" />
+      <Method Name="IsFixedLengthUnit" Hidden="true" />
+      <Method Name="IsFrequencyUnit" Hidden="true" />
+      <Method Name="IsLengthUnit" Hidden="true" />
+      <Method Name="IsPixelLengthUnit" Hidden="true" />
+      <Method Name="IsRelativeLengthUnit" Hidden="true" />
+      <Method Name="IsTimeUnit" Hidden="true" />
+      <Field Name="mUnit" Hidden="true" />
+      <Field Name="mValue" Hidden="true" />
+      <Field Name="NullValue" Hidden="true" />
+      <Method Name="operator !=" Hidden="true" />
+      <Method Name="operator ==" Hidden="true" />
+      <Method Name="Reset" Hidden="true" />
+      <Method Name="SetAllValue" Hidden="true" />
+      <Method Name="SetArrayValue" Hidden="true" />
+      <Method Name="SetAutoValue" Hidden="true" />
+      <Method Name="SetColorValue" Hidden="true" />
+      <Method Name="SetFloatValue" Hidden="true" />
+      <Method Name="SetGradientValue" Hidden="true" />
+      <Method Name="SetInheritValue" Hidden="true" />
+      <Method Name="SetInitialValue" Hidden="true" />
+      <Method Name="SetIntValue" Hidden="true" />
+      <Method Name="SetListValue" Hidden="true" />
+      <Method Name="SetNoneValue" Hidden="true" />
+      <Method Name="SetNormalValue" Hidden="true" />
+      <Method Name="SetPairListValue" Hidden="true" />
+      <Method Name="SetPairValue" Hidden="true" />
+      <Method Name="SetPercentValue" Hidden="true" />
+      <Method Name="SetRectValue" Hidden="true" />
+      <Method Name="SetStringValue" Hidden="true" />
+      <Method Name="SetSystemFontValue" Hidden="true" />
+      <Method Name="SetTripletValue" Hidden="true" />
+      <Method Name="SetURLValue" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Method Name="UnitHasArrayValue" Hidden="true" />
+      <Method Name="UnitHasStringValue" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAABACIIkQ5gTZEU4CPQgDRgAjAFAKQACEACjCUlijo=</HashCode>
+      <FileName>Style\Values\CssValue.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -228,6 +228,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nsINameSpaceManager.h</DependentUpon>
     </None>
+    <None Include="Diagrams\CssStyleSheet.cd" />
     <None Include="Gfx\Original\gfxFontConstants.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <AutoGen>True</AutoGen>
