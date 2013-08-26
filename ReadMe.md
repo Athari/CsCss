@@ -1,4 +1,4 @@
-# *CsCss: .NET CSS Parser*
+ï»¿# *CsCss: .NET CSS Parser*
 
 https://github.com/Athari/CsCss
 
@@ -90,7 +90,7 @@ Architecture
 Conversion
 ----------
 
-The major part of the library is ported by applying numerous regular expressions to original C++ code. C++ code and T4 files with regular expressions are included in the project (but are not included in the compiled DLL). The plan is to keep the code maintainable — when new version of Firefox is released, only minor modifications should be necessary, without trying to match converted code with new original code. Time will tell wether the idea is good.
+The major part of the library is ported by applying numerous regular expressions to original C++ code. C++ code and T4 files with regular expressions are included in the project (but are not included in the compiled DLL). The plan is to keep the code maintainable â€” when new version of Firefox is released, only minor modifications should be necessary, without trying to match converted code with new original code. Time will tell wether the idea is good.
 
 Only parts which are expected to update regularly are converted with regular expressions. Parts of code which are considered relatively stable (style sheets, value types etc.) or are unpractical to convert with regex (unions, operator new overriding etc.), are rewritten manually.
 
@@ -100,11 +100,11 @@ Building from sources
 ---------------------
 
 Projects:
-* `Alba.CsCss` — the library itself. Has no dependencies except .NET. If library is included in another solution, only this project is necessary.
-* `Alba.CsCss.Tests` — "unit" tests (more like integration tests). Very few.
-* `Alba.Framework` — personal framework. Debug version of the assembly must be built to be able to run T4 files. Necessary only if you want to modify source code transformations.
-* `Alba.Framework.CodeGeneration` — T4 part of the personal framework. Must be built under Administrator account (installs `AttachT4` custom tool similar to T4 Toolbox's `T4ScriptFileGenerator`). Necessary if you want T4 transformations to be applied when original source files are updated, or want ot add new source files.
-* `Alba.Framework.Testing` — testing part of the personal framework. Used in tests.
+* `Alba.CsCss` â€” the library itself. Has no dependencies except .NET. If library is included in another solution, only this project is necessary.
+* `Alba.CsCss.Tests` â€” "unit" tests (more like integration tests). Very few.
+* `Alba.Framework` â€” personal framework. Debug version of the assembly must be built to be able to run T4 files. Necessary only if you want to modify source code transformations.
+* `Alba.Framework.CodeGeneration` â€” T4 part of the personal framework. Must be built under Administrator account (installs `AttachT4` custom tool similar to T4 Toolbox's `T4ScriptFileGenerator`). Necessary if you want T4 transformations to be applied when original source files are updated, or want ot add new source files.
+* `Alba.Framework.Testing` â€” testing part of the personal framework. Used in tests.
 
 License
 =======
@@ -118,16 +118,17 @@ Links
 =====
 
 ##### Alba.CsCss:
-* [**GitHub project**](https://github.com/Athari/CsCss)
-* [**NuGet.org package**](https://www.nuget.org/packages/Alba.CsCss/)
-* [**SymbolSource.org package**](http://www.symbolsource.org/Public/Metadata/NuGet/Project/Alba.CsCss/)
-* [**Article on Habrahabr**](http://habrahabr.ru/post/190820/) *(Russian)*
+* [**GitHub** project](https://github.com/Athari/CsCss) â€” source code, issue tracker
+* [**NuGet** package](https://www.nuget.org/packages/Alba.CsCss/) â€” binary package download
+* [**SymbolSource** package](http://www.symbolsource.org/Public/Metadata/NuGet/Project/Alba.CsCss/) â€” source code package download
+* [**CodeProject** article](http://www.codeproject.com/Articles/643493/Mozilla-Firefox-CSS-Parser-Ported-to-Csharp) â€” various details, discussion
+* [**Habrahabr** article](http://habrahabr.ru/post/190820/) *(Russian)* â€” various details, discussion
 
 ##### Parsing CSS:
-* [**ExCSS**](https://github.com/TylerBrinks/ExCSS) — another CSS parser for .NET. Stops parsing after some expressions. Analysis of expressions is much simpler (they are respresented as a list of terms). However, it supports modification, serialization to string, and is much more lightweight.
+* [**ExCSS**](https://github.com/TylerBrinks/ExCSS) â€” another CSS parser for .NET. Stops parsing after some expressions. Analysis of expressions is much simpler (they are respresented as a list of terms). However, it supports modification, serialization to string, and is much more lightweight.
 
 ##### Parsing HTML:
-* [**CsQuery**](https://github.com/jamietre/CsQuery) — jQuery port for .NET (HTML parser + fluent queries). Relies on HTML parser (see below) used in Mozilla Firefox, so very reliable.
-* [HtmlParserSharp](https://github.com/jamietre/HtmlParserSharp) — validator.nu HTML parser port for .NET. Port of validator.nu code to C++ is used in Mozilla Firefox, so parsing is as good as it can get.
-* [Html Agility Pack](http://htmlagilitypack.codeplex.com/) — older HTML parser. Fails to correctly parse even valid HTML4 code (optional closing tags), has no built-in fluent queries.
-* [Fizzler](http://code.google.com/p/fizzler/) — jQuery port for .NET based on Html Agility Pack. Less featureful than CsQuery.
+* [**CsQuery**](https://github.com/jamietre/CsQuery) â€” jQuery port for .NET (HTML parser + fluent queries). Relies on HTML parser (see below) used in Mozilla Firefox, so very reliable.
+* [HtmlParserSharp](https://github.com/jamietre/HtmlParserSharp) â€” validator.nu HTML parser port for .NET. Port of validator.nu code to C++ is used in Mozilla Firefox, so parsing is as good as it can get.
+* [Html Agility Pack](http://htmlagilitypack.codeplex.com/) â€” older HTML parser. Fails to correctly parse even valid HTML4 code (optional closing tags), has no built-in fluent queries.
+* [Fizzler](http://code.google.com/p/fizzler/) â€” jQuery port for .NET based on Html Agility Pack. Less featureful than CsQuery.
