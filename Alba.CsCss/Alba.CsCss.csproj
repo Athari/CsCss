@@ -221,6 +221,7 @@
     <Compile Include="Style\Values\CssUriValue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Alba.CsCss.fxcop" />
     <None Include="Alba.CsCss.nuspec" />
     <None Include="Common\Original\nsINameSpaceManager.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
