@@ -505,6 +505,25 @@ namespace Alba.CsCss.Style
             get { return GetColorValue(); }
         }
 
+        public CssColor CalculatedColor
+        {
+            get
+            {
+                switch (GetUnit()) {
+                    case CssUnit.Color:
+                        return Color;
+                    case CssUnit.Ident:
+                        var result = new CssColor();
+                        if (CssColor.ColorNameToRGB(String, ref result))
+                            return result;
+                        else
+                            throw new InvalidOperationException(string.Format("Unknown color name: {0}", String));
+                    default:
+                        throw new InvalidOperationException(string.Format("Cannot convert {0} value to color.", GetUnit()));
+                }
+            }
+        }
+
         public CssValueGradient Gradient
         {
             get { return GetGradientValue(); }

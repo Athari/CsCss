@@ -85,6 +85,12 @@ namespace Alba.CsCss.Gfx
             return false;
         }
 
+        public static CssColor? HexToRGB (string aColorSpec)
+        {
+            var aResult = new CssColor();
+            return HexToRGB(aColorSpec, ref aResult) ? aResult : (CssColor?)null;
+        }
+
         public static bool LooseHexToRGB (string aColorSpec, ref CssColor aResult)
         {
             if (aColorSpec.EqualsLiteral("transparent")) {
@@ -146,6 +152,12 @@ namespace Alba.CsCss.Gfx
             return true;
         }
 
+        public static CssColor? LooseHexToRGB (string aColorSpec)
+        {
+            var aResult = new CssColor();
+            return LooseHexToRGB(aColorSpec, ref aResult) ? aResult : (CssColor?)null;
+        }
+
         public static bool ColorNameToRGB (string aColorName, ref CssColor aResult)
         {
             if (gColorTable == null)
@@ -157,6 +169,12 @@ namespace Alba.CsCss.Gfx
                 return true;
             }
             return false;
+        }
+
+        public static CssColor? ColorNameToRGB (string aColorName)
+        {
+            var aResult = new CssColor();
+            return ColorNameToRGB(aColorName, ref aResult) ? aResult : (CssColor?)null;
         }
 
         public static CssColor HSL2RGB (float h, float s, float l)
@@ -207,7 +225,7 @@ namespace Alba.CsCss.Gfx
                     component = (component * 16) + (ch - '0');
                 }
                 else if ((('a' <= ch) && (ch <= 'f')) ||
-                         (('A' <= ch) && (ch <= 'F'))) {
+                    (('A' <= ch) && (ch <= 'F'))) {
                     // "ch&7" handles lower and uppercase hex alphabetics
                     component = (component * 16) + (ch & 7) + 9;
                 }
