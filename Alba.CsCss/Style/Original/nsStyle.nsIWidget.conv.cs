@@ -4,7 +4,7 @@
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsStyle
+    public partial class CssStyle
     {
         internal const int WINDOW_SHADOW_NONE = 0;
         internal const int WINDOW_SHADOW_DEFAULT = 1;

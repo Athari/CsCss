@@ -6,7 +6,7 @@ using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsStyle
+    public partial class CssStyle
     {
         /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
         /* This Source Code Form is subject to the terms of the Mozilla Public

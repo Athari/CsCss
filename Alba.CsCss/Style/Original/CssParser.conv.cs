@@ -71,6 +71,7 @@ namespace Alba.CsCss.Style
     using nsMediaFeature = CssMediaFeature;
     using nsMediaQuery = CssMediaQuery;
     using nsPseudoClassList = CssPseudoClassSelector;
+    using nsStyle = CssStyle;
     using Rule = CssRule;
     using RuleKind = CssRuleKind;
     using StyleRule = CssStyleRule;

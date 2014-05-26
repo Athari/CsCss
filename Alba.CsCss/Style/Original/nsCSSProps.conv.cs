@@ -9,6 +9,7 @@ namespace Alba.CsCss.Style
 {
     using nsCSSKeyword = CssKeyword;
     using nsCSSProperty = CssProperty;
+    using nsStyle = CssStyle;
 
     internal partial class nsCSSProps
     {

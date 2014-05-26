@@ -23,6 +23,7 @@
         { "nsCSSPseudoClass", "CssPseudoClass" },
         { "nsCSSPseudoElement", "CssPseudoElement" },
         { "nsCSSUnit", "CssUnit" },
+        { "nsStyle", "CssStyle" },
         { "nsAttrFunc", "CssAttrFunction" },
         { "nsMediaFeature", "CssMediaFeature" },
         { "nsMediaExpression", "CssMediaExpression" },

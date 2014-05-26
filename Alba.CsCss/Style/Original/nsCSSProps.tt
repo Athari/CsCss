@@ -19,7 +19,7 @@ using uint32_t = System.Int32;
 
 namespace Alba.CsCss.Style
 {
-<#+ WriteTypeRenames("nsCSSProperty", "nsCSSKeyword"); #>
+<#+ WriteTypeRenames("nsCSSProperty", "nsCSSKeyword", "nsStyle"); #>
 
     internal partial class nsCSSProps
     {

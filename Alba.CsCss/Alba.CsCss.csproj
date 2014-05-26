@@ -182,7 +182,7 @@
     <Compile Include="Style\Values\CssValueList.cs" />
     <Compile Include="Style\Values\CssValuePair.cs" />
     <Compile Include="Style\Values\CssValuePairList.cs" />
-    <Compile Include="Style\nsStyle.cs" />
+    <Compile Include="Style\CssStyle.cs" />
     <Compile Include="Internal\nsStyleUtil.cs" />
     <Compile Include="Style\Calc\NumbersAlreadyNormalizedOps.cs" />
     <Compile Include="Style\Original\nsCSSFontDesc.g.cs">

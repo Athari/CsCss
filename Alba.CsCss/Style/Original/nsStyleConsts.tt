@@ -19,7 +19,7 @@ using Alba.CsCss.Gfx;
 
 namespace Alba.CsCss.Style
 {
-    internal partial class nsStyle
+    public partial class CssStyle
     {
 <#=     ConvertStyleConstsSource(source).Indent(8) #>
     }
