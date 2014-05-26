@@ -243,7 +243,7 @@ namespace Alba.CsCss.Style
 <#+ } /* void GenerateCssProps */ #>
 <#+
     Dictionary<string, string> ParseVariantDescs = new Dictionary<string, string> {
-        { "KEYWORD", "<see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>)" },
+        { "KEYWORD", "<see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>)" },
         { "LENGTH", "<see cref='CssValue.Float'>length</see>" },
         { "PERCENT", "<see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>)" },
         { "COLOR", "<see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>)" },

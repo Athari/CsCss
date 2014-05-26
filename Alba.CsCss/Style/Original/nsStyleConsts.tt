@@ -45,23 +45,29 @@ namespace Alba.CsCss.Style
                              NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
                              (?<IntValue>\(? (-?\d+ | 0x[0-9a-f]+ | 1<<\d+) \)?) \ *? # NN or 0xHH or 1<<N in optional brackets
                              (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
-                        "public const int ${Name} = ${IntValue};${Remainder}")
+                        m => "public const int {0} = {1};{2}".Fmt(
+                            ToPascalId(m.Get("Name")), m.Get("IntValue"), m.Get("Remainder")))
             .ReReplace(@"(?imnx)^
                              \#define \ +
                              NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
                              (?<FloatValue>\(? -?\d*\.\d+f \)?) \ *?                  # N.NNf in optional brackets
                              (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
-                        "public const float ${Name} = ${FloatValue};${Remainder}")
+                        m => "public const float {0} = {1};{2}".Fmt(
+                            ToPascalId(m.Get("Name")), m.Get("FloatValue"), m.Get("Remainder")))
             .ReReplace(@"(?mnx)^
                              \#define \ +
                              NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
                              \(? (                                                    # aliased constant name(s)
-                                 NS_(STYLE_)? (?<NamesValue>\w+ (\ *\|\ *)? )         # aliased constant name ending with optional | operator
+                                 NS_(STYLE_)? (?<NamesValue>\w+) (\ *\|\ *)?         # aliased constant name ending with optional | operator
                              )+ \)? \ *?
                              (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
                         m => {
-                            string name = m.Get("Name"), namesValue = m.GetConcat("NamesValue"), remainder = m.Get("Remainder");
-                            namesValue = namesValue.ReReplace(@"^FONT_", "nsFont.");
+                            string name = ToPascalId(m.Get("Name")),
+                                   namesValue = m.GetAll("NamesValue")
+                                       .Select(v => v.StartsWith("FONT_") ? v.ReReplace(@"^FONT_", "nsFont.") : ToPascalId(v))
+                                       .JoinString(" | "),
+                                   remainder = m.Get("Remainder");
+                            //namesValue = namesValue.StartsWith("FONT_") ? namesValue.ReReplace(@"^FONT_", "nsFont.") : ToPascalId(namesValue);
                             return "public const int {0} = {1};{2}".Fmt(name, namesValue, remainder);
                         })
 

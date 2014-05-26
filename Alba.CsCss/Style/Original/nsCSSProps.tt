@@ -38,8 +38,8 @@ namespace Alba.CsCss.Style
             // specific enums
             .ReReplace(@"eCSSKeyword_(\w+)", "(int)nsCSSKeyword.$1")
             .ReReplace(@"eCSSProperty_(\w+)", "nsCSSProperty.$1")
-            .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
-            .ReReplace(@"NS_((?:BOXPROP|COLOR)_\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_STYLE_(\w+)", m => "nsStyle." + ToPascalId(m))
+            .ReReplace(@"NS_((?:BOXPROP|COLOR)_\w+)", m => "nsStyle." + ToPascalId(m))
             .ReReplace(@"NS_THEME_(\w+)", "0/*unused*/")
             .ReReplace(@"LookAndFeel::e(\w+?)_(\w+)", "(int)LookAndFeel.$1.$2")
 

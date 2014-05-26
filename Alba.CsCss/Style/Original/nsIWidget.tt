@@ -34,6 +34,6 @@ namespace Alba.CsCss.Style
                 NS_STYLE_ (?<Name>\w+) \ +                                # constant name with NS_STYLE_ prefix
                 (?<IntValue>\(? (-?\d+ | 0x[0-9a-f]+ | \d<<\d+) \)?) \ *? # NN or 0xHH or N<<N in optional brackets
                 (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment"))
-            yield return m.Result("internal const int ${Name} = ${IntValue};${Remainder}");
+            yield return "public const int {0} = {1};{2}".Fmt(ToPascalId(m.Get("Name")), m.Get("IntValue"), m.Get("Remainder"));
     }
 #>

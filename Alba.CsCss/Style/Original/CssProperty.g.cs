@@ -18,7 +18,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "appearance" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-appearance
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -89,7 +89,7 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "animation-direction".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/animation-direction
         /// </summary>
         AnimationDirection,
@@ -103,14 +103,14 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "animation-fill-mode".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/animation-fill-mode
         /// </summary>
         AnimationFillMode,
         /// <summary>
         /// Longhand property "animation-iteration-count".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/animation-iteration-count
         /// </summary>
@@ -126,14 +126,14 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "animation-play-state".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/animation-play-state
         /// </summary>
         AnimationPlayState,
         /// <summary>
         /// Longhand property "animation-timing-function".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Array'>cubic-bezier() or steps()</see> (<see cref='CssUnit.CubicBezier'/> or <see cref='CssUnit.Steps'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/animation-timing-function
         /// </summary>
@@ -141,14 +141,14 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "background-attachment".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/background-attachment
         /// </summary>
         BackgroundAttachment,
         /// <summary>
         /// Longhand property "background-clip".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/background-clip
         /// </summary>
         BackgroundClip,
@@ -173,7 +173,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "background-inline-policy" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-background-inline-policy
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -181,7 +181,7 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "background-origin".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/background-origin
         /// </summary>
         BackgroundOrigin,
@@ -220,7 +220,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-bottom-color
         /// </summary>
         BorderBottomColor,
@@ -237,7 +237,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "border-bottom-style".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-bottom-style
         /// </summary>
         BorderBottomStyle,
@@ -245,7 +245,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "border-bottom-width".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-bottom-width
@@ -255,7 +255,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "border-collapse".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-collapse
         /// </summary>
         BorderCollapse,
@@ -489,7 +489,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-top-color
         /// </summary>
         BorderTopColor,
@@ -506,7 +506,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "border-top-style".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-top-style
         /// </summary>
         BorderTopStyle,
@@ -514,7 +514,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "border-top-width".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/border-top-width
@@ -567,7 +567,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "box-sizing" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-box-sizing
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -576,7 +576,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "caption-side".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/caption-side
         /// </summary>
         CaptionSide,
@@ -584,7 +584,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "clear".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/clear
         /// </summary>
         Clear,
@@ -620,7 +620,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "column-fill" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-column-fill
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -658,7 +658,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-column-rule-color
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -669,7 +669,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "column-rule-style" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-column-rule-style
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -680,7 +680,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "column-rule-width" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-column-rule-width
@@ -715,7 +715,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "direction".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/direction
         /// </summary>
         Direction,
@@ -723,7 +723,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "display".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/display
         /// </summary>
         Display,
@@ -731,7 +731,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "empty-cells".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/empty-cells
         /// </summary>
         EmptyCells,
@@ -739,7 +739,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "align-items".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/align-items
         /// </summary>
         AlignItems,
@@ -747,7 +747,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "align-self".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/align-self
         /// </summary>
         AlignSelf,
@@ -756,7 +756,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   auto (<see cref='CssUnit.Auto'/>),
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
@@ -767,7 +767,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "flex-direction".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/flex-direction
         /// </summary>
         FlexDirection,
@@ -799,7 +799,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "justify-content".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/justify-content
         /// </summary>
         JustifyContent,
@@ -807,7 +807,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "float".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/float
         /// </summary>
         Float,
@@ -817,7 +817,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "float-edge" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-float-edge
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -853,7 +853,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "font-size".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   system font (<see cref='CssUnit.SystemFont'/>),
@@ -875,7 +875,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "font-stretch".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   system font (<see cref='CssUnit.SystemFont'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/font-stretch
         /// </summary>
@@ -884,7 +884,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "font-style".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   system font (<see cref='CssUnit.SystemFont'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/font-style
         /// </summary>
@@ -893,7 +893,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "font-variant".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   system font (<see cref='CssUnit.SystemFont'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/font-variant
         /// </summary>
@@ -939,7 +939,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "ime-mode".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/ime-mode
         /// </summary>
         ImeMode,
@@ -971,7 +971,7 @@ namespace Alba.CsCss.Style
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   normal (<see cref='CssUnit.Normal'/>),
         ///   system font (<see cref='CssUnit.SystemFont'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/line-height
@@ -990,7 +990,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "list-style-position".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/list-style-position
         /// </summary>
         ListStylePosition,
@@ -998,7 +998,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "list-style-type".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/list-style-type
         /// </summary>
         ListStyleType,
@@ -1111,7 +1111,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "max-width".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   none (<see cref='CssUnit.None'/>),
@@ -1133,7 +1133,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "min-width".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
@@ -1154,7 +1154,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "orient" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-orient
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1172,7 +1172,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/outline-color
         /// </summary>
         OutlineColor,
@@ -1180,7 +1180,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "outline-style".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/outline-style
         /// </summary>
         OutlineStyle,
@@ -1188,7 +1188,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "outline-width".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/outline-width
@@ -1207,7 +1207,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "overflow-x".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/overflow-x
         /// </summary>
         OverflowX,
@@ -1215,7 +1215,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "overflow-y".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/overflow-y
         /// </summary>
         OverflowY,
@@ -1307,7 +1307,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "page-break-after".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/page-break-after
         /// </summary>
         PageBreakAfter,
@@ -1315,7 +1315,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "page-break-before".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/page-break-before
         /// </summary>
         PageBreakBefore,
@@ -1323,7 +1323,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "page-break-inside".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/page-break-inside
         /// </summary>
         PageBreakInside,
@@ -1337,7 +1337,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "pointer-events".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/pointer-events
         /// </summary>
         PointerEvents,
@@ -1345,7 +1345,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "position".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/position
         /// </summary>
         Position,
@@ -1359,7 +1359,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "resize".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/resize
         /// </summary>
         Resize,
@@ -1384,7 +1384,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "table-layout".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/table-layout
         /// </summary>
         TableLayout,
@@ -1392,7 +1392,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "text-align".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/text-align
         /// </summary>
         TextAlign,
@@ -1402,7 +1402,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "text-align-last" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-text-align-last
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1413,7 +1413,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "text-blink" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-text-blink
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1425,7 +1425,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Color'>color</see> (<see cref='CssUnit.Color'/>), <see cref='CssValue.String'>identifier</see> (<see cref='CssUnit.Ident'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-text-decoration-color
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1445,7 +1445,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "text-decoration-style" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-text-decoration-style
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1488,7 +1488,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "text-transform".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/text-transform
         /// </summary>
         TextTransform,
@@ -1523,7 +1523,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "transform-style".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/transform-style
         /// </summary>
         TransformStyle,
@@ -1531,7 +1531,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "backface-visibility".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/backface-visibility
         /// </summary>
         BackfaceVisibility,
@@ -1569,7 +1569,7 @@ namespace Alba.CsCss.Style
         /// <summary>
         /// Longhand property "transition-timing-function".
         /// The property contains a list of values of one of the following types:
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Array'>cubic-bezier() or steps()</see> (<see cref='CssUnit.CubicBezier'/> or <see cref='CssUnit.Steps'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/transition-timing-function
         /// </summary>
@@ -1578,7 +1578,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "unicode-bidi".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/unicode-bidi
         /// </summary>
         UnicodeBidi,
@@ -1588,7 +1588,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "user-focus" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-user-focus
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1599,7 +1599,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "user-input" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-user-input
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1610,7 +1610,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "user-modify" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-user-modify
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1621,7 +1621,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "user-select" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-user-select
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1630,7 +1630,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "vertical-align".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
@@ -1641,7 +1641,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "visibility".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/visibility
         /// </summary>
         Visibility,
@@ -1649,7 +1649,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "white-space".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/white-space
         /// </summary>
         WhiteSpace,
@@ -1666,7 +1666,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   auto (<see cref='CssUnit.Auto'/>),
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>),
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Array'>calc()</see> (<see cref='CssUnit.Calc'/>).
@@ -1679,7 +1679,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "window-shadow" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-window-shadow
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1688,7 +1688,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "word-break".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/word-break
         /// </summary>
         WordBreak,
@@ -1706,7 +1706,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "word-wrap".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/word-wrap
         /// </summary>
         WordWrap,
@@ -1716,7 +1716,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "hyphens" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-hyphens
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1736,7 +1736,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "box-align" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-box-align
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1747,7 +1747,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "box-direction" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-box-direction
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1769,7 +1769,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "box-orient" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-box-orient
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1780,7 +1780,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "box-pack" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-box-pack
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1802,7 +1802,7 @@ namespace Alba.CsCss.Style
         /// Unprefixed property "stack-sizing" is not supported.
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/-moz-stack-sizing
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1849,7 +1849,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "clip-rule".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/clip-rule
         /// </summary>
         ClipRule,
@@ -1857,7 +1857,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "color-interpolation".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/color-interpolation
         /// </summary>
         ColorInterpolation,
@@ -1865,7 +1865,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "color-interpolation-filters".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/color-interpolation-filters
         /// </summary>
         ColorInterpolationFilters,
@@ -1873,7 +1873,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "dominant-baseline".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/dominant-baseline
         /// </summary>
         DominantBaseline,
@@ -1888,7 +1888,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/fill-opacity
         /// </summary>
         FillOpacity,
@@ -1896,7 +1896,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "fill-rule".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/fill-rule
         /// </summary>
         FillRule,
@@ -1929,7 +1929,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "image-rendering".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/image-rendering
         /// </summary>
         ImageRendering,
@@ -1981,7 +1981,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "mask-type".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/mask-type
         /// </summary>
         MaskType,
@@ -1989,7 +1989,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "shape-rendering".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/shape-rendering
         /// </summary>
         ShapeRendering,
@@ -2028,7 +2028,7 @@ namespace Alba.CsCss.Style
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/stroke-dashoffset
         /// </summary>
         StrokeDashoffset,
@@ -2036,7 +2036,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "stroke-linecap".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/stroke-linecap
         /// </summary>
         StrokeLinecap,
@@ -2044,7 +2044,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "stroke-linejoin".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/stroke-linejoin
         /// </summary>
         StrokeLinejoin,
@@ -2061,7 +2061,7 @@ namespace Alba.CsCss.Style
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/stroke-opacity
         /// </summary>
         StrokeOpacity,
@@ -2072,7 +2072,7 @@ namespace Alba.CsCss.Style
         ///   <see cref='CssValue.Float'>length</see>,
         ///   <see cref='CssValue.Percent'>percent</see> (<see cref='CssUnit.Percent'/>),
         ///   <see cref='CssValue.Float'>number</see> (<see cref='CssUnit.Number'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/stroke-width
         /// </summary>
         StrokeWidth,
@@ -2080,7 +2080,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "text-anchor".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/text-anchor
         /// </summary>
         TextAnchor,
@@ -2088,7 +2088,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "text-rendering".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/text-rendering
         /// </summary>
         TextRendering,
@@ -2096,7 +2096,7 @@ namespace Alba.CsCss.Style
         /// Longhand property "vector-effect".
         /// The property contains a single value of one of the following types:
         ///   inherit (<see cref='CssUnit.Initial'/> or <see cref='CssUnit.Inherit'/>),
-        ///   <see cref='nsCSSKeywords'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
+        ///   <see cref='CssStyle'>keyword</see> (<see cref='CssUnit.Enumerated'/>).
         /// Online documentation: https://developer.mozilla.org/docs/Web/CSS/vector-effect
         /// </summary>
         VectorEffect,

@@ -4,10 +4,10 @@ namespace Alba.CsCss.Style
 {
     public partial class CssStyle
     {
-        public const Side SIDE_TOP = Side.Top;
-        public const Side SIDE_RIGHT = Side.Right;
-        public const Side SIDE_BOTTOM = Side.Bottom;
-        public const Side SIDE_LEFT = Side.Left;
+        public const Side SideTop = Side.Top;
+        public const Side SideRight = Side.Right;
+        public const Side SideBottom = Side.Bottom;
+        public const Side SideLeft = Side.Left;
 
         internal bool HALF_CORNER_IS_X (int var)
         {

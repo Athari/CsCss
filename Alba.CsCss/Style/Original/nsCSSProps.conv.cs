@@ -14,29 +14,29 @@ namespace Alba.CsCss.Style
     internal partial class nsCSSProps
     {
         public static readonly int32_t[] kAnimationDirectionKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.ANIMATION_DIRECTION_NORMAL,
-          (int)nsCSSKeyword.Reverse, nsStyle.ANIMATION_DIRECTION_REVERSE,
-          (int)nsCSSKeyword.Alternate, nsStyle.ANIMATION_DIRECTION_ALTERNATE,
-          (int)nsCSSKeyword.AlternateReverse, nsStyle.ANIMATION_DIRECTION_ALTERNATE_REVERSE,
+          (int)nsCSSKeyword.Normal, nsStyle.AnimationDirectionNormal,
+          (int)nsCSSKeyword.Reverse, nsStyle.AnimationDirectionReverse,
+          (int)nsCSSKeyword.Alternate, nsStyle.AnimationDirectionAlternate,
+          (int)nsCSSKeyword.AlternateReverse, nsStyle.AnimationDirectionAlternateReverse,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kAnimationFillModeKTable = {
-          (int)nsCSSKeyword.None, nsStyle.ANIMATION_FILL_MODE_NONE,
-          (int)nsCSSKeyword.Forwards, nsStyle.ANIMATION_FILL_MODE_FORWARDS,
-          (int)nsCSSKeyword.Backwards, nsStyle.ANIMATION_FILL_MODE_BACKWARDS,
-          (int)nsCSSKeyword.Both, nsStyle.ANIMATION_FILL_MODE_BOTH,
+          (int)nsCSSKeyword.None, nsStyle.AnimationFillModeNone,
+          (int)nsCSSKeyword.Forwards, nsStyle.AnimationFillModeForwards,
+          (int)nsCSSKeyword.Backwards, nsStyle.AnimationFillModeBackwards,
+          (int)nsCSSKeyword.Both, nsStyle.AnimationFillModeBoth,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kAnimationIterationCountKTable = {
-          (int)nsCSSKeyword.Infinite, nsStyle.ANIMATION_ITERATION_COUNT_INFINITE,
+          (int)nsCSSKeyword.Infinite, nsStyle.AnimationIterationCountInfinite,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kAnimationPlayStateKTable = {
-          (int)nsCSSKeyword.Running, nsStyle.ANIMATION_PLAY_STATE_RUNNING,
-          (int)nsCSSKeyword.Paused, nsStyle.ANIMATION_PLAY_STATE_PAUSED,
+          (int)nsCSSKeyword.Running, nsStyle.AnimationPlayStateRunning,
+          (int)nsCSSKeyword.Paused, nsStyle.AnimationPlayStatePaused,
           (int)nsCSSKeyword.Unknown,-1
         };
 
@@ -156,143 +156,143 @@ namespace Alba.CsCss.Style
         };
 
         public static readonly int32_t[] kBackfaceVisibilityKTable = {
-          (int)nsCSSKeyword.Visible, nsStyle.BACKFACE_VISIBILITY_VISIBLE,
-          (int)nsCSSKeyword.Hidden, nsStyle.BACKFACE_VISIBILITY_HIDDEN,
+          (int)nsCSSKeyword.Visible, nsStyle.BackfaceVisibilityVisible,
+          (int)nsCSSKeyword.Hidden, nsStyle.BackfaceVisibilityHidden,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTransformStyleKTable = {
-          (int)nsCSSKeyword.Flat, nsStyle.TRANSFORM_STYLE_FLAT,
-          (int)nsCSSKeyword.Preserve3d, nsStyle.TRANSFORM_STYLE_PRESERVE_3D,
+          (int)nsCSSKeyword.Flat, nsStyle.TransformStyleFlat,
+          (int)nsCSSKeyword.Preserve3d, nsStyle.TransformStylePreserve3d,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundAttachmentKTable = {
-          (int)nsCSSKeyword.Fixed, nsStyle.BG_ATTACHMENT_FIXED,
-          (int)nsCSSKeyword.Scroll, nsStyle.BG_ATTACHMENT_SCROLL,
+          (int)nsCSSKeyword.Fixed, nsStyle.BgAttachmentFixed,
+          (int)nsCSSKeyword.Scroll, nsStyle.BgAttachmentScroll,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundInlinePolicyKTable = {
-          (int)nsCSSKeyword.EachBox,     nsStyle.BG_INLINE_POLICY_EACH_BOX,
-          (int)nsCSSKeyword.Continuous,   nsStyle.BG_INLINE_POLICY_CONTINUOUS,
-          (int)nsCSSKeyword.BoundingBox, nsStyle.BG_INLINE_POLICY_BOUNDING_BOX,
+          (int)nsCSSKeyword.EachBox,     nsStyle.BgInlinePolicyEachBox,
+          (int)nsCSSKeyword.Continuous,   nsStyle.BgInlinePolicyContinuous,
+          (int)nsCSSKeyword.BoundingBox, nsStyle.BgInlinePolicyBoundingBox,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundOriginKTable = {
-          (int)nsCSSKeyword.BorderBox, nsStyle.BG_ORIGIN_BORDER,
-          (int)nsCSSKeyword.PaddingBox, nsStyle.BG_ORIGIN_PADDING,
-          (int)nsCSSKeyword.ContentBox, nsStyle.BG_ORIGIN_CONTENT,
+          (int)nsCSSKeyword.BorderBox, nsStyle.BgOriginBorder,
+          (int)nsCSSKeyword.PaddingBox, nsStyle.BgOriginPadding,
+          (int)nsCSSKeyword.ContentBox, nsStyle.BgOriginContent,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundPositionKTable = {
-          (int)nsCSSKeyword.Center, nsStyle.BG_POSITION_CENTER,
-          (int)nsCSSKeyword.Top, nsStyle.BG_POSITION_TOP,
-          (int)nsCSSKeyword.Bottom, nsStyle.BG_POSITION_BOTTOM,
-          (int)nsCSSKeyword.Left, nsStyle.BG_POSITION_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.BG_POSITION_RIGHT,
+          (int)nsCSSKeyword.Center, nsStyle.BgPositionCenter,
+          (int)nsCSSKeyword.Top, nsStyle.BgPositionTop,
+          (int)nsCSSKeyword.Bottom, nsStyle.BgPositionBottom,
+          (int)nsCSSKeyword.Left, nsStyle.BgPositionLeft,
+          (int)nsCSSKeyword.Right, nsStyle.BgPositionRight,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundRepeatKTable = {
-          (int)nsCSSKeyword.NoRepeat,  nsStyle.BG_REPEAT_NO_REPEAT,
-          (int)nsCSSKeyword.Repeat,     nsStyle.BG_REPEAT_REPEAT,
-          (int)nsCSSKeyword.RepeatX,   nsStyle.BG_REPEAT_REPEAT_X,
-          (int)nsCSSKeyword.RepeatY,   nsStyle.BG_REPEAT_REPEAT_Y,
+          (int)nsCSSKeyword.NoRepeat,  nsStyle.BgRepeatNoRepeat,
+          (int)nsCSSKeyword.Repeat,     nsStyle.BgRepeatRepeat,
+          (int)nsCSSKeyword.RepeatX,   nsStyle.BgRepeatRepeatX,
+          (int)nsCSSKeyword.RepeatY,   nsStyle.BgRepeatRepeatY,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundRepeatPartKTable = {
-          (int)nsCSSKeyword.NoRepeat,  nsStyle.BG_REPEAT_NO_REPEAT,
-          (int)nsCSSKeyword.Repeat,     nsStyle.BG_REPEAT_REPEAT,
+          (int)nsCSSKeyword.NoRepeat,  nsStyle.BgRepeatNoRepeat,
+          (int)nsCSSKeyword.Repeat,     nsStyle.BgRepeatRepeat,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBackgroundSizeKTable = {
-          (int)nsCSSKeyword.Contain, nsStyle.BG_SIZE_CONTAIN,
-          (int)nsCSSKeyword.Cover,   nsStyle.BG_SIZE_COVER,
+          (int)nsCSSKeyword.Contain, nsStyle.BgSizeContain,
+          (int)nsCSSKeyword.Cover,   nsStyle.BgSizeCover,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderCollapseKTable = {
-          (int)nsCSSKeyword.Collapse,  nsStyle.BORDER_COLLAPSE,
-          (int)nsCSSKeyword.Separate,  nsStyle.BORDER_SEPARATE,
+          (int)nsCSSKeyword.Collapse,  nsStyle.BorderCollapse,
+          (int)nsCSSKeyword.Separate,  nsStyle.BorderSeparate,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderColorKTable = {
-          (int)nsCSSKeyword.MozUseTextColor, nsStyle.COLOR_MOZ_USE_TEXT_COLOR,
+          (int)nsCSSKeyword.MozUseTextColor, nsStyle.ColorMozUseTextColor,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderImageRepeatKTable = {
-          (int)nsCSSKeyword.Stretch, nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
-          (int)nsCSSKeyword.Repeat, nsStyle.BORDER_IMAGE_REPEAT_REPEAT,
-          (int)nsCSSKeyword.Round, nsStyle.BORDER_IMAGE_REPEAT_ROUND,
+          (int)nsCSSKeyword.Stretch, nsStyle.BorderImageRepeatStretch,
+          (int)nsCSSKeyword.Repeat, nsStyle.BorderImageRepeatRepeat,
+          (int)nsCSSKeyword.Round, nsStyle.BorderImageRepeatRound,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderImageSliceKTable = {
-          (int)nsCSSKeyword.Fill, nsStyle.BORDER_IMAGE_SLICE_FILL,
+          (int)nsCSSKeyword.Fill, nsStyle.BorderImageSliceFill,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderStyleKTable = {
-          (int)nsCSSKeyword.None,   nsStyle.BORDER_STYLE_NONE,
-          (int)nsCSSKeyword.Hidden, nsStyle.BORDER_STYLE_HIDDEN,
-          (int)nsCSSKeyword.Dotted, nsStyle.BORDER_STYLE_DOTTED,
-          (int)nsCSSKeyword.Dashed, nsStyle.BORDER_STYLE_DASHED,
-          (int)nsCSSKeyword.Solid,  nsStyle.BORDER_STYLE_SOLID,
-          (int)nsCSSKeyword.Double, nsStyle.BORDER_STYLE_DOUBLE,
-          (int)nsCSSKeyword.Groove, nsStyle.BORDER_STYLE_GROOVE,
-          (int)nsCSSKeyword.Ridge,  nsStyle.BORDER_STYLE_RIDGE,
-          (int)nsCSSKeyword.Inset,  nsStyle.BORDER_STYLE_INSET,
-          (int)nsCSSKeyword.Outset, nsStyle.BORDER_STYLE_OUTSET,
+          (int)nsCSSKeyword.None,   nsStyle.BorderStyleNone,
+          (int)nsCSSKeyword.Hidden, nsStyle.BorderStyleHidden,
+          (int)nsCSSKeyword.Dotted, nsStyle.BorderStyleDotted,
+          (int)nsCSSKeyword.Dashed, nsStyle.BorderStyleDashed,
+          (int)nsCSSKeyword.Solid,  nsStyle.BorderStyleSolid,
+          (int)nsCSSKeyword.Double, nsStyle.BorderStyleDouble,
+          (int)nsCSSKeyword.Groove, nsStyle.BorderStyleGroove,
+          (int)nsCSSKeyword.Ridge,  nsStyle.BorderStyleRidge,
+          (int)nsCSSKeyword.Inset,  nsStyle.BorderStyleInset,
+          (int)nsCSSKeyword.Outset, nsStyle.BorderStyleOutset,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBorderWidthKTable = {
-          (int)nsCSSKeyword.Thin, nsStyle.BORDER_WIDTH_THIN,
-          (int)nsCSSKeyword.Medium, nsStyle.BORDER_WIDTH_MEDIUM,
-          (int)nsCSSKeyword.Thick, nsStyle.BORDER_WIDTH_THICK,
+          (int)nsCSSKeyword.Thin, nsStyle.BorderWidthThin,
+          (int)nsCSSKeyword.Medium, nsStyle.BorderWidthMedium,
+          (int)nsCSSKeyword.Thick, nsStyle.BorderWidthThick,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxPropSourceKTable = {
-          (int)nsCSSKeyword.Physical,     nsStyle.BOXPROP_SOURCE_PHYSICAL,
-          (int)nsCSSKeyword.Logical,      nsStyle.BOXPROP_SOURCE_LOGICAL,
+          (int)nsCSSKeyword.Physical,     nsStyle.BoxpropSourcePhysical,
+          (int)nsCSSKeyword.Logical,      nsStyle.BoxpropSourceLogical,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxShadowTypeKTable = {
-          (int)nsCSSKeyword.Inset, nsStyle.BOX_SHADOW_INSET,
+          (int)nsCSSKeyword.Inset, nsStyle.BoxShadowInset,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxSizingKTable = {
-          (int)nsCSSKeyword.ContentBox,  nsStyle.BOX_SIZING_CONTENT,
-          (int)nsCSSKeyword.BorderBox,   nsStyle.BOX_SIZING_BORDER,
-          (int)nsCSSKeyword.PaddingBox,  nsStyle.BOX_SIZING_PADDING,
+          (int)nsCSSKeyword.ContentBox,  nsStyle.BoxSizingContent,
+          (int)nsCSSKeyword.BorderBox,   nsStyle.BoxSizingBorder,
+          (int)nsCSSKeyword.PaddingBox,  nsStyle.BoxSizingPadding,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kCaptionSideKTable = {
-          (int)nsCSSKeyword.Top,                  nsStyle.CAPTION_SIDE_TOP,
-          (int)nsCSSKeyword.Right,                nsStyle.CAPTION_SIDE_RIGHT,
-          (int)nsCSSKeyword.Bottom,               nsStyle.CAPTION_SIDE_BOTTOM,
-          (int)nsCSSKeyword.Left,                 nsStyle.CAPTION_SIDE_LEFT,
-          (int)nsCSSKeyword.TopOutside,          nsStyle.CAPTION_SIDE_TOP_OUTSIDE,
-          (int)nsCSSKeyword.BottomOutside,       nsStyle.CAPTION_SIDE_BOTTOM_OUTSIDE,
+          (int)nsCSSKeyword.Top,                  nsStyle.CaptionSideTop,
+          (int)nsCSSKeyword.Right,                nsStyle.CaptionSideRight,
+          (int)nsCSSKeyword.Bottom,               nsStyle.CaptionSideBottom,
+          (int)nsCSSKeyword.Left,                 nsStyle.CaptionSideLeft,
+          (int)nsCSSKeyword.TopOutside,          nsStyle.CaptionSideTopOutside,
+          (int)nsCSSKeyword.BottomOutside,       nsStyle.CaptionSideBottomOutside,
           (int)nsCSSKeyword.Unknown,              -1
         };
 
         public static readonly int32_t[] kClearKTable = {
-          (int)nsCSSKeyword.None, nsStyle.CLEAR_NONE,
-          (int)nsCSSKeyword.Left, nsStyle.CLEAR_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.CLEAR_RIGHT,
-          (int)nsCSSKeyword.Both, nsStyle.CLEAR_LEFT_AND_RIGHT,
+          (int)nsCSSKeyword.None, nsStyle.ClearNone,
+          (int)nsCSSKeyword.Left, nsStyle.ClearLeft,
+          (int)nsCSSKeyword.Right, nsStyle.ClearRight,
+          (int)nsCSSKeyword.Both, nsStyle.ClearLeftAndRight,
           (int)nsCSSKeyword.Unknown,-1
         };
 
@@ -325,7 +325,7 @@ namespace Alba.CsCss.Style
           (int)nsCSSKeyword.Window, (int)LookAndFeel.ColorID.window,
           (int)nsCSSKeyword.Windowframe, (int)LookAndFeel.ColorID.windowframe,
           (int)nsCSSKeyword.Windowtext, (int)LookAndFeel.ColorID.windowtext,
-          (int)nsCSSKeyword.MozActivehyperlinktext, nsStyle.COLOR_MOZ_ACTIVEHYPERLINKTEXT,
+          (int)nsCSSKeyword.MozActivehyperlinktext, nsStyle.ColorMozActivehyperlinktext,
           (int)nsCSSKeyword.MozButtondefault, (int)LookAndFeel.ColorID._moz_buttondefault,
           (int)nsCSSKeyword.MozButtonhoverface, (int)LookAndFeel.ColorID._moz_buttonhoverface,
           (int)nsCSSKeyword.MozButtonhovertext, (int)LookAndFeel.ColorID._moz_buttonhovertext,
@@ -334,12 +334,12 @@ namespace Alba.CsCss.Style
           (int)nsCSSKeyword.MozEventreerow, (int)LookAndFeel.ColorID._moz_eventreerow,
           (int)nsCSSKeyword.MozField, (int)LookAndFeel.ColorID._moz_field,
           (int)nsCSSKeyword.MozFieldtext, (int)LookAndFeel.ColorID._moz_fieldtext,
-          (int)nsCSSKeyword.MozDefaultBackgroundColor, nsStyle.COLOR_MOZ_DEFAULT_BACKGROUND_COLOR,
-          (int)nsCSSKeyword.MozDefaultColor, nsStyle.COLOR_MOZ_DEFAULT_COLOR,
+          (int)nsCSSKeyword.MozDefaultBackgroundColor, nsStyle.ColorMozDefaultBackgroundColor,
+          (int)nsCSSKeyword.MozDefaultColor, nsStyle.ColorMozDefaultColor,
           (int)nsCSSKeyword.MozDialog, (int)LookAndFeel.ColorID._moz_dialog,
           (int)nsCSSKeyword.MozDialogtext, (int)LookAndFeel.ColorID._moz_dialogtext,
           (int)nsCSSKeyword.MozDragtargetzone, (int)LookAndFeel.ColorID._moz_dragtargetzone,
-          (int)nsCSSKeyword.MozHyperlinktext, nsStyle.COLOR_MOZ_HYPERLINKTEXT,
+          (int)nsCSSKeyword.MozHyperlinktext, nsStyle.ColorMozHyperlinktext,
           (int)nsCSSKeyword.MozHtmlCellhighlight, (int)LookAndFeel.ColorID._moz_html_cellhighlight,
           (int)nsCSSKeyword.MozHtmlCellhighlighttext, (int)LookAndFeel.ColorID._moz_html_cellhighlighttext,
           (int)nsCSSKeyword.MozMacChromeActive, (int)LookAndFeel.ColorID._moz_mac_chrome_active,
@@ -357,8 +357,8 @@ namespace Alba.CsCss.Style
           (int)nsCSSKeyword.MozMenubartext, (int)LookAndFeel.ColorID._moz_menubartext,
           (int)nsCSSKeyword.MozMenubarhovertext, (int)LookAndFeel.ColorID._moz_menubarhovertext,
           (int)nsCSSKeyword.MozOddtreerow, (int)LookAndFeel.ColorID._moz_oddtreerow,
-          (int)nsCSSKeyword.MozVisitedhyperlinktext, nsStyle.COLOR_MOZ_VISITEDHYPERLINKTEXT,
-          (int)nsCSSKeyword.Currentcolor, nsStyle.COLOR_CURRENTCOLOR,
+          (int)nsCSSKeyword.MozVisitedhyperlinktext, nsStyle.ColorMozVisitedhyperlinktext,
+          (int)nsCSSKeyword.Currentcolor, nsStyle.ColorCurrentcolor,
           (int)nsCSSKeyword.MozWinMediatext, (int)LookAndFeel.ColorID._moz_win_mediatext,
           (int)nsCSSKeyword.MozWinCommunicationstext, (int)LookAndFeel.ColorID._moz_win_communicationstext,
           (int)nsCSSKeyword.MozNativehyperlinktext, (int)LookAndFeel.ColorID._moz_nativehyperlinktext,
@@ -368,782 +368,782 @@ namespace Alba.CsCss.Style
         };
 
         public static readonly int32_t[] kContentKTable = {
-          (int)nsCSSKeyword.OpenQuote, nsStyle.CONTENT_OPEN_QUOTE,
-          (int)nsCSSKeyword.CloseQuote, nsStyle.CONTENT_CLOSE_QUOTE,
-          (int)nsCSSKeyword.NoOpenQuote, nsStyle.CONTENT_NO_OPEN_QUOTE,
-          (int)nsCSSKeyword.NoCloseQuote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
-          (int)nsCSSKeyword.MozAltContent, nsStyle.CONTENT_ALT_CONTENT,
+          (int)nsCSSKeyword.OpenQuote, nsStyle.ContentOpenQuote,
+          (int)nsCSSKeyword.CloseQuote, nsStyle.ContentCloseQuote,
+          (int)nsCSSKeyword.NoOpenQuote, nsStyle.ContentNoOpenQuote,
+          (int)nsCSSKeyword.NoCloseQuote, nsStyle.ContentNoCloseQuote,
+          (int)nsCSSKeyword.MozAltContent, nsStyle.ContentAltContent,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kCursorKTable = {
           // CSS 2.0
-          (int)nsCSSKeyword.Auto, nsStyle.CURSOR_AUTO,
-          (int)nsCSSKeyword.Crosshair, nsStyle.CURSOR_CROSSHAIR,
-          (int)nsCSSKeyword.Default, nsStyle.CURSOR_DEFAULT,
-          (int)nsCSSKeyword.Pointer, nsStyle.CURSOR_POINTER,
-          (int)nsCSSKeyword.Move, nsStyle.CURSOR_MOVE,
-          (int)nsCSSKeyword.EResize, nsStyle.CURSOR_E_RESIZE,
-          (int)nsCSSKeyword.NeResize, nsStyle.CURSOR_NE_RESIZE,
-          (int)nsCSSKeyword.NwResize, nsStyle.CURSOR_NW_RESIZE,
-          (int)nsCSSKeyword.NResize, nsStyle.CURSOR_N_RESIZE,
-          (int)nsCSSKeyword.SeResize, nsStyle.CURSOR_SE_RESIZE,
-          (int)nsCSSKeyword.SwResize, nsStyle.CURSOR_SW_RESIZE,
-          (int)nsCSSKeyword.SResize, nsStyle.CURSOR_S_RESIZE,
-          (int)nsCSSKeyword.WResize, nsStyle.CURSOR_W_RESIZE,
-          (int)nsCSSKeyword.Text, nsStyle.CURSOR_TEXT,
-          (int)nsCSSKeyword.Wait, nsStyle.CURSOR_WAIT,
-          (int)nsCSSKeyword.Help, nsStyle.CURSOR_HELP,
+          (int)nsCSSKeyword.Auto, nsStyle.CursorAuto,
+          (int)nsCSSKeyword.Crosshair, nsStyle.CursorCrosshair,
+          (int)nsCSSKeyword.Default, nsStyle.CursorDefault,
+          (int)nsCSSKeyword.Pointer, nsStyle.CursorPointer,
+          (int)nsCSSKeyword.Move, nsStyle.CursorMove,
+          (int)nsCSSKeyword.EResize, nsStyle.CursorEResize,
+          (int)nsCSSKeyword.NeResize, nsStyle.CursorNeResize,
+          (int)nsCSSKeyword.NwResize, nsStyle.CursorNwResize,
+          (int)nsCSSKeyword.NResize, nsStyle.CursorNResize,
+          (int)nsCSSKeyword.SeResize, nsStyle.CursorSeResize,
+          (int)nsCSSKeyword.SwResize, nsStyle.CursorSwResize,
+          (int)nsCSSKeyword.SResize, nsStyle.CursorSResize,
+          (int)nsCSSKeyword.WResize, nsStyle.CursorWResize,
+          (int)nsCSSKeyword.Text, nsStyle.CursorText,
+          (int)nsCSSKeyword.Wait, nsStyle.CursorWait,
+          (int)nsCSSKeyword.Help, nsStyle.CursorHelp,
           // CSS 2.1
-          (int)nsCSSKeyword.Progress, nsStyle.CURSOR_SPINNING,
+          (int)nsCSSKeyword.Progress, nsStyle.CursorSpinning,
           // CSS3 basic user interface module
-          (int)nsCSSKeyword.Copy, nsStyle.CURSOR_COPY,
-          (int)nsCSSKeyword.Alias, nsStyle.CURSOR_ALIAS,
-          (int)nsCSSKeyword.ContextMenu, nsStyle.CURSOR_CONTEXT_MENU,
-          (int)nsCSSKeyword.Cell, nsStyle.CURSOR_CELL,
-          (int)nsCSSKeyword.NotAllowed, nsStyle.CURSOR_NOT_ALLOWED,
-          (int)nsCSSKeyword.ColResize, nsStyle.CURSOR_COL_RESIZE,
-          (int)nsCSSKeyword.RowResize, nsStyle.CURSOR_ROW_RESIZE,
-          (int)nsCSSKeyword.NoDrop, nsStyle.CURSOR_NO_DROP,
-          (int)nsCSSKeyword.VerticalText, nsStyle.CURSOR_VERTICAL_TEXT,
-          (int)nsCSSKeyword.AllScroll, nsStyle.CURSOR_ALL_SCROLL,
-          (int)nsCSSKeyword.NeswResize, nsStyle.CURSOR_NESW_RESIZE,
-          (int)nsCSSKeyword.NwseResize, nsStyle.CURSOR_NWSE_RESIZE,
-          (int)nsCSSKeyword.NsResize, nsStyle.CURSOR_NS_RESIZE,
-          (int)nsCSSKeyword.EwResize, nsStyle.CURSOR_EW_RESIZE,
-          (int)nsCSSKeyword.None, nsStyle.CURSOR_NONE,
+          (int)nsCSSKeyword.Copy, nsStyle.CursorCopy,
+          (int)nsCSSKeyword.Alias, nsStyle.CursorAlias,
+          (int)nsCSSKeyword.ContextMenu, nsStyle.CursorContextMenu,
+          (int)nsCSSKeyword.Cell, nsStyle.CursorCell,
+          (int)nsCSSKeyword.NotAllowed, nsStyle.CursorNotAllowed,
+          (int)nsCSSKeyword.ColResize, nsStyle.CursorColResize,
+          (int)nsCSSKeyword.RowResize, nsStyle.CursorRowResize,
+          (int)nsCSSKeyword.NoDrop, nsStyle.CursorNoDrop,
+          (int)nsCSSKeyword.VerticalText, nsStyle.CursorVerticalText,
+          (int)nsCSSKeyword.AllScroll, nsStyle.CursorAllScroll,
+          (int)nsCSSKeyword.NeswResize, nsStyle.CursorNeswResize,
+          (int)nsCSSKeyword.NwseResize, nsStyle.CursorNwseResize,
+          (int)nsCSSKeyword.NsResize, nsStyle.CursorNsResize,
+          (int)nsCSSKeyword.EwResize, nsStyle.CursorEwResize,
+          (int)nsCSSKeyword.None, nsStyle.CursorNone,
           // -moz- prefixed vendor specific
-          (int)nsCSSKeyword.MozGrab, nsStyle.CURSOR_GRAB,
-          (int)nsCSSKeyword.MozGrabbing, nsStyle.CURSOR_GRABBING,
-          (int)nsCSSKeyword.MozZoomIn, nsStyle.CURSOR_MOZ_ZOOM_IN,
-          (int)nsCSSKeyword.MozZoomOut, nsStyle.CURSOR_MOZ_ZOOM_OUT,
+          (int)nsCSSKeyword.MozGrab, nsStyle.CursorGrab,
+          (int)nsCSSKeyword.MozGrabbing, nsStyle.CursorGrabbing,
+          (int)nsCSSKeyword.MozZoomIn, nsStyle.CursorMozZoomIn,
+          (int)nsCSSKeyword.MozZoomOut, nsStyle.CursorMozZoomOut,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kDirectionKTable = {
-          (int)nsCSSKeyword.Ltr,      nsStyle.DIRECTION_LTR,
-          (int)nsCSSKeyword.Rtl,      nsStyle.DIRECTION_RTL,
+          (int)nsCSSKeyword.Ltr,      nsStyle.DirectionLtr,
+          (int)nsCSSKeyword.Rtl,      nsStyle.DirectionRtl,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kDisplayKTable = {
-          (int)nsCSSKeyword.None,               nsStyle.DISPLAY_NONE,
-          (int)nsCSSKeyword.Inline,             nsStyle.DISPLAY_INLINE,
-          (int)nsCSSKeyword.Block,              nsStyle.DISPLAY_BLOCK,
-          (int)nsCSSKeyword.InlineBlock,       nsStyle.DISPLAY_INLINE_BLOCK,
-          (int)nsCSSKeyword.ListItem,          nsStyle.DISPLAY_LIST_ITEM,
-          (int)nsCSSKeyword.Table,              nsStyle.DISPLAY_TABLE,
-          (int)nsCSSKeyword.InlineTable,       nsStyle.DISPLAY_INLINE_TABLE,
-          (int)nsCSSKeyword.TableRowGroup,    nsStyle.DISPLAY_TABLE_ROW_GROUP,
-          (int)nsCSSKeyword.TableHeaderGroup, nsStyle.DISPLAY_TABLE_HEADER_GROUP,
-          (int)nsCSSKeyword.TableFooterGroup, nsStyle.DISPLAY_TABLE_FOOTER_GROUP,
-          (int)nsCSSKeyword.TableRow,          nsStyle.DISPLAY_TABLE_ROW,
-          (int)nsCSSKeyword.TableColumnGroup, nsStyle.DISPLAY_TABLE_COLUMN_GROUP,
-          (int)nsCSSKeyword.TableColumn,       nsStyle.DISPLAY_TABLE_COLUMN,
-          (int)nsCSSKeyword.TableCell,         nsStyle.DISPLAY_TABLE_CELL,
-          (int)nsCSSKeyword.TableCaption,      nsStyle.DISPLAY_TABLE_CAPTION,
+          (int)nsCSSKeyword.None,               nsStyle.DisplayNone,
+          (int)nsCSSKeyword.Inline,             nsStyle.DisplayInline,
+          (int)nsCSSKeyword.Block,              nsStyle.DisplayBlock,
+          (int)nsCSSKeyword.InlineBlock,       nsStyle.DisplayInlineBlock,
+          (int)nsCSSKeyword.ListItem,          nsStyle.DisplayListItem,
+          (int)nsCSSKeyword.Table,              nsStyle.DisplayTable,
+          (int)nsCSSKeyword.InlineTable,       nsStyle.DisplayInlineTable,
+          (int)nsCSSKeyword.TableRowGroup,    nsStyle.DisplayTableRowGroup,
+          (int)nsCSSKeyword.TableHeaderGroup, nsStyle.DisplayTableHeaderGroup,
+          (int)nsCSSKeyword.TableFooterGroup, nsStyle.DisplayTableFooterGroup,
+          (int)nsCSSKeyword.TableRow,          nsStyle.DisplayTableRow,
+          (int)nsCSSKeyword.TableColumnGroup, nsStyle.DisplayTableColumnGroup,
+          (int)nsCSSKeyword.TableColumn,       nsStyle.DisplayTableColumn,
+          (int)nsCSSKeyword.TableCell,         nsStyle.DisplayTableCell,
+          (int)nsCSSKeyword.TableCaption,      nsStyle.DisplayTableCaption,
           // Make sure this is kept in sync with the code in
           // nsCSSFrameConstructor::ConstructXULFrame
-          (int)nsCSSKeyword.MozBox,           nsStyle.DISPLAY_BOX,
-          (int)nsCSSKeyword.MozInlineBox,    nsStyle.DISPLAY_INLINE_BOX,
+          (int)nsCSSKeyword.MozBox,           nsStyle.DisplayBox,
+          (int)nsCSSKeyword.MozInlineBox,    nsStyle.DisplayInlineBox,
         #if MOZ_XUL
-          (int)nsCSSKeyword.MozGrid,          nsStyle.DISPLAY_GRID,
-          (int)nsCSSKeyword.MozInlineGrid,   nsStyle.DISPLAY_INLINE_GRID,
-          (int)nsCSSKeyword.MozGridGroup,    nsStyle.DISPLAY_GRID_GROUP,
-          (int)nsCSSKeyword.MozGridLine,     nsStyle.DISPLAY_GRID_LINE,
-          (int)nsCSSKeyword.MozStack,         nsStyle.DISPLAY_STACK,
-          (int)nsCSSKeyword.MozInlineStack,  nsStyle.DISPLAY_INLINE_STACK,
-          (int)nsCSSKeyword.MozDeck,          nsStyle.DISPLAY_DECK,
-          (int)nsCSSKeyword.MozPopup,         nsStyle.DISPLAY_POPUP,
-          (int)nsCSSKeyword.MozGroupbox,      nsStyle.DISPLAY_GROUPBOX,
+          (int)nsCSSKeyword.MozGrid,          nsStyle.DisplayGrid,
+          (int)nsCSSKeyword.MozInlineGrid,   nsStyle.DisplayInlineGrid,
+          (int)nsCSSKeyword.MozGridGroup,    nsStyle.DisplayGridGroup,
+          (int)nsCSSKeyword.MozGridLine,     nsStyle.DisplayGridLine,
+          (int)nsCSSKeyword.MozStack,         nsStyle.DisplayStack,
+          (int)nsCSSKeyword.MozInlineStack,  nsStyle.DisplayInlineStack,
+          (int)nsCSSKeyword.MozDeck,          nsStyle.DisplayDeck,
+          (int)nsCSSKeyword.MozPopup,         nsStyle.DisplayPopup,
+          (int)nsCSSKeyword.MozGroupbox,      nsStyle.DisplayGroupbox,
         #endif
         #if MOZ_FLEXBOX
           // XXXdholbert NOTE: These currently need to be the last entries in the
           // table, because the "is flexbox enabled" pref that disables these will
           // disable all the entries after them, too.
-          (int)nsCSSKeyword.Flex,               nsStyle.DISPLAY_FLEX,
-          (int)nsCSSKeyword.InlineFlex,        nsStyle.DISPLAY_INLINE_FLEX,
+          (int)nsCSSKeyword.Flex,               nsStyle.DisplayFlex,
+          (int)nsCSSKeyword.InlineFlex,        nsStyle.DisplayInlineFlex,
         #endif // MOZ_FLEXBOX
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kEmptyCellsKTable = {
-          (int)nsCSSKeyword.Show,                 nsStyle.TABLE_EMPTY_CELLS_SHOW,
-          (int)nsCSSKeyword.Hide,                 nsStyle.TABLE_EMPTY_CELLS_HIDE,
-          (int)nsCSSKeyword.MozShowBackground, nsStyle.TABLE_EMPTY_CELLS_SHOW_BACKGROUND,
+          (int)nsCSSKeyword.Show,                 nsStyle.TableEmptyCellsShow,
+          (int)nsCSSKeyword.Hide,                 nsStyle.TableEmptyCellsHide,
+          (int)nsCSSKeyword.MozShowBackground, nsStyle.TableEmptyCellsShowBackground,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kAlignItemsKTable = {
-          (int)nsCSSKeyword.FlexStart, nsStyle.ALIGN_ITEMS_FLEX_START,
-          (int)nsCSSKeyword.FlexEnd,   nsStyle.ALIGN_ITEMS_FLEX_END,
-          (int)nsCSSKeyword.Center,     nsStyle.ALIGN_ITEMS_CENTER,
-          (int)nsCSSKeyword.Baseline,   nsStyle.ALIGN_ITEMS_BASELINE,
-          (int)nsCSSKeyword.Stretch,    nsStyle.ALIGN_ITEMS_STRETCH,
+          (int)nsCSSKeyword.FlexStart, nsStyle.AlignItemsFlexStart,
+          (int)nsCSSKeyword.FlexEnd,   nsStyle.AlignItemsFlexEnd,
+          (int)nsCSSKeyword.Center,     nsStyle.AlignItemsCenter,
+          (int)nsCSSKeyword.Baseline,   nsStyle.AlignItemsBaseline,
+          (int)nsCSSKeyword.Stretch,    nsStyle.AlignItemsStretch,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kAlignSelfKTable = {
-          (int)nsCSSKeyword.FlexStart, nsStyle.ALIGN_ITEMS_FLEX_START,
-          (int)nsCSSKeyword.FlexEnd,   nsStyle.ALIGN_ITEMS_FLEX_END,
-          (int)nsCSSKeyword.Center,     nsStyle.ALIGN_ITEMS_CENTER,
-          (int)nsCSSKeyword.Baseline,   nsStyle.ALIGN_ITEMS_BASELINE,
-          (int)nsCSSKeyword.Stretch,    nsStyle.ALIGN_ITEMS_STRETCH,
-          (int)nsCSSKeyword.Auto,       nsStyle.ALIGN_SELF_AUTO,
+          (int)nsCSSKeyword.FlexStart, nsStyle.AlignItemsFlexStart,
+          (int)nsCSSKeyword.FlexEnd,   nsStyle.AlignItemsFlexEnd,
+          (int)nsCSSKeyword.Center,     nsStyle.AlignItemsCenter,
+          (int)nsCSSKeyword.Baseline,   nsStyle.AlignItemsBaseline,
+          (int)nsCSSKeyword.Stretch,    nsStyle.AlignItemsStretch,
+          (int)nsCSSKeyword.Auto,       nsStyle.AlignSelfAuto,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFlexDirectionKTable = {
-          (int)nsCSSKeyword.Row,            nsStyle.FLEX_DIRECTION_ROW,
-          (int)nsCSSKeyword.RowReverse,    nsStyle.FLEX_DIRECTION_ROW_REVERSE,
-          (int)nsCSSKeyword.Column,         nsStyle.FLEX_DIRECTION_COLUMN,
-          (int)nsCSSKeyword.ColumnReverse, nsStyle.FLEX_DIRECTION_COLUMN_REVERSE,
+          (int)nsCSSKeyword.Row,            nsStyle.FlexDirectionRow,
+          (int)nsCSSKeyword.RowReverse,    nsStyle.FlexDirectionRowReverse,
+          (int)nsCSSKeyword.Column,         nsStyle.FlexDirectionColumn,
+          (int)nsCSSKeyword.ColumnReverse, nsStyle.FlexDirectionColumnReverse,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kJustifyContentKTable = {
-          (int)nsCSSKeyword.FlexStart,    nsStyle.JUSTIFY_CONTENT_FLEX_START,
-          (int)nsCSSKeyword.FlexEnd,      nsStyle.JUSTIFY_CONTENT_FLEX_END,
-          (int)nsCSSKeyword.Center,        nsStyle.JUSTIFY_CONTENT_CENTER,
-          (int)nsCSSKeyword.SpaceBetween, nsStyle.JUSTIFY_CONTENT_SPACE_BETWEEN,
-          (int)nsCSSKeyword.SpaceAround,  nsStyle.JUSTIFY_CONTENT_SPACE_AROUND,
+          (int)nsCSSKeyword.FlexStart,    nsStyle.JustifyContentFlexStart,
+          (int)nsCSSKeyword.FlexEnd,      nsStyle.JustifyContentFlexEnd,
+          (int)nsCSSKeyword.Center,        nsStyle.JustifyContentCenter,
+          (int)nsCSSKeyword.SpaceBetween, nsStyle.JustifyContentSpaceBetween,
+          (int)nsCSSKeyword.SpaceAround,  nsStyle.JustifyContentSpaceAround,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFloatKTable = {
-          (int)nsCSSKeyword.None,  nsStyle.FLOAT_NONE,
-          (int)nsCSSKeyword.Left,  nsStyle.FLOAT_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.FLOAT_RIGHT,
+          (int)nsCSSKeyword.None,  nsStyle.FloatNone,
+          (int)nsCSSKeyword.Left,  nsStyle.FloatLeft,
+          (int)nsCSSKeyword.Right, nsStyle.FloatRight,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFloatEdgeKTable = {
-          (int)nsCSSKeyword.ContentBox,  nsStyle.FLOAT_EDGE_CONTENT,
-          (int)nsCSSKeyword.MarginBox,  nsStyle.FLOAT_EDGE_MARGIN,
+          (int)nsCSSKeyword.ContentBox,  nsStyle.FloatEdgeContent,
+          (int)nsCSSKeyword.MarginBox,  nsStyle.FloatEdgeMargin,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontKTable = {
           // CSS2.
-          (int)nsCSSKeyword.Caption, nsStyle.FONT_CAPTION,
-          (int)nsCSSKeyword.Icon, nsStyle.FONT_ICON,
-          (int)nsCSSKeyword.Menu, nsStyle.FONT_MENU,
-          (int)nsCSSKeyword.MessageBox, nsStyle.FONT_MESSAGE_BOX,
-          (int)nsCSSKeyword.SmallCaption, nsStyle.FONT_SMALL_CAPTION,
-          (int)nsCSSKeyword.StatusBar, nsStyle.FONT_STATUS_BAR,
+          (int)nsCSSKeyword.Caption, nsStyle.FontCaption,
+          (int)nsCSSKeyword.Icon, nsStyle.FontIcon,
+          (int)nsCSSKeyword.Menu, nsStyle.FontMenu,
+          (int)nsCSSKeyword.MessageBox, nsStyle.FontMessageBox,
+          (int)nsCSSKeyword.SmallCaption, nsStyle.FontSmallCaption,
+          (int)nsCSSKeyword.StatusBar, nsStyle.FontStatusBar,
         
           // Proposed for CSS3.
-          (int)nsCSSKeyword.MozWindow, nsStyle.FONT_WINDOW,
-          (int)nsCSSKeyword.MozDocument, nsStyle.FONT_DOCUMENT,
-          (int)nsCSSKeyword.MozWorkspace, nsStyle.FONT_WORKSPACE,
-          (int)nsCSSKeyword.MozDesktop, nsStyle.FONT_DESKTOP,
-          (int)nsCSSKeyword.MozInfo, nsStyle.FONT_INFO,
-          (int)nsCSSKeyword.MozDialog, nsStyle.FONT_DIALOG,
-          (int)nsCSSKeyword.MozButton, nsStyle.FONT_BUTTON,
-          (int)nsCSSKeyword.MozPullDownMenu, nsStyle.FONT_PULL_DOWN_MENU,
-          (int)nsCSSKeyword.MozList, nsStyle.FONT_LIST,
-          (int)nsCSSKeyword.MozField, nsStyle.FONT_FIELD,
+          (int)nsCSSKeyword.MozWindow, nsStyle.FontWindow,
+          (int)nsCSSKeyword.MozDocument, nsStyle.FontDocument,
+          (int)nsCSSKeyword.MozWorkspace, nsStyle.FontWorkspace,
+          (int)nsCSSKeyword.MozDesktop, nsStyle.FontDesktop,
+          (int)nsCSSKeyword.MozInfo, nsStyle.FontInfo,
+          (int)nsCSSKeyword.MozDialog, nsStyle.FontDialog,
+          (int)nsCSSKeyword.MozButton, nsStyle.FontButton,
+          (int)nsCSSKeyword.MozPullDownMenu, nsStyle.FontPullDownMenu,
+          (int)nsCSSKeyword.MozList, nsStyle.FontList,
+          (int)nsCSSKeyword.MozField, nsStyle.FontField,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontSizeKTable = {
-          (int)nsCSSKeyword.XxSmall, nsStyle.FONT_SIZE_XXSMALL,
-          (int)nsCSSKeyword.XSmall, nsStyle.FONT_SIZE_XSMALL,
-          (int)nsCSSKeyword.Small, nsStyle.FONT_SIZE_SMALL,
-          (int)nsCSSKeyword.Medium, nsStyle.FONT_SIZE_MEDIUM,
-          (int)nsCSSKeyword.Large, nsStyle.FONT_SIZE_LARGE,
-          (int)nsCSSKeyword.XLarge, nsStyle.FONT_SIZE_XLARGE,
-          (int)nsCSSKeyword.XxLarge, nsStyle.FONT_SIZE_XXLARGE,
-          (int)nsCSSKeyword.Larger, nsStyle.FONT_SIZE_LARGER,
-          (int)nsCSSKeyword.Smaller, nsStyle.FONT_SIZE_SMALLER,
+          (int)nsCSSKeyword.XxSmall, nsStyle.FontSizeXxsmall,
+          (int)nsCSSKeyword.XSmall, nsStyle.FontSizeXsmall,
+          (int)nsCSSKeyword.Small, nsStyle.FontSizeSmall,
+          (int)nsCSSKeyword.Medium, nsStyle.FontSizeMedium,
+          (int)nsCSSKeyword.Large, nsStyle.FontSizeLarge,
+          (int)nsCSSKeyword.XLarge, nsStyle.FontSizeXlarge,
+          (int)nsCSSKeyword.XxLarge, nsStyle.FontSizeXxlarge,
+          (int)nsCSSKeyword.Larger, nsStyle.FontSizeLarger,
+          (int)nsCSSKeyword.Smaller, nsStyle.FontSizeSmaller,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontStretchKTable = {
-          (int)nsCSSKeyword.UltraCondensed, nsStyle.FONT_STRETCH_ULTRA_CONDENSED,
-          (int)nsCSSKeyword.ExtraCondensed, nsStyle.FONT_STRETCH_EXTRA_CONDENSED,
-          (int)nsCSSKeyword.Condensed, nsStyle.FONT_STRETCH_CONDENSED,
-          (int)nsCSSKeyword.SemiCondensed, nsStyle.FONT_STRETCH_SEMI_CONDENSED,
-          (int)nsCSSKeyword.Normal, nsStyle.FONT_STRETCH_NORMAL,
-          (int)nsCSSKeyword.SemiExpanded, nsStyle.FONT_STRETCH_SEMI_EXPANDED,
-          (int)nsCSSKeyword.Expanded, nsStyle.FONT_STRETCH_EXPANDED,
-          (int)nsCSSKeyword.ExtraExpanded, nsStyle.FONT_STRETCH_EXTRA_EXPANDED,
-          (int)nsCSSKeyword.UltraExpanded, nsStyle.FONT_STRETCH_ULTRA_EXPANDED,
+          (int)nsCSSKeyword.UltraCondensed, nsStyle.FontStretchUltraCondensed,
+          (int)nsCSSKeyword.ExtraCondensed, nsStyle.FontStretchExtraCondensed,
+          (int)nsCSSKeyword.Condensed, nsStyle.FontStretchCondensed,
+          (int)nsCSSKeyword.SemiCondensed, nsStyle.FontStretchSemiCondensed,
+          (int)nsCSSKeyword.Normal, nsStyle.FontStretchNormal,
+          (int)nsCSSKeyword.SemiExpanded, nsStyle.FontStretchSemiExpanded,
+          (int)nsCSSKeyword.Expanded, nsStyle.FontStretchExpanded,
+          (int)nsCSSKeyword.ExtraExpanded, nsStyle.FontStretchExtraExpanded,
+          (int)nsCSSKeyword.UltraExpanded, nsStyle.FontStretchUltraExpanded,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontStyleKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.FONT_STYLE_NORMAL,
-          (int)nsCSSKeyword.Italic, nsStyle.FONT_STYLE_ITALIC,
-          (int)nsCSSKeyword.Oblique, nsStyle.FONT_STYLE_OBLIQUE,
+          (int)nsCSSKeyword.Normal, nsStyle.FontStyleNormal,
+          (int)nsCSSKeyword.Italic, nsStyle.FontStyleItalic,
+          (int)nsCSSKeyword.Oblique, nsStyle.FontStyleOblique,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontVariantKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.FONT_VARIANT_NORMAL,
-          (int)nsCSSKeyword.SmallCaps, nsStyle.FONT_VARIANT_SMALL_CAPS,
+          (int)nsCSSKeyword.Normal, nsStyle.FontVariantNormal,
+          (int)nsCSSKeyword.SmallCaps, nsStyle.FontVariantSmallCaps,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kFontWeightKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.FONT_WEIGHT_NORMAL,
-          (int)nsCSSKeyword.Bold, nsStyle.FONT_WEIGHT_BOLD,
-          (int)nsCSSKeyword.Bolder, nsStyle.FONT_WEIGHT_BOLDER,
-          (int)nsCSSKeyword.Lighter, nsStyle.FONT_WEIGHT_LIGHTER,
+          (int)nsCSSKeyword.Normal, nsStyle.FontWeightNormal,
+          (int)nsCSSKeyword.Bold, nsStyle.FontWeightBold,
+          (int)nsCSSKeyword.Bolder, nsStyle.FontWeightBolder,
+          (int)nsCSSKeyword.Lighter, nsStyle.FontWeightLighter,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kIMEModeKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.IME_MODE_NORMAL,
-          (int)nsCSSKeyword.Auto, nsStyle.IME_MODE_AUTO,
-          (int)nsCSSKeyword.Active, nsStyle.IME_MODE_ACTIVE,
-          (int)nsCSSKeyword.Disabled, nsStyle.IME_MODE_DISABLED,
-          (int)nsCSSKeyword.Inactive, nsStyle.IME_MODE_INACTIVE,
+          (int)nsCSSKeyword.Normal, nsStyle.ImeModeNormal,
+          (int)nsCSSKeyword.Auto, nsStyle.ImeModeAuto,
+          (int)nsCSSKeyword.Active, nsStyle.ImeModeActive,
+          (int)nsCSSKeyword.Disabled, nsStyle.ImeModeDisabled,
+          (int)nsCSSKeyword.Inactive, nsStyle.ImeModeInactive,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kLineHeightKTable = {
           // -moz- prefixed, intended for internal use for single-line controls
-          (int)nsCSSKeyword.MozBlockHeight, nsStyle.LINE_HEIGHT_BLOCK_HEIGHT,
+          (int)nsCSSKeyword.MozBlockHeight, nsStyle.LineHeightBlockHeight,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kListStylePositionKTable = {
-          (int)nsCSSKeyword.Inside, nsStyle.LIST_STYLE_POSITION_INSIDE,
-          (int)nsCSSKeyword.Outside, nsStyle.LIST_STYLE_POSITION_OUTSIDE,
+          (int)nsCSSKeyword.Inside, nsStyle.ListStylePositionInside,
+          (int)nsCSSKeyword.Outside, nsStyle.ListStylePositionOutside,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kListStyleKTable = {
-          (int)nsCSSKeyword.None, nsStyle.LIST_STYLE_NONE,
-          (int)nsCSSKeyword.Disc, nsStyle.LIST_STYLE_DISC,
-          (int)nsCSSKeyword.Circle, nsStyle.LIST_STYLE_CIRCLE,
-          (int)nsCSSKeyword.Square, nsStyle.LIST_STYLE_SQUARE,
-          (int)nsCSSKeyword.Decimal, nsStyle.LIST_STYLE_DECIMAL,
-          (int)nsCSSKeyword.DecimalLeadingZero, nsStyle.LIST_STYLE_DECIMAL_LEADING_ZERO,
-          (int)nsCSSKeyword.LowerRoman, nsStyle.LIST_STYLE_LOWER_ROMAN,
-          (int)nsCSSKeyword.UpperRoman, nsStyle.LIST_STYLE_UPPER_ROMAN,
-          (int)nsCSSKeyword.LowerGreek, nsStyle.LIST_STYLE_LOWER_GREEK,
-          (int)nsCSSKeyword.LowerAlpha, nsStyle.LIST_STYLE_LOWER_ALPHA,
-          (int)nsCSSKeyword.LowerLatin, nsStyle.LIST_STYLE_LOWER_LATIN,
-          (int)nsCSSKeyword.UpperAlpha, nsStyle.LIST_STYLE_UPPER_ALPHA,
-          (int)nsCSSKeyword.UpperLatin, nsStyle.LIST_STYLE_UPPER_LATIN,
-          (int)nsCSSKeyword.Hebrew, nsStyle.LIST_STYLE_HEBREW,
-          (int)nsCSSKeyword.Armenian, nsStyle.LIST_STYLE_ARMENIAN,
-          (int)nsCSSKeyword.Georgian, nsStyle.LIST_STYLE_GEORGIAN,
-          (int)nsCSSKeyword.CjkIdeographic, nsStyle.LIST_STYLE_CJK_IDEOGRAPHIC,
-          (int)nsCSSKeyword.Hiragana, nsStyle.LIST_STYLE_HIRAGANA,
-          (int)nsCSSKeyword.Katakana, nsStyle.LIST_STYLE_KATAKANA,
-          (int)nsCSSKeyword.HiraganaIroha, nsStyle.LIST_STYLE_HIRAGANA_IROHA,
-          (int)nsCSSKeyword.KatakanaIroha, nsStyle.LIST_STYLE_KATAKANA_IROHA,
-          (int)nsCSSKeyword.MozCjkHeavenlyStem, nsStyle.LIST_STYLE_MOZ_CJK_HEAVENLY_STEM,
-          (int)nsCSSKeyword.MozCjkEarthlyBranch, nsStyle.LIST_STYLE_MOZ_CJK_EARTHLY_BRANCH,
-          (int)nsCSSKeyword.MozTradChineseInformal, nsStyle.LIST_STYLE_MOZ_TRAD_CHINESE_INFORMAL,
-          (int)nsCSSKeyword.MozTradChineseFormal, nsStyle.LIST_STYLE_MOZ_TRAD_CHINESE_FORMAL,
-          (int)nsCSSKeyword.MozSimpChineseInformal, nsStyle.LIST_STYLE_MOZ_SIMP_CHINESE_INFORMAL,
-          (int)nsCSSKeyword.MozSimpChineseFormal, nsStyle.LIST_STYLE_MOZ_SIMP_CHINESE_FORMAL,
-          (int)nsCSSKeyword.MozJapaneseInformal, nsStyle.LIST_STYLE_MOZ_JAPANESE_INFORMAL,
-          (int)nsCSSKeyword.MozJapaneseFormal, nsStyle.LIST_STYLE_MOZ_JAPANESE_FORMAL,
-          (int)nsCSSKeyword.MozArabicIndic, nsStyle.LIST_STYLE_MOZ_ARABIC_INDIC,
-          (int)nsCSSKeyword.MozPersian, nsStyle.LIST_STYLE_MOZ_PERSIAN,
-          (int)nsCSSKeyword.MozUrdu, nsStyle.LIST_STYLE_MOZ_URDU,
-          (int)nsCSSKeyword.MozDevanagari, nsStyle.LIST_STYLE_MOZ_DEVANAGARI,
-          (int)nsCSSKeyword.MozGurmukhi, nsStyle.LIST_STYLE_MOZ_GURMUKHI,
-          (int)nsCSSKeyword.MozGujarati, nsStyle.LIST_STYLE_MOZ_GUJARATI,
-          (int)nsCSSKeyword.MozOriya, nsStyle.LIST_STYLE_MOZ_ORIYA,
-          (int)nsCSSKeyword.MozKannada, nsStyle.LIST_STYLE_MOZ_KANNADA,
-          (int)nsCSSKeyword.MozMalayalam, nsStyle.LIST_STYLE_MOZ_MALAYALAM,
-          (int)nsCSSKeyword.MozBengali, nsStyle.LIST_STYLE_MOZ_BENGALI,
-          (int)nsCSSKeyword.MozTamil, nsStyle.LIST_STYLE_MOZ_TAMIL,
-          (int)nsCSSKeyword.MozTelugu, nsStyle.LIST_STYLE_MOZ_TELUGU,
-          (int)nsCSSKeyword.MozThai, nsStyle.LIST_STYLE_MOZ_THAI,
-          (int)nsCSSKeyword.MozLao, nsStyle.LIST_STYLE_MOZ_LAO,
-          (int)nsCSSKeyword.MozMyanmar, nsStyle.LIST_STYLE_MOZ_MYANMAR,
-          (int)nsCSSKeyword.MozKhmer, nsStyle.LIST_STYLE_MOZ_KHMER,
-          (int)nsCSSKeyword.MozHangul, nsStyle.LIST_STYLE_MOZ_HANGUL,
-          (int)nsCSSKeyword.MozHangulConsonant, nsStyle.LIST_STYLE_MOZ_HANGUL_CONSONANT,
-          (int)nsCSSKeyword.MozEthiopicHalehame, nsStyle.LIST_STYLE_MOZ_ETHIOPIC_HALEHAME,
-          (int)nsCSSKeyword.MozEthiopicNumeric, nsStyle.LIST_STYLE_MOZ_ETHIOPIC_NUMERIC,
-          (int)nsCSSKeyword.MozEthiopicHalehameAm, nsStyle.LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_AM,
-          (int)nsCSSKeyword.MozEthiopicHalehameTiEr, nsStyle.LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_TI_ER,
-          (int)nsCSSKeyword.MozEthiopicHalehameTiEt, nsStyle.LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_TI_ET,
+          (int)nsCSSKeyword.None, nsStyle.ListStyleNone,
+          (int)nsCSSKeyword.Disc, nsStyle.ListStyleDisc,
+          (int)nsCSSKeyword.Circle, nsStyle.ListStyleCircle,
+          (int)nsCSSKeyword.Square, nsStyle.ListStyleSquare,
+          (int)nsCSSKeyword.Decimal, nsStyle.ListStyleDecimal,
+          (int)nsCSSKeyword.DecimalLeadingZero, nsStyle.ListStyleDecimalLeadingZero,
+          (int)nsCSSKeyword.LowerRoman, nsStyle.ListStyleLowerRoman,
+          (int)nsCSSKeyword.UpperRoman, nsStyle.ListStyleUpperRoman,
+          (int)nsCSSKeyword.LowerGreek, nsStyle.ListStyleLowerGreek,
+          (int)nsCSSKeyword.LowerAlpha, nsStyle.ListStyleLowerAlpha,
+          (int)nsCSSKeyword.LowerLatin, nsStyle.ListStyleLowerLatin,
+          (int)nsCSSKeyword.UpperAlpha, nsStyle.ListStyleUpperAlpha,
+          (int)nsCSSKeyword.UpperLatin, nsStyle.ListStyleUpperLatin,
+          (int)nsCSSKeyword.Hebrew, nsStyle.ListStyleHebrew,
+          (int)nsCSSKeyword.Armenian, nsStyle.ListStyleArmenian,
+          (int)nsCSSKeyword.Georgian, nsStyle.ListStyleGeorgian,
+          (int)nsCSSKeyword.CjkIdeographic, nsStyle.ListStyleCjkIdeographic,
+          (int)nsCSSKeyword.Hiragana, nsStyle.ListStyleHiragana,
+          (int)nsCSSKeyword.Katakana, nsStyle.ListStyleKatakana,
+          (int)nsCSSKeyword.HiraganaIroha, nsStyle.ListStyleHiraganaIroha,
+          (int)nsCSSKeyword.KatakanaIroha, nsStyle.ListStyleKatakanaIroha,
+          (int)nsCSSKeyword.MozCjkHeavenlyStem, nsStyle.ListStyleMozCjkHeavenlyStem,
+          (int)nsCSSKeyword.MozCjkEarthlyBranch, nsStyle.ListStyleMozCjkEarthlyBranch,
+          (int)nsCSSKeyword.MozTradChineseInformal, nsStyle.ListStyleMozTradChineseInformal,
+          (int)nsCSSKeyword.MozTradChineseFormal, nsStyle.ListStyleMozTradChineseFormal,
+          (int)nsCSSKeyword.MozSimpChineseInformal, nsStyle.ListStyleMozSimpChineseInformal,
+          (int)nsCSSKeyword.MozSimpChineseFormal, nsStyle.ListStyleMozSimpChineseFormal,
+          (int)nsCSSKeyword.MozJapaneseInformal, nsStyle.ListStyleMozJapaneseInformal,
+          (int)nsCSSKeyword.MozJapaneseFormal, nsStyle.ListStyleMozJapaneseFormal,
+          (int)nsCSSKeyword.MozArabicIndic, nsStyle.ListStyleMozArabicIndic,
+          (int)nsCSSKeyword.MozPersian, nsStyle.ListStyleMozPersian,
+          (int)nsCSSKeyword.MozUrdu, nsStyle.ListStyleMozUrdu,
+          (int)nsCSSKeyword.MozDevanagari, nsStyle.ListStyleMozDevanagari,
+          (int)nsCSSKeyword.MozGurmukhi, nsStyle.ListStyleMozGurmukhi,
+          (int)nsCSSKeyword.MozGujarati, nsStyle.ListStyleMozGujarati,
+          (int)nsCSSKeyword.MozOriya, nsStyle.ListStyleMozOriya,
+          (int)nsCSSKeyword.MozKannada, nsStyle.ListStyleMozKannada,
+          (int)nsCSSKeyword.MozMalayalam, nsStyle.ListStyleMozMalayalam,
+          (int)nsCSSKeyword.MozBengali, nsStyle.ListStyleMozBengali,
+          (int)nsCSSKeyword.MozTamil, nsStyle.ListStyleMozTamil,
+          (int)nsCSSKeyword.MozTelugu, nsStyle.ListStyleMozTelugu,
+          (int)nsCSSKeyword.MozThai, nsStyle.ListStyleMozThai,
+          (int)nsCSSKeyword.MozLao, nsStyle.ListStyleMozLao,
+          (int)nsCSSKeyword.MozMyanmar, nsStyle.ListStyleMozMyanmar,
+          (int)nsCSSKeyword.MozKhmer, nsStyle.ListStyleMozKhmer,
+          (int)nsCSSKeyword.MozHangul, nsStyle.ListStyleMozHangul,
+          (int)nsCSSKeyword.MozHangulConsonant, nsStyle.ListStyleMozHangulConsonant,
+          (int)nsCSSKeyword.MozEthiopicHalehame, nsStyle.ListStyleMozEthiopicHalehame,
+          (int)nsCSSKeyword.MozEthiopicNumeric, nsStyle.ListStyleMozEthiopicNumeric,
+          (int)nsCSSKeyword.MozEthiopicHalehameAm, nsStyle.ListStyleMozEthiopicHalehameAm,
+          (int)nsCSSKeyword.MozEthiopicHalehameTiEr, nsStyle.ListStyleMozEthiopicHalehameTiEr,
+          (int)nsCSSKeyword.MozEthiopicHalehameTiEt, nsStyle.ListStyleMozEthiopicHalehameTiEt,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kObjectOpacityKTable = {
-          (int)nsCSSKeyword.MozObjectfillopacity, nsStyle.OBJECT_FILL_OPACITY,
-          (int)nsCSSKeyword.MozObjectstrokeopacity, nsStyle.OBJECT_STROKE_OPACITY,
+          (int)nsCSSKeyword.MozObjectfillopacity, nsStyle.ObjectFillOpacity,
+          (int)nsCSSKeyword.MozObjectstrokeopacity, nsStyle.ObjectStrokeOpacity,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kObjectPatternKTable = {
-          (int)nsCSSKeyword.MozObjectfill, nsStyle.COLOR_OBJECTFILL,
-          (int)nsCSSKeyword.MozObjectstroke, nsStyle.COLOR_OBJECTSTROKE,
+          (int)nsCSSKeyword.MozObjectfill, nsStyle.ColorObjectfill,
+          (int)nsCSSKeyword.MozObjectstroke, nsStyle.ColorObjectstroke,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kOrientKTable = {
-          (int)nsCSSKeyword.Horizontal, nsStyle.ORIENT_HORIZONTAL,
-          (int)nsCSSKeyword.Vertical,   nsStyle.ORIENT_VERTICAL,
-          (int)nsCSSKeyword.Auto,       nsStyle.ORIENT_AUTO,
+          (int)nsCSSKeyword.Horizontal, nsStyle.OrientHorizontal,
+          (int)nsCSSKeyword.Vertical,   nsStyle.OrientVertical,
+          (int)nsCSSKeyword.Auto,       nsStyle.OrientAuto,
           (int)nsCSSKeyword.Unknown,    -1
         };
 
         public static readonly int32_t[] kOutlineStyleKTable = {
-          (int)nsCSSKeyword.None,   nsStyle.BORDER_STYLE_NONE,
-          (int)nsCSSKeyword.Auto,   nsStyle.BORDER_STYLE_AUTO,
-          (int)nsCSSKeyword.Dotted, nsStyle.BORDER_STYLE_DOTTED,
-          (int)nsCSSKeyword.Dashed, nsStyle.BORDER_STYLE_DASHED,
-          (int)nsCSSKeyword.Solid,  nsStyle.BORDER_STYLE_SOLID,
-          (int)nsCSSKeyword.Double, nsStyle.BORDER_STYLE_DOUBLE,
-          (int)nsCSSKeyword.Groove, nsStyle.BORDER_STYLE_GROOVE,
-          (int)nsCSSKeyword.Ridge,  nsStyle.BORDER_STYLE_RIDGE,
-          (int)nsCSSKeyword.Inset,  nsStyle.BORDER_STYLE_INSET,
-          (int)nsCSSKeyword.Outset, nsStyle.BORDER_STYLE_OUTSET,
+          (int)nsCSSKeyword.None,   nsStyle.BorderStyleNone,
+          (int)nsCSSKeyword.Auto,   nsStyle.BorderStyleAuto,
+          (int)nsCSSKeyword.Dotted, nsStyle.BorderStyleDotted,
+          (int)nsCSSKeyword.Dashed, nsStyle.BorderStyleDashed,
+          (int)nsCSSKeyword.Solid,  nsStyle.BorderStyleSolid,
+          (int)nsCSSKeyword.Double, nsStyle.BorderStyleDouble,
+          (int)nsCSSKeyword.Groove, nsStyle.BorderStyleGroove,
+          (int)nsCSSKeyword.Ridge,  nsStyle.BorderStyleRidge,
+          (int)nsCSSKeyword.Inset,  nsStyle.BorderStyleInset,
+          (int)nsCSSKeyword.Outset, nsStyle.BorderStyleOutset,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kOutlineColorKTable = {
-          (int)nsCSSKeyword.MozUseTextColor, nsStyle.COLOR_MOZ_USE_TEXT_COLOR,
+          (int)nsCSSKeyword.MozUseTextColor, nsStyle.ColorMozUseTextColor,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kOverflowKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.OVERFLOW_AUTO,
-          (int)nsCSSKeyword.Visible, nsStyle.OVERFLOW_VISIBLE,
-          (int)nsCSSKeyword.Hidden, nsStyle.OVERFLOW_HIDDEN,
-          (int)nsCSSKeyword.Scroll, nsStyle.OVERFLOW_SCROLL,
+          (int)nsCSSKeyword.Auto, nsStyle.OverflowAuto,
+          (int)nsCSSKeyword.Visible, nsStyle.OverflowVisible,
+          (int)nsCSSKeyword.Hidden, nsStyle.OverflowHidden,
+          (int)nsCSSKeyword.Scroll, nsStyle.OverflowScroll,
           // Deprecated:
-          (int)nsCSSKeyword.MozScrollbarsNone, nsStyle.OVERFLOW_HIDDEN,
-          (int)nsCSSKeyword.MozScrollbarsHorizontal, nsStyle.OVERFLOW_SCROLLBARS_HORIZONTAL,
-          (int)nsCSSKeyword.MozScrollbarsVertical, nsStyle.OVERFLOW_SCROLLBARS_VERTICAL,
-          (int)nsCSSKeyword.MozHiddenUnscrollable, nsStyle.OVERFLOW_CLIP,
+          (int)nsCSSKeyword.MozScrollbarsNone, nsStyle.OverflowHidden,
+          (int)nsCSSKeyword.MozScrollbarsHorizontal, nsStyle.OverflowScrollbarsHorizontal,
+          (int)nsCSSKeyword.MozScrollbarsVertical, nsStyle.OverflowScrollbarsVertical,
+          (int)nsCSSKeyword.MozHiddenUnscrollable, nsStyle.OverflowClip,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kOverflowSubKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.OVERFLOW_AUTO,
-          (int)nsCSSKeyword.Visible, nsStyle.OVERFLOW_VISIBLE,
-          (int)nsCSSKeyword.Hidden, nsStyle.OVERFLOW_HIDDEN,
-          (int)nsCSSKeyword.Scroll, nsStyle.OVERFLOW_SCROLL,
+          (int)nsCSSKeyword.Auto, nsStyle.OverflowAuto,
+          (int)nsCSSKeyword.Visible, nsStyle.OverflowVisible,
+          (int)nsCSSKeyword.Hidden, nsStyle.OverflowHidden,
+          (int)nsCSSKeyword.Scroll, nsStyle.OverflowScroll,
           // Deprecated:
-          (int)nsCSSKeyword.MozHiddenUnscrollable, nsStyle.OVERFLOW_CLIP,
+          (int)nsCSSKeyword.MozHiddenUnscrollable, nsStyle.OverflowClip,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kPageBreakKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.PAGE_BREAK_AUTO,
-          (int)nsCSSKeyword.Always, nsStyle.PAGE_BREAK_ALWAYS,
-          (int)nsCSSKeyword.Avoid, nsStyle.PAGE_BREAK_AVOID,
-          (int)nsCSSKeyword.Left, nsStyle.PAGE_BREAK_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.PAGE_BREAK_RIGHT,
+          (int)nsCSSKeyword.Auto, nsStyle.PageBreakAuto,
+          (int)nsCSSKeyword.Always, nsStyle.PageBreakAlways,
+          (int)nsCSSKeyword.Avoid, nsStyle.PageBreakAvoid,
+          (int)nsCSSKeyword.Left, nsStyle.PageBreakLeft,
+          (int)nsCSSKeyword.Right, nsStyle.PageBreakRight,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kPageBreakInsideKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.PAGE_BREAK_AUTO,
-          (int)nsCSSKeyword.Avoid, nsStyle.PAGE_BREAK_AVOID,
+          (int)nsCSSKeyword.Auto, nsStyle.PageBreakAuto,
+          (int)nsCSSKeyword.Avoid, nsStyle.PageBreakAvoid,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kPageMarksKTable = {
-          (int)nsCSSKeyword.None, nsStyle.PAGE_MARKS_NONE,
-          (int)nsCSSKeyword.Crop, nsStyle.PAGE_MARKS_CROP,
-          (int)nsCSSKeyword.Cross, nsStyle.PAGE_MARKS_REGISTER,
+          (int)nsCSSKeyword.None, nsStyle.PageMarksNone,
+          (int)nsCSSKeyword.Crop, nsStyle.PageMarksCrop,
+          (int)nsCSSKeyword.Cross, nsStyle.PageMarksRegister,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kPageSizeKTable = {
-          (int)nsCSSKeyword.Landscape, nsStyle.PAGE_SIZE_LANDSCAPE,
-          (int)nsCSSKeyword.Portrait, nsStyle.PAGE_SIZE_PORTRAIT,
+          (int)nsCSSKeyword.Landscape, nsStyle.PageSizeLandscape,
+          (int)nsCSSKeyword.Portrait, nsStyle.PageSizePortrait,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kPointerEventsKTable = {
-          (int)nsCSSKeyword.None, nsStyle.POINTER_EVENTS_NONE,
-          (int)nsCSSKeyword.Visiblepainted, nsStyle.POINTER_EVENTS_VISIBLEPAINTED,
-          (int)nsCSSKeyword.Visiblefill, nsStyle.POINTER_EVENTS_VISIBLEFILL,
-          (int)nsCSSKeyword.Visiblestroke, nsStyle.POINTER_EVENTS_VISIBLESTROKE,
-          (int)nsCSSKeyword.Visible, nsStyle.POINTER_EVENTS_VISIBLE,
-          (int)nsCSSKeyword.Painted, nsStyle.POINTER_EVENTS_PAINTED,
-          (int)nsCSSKeyword.Fill, nsStyle.POINTER_EVENTS_FILL,
-          (int)nsCSSKeyword.Stroke, nsStyle.POINTER_EVENTS_STROKE,
-          (int)nsCSSKeyword.All, nsStyle.POINTER_EVENTS_ALL,
-          (int)nsCSSKeyword.Auto, nsStyle.POINTER_EVENTS_AUTO,
+          (int)nsCSSKeyword.None, nsStyle.PointerEventsNone,
+          (int)nsCSSKeyword.Visiblepainted, nsStyle.PointerEventsVisiblepainted,
+          (int)nsCSSKeyword.Visiblefill, nsStyle.PointerEventsVisiblefill,
+          (int)nsCSSKeyword.Visiblestroke, nsStyle.PointerEventsVisiblestroke,
+          (int)nsCSSKeyword.Visible, nsStyle.PointerEventsVisible,
+          (int)nsCSSKeyword.Painted, nsStyle.PointerEventsPainted,
+          (int)nsCSSKeyword.Fill, nsStyle.PointerEventsFill,
+          (int)nsCSSKeyword.Stroke, nsStyle.PointerEventsStroke,
+          (int)nsCSSKeyword.All, nsStyle.PointerEventsAll,
+          (int)nsCSSKeyword.Auto, nsStyle.PointerEventsAuto,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kPositionKTable = {
-          (int)nsCSSKeyword.Static, nsStyle.POSITION_STATIC,
-          (int)nsCSSKeyword.Relative, nsStyle.POSITION_RELATIVE,
-          (int)nsCSSKeyword.Absolute, nsStyle.POSITION_ABSOLUTE,
-          (int)nsCSSKeyword.Fixed, nsStyle.POSITION_FIXED,
+          (int)nsCSSKeyword.Static, nsStyle.PositionStatic,
+          (int)nsCSSKeyword.Relative, nsStyle.PositionRelative,
+          (int)nsCSSKeyword.Absolute, nsStyle.PositionAbsolute,
+          (int)nsCSSKeyword.Fixed, nsStyle.PositionFixed,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kRadialGradientShapeKTable = {
-          (int)nsCSSKeyword.Circle,  nsStyle.GRADIENT_SHAPE_CIRCULAR,
-          (int)nsCSSKeyword.Ellipse, nsStyle.GRADIENT_SHAPE_ELLIPTICAL,
+          (int)nsCSSKeyword.Circle,  nsStyle.GradientShapeCircular,
+          (int)nsCSSKeyword.Ellipse, nsStyle.GradientShapeElliptical,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kRadialGradientSizeKTable = {
-          (int)nsCSSKeyword.ClosestSide,    nsStyle.GRADIENT_SIZE_CLOSEST_SIDE,
-          (int)nsCSSKeyword.ClosestCorner,  nsStyle.GRADIENT_SIZE_CLOSEST_CORNER,
-          (int)nsCSSKeyword.FarthestSide,   nsStyle.GRADIENT_SIZE_FARTHEST_SIDE,
-          (int)nsCSSKeyword.FarthestCorner, nsStyle.GRADIENT_SIZE_FARTHEST_CORNER,
+          (int)nsCSSKeyword.ClosestSide,    nsStyle.GradientSizeClosestSide,
+          (int)nsCSSKeyword.ClosestCorner,  nsStyle.GradientSizeClosestCorner,
+          (int)nsCSSKeyword.FarthestSide,   nsStyle.GradientSizeFarthestSide,
+          (int)nsCSSKeyword.FarthestCorner, nsStyle.GradientSizeFarthestCorner,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kRadialGradientLegacySizeKTable = {
-          (int)nsCSSKeyword.ClosestSide,    nsStyle.GRADIENT_SIZE_CLOSEST_SIDE,
-          (int)nsCSSKeyword.ClosestCorner,  nsStyle.GRADIENT_SIZE_CLOSEST_CORNER,
-          (int)nsCSSKeyword.FarthestSide,   nsStyle.GRADIENT_SIZE_FARTHEST_SIDE,
-          (int)nsCSSKeyword.FarthestCorner, nsStyle.GRADIENT_SIZE_FARTHEST_CORNER,
+          (int)nsCSSKeyword.ClosestSide,    nsStyle.GradientSizeClosestSide,
+          (int)nsCSSKeyword.ClosestCorner,  nsStyle.GradientSizeClosestCorner,
+          (int)nsCSSKeyword.FarthestSide,   nsStyle.GradientSizeFarthestSide,
+          (int)nsCSSKeyword.FarthestCorner, nsStyle.GradientSizeFarthestCorner,
           // synonyms
-          (int)nsCSSKeyword.Contain,         nsStyle.GRADIENT_SIZE_CLOSEST_SIDE,
-          (int)nsCSSKeyword.Cover,           nsStyle.GRADIENT_SIZE_FARTHEST_CORNER,
+          (int)nsCSSKeyword.Contain,         nsStyle.GradientSizeClosestSide,
+          (int)nsCSSKeyword.Cover,           nsStyle.GradientSizeFarthestCorner,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kResizeKTable = {
-          (int)nsCSSKeyword.None,       nsStyle.RESIZE_NONE,
-          (int)nsCSSKeyword.Both,       nsStyle.RESIZE_BOTH,
-          (int)nsCSSKeyword.Horizontal, nsStyle.RESIZE_HORIZONTAL,
-          (int)nsCSSKeyword.Vertical,   nsStyle.RESIZE_VERTICAL,
+          (int)nsCSSKeyword.None,       nsStyle.ResizeNone,
+          (int)nsCSSKeyword.Both,       nsStyle.ResizeBoth,
+          (int)nsCSSKeyword.Horizontal, nsStyle.ResizeHorizontal,
+          (int)nsCSSKeyword.Vertical,   nsStyle.ResizeVertical,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kStackSizingKTable = {
-          (int)nsCSSKeyword.Ignore, nsStyle.STACK_SIZING_IGNORE,
-          (int)nsCSSKeyword.StretchToFit, nsStyle.STACK_SIZING_STRETCH_TO_FIT,
+          (int)nsCSSKeyword.Ignore, nsStyle.StackSizingIgnore,
+          (int)nsCSSKeyword.StretchToFit, nsStyle.StackSizingStretchToFit,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTableLayoutKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.TABLE_LAYOUT_AUTO,
-          (int)nsCSSKeyword.Fixed, nsStyle.TABLE_LAYOUT_FIXED,
+          (int)nsCSSKeyword.Auto, nsStyle.TableLayoutAuto,
+          (int)nsCSSKeyword.Fixed, nsStyle.TableLayoutFixed,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextAlignKTable = {
-          (int)nsCSSKeyword.Left, nsStyle.TEXT_ALIGN_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.TEXT_ALIGN_RIGHT,
-          (int)nsCSSKeyword.Center, nsStyle.TEXT_ALIGN_CENTER,
-          (int)nsCSSKeyword.Justify, nsStyle.TEXT_ALIGN_JUSTIFY,
-          (int)nsCSSKeyword.MozCenter, nsStyle.TEXT_ALIGN_MOZ_CENTER,
-          (int)nsCSSKeyword.MozRight, nsStyle.TEXT_ALIGN_MOZ_RIGHT,
-          (int)nsCSSKeyword.MozLeft, nsStyle.TEXT_ALIGN_MOZ_LEFT,
-          (int)nsCSSKeyword.Start, nsStyle.TEXT_ALIGN_DEFAULT,
-          (int)nsCSSKeyword.End, nsStyle.TEXT_ALIGN_END,
+          (int)nsCSSKeyword.Left, nsStyle.TextAlignLeft,
+          (int)nsCSSKeyword.Right, nsStyle.TextAlignRight,
+          (int)nsCSSKeyword.Center, nsStyle.TextAlignCenter,
+          (int)nsCSSKeyword.Justify, nsStyle.TextAlignJustify,
+          (int)nsCSSKeyword.MozCenter, nsStyle.TextAlignMozCenter,
+          (int)nsCSSKeyword.MozRight, nsStyle.TextAlignMozRight,
+          (int)nsCSSKeyword.MozLeft, nsStyle.TextAlignMozLeft,
+          (int)nsCSSKeyword.Start, nsStyle.TextAlignDefault,
+          (int)nsCSSKeyword.End, nsStyle.TextAlignEnd,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextAlignLastKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.TEXT_ALIGN_AUTO,
-          (int)nsCSSKeyword.Left, nsStyle.TEXT_ALIGN_LEFT,
-          (int)nsCSSKeyword.Right, nsStyle.TEXT_ALIGN_RIGHT,
-          (int)nsCSSKeyword.Center, nsStyle.TEXT_ALIGN_CENTER,
-          (int)nsCSSKeyword.Justify, nsStyle.TEXT_ALIGN_JUSTIFY,
-          (int)nsCSSKeyword.Start, nsStyle.TEXT_ALIGN_DEFAULT,
-          (int)nsCSSKeyword.End, nsStyle.TEXT_ALIGN_END,
+          (int)nsCSSKeyword.Auto, nsStyle.TextAlignAuto,
+          (int)nsCSSKeyword.Left, nsStyle.TextAlignLeft,
+          (int)nsCSSKeyword.Right, nsStyle.TextAlignRight,
+          (int)nsCSSKeyword.Center, nsStyle.TextAlignCenter,
+          (int)nsCSSKeyword.Justify, nsStyle.TextAlignJustify,
+          (int)nsCSSKeyword.Start, nsStyle.TextAlignDefault,
+          (int)nsCSSKeyword.End, nsStyle.TextAlignEnd,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextBlinkKTable = {
-          (int)nsCSSKeyword.None, nsStyle.TEXT_BLINK_NONE,
-          (int)nsCSSKeyword.Blink, nsStyle.TEXT_BLINK_BLINK,
+          (int)nsCSSKeyword.None, nsStyle.TextBlinkNone,
+          (int)nsCSSKeyword.Blink, nsStyle.TextBlinkBlink,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextDecorationLineKTable = {
-          (int)nsCSSKeyword.None, nsStyle.TEXT_DECORATION_LINE_NONE,
-          (int)nsCSSKeyword.Underline, nsStyle.TEXT_DECORATION_LINE_UNDERLINE,
-          (int)nsCSSKeyword.Overline, nsStyle.TEXT_DECORATION_LINE_OVERLINE,
-          (int)nsCSSKeyword.LineThrough, nsStyle.TEXT_DECORATION_LINE_LINE_THROUGH,
-          (int)nsCSSKeyword.MozAnchorDecoration, nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS,
+          (int)nsCSSKeyword.None, nsStyle.TextDecorationLineNone,
+          (int)nsCSSKeyword.Underline, nsStyle.TextDecorationLineUnderline,
+          (int)nsCSSKeyword.Overline, nsStyle.TextDecorationLineOverline,
+          (int)nsCSSKeyword.LineThrough, nsStyle.TextDecorationLineLineThrough,
+          (int)nsCSSKeyword.MozAnchorDecoration, nsStyle.TextDecorationLinePrefAnchors,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextDecorationStyleKTable = {
-          (int)nsCSSKeyword.MozNone, nsStyle.TEXT_DECORATION_STYLE_NONE,
-          (int)nsCSSKeyword.Solid, nsStyle.TEXT_DECORATION_STYLE_SOLID,
-          (int)nsCSSKeyword.Double, nsStyle.TEXT_DECORATION_STYLE_DOUBLE,
-          (int)nsCSSKeyword.Dotted, nsStyle.TEXT_DECORATION_STYLE_DOTTED,
-          (int)nsCSSKeyword.Dashed, nsStyle.TEXT_DECORATION_STYLE_DASHED,
-          (int)nsCSSKeyword.Wavy, nsStyle.TEXT_DECORATION_STYLE_WAVY,
+          (int)nsCSSKeyword.MozNone, nsStyle.TextDecorationStyleNone,
+          (int)nsCSSKeyword.Solid, nsStyle.TextDecorationStyleSolid,
+          (int)nsCSSKeyword.Double, nsStyle.TextDecorationStyleDouble,
+          (int)nsCSSKeyword.Dotted, nsStyle.TextDecorationStyleDotted,
+          (int)nsCSSKeyword.Dashed, nsStyle.TextDecorationStyleDashed,
+          (int)nsCSSKeyword.Wavy, nsStyle.TextDecorationStyleWavy,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTextOverflowKTable = {
-          (int)nsCSSKeyword.Clip, nsStyle.TEXT_OVERFLOW_CLIP,
-          (int)nsCSSKeyword.Ellipsis, nsStyle.TEXT_OVERFLOW_ELLIPSIS,
+          (int)nsCSSKeyword.Clip, nsStyle.TextOverflowClip,
+          (int)nsCSSKeyword.Ellipsis, nsStyle.TextOverflowEllipsis,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kTextTransformKTable = {
-          (int)nsCSSKeyword.None, nsStyle.TEXT_TRANSFORM_NONE,
-          (int)nsCSSKeyword.Capitalize, nsStyle.TEXT_TRANSFORM_CAPITALIZE,
-          (int)nsCSSKeyword.Lowercase, nsStyle.TEXT_TRANSFORM_LOWERCASE,
-          (int)nsCSSKeyword.Uppercase, nsStyle.TEXT_TRANSFORM_UPPERCASE,
-          (int)nsCSSKeyword.FullWidth, nsStyle.TEXT_TRANSFORM_FULLWIDTH,
+          (int)nsCSSKeyword.None, nsStyle.TextTransformNone,
+          (int)nsCSSKeyword.Capitalize, nsStyle.TextTransformCapitalize,
+          (int)nsCSSKeyword.Lowercase, nsStyle.TextTransformLowercase,
+          (int)nsCSSKeyword.Uppercase, nsStyle.TextTransformUppercase,
+          (int)nsCSSKeyword.FullWidth, nsStyle.TextTransformFullwidth,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kTransitionTimingFunctionKTable = {
-          (int)nsCSSKeyword.Ease, nsStyle.TRANSITION_TIMING_FUNCTION_EASE,
-          (int)nsCSSKeyword.Linear, nsStyle.TRANSITION_TIMING_FUNCTION_LINEAR,
-          (int)nsCSSKeyword.EaseIn, nsStyle.TRANSITION_TIMING_FUNCTION_EASE_IN,
-          (int)nsCSSKeyword.EaseOut, nsStyle.TRANSITION_TIMING_FUNCTION_EASE_OUT,
-          (int)nsCSSKeyword.EaseInOut, nsStyle.TRANSITION_TIMING_FUNCTION_EASE_IN_OUT,
-          (int)nsCSSKeyword.StepStart, nsStyle.TRANSITION_TIMING_FUNCTION_STEP_START,
-          (int)nsCSSKeyword.StepEnd, nsStyle.TRANSITION_TIMING_FUNCTION_STEP_END,
+          (int)nsCSSKeyword.Ease, nsStyle.TransitionTimingFunctionEase,
+          (int)nsCSSKeyword.Linear, nsStyle.TransitionTimingFunctionLinear,
+          (int)nsCSSKeyword.EaseIn, nsStyle.TransitionTimingFunctionEaseIn,
+          (int)nsCSSKeyword.EaseOut, nsStyle.TransitionTimingFunctionEaseOut,
+          (int)nsCSSKeyword.EaseInOut, nsStyle.TransitionTimingFunctionEaseInOut,
+          (int)nsCSSKeyword.StepStart, nsStyle.TransitionTimingFunctionStepStart,
+          (int)nsCSSKeyword.StepEnd, nsStyle.TransitionTimingFunctionStepEnd,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kUnicodeBidiKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.UNICODE_BIDI_NORMAL,
-          (int)nsCSSKeyword.Embed, nsStyle.UNICODE_BIDI_EMBED,
-          (int)nsCSSKeyword.BidiOverride, nsStyle.UNICODE_BIDI_OVERRIDE,
-          (int)nsCSSKeyword.MozIsolate, nsStyle.UNICODE_BIDI_ISOLATE,
-          (int)nsCSSKeyword.MozIsolateOverride, nsStyle.UNICODE_BIDI_ISOLATE_OVERRIDE,
-          (int)nsCSSKeyword.MozPlaintext, nsStyle.UNICODE_BIDI_PLAINTEXT,
+          (int)nsCSSKeyword.Normal, nsStyle.UnicodeBidiNormal,
+          (int)nsCSSKeyword.Embed, nsStyle.UnicodeBidiEmbed,
+          (int)nsCSSKeyword.BidiOverride, nsStyle.UnicodeBidiOverride,
+          (int)nsCSSKeyword.MozIsolate, nsStyle.UnicodeBidiIsolate,
+          (int)nsCSSKeyword.MozIsolateOverride, nsStyle.UnicodeBidiIsolateOverride,
+          (int)nsCSSKeyword.MozPlaintext, nsStyle.UnicodeBidiPlaintext,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kUserFocusKTable = {
-          (int)nsCSSKeyword.None,           nsStyle.USER_FOCUS_NONE,
-          (int)nsCSSKeyword.Normal,         nsStyle.USER_FOCUS_NORMAL,
-          (int)nsCSSKeyword.Ignore,         nsStyle.USER_FOCUS_IGNORE,
-          (int)nsCSSKeyword.SelectAll,     nsStyle.USER_FOCUS_SELECT_ALL,
-          (int)nsCSSKeyword.SelectBefore,  nsStyle.USER_FOCUS_SELECT_BEFORE,
-          (int)nsCSSKeyword.SelectAfter,   nsStyle.USER_FOCUS_SELECT_AFTER,
-          (int)nsCSSKeyword.SelectSame,    nsStyle.USER_FOCUS_SELECT_SAME,
-          (int)nsCSSKeyword.SelectMenu,    nsStyle.USER_FOCUS_SELECT_MENU,
+          (int)nsCSSKeyword.None,           nsStyle.UserFocusNone,
+          (int)nsCSSKeyword.Normal,         nsStyle.UserFocusNormal,
+          (int)nsCSSKeyword.Ignore,         nsStyle.UserFocusIgnore,
+          (int)nsCSSKeyword.SelectAll,     nsStyle.UserFocusSelectAll,
+          (int)nsCSSKeyword.SelectBefore,  nsStyle.UserFocusSelectBefore,
+          (int)nsCSSKeyword.SelectAfter,   nsStyle.UserFocusSelectAfter,
+          (int)nsCSSKeyword.SelectSame,    nsStyle.UserFocusSelectSame,
+          (int)nsCSSKeyword.SelectMenu,    nsStyle.UserFocusSelectMenu,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kUserInputKTable = {
-          (int)nsCSSKeyword.None,     nsStyle.USER_INPUT_NONE,
-          (int)nsCSSKeyword.Auto,     nsStyle.USER_INPUT_AUTO,
-          (int)nsCSSKeyword.Enabled,  nsStyle.USER_INPUT_ENABLED,
-          (int)nsCSSKeyword.Disabled, nsStyle.USER_INPUT_DISABLED,
+          (int)nsCSSKeyword.None,     nsStyle.UserInputNone,
+          (int)nsCSSKeyword.Auto,     nsStyle.UserInputAuto,
+          (int)nsCSSKeyword.Enabled,  nsStyle.UserInputEnabled,
+          (int)nsCSSKeyword.Disabled, nsStyle.UserInputDisabled,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kUserModifyKTable = {
-          (int)nsCSSKeyword.ReadOnly,  nsStyle.USER_MODIFY_READ_ONLY,
-          (int)nsCSSKeyword.ReadWrite, nsStyle.USER_MODIFY_READ_WRITE,
-          (int)nsCSSKeyword.WriteOnly, nsStyle.USER_MODIFY_WRITE_ONLY,
+          (int)nsCSSKeyword.ReadOnly,  nsStyle.UserModifyReadOnly,
+          (int)nsCSSKeyword.ReadWrite, nsStyle.UserModifyReadWrite,
+          (int)nsCSSKeyword.WriteOnly, nsStyle.UserModifyWriteOnly,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kUserSelectKTable = {
-          (int)nsCSSKeyword.None,       nsStyle.USER_SELECT_NONE,
-          (int)nsCSSKeyword.Auto,       nsStyle.USER_SELECT_AUTO,
-          (int)nsCSSKeyword.Text,       nsStyle.USER_SELECT_TEXT,
-          (int)nsCSSKeyword.Element,    nsStyle.USER_SELECT_ELEMENT,
-          (int)nsCSSKeyword.Elements,   nsStyle.USER_SELECT_ELEMENTS,
-          (int)nsCSSKeyword.All,        nsStyle.USER_SELECT_ALL,
-          (int)nsCSSKeyword.Toggle,     nsStyle.USER_SELECT_TOGGLE,
-          (int)nsCSSKeyword.TriState,  nsStyle.USER_SELECT_TRI_STATE,
-          (int)nsCSSKeyword.MozAll,   nsStyle.USER_SELECT_MOZ_ALL,
-          (int)nsCSSKeyword.MozNone,  nsStyle.USER_SELECT_NONE,
+          (int)nsCSSKeyword.None,       nsStyle.UserSelectNone,
+          (int)nsCSSKeyword.Auto,       nsStyle.UserSelectAuto,
+          (int)nsCSSKeyword.Text,       nsStyle.UserSelectText,
+          (int)nsCSSKeyword.Element,    nsStyle.UserSelectElement,
+          (int)nsCSSKeyword.Elements,   nsStyle.UserSelectElements,
+          (int)nsCSSKeyword.All,        nsStyle.UserSelectAll,
+          (int)nsCSSKeyword.Toggle,     nsStyle.UserSelectToggle,
+          (int)nsCSSKeyword.TriState,  nsStyle.UserSelectTriState,
+          (int)nsCSSKeyword.MozAll,   nsStyle.UserSelectMozAll,
+          (int)nsCSSKeyword.MozNone,  nsStyle.UserSelectNone,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kVerticalAlignKTable = {
-          (int)nsCSSKeyword.Baseline, nsStyle.VERTICAL_ALIGN_BASELINE,
-          (int)nsCSSKeyword.Sub, nsStyle.VERTICAL_ALIGN_SUB,
-          (int)nsCSSKeyword.Super, nsStyle.VERTICAL_ALIGN_SUPER,
-          (int)nsCSSKeyword.Top, nsStyle.VERTICAL_ALIGN_TOP,
-          (int)nsCSSKeyword.TextTop, nsStyle.VERTICAL_ALIGN_TEXT_TOP,
-          (int)nsCSSKeyword.Middle, nsStyle.VERTICAL_ALIGN_MIDDLE,
-          (int)nsCSSKeyword.MozMiddleWithBaseline, nsStyle.VERTICAL_ALIGN_MIDDLE_WITH_BASELINE,
-          (int)nsCSSKeyword.Bottom, nsStyle.VERTICAL_ALIGN_BOTTOM,
-          (int)nsCSSKeyword.TextBottom, nsStyle.VERTICAL_ALIGN_TEXT_BOTTOM,
+          (int)nsCSSKeyword.Baseline, nsStyle.VerticalAlignBaseline,
+          (int)nsCSSKeyword.Sub, nsStyle.VerticalAlignSub,
+          (int)nsCSSKeyword.Super, nsStyle.VerticalAlignSuper,
+          (int)nsCSSKeyword.Top, nsStyle.VerticalAlignTop,
+          (int)nsCSSKeyword.TextTop, nsStyle.VerticalAlignTextTop,
+          (int)nsCSSKeyword.Middle, nsStyle.VerticalAlignMiddle,
+          (int)nsCSSKeyword.MozMiddleWithBaseline, nsStyle.VerticalAlignMiddleWithBaseline,
+          (int)nsCSSKeyword.Bottom, nsStyle.VerticalAlignBottom,
+          (int)nsCSSKeyword.TextBottom, nsStyle.VerticalAlignTextBottom,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kVisibilityKTable = {
-          (int)nsCSSKeyword.Visible, nsStyle.VISIBILITY_VISIBLE,
-          (int)nsCSSKeyword.Hidden, nsStyle.VISIBILITY_HIDDEN,
-          (int)nsCSSKeyword.Collapse, nsStyle.VISIBILITY_COLLAPSE,
+          (int)nsCSSKeyword.Visible, nsStyle.VisibilityVisible,
+          (int)nsCSSKeyword.Hidden, nsStyle.VisibilityHidden,
+          (int)nsCSSKeyword.Collapse, nsStyle.VisibilityCollapse,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kWhitespaceKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.WHITESPACE_NORMAL,
-          (int)nsCSSKeyword.Pre, nsStyle.WHITESPACE_PRE,
-          (int)nsCSSKeyword.Nowrap, nsStyle.WHITESPACE_NOWRAP,
-          (int)nsCSSKeyword.PreWrap, nsStyle.WHITESPACE_PRE_WRAP,
-          (int)nsCSSKeyword.PreLine, nsStyle.WHITESPACE_PRE_LINE,
-          (int)nsCSSKeyword.MozPreDiscardNewlines, nsStyle.WHITESPACE_PRE_DISCARD_NEWLINES,
+          (int)nsCSSKeyword.Normal, nsStyle.WhitespaceNormal,
+          (int)nsCSSKeyword.Pre, nsStyle.WhitespacePre,
+          (int)nsCSSKeyword.Nowrap, nsStyle.WhitespaceNowrap,
+          (int)nsCSSKeyword.PreWrap, nsStyle.WhitespacePreWrap,
+          (int)nsCSSKeyword.PreLine, nsStyle.WhitespacePreLine,
+          (int)nsCSSKeyword.MozPreDiscardNewlines, nsStyle.WhitespacePreDiscardNewlines,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kWidthKTable = {
-          (int)nsCSSKeyword.MozMaxContent, nsStyle.WIDTH_MAX_CONTENT,
-          (int)nsCSSKeyword.MozMinContent, nsStyle.WIDTH_MIN_CONTENT,
-          (int)nsCSSKeyword.MozFitContent, nsStyle.WIDTH_FIT_CONTENT,
-          (int)nsCSSKeyword.MozAvailable, nsStyle.WIDTH_AVAILABLE,
+          (int)nsCSSKeyword.MozMaxContent, nsStyle.WidthMaxContent,
+          (int)nsCSSKeyword.MozMinContent, nsStyle.WidthMinContent,
+          (int)nsCSSKeyword.MozFitContent, nsStyle.WidthFitContent,
+          (int)nsCSSKeyword.MozAvailable, nsStyle.WidthAvailable,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kWindowShadowKTable = {
-          (int)nsCSSKeyword.None, nsStyle.WINDOW_SHADOW_NONE,
-          (int)nsCSSKeyword.Default, nsStyle.WINDOW_SHADOW_DEFAULT,
-          (int)nsCSSKeyword.Menu, nsStyle.WINDOW_SHADOW_MENU,
-          (int)nsCSSKeyword.Tooltip, nsStyle.WINDOW_SHADOW_TOOLTIP,
-          (int)nsCSSKeyword.Sheet, nsStyle.WINDOW_SHADOW_SHEET,
+          (int)nsCSSKeyword.None, nsStyle.WindowShadowNone,
+          (int)nsCSSKeyword.Default, nsStyle.WindowShadowDefault,
+          (int)nsCSSKeyword.Menu, nsStyle.WindowShadowMenu,
+          (int)nsCSSKeyword.Tooltip, nsStyle.WindowShadowTooltip,
+          (int)nsCSSKeyword.Sheet, nsStyle.WindowShadowSheet,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kWordBreakKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.WORDBREAK_NORMAL,
-          (int)nsCSSKeyword.BreakAll, nsStyle.WORDBREAK_BREAK_ALL,
-          (int)nsCSSKeyword.KeepAll, nsStyle.WORDBREAK_KEEP_ALL,
+          (int)nsCSSKeyword.Normal, nsStyle.WordbreakNormal,
+          (int)nsCSSKeyword.BreakAll, nsStyle.WordbreakBreakAll,
+          (int)nsCSSKeyword.KeepAll, nsStyle.WordbreakKeepAll,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kWordWrapKTable = {
-          (int)nsCSSKeyword.Normal, nsStyle.WORDWRAP_NORMAL,
-          (int)nsCSSKeyword.BreakWord, nsStyle.WORDWRAP_BREAK_WORD,
+          (int)nsCSSKeyword.Normal, nsStyle.WordwrapNormal,
+          (int)nsCSSKeyword.BreakWord, nsStyle.WordwrapBreakWord,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kHyphensKTable = {
-          (int)nsCSSKeyword.None, nsStyle.HYPHENS_NONE,
-          (int)nsCSSKeyword.Manual, nsStyle.HYPHENS_MANUAL,
-          (int)nsCSSKeyword.Auto, nsStyle.HYPHENS_AUTO,
+          (int)nsCSSKeyword.None, nsStyle.HyphensNone,
+          (int)nsCSSKeyword.Manual, nsStyle.HyphensManual,
+          (int)nsCSSKeyword.Auto, nsStyle.HyphensAuto,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxAlignKTable = {
-          (int)nsCSSKeyword.Stretch,  nsStyle.BOX_ALIGN_STRETCH,
-          (int)nsCSSKeyword.Start,   nsStyle.BOX_ALIGN_START,
-          (int)nsCSSKeyword.Center, nsStyle.BOX_ALIGN_CENTER,
-          (int)nsCSSKeyword.Baseline, nsStyle.BOX_ALIGN_BASELINE,
-          (int)nsCSSKeyword.End, nsStyle.BOX_ALIGN_END,
+          (int)nsCSSKeyword.Stretch,  nsStyle.BoxAlignStretch,
+          (int)nsCSSKeyword.Start,   nsStyle.BoxAlignStart,
+          (int)nsCSSKeyword.Center, nsStyle.BoxAlignCenter,
+          (int)nsCSSKeyword.Baseline, nsStyle.BoxAlignBaseline,
+          (int)nsCSSKeyword.End, nsStyle.BoxAlignEnd,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxDirectionKTable = {
-          (int)nsCSSKeyword.Normal,  nsStyle.BOX_DIRECTION_NORMAL,
-          (int)nsCSSKeyword.Reverse,   nsStyle.BOX_DIRECTION_REVERSE,
+          (int)nsCSSKeyword.Normal,  nsStyle.BoxDirectionNormal,
+          (int)nsCSSKeyword.Reverse,   nsStyle.BoxDirectionReverse,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxOrientKTable = {
-          (int)nsCSSKeyword.Horizontal,  nsStyle.BOX_ORIENT_HORIZONTAL,
-          (int)nsCSSKeyword.Vertical,   nsStyle.BOX_ORIENT_VERTICAL,
-          (int)nsCSSKeyword.InlineAxis, nsStyle.BOX_ORIENT_HORIZONTAL,
-          (int)nsCSSKeyword.BlockAxis, nsStyle.BOX_ORIENT_VERTICAL,
+          (int)nsCSSKeyword.Horizontal,  nsStyle.BoxOrientHorizontal,
+          (int)nsCSSKeyword.Vertical,   nsStyle.BoxOrientVertical,
+          (int)nsCSSKeyword.InlineAxis, nsStyle.BoxOrientHorizontal,
+          (int)nsCSSKeyword.BlockAxis, nsStyle.BoxOrientVertical,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kBoxPackKTable = {
-          (int)nsCSSKeyword.Start,  nsStyle.BOX_PACK_START,
-          (int)nsCSSKeyword.Center,   nsStyle.BOX_PACK_CENTER,
-          (int)nsCSSKeyword.End, nsStyle.BOX_PACK_END,
-          (int)nsCSSKeyword.Justify, nsStyle.BOX_PACK_JUSTIFY,
+          (int)nsCSSKeyword.Start,  nsStyle.BoxPackStart,
+          (int)nsCSSKeyword.Center,   nsStyle.BoxPackCenter,
+          (int)nsCSSKeyword.End, nsStyle.BoxPackEnd,
+          (int)nsCSSKeyword.Justify, nsStyle.BoxPackJustify,
           (int)nsCSSKeyword.Unknown,-1
         };
 
         public static readonly int32_t[] kDominantBaselineKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.DOMINANT_BASELINE_AUTO,
-          (int)nsCSSKeyword.UseScript, nsStyle.DOMINANT_BASELINE_USE_SCRIPT,
-          (int)nsCSSKeyword.NoChange, nsStyle.DOMINANT_BASELINE_NO_CHANGE,
-          (int)nsCSSKeyword.ResetSize, nsStyle.DOMINANT_BASELINE_RESET_SIZE,
-          (int)nsCSSKeyword.Alphabetic, nsStyle.DOMINANT_BASELINE_ALPHABETIC,
-          (int)nsCSSKeyword.Hanging, nsStyle.DOMINANT_BASELINE_HANGING,
-          (int)nsCSSKeyword.Ideographic, nsStyle.DOMINANT_BASELINE_IDEOGRAPHIC,
-          (int)nsCSSKeyword.Mathematical, nsStyle.DOMINANT_BASELINE_MATHEMATICAL,
-          (int)nsCSSKeyword.Central, nsStyle.DOMINANT_BASELINE_CENTRAL,
-          (int)nsCSSKeyword.Middle, nsStyle.DOMINANT_BASELINE_MIDDLE,
-          (int)nsCSSKeyword.TextAfterEdge, nsStyle.DOMINANT_BASELINE_TEXT_AFTER_EDGE,
-          (int)nsCSSKeyword.TextBeforeEdge, nsStyle.DOMINANT_BASELINE_TEXT_BEFORE_EDGE,
+          (int)nsCSSKeyword.Auto, nsStyle.DominantBaselineAuto,
+          (int)nsCSSKeyword.UseScript, nsStyle.DominantBaselineUseScript,
+          (int)nsCSSKeyword.NoChange, nsStyle.DominantBaselineNoChange,
+          (int)nsCSSKeyword.ResetSize, nsStyle.DominantBaselineResetSize,
+          (int)nsCSSKeyword.Alphabetic, nsStyle.DominantBaselineAlphabetic,
+          (int)nsCSSKeyword.Hanging, nsStyle.DominantBaselineHanging,
+          (int)nsCSSKeyword.Ideographic, nsStyle.DominantBaselineIdeographic,
+          (int)nsCSSKeyword.Mathematical, nsStyle.DominantBaselineMathematical,
+          (int)nsCSSKeyword.Central, nsStyle.DominantBaselineCentral,
+          (int)nsCSSKeyword.Middle, nsStyle.DominantBaselineMiddle,
+          (int)nsCSSKeyword.TextAfterEdge, nsStyle.DominantBaselineTextAfterEdge,
+          (int)nsCSSKeyword.TextBeforeEdge, nsStyle.DominantBaselineTextBeforeEdge,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kFillRuleKTable = {
-          (int)nsCSSKeyword.Nonzero, nsStyle.FILL_RULE_NONZERO,
-          (int)nsCSSKeyword.Evenodd, nsStyle.FILL_RULE_EVENODD,
+          (int)nsCSSKeyword.Nonzero, nsStyle.FillRuleNonzero,
+          (int)nsCSSKeyword.Evenodd, nsStyle.FillRuleEvenodd,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kImageRenderingKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.IMAGE_RENDERING_AUTO,
-          (int)nsCSSKeyword.Optimizespeed, nsStyle.IMAGE_RENDERING_OPTIMIZESPEED,
-          (int)nsCSSKeyword.Optimizequality, nsStyle.IMAGE_RENDERING_OPTIMIZEQUALITY,
-          (int)nsCSSKeyword.MozCrispEdges, nsStyle.IMAGE_RENDERING_CRISPEDGES,
+          (int)nsCSSKeyword.Auto, nsStyle.ImageRenderingAuto,
+          (int)nsCSSKeyword.Optimizespeed, nsStyle.ImageRenderingOptimizespeed,
+          (int)nsCSSKeyword.Optimizequality, nsStyle.ImageRenderingOptimizequality,
+          (int)nsCSSKeyword.MozCrispEdges, nsStyle.ImageRenderingCrispedges,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kMaskTypeKTable = {
-          (int)nsCSSKeyword.Luminance, nsStyle.MASK_TYPE_LUMINANCE,
-          (int)nsCSSKeyword.Alpha, nsStyle.MASK_TYPE_ALPHA,
+          (int)nsCSSKeyword.Luminance, nsStyle.MaskTypeLuminance,
+          (int)nsCSSKeyword.Alpha, nsStyle.MaskTypeAlpha,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kShapeRenderingKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.SHAPE_RENDERING_AUTO,
-          (int)nsCSSKeyword.Optimizespeed, nsStyle.SHAPE_RENDERING_OPTIMIZESPEED,
-          (int)nsCSSKeyword.Crispedges, nsStyle.SHAPE_RENDERING_CRISPEDGES,
-          (int)nsCSSKeyword.Geometricprecision, nsStyle.SHAPE_RENDERING_GEOMETRICPRECISION,
+          (int)nsCSSKeyword.Auto, nsStyle.ShapeRenderingAuto,
+          (int)nsCSSKeyword.Optimizespeed, nsStyle.ShapeRenderingOptimizespeed,
+          (int)nsCSSKeyword.Crispedges, nsStyle.ShapeRenderingCrispedges,
+          (int)nsCSSKeyword.Geometricprecision, nsStyle.ShapeRenderingGeometricprecision,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kStrokeLinecapKTable = {
-          (int)nsCSSKeyword.Butt, nsStyle.STROKE_LINECAP_BUTT,
-          (int)nsCSSKeyword.Round, nsStyle.STROKE_LINECAP_ROUND,
-          (int)nsCSSKeyword.Square, nsStyle.STROKE_LINECAP_SQUARE,
+          (int)nsCSSKeyword.Butt, nsStyle.StrokeLinecapButt,
+          (int)nsCSSKeyword.Round, nsStyle.StrokeLinecapRound,
+          (int)nsCSSKeyword.Square, nsStyle.StrokeLinecapSquare,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kStrokeLinejoinKTable = {
-          (int)nsCSSKeyword.Miter, nsStyle.STROKE_LINEJOIN_MITER,
-          (int)nsCSSKeyword.Round, nsStyle.STROKE_LINEJOIN_ROUND,
-          (int)nsCSSKeyword.Bevel, nsStyle.STROKE_LINEJOIN_BEVEL,
+          (int)nsCSSKeyword.Miter, nsStyle.StrokeLinejoinMiter,
+          (int)nsCSSKeyword.Round, nsStyle.StrokeLinejoinRound,
+          (int)nsCSSKeyword.Bevel, nsStyle.StrokeLinejoinBevel,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kStrokeObjectValueKTable = {
-          (int)nsCSSKeyword.MozObjectvalue, nsStyle.STROKE_PROP_OBJECTVALUE,
+          (int)nsCSSKeyword.MozObjectvalue, nsStyle.StrokePropObjectvalue,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kTextAnchorKTable = {
-          (int)nsCSSKeyword.Start, nsStyle.TEXT_ANCHOR_START,
-          (int)nsCSSKeyword.Middle, nsStyle.TEXT_ANCHOR_MIDDLE,
-          (int)nsCSSKeyword.End, nsStyle.TEXT_ANCHOR_END,
+          (int)nsCSSKeyword.Start, nsStyle.TextAnchorStart,
+          (int)nsCSSKeyword.Middle, nsStyle.TextAnchorMiddle,
+          (int)nsCSSKeyword.End, nsStyle.TextAnchorEnd,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kTextRenderingKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.TEXT_RENDERING_AUTO,
-          (int)nsCSSKeyword.Optimizespeed, nsStyle.TEXT_RENDERING_OPTIMIZESPEED,
-          (int)nsCSSKeyword.Optimizelegibility, nsStyle.TEXT_RENDERING_OPTIMIZELEGIBILITY,
-          (int)nsCSSKeyword.Geometricprecision, nsStyle.TEXT_RENDERING_GEOMETRICPRECISION,
+          (int)nsCSSKeyword.Auto, nsStyle.TextRenderingAuto,
+          (int)nsCSSKeyword.Optimizespeed, nsStyle.TextRenderingOptimizespeed,
+          (int)nsCSSKeyword.Optimizelegibility, nsStyle.TextRenderingOptimizelegibility,
+          (int)nsCSSKeyword.Geometricprecision, nsStyle.TextRenderingGeometricprecision,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kVectorEffectKTable = {
-          (int)nsCSSKeyword.None, nsStyle.VECTOR_EFFECT_NONE,
-          (int)nsCSSKeyword.NonScalingStroke, nsStyle.VECTOR_EFFECT_NON_SCALING_STROKE,
+          (int)nsCSSKeyword.None, nsStyle.VectorEffectNone,
+          (int)nsCSSKeyword.NonScalingStroke, nsStyle.VectorEffectNonScalingStroke,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kColorInterpolationKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.COLOR_INTERPOLATION_AUTO,
-          (int)nsCSSKeyword.Srgb, nsStyle.COLOR_INTERPOLATION_SRGB,
-          (int)nsCSSKeyword.Linearrgb, nsStyle.COLOR_INTERPOLATION_LINEARRGB,
+          (int)nsCSSKeyword.Auto, nsStyle.ColorInterpolationAuto,
+          (int)nsCSSKeyword.Srgb, nsStyle.ColorInterpolationSrgb,
+          (int)nsCSSKeyword.Linearrgb, nsStyle.ColorInterpolationLinearrgb,
           (int)nsCSSKeyword.Unknown, -1
         };
 
         public static readonly int32_t[] kColumnFillKTable = {
-          (int)nsCSSKeyword.Auto, nsStyle.COLUMN_FILL_AUTO,
-          (int)nsCSSKeyword.Balance, nsStyle.COLUMN_FILL_BALANCE,
+          (int)nsCSSKeyword.Auto, nsStyle.ColumnFillAuto,
+          (int)nsCSSKeyword.Balance, nsStyle.ColumnFillBalance,
           (int)nsCSSKeyword.Unknown, -1
         };
 
@@ -1640,14 +1640,14 @@ namespace Alba.CsCss.Style
         };
 
         public static readonly int32_t[] kOrientationKeywords = {
-          (int)nsCSSKeyword.Portrait,                 nsStyle.ORIENTATION_PORTRAIT,
-          (int)nsCSSKeyword.Landscape,                nsStyle.ORIENTATION_LANDSCAPE,
+          (int)nsCSSKeyword.Portrait,                 nsStyle.OrientationPortrait,
+          (int)nsCSSKeyword.Landscape,                nsStyle.OrientationLandscape,
           (int)nsCSSKeyword.Unknown,                  -1
         };
 
         public static readonly int32_t[] kScanKeywords = {
-          (int)nsCSSKeyword.Progressive,              nsStyle.SCAN_PROGRESSIVE,
-          (int)nsCSSKeyword.Interlace,                nsStyle.SCAN_INTERLACE,
+          (int)nsCSSKeyword.Progressive,              nsStyle.ScanProgressive,
+          (int)nsCSSKeyword.Interlace,                nsStyle.ScanInterlace,
           (int)nsCSSKeyword.Unknown,                  -1
         };
 

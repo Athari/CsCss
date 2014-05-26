@@ -6,10 +6,10 @@ namespace Alba.CsCss.Style
 {
     public partial class CssStyle
     {
-        internal const int WINDOW_SHADOW_NONE = 0;
-        internal const int WINDOW_SHADOW_DEFAULT = 1;
-        internal const int WINDOW_SHADOW_MENU = 2;
-        internal const int WINDOW_SHADOW_TOOLTIP = 3;
-        internal const int WINDOW_SHADOW_SHEET = 4;
+        public const int WindowShadowNone = 0;
+        public const int WindowShadowDefault = 1;
+        public const int WindowShadowMenu = 2;
+        public const int WindowShadowTooltip = 3;
+        public const int WindowShadowSheet = 4;
     }
 }

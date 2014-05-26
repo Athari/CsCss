@@ -128,7 +128,7 @@ namespace Alba.CsCss.Style
                         "mReporter.OutputError()")
             .ReReplace(@"CLEAR_ERROR\(\)",
                         "mReporter.ClearError()")
-            .ReReplace(@"NS_FOR_CSS_SIDES ?\((?<Var>\w+)\)", "for (Side ${Var} = nsStyle.SIDE_TOP; ${Var} <= nsStyle.SIDE_LEFT; ${Var}++)")
+            .ReReplace(@"NS_FOR_CSS_SIDES ?\((?<Var>\w+)\)", "for (Side ${Var} = nsStyle.SideTop; ${Var} <= nsStyle.SideLeft; ${Var}++)")
             .ReReplace(@"{ STR_WITH_LEN\((""\w+"")\), (\w+), (\w+) }", "new UnitInfo { name = $1, unit = $2, type = $3 }")
             // specific code removal
             .ReReplace(@"(?s)struct UnitInfo {.*?\n};\n", "")
@@ -193,10 +193,10 @@ namespace Alba.CsCss.Style
             .ReReplace(@"nsMediaFeature::eMinMax(\w+)", "nsMediaFeature.RangeType.MinMax$1")
             .ReReplace(@"nsMediaFeature::e(\w+)", "nsMediaFeature.ValueType.$1")
             .ReReplace(@"Rule::(\w+)_RULE", m => "CssRuleKind." + ToPascalId(m))
-            .ReReplace(@"NS_STYLE_(\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_STYLE_(\w+)", m => "nsStyle." + ToPascalId(m))
             .ReReplace(@"NS_FONT_(\w+)", "nsFont.$1")
             .ReReplace(@"NS_ATTR_FUNC_(\w+)", "nsAttrFunc.$1")
-            .ReReplace(@"NS_(BOXPROP_\w+)", "nsStyle.$1")
+            .ReReplace(@"NS_(BOXPROP_\w+)", m => "nsStyle." + ToPascalId(m))
             .ReReplace(@"NS_(ERROR_\w+)", "nsresult.$1")
             .ReReplace(@"NS_OK", "nsresult.OK")
             .ReReplace(@"CSS_PROPERTY_(\w+)", "nsCSSProps.$1")
@@ -459,7 +459,7 @@ namespace Alba.CsCss.Style
                 )+ \)? \ *?
                 (?<Remainder>\ ? (//.* | /\*.*)? )$                       # one-line or block comment")) {
             string name = m.Get("Name"), namesValue = m.GetConcat("NamesValue"), remainder = m.Get("Remainder");
-            namesValue = namesValue.ReReplace(@"^NS_STYLE_", "nsStyle.");
+            namesValue = namesValue.ReReplace(@"^NS_STYLE_(\w+)", mi => "nsStyle.{0}".Fmt(ToPascalId(mi)));
             yield return "internal const int {0} = {1};{2}".Fmt(name, namesValue, remainder);
         }
     }

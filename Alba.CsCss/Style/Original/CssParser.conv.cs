@@ -162,11 +162,11 @@ namespace Alba.CsCss.Style
         internal const int VARIANT_LPNCALC = VARIANT_LNCALC | VARIANT_PERCENT;
         internal const int VARIANT_IMAGE = VARIANT_URL | VARIANT_NONE | VARIANT_GRADIENT |                        VARIANT_IMAGE_RECT | VARIANT_ELEMENT;
         internal const int VARIANT_ALL_NONNUMERIC = VARIANT_KEYWORD |   VARIANT_COLOR |   VARIANT_URL |   VARIANT_STRING |   VARIANT_COUNTER |   VARIANT_ATTR |   VARIANT_IDENTIFIER |   VARIANT_IDENTIFIER_NO_INHERIT |   VARIANT_AUTO |   VARIANT_INHERIT |   VARIANT_NONE |   VARIANT_NORMAL |   VARIANT_SYSFONT |   VARIANT_GRADIENT |   VARIANT_TIMING_FUNCTION |   VARIANT_ALL |   VARIANT_CALC;
-        internal const int BG_CENTER = nsStyle.BG_POSITION_CENTER;
-        internal const int BG_TOP = nsStyle.BG_POSITION_TOP;
-        internal const int BG_BOTTOM = nsStyle.BG_POSITION_BOTTOM;
-        internal const int BG_LEFT = nsStyle.BG_POSITION_LEFT;
-        internal const int BG_RIGHT = nsStyle.BG_POSITION_RIGHT;
+        internal const int BG_CENTER = nsStyle.BgPositionCenter;
+        internal const int BG_TOP = nsStyle.BgPositionTop;
+        internal const int BG_BOTTOM = nsStyle.BgPositionBottom;
+        internal const int BG_LEFT = nsStyle.BgPositionLeft;
+        internal const int BG_RIGHT = nsStyle.BgPositionRight;
         internal const int BG_CTB = BG_CENTER | BG_TOP | BG_BOTTOM;
         internal const int BG_TB = BG_TOP | BG_BOTTOM;
         internal const int BG_CLR = BG_CENTER | BG_LEFT | BG_RIGHT;
@@ -4169,7 +4169,7 @@ namespace Alba.CsCss.Style
             }
         
             // get optional type
-            int32_t type = nsStyle.LIST_STYLE_DECIMAL;
+            int32_t type = nsStyle.ListStyleDecimal;
             if (ExpectSymbol(',', true)) {
               if (!GetToken(true)) {
                 break;
@@ -4530,13 +4530,13 @@ namespace Alba.CsCss.Style
             nsCSSValue xValue = cssGradient.mBgPos.mXValue;
             nsCSSValue yValue = cssGradient.mBgPos.mYValue;
             if (xValue.GetUnit() != nsCSSUnit.Enumerated ||
-                0 == (xValue.GetIntValue() & (nsStyle.BG_POSITION_LEFT |
-                                          nsStyle.BG_POSITION_CENTER |
-                                          nsStyle.BG_POSITION_RIGHT)) ||
+                0 == (xValue.GetIntValue() & (nsStyle.BgPositionLeft |
+                                          nsStyle.BgPositionCenter |
+                                          nsStyle.BgPositionRight)) ||
                 yValue.GetUnit() != nsCSSUnit.Enumerated ||
-                0 == (yValue.GetIntValue() & (nsStyle.BG_POSITION_TOP |
-                                          nsStyle.BG_POSITION_CENTER |
-                                          nsStyle.BG_POSITION_BOTTOM))) {
+                0 == (yValue.GetIntValue() & (nsStyle.BgPositionTop |
+                                          nsStyle.BgPositionCenter |
+                                          nsStyle.BgPositionBottom))) {
               SkipUntil(')');
               return false;
             }
@@ -4634,9 +4634,9 @@ namespace Alba.CsCss.Style
                 cssGradient.GetRadialShape().GetUnit() == nsCSSUnit.Enumerated ?
                 cssGradient.GetRadialShape().GetIntValue() : -1;
               if (haveYSize
-                    ? shape == nsStyle.GRADIENT_SHAPE_CIRCULAR
+                    ? shape == nsStyle.GradientShapeCircular
                     : cssGradient.GetRadiusX().GetUnit() == nsCSSUnit.Percent ||
-                      shape == nsStyle.GRADIENT_SHAPE_ELLIPTICAL) {
+                      shape == nsStyle.GradientShapeElliptical) {
                 SkipUntil(')');
                 return false;
               }
@@ -4890,7 +4890,7 @@ namespace Alba.CsCss.Style
           // Get up to four values for the property
           int32_t count = 0;
           var result = new nsCSSRect();
-          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+          for (Side index = nsStyle.SideTop; index <= nsStyle.SideLeft; index++) {
             if (! ParseSingleValueProperty(result.GetSide(index), v => result.SetSide(index, v),
                                            aPropIDs[(int)index])) {
               break;
@@ -4902,7 +4902,7 @@ namespace Alba.CsCss.Style
           }
         
           if (1 < count) { // verify no more than single inherit or initial
-            for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+            for (Side index = nsStyle.SideTop; index <= nsStyle.SideLeft; index++) {
               nsCSSUnit unit = (result.GetSide(index)).GetUnit();
               if (nsCSSUnit.Inherit == unit || nsCSSUnit.Initial == unit) {
                 return false;
@@ -4923,7 +4923,7 @@ namespace Alba.CsCss.Style
             break;
           }
         
-          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+          for (Side index = nsStyle.SideTop; index <= nsStyle.SideLeft; index++) {
             AppendValue(aPropIDs[(int)index], result.GetSide(index));
           }
           return true;
@@ -4937,7 +4937,7 @@ namespace Alba.CsCss.Style
           nsCSSRect result = aValue.SetRectValue();
         
           int32_t count = 0;
-          for (Side index = nsStyle.SIDE_TOP; index <= nsStyle.SIDE_LEFT; index++) {
+          for (Side index = nsStyle.SideTop; index <= nsStyle.SideLeft; index++) {
             if (!ParseNonNegativeVariant(result.GetSide(index), v => result.SetSide(index, v),
                                          aVariantMask, null)) {
               break;
@@ -5014,7 +5014,7 @@ namespace Alba.CsCss.Style
           nsCSSRect dimenX = new nsCSSRect(), dimenY = new nsCSSRect();
           int32_t countX = 0, countY = 0;
         
-          for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+          for (Side side = nsStyle.SideTop; side <= nsStyle.SideLeft; side++) {
             if (! ParseNonNegativeVariant(dimenX.GetSide(side), v => dimenX.SetSide(side, v),
                                           (side > 0 ? 0 : VARIANT_INHERIT) |
                                             VARIANT_LP | VARIANT_CALC,
@@ -5026,7 +5026,7 @@ namespace Alba.CsCss.Style
             return false;
         
           if (ExpectSymbol('/', true)) {
-            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+            for (Side side = nsStyle.SideTop; side <= nsStyle.SideLeft; side++) {
               if (! ParseNonNegativeVariant(dimenY.GetSide(side), v => dimenY.SetSide(side, v),
                                             VARIANT_LP | VARIANT_CALC, null))
                 break;
@@ -5070,7 +5070,7 @@ namespace Alba.CsCss.Style
             break;
           }
         
-          for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+          for (Side side = nsStyle.SideTop; side <= nsStyle.SideLeft; side++) {
             nsCSSValue x = dimenX.GetSide(side);
             nsCSSValue y = dimenY.GetSide(side);
         
@@ -5205,16 +5205,16 @@ namespace Alba.CsCss.Style
             return ParseBorderSide(kBorderBottomIDs, false);
           case nsCSSProperty.BorderEnd:
             return ParseDirectionalBorderSide(kBorderEndIDs,
-                                              nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                              nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderLeft:
             return ParseDirectionalBorderSide(kBorderLeftIDs,
-                                              nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                              nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderRight:
             return ParseDirectionalBorderSide(kBorderRightIDs,
-                                              nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                              nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderStart:
             return ParseDirectionalBorderSide(kBorderStartIDs,
-                                              nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                              nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderTop:
             return ParseBorderSide(kBorderTopIDs, false);
           case nsCSSProperty.BorderBottomColors:
@@ -5237,40 +5237,40 @@ namespace Alba.CsCss.Style
             return ParseBorderWidth();
           case nsCSSProperty.BorderEndColor:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderEndColor,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderLeftColor:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderLeftColor,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderRightColor:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderRightColor,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderStartColor:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderStartColor,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderEndWidth:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderEndWidth,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderLeftWidth:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderLeftWidth,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderRightWidth:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderRightWidth,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderStartWidth:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderStartWidth,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderEndStyle:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderEndStyle,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderLeftStyle:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderLeftStyle,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderRightStyle:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderRightStyle,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.BorderStartStyle:
             return ParseDirectionalBoxProperty(nsCSSProperty.BorderStartStyle,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.BorderRadius:
             return ParseBoxCornerRadii(kBorderRadiusIDs);
           case nsCSSProperty.MozOutlineRadius:
@@ -5319,16 +5319,16 @@ namespace Alba.CsCss.Style
             return ParseMargin();
           case nsCSSProperty.MarginEnd:
             return ParseDirectionalBoxProperty(nsCSSProperty.MarginEnd,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.MarginLeft:
             return ParseDirectionalBoxProperty(nsCSSProperty.MarginLeft,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.MarginRight:
             return ParseDirectionalBoxProperty(nsCSSProperty.MarginRight,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.MarginStart:
             return ParseDirectionalBoxProperty(nsCSSProperty.MarginStart,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.Outline:
             return ParseOutline();
           case nsCSSProperty.Overflow:
@@ -5337,16 +5337,16 @@ namespace Alba.CsCss.Style
             return ParsePadding();
           case nsCSSProperty.PaddingEnd:
             return ParseDirectionalBoxProperty(nsCSSProperty.PaddingEnd,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.PaddingLeft:
             return ParseDirectionalBoxProperty(nsCSSProperty.PaddingLeft,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.PaddingRight:
             return ParseDirectionalBoxProperty(nsCSSProperty.PaddingRight,
-                                               nsStyle.BOXPROP_SOURCE_PHYSICAL);
+                                               nsStyle.BoxpropSourcePhysical);
           case nsCSSProperty.PaddingStart:
             return ParseDirectionalBoxProperty(nsCSSProperty.PaddingStart,
-                                               nsStyle.BOXPROP_SOURCE_LOGICAL);
+                                               nsStyle.BoxpropSourceLogical);
           case nsCSSProperty.Quotes:
             return ParseQuotes();
           case nsCSSProperty.Size:
@@ -5503,8 +5503,8 @@ namespace Alba.CsCss.Style
                     aValue.GetUnit() != nsCSSUnit.Inherit &&
                     aValue.GetUnit() != nsCSSUnit.Initial &&
                     (aValue.GetUnit() != nsCSSUnit.Enumerated ||
-                     (aValue.GetIntValue() != nsStyle.FONT_WEIGHT_BOLDER &&
-                      aValue.GetIntValue() != nsStyle.FONT_WEIGHT_LIGHTER)));
+                     (aValue.GetIntValue() != nsStyle.FontWeightBolder &&
+                      aValue.GetIntValue() != nsStyle.FontWeightLighter)));
         
           case nsCSSFontDesc.Stretch:
             // property is VARIANT_HK|VARIANT_SYSFONT
@@ -5537,28 +5537,28 @@ namespace Alba.CsCss.Style
         
         internal void InitBoxPropsAsPhysical(nsCSSProperty[] aSourceProperties)
         {
-          var physical = new nsCSSValue(nsStyle.BOXPROP_SOURCE_PHYSICAL, nsCSSUnit.Enumerated);
+          var physical = new nsCSSValue(nsStyle.BoxpropSourcePhysical, nsCSSUnit.Enumerated);
           AppendValues(aSourceProperties, physical);
         }
         
         static nsCSSValue
         BoxPositionMaskToCSSValue(int32_t aMask, bool isX)
         {
-          int32_t val = nsStyle.BG_POSITION_CENTER;
+          int32_t val = nsStyle.BgPositionCenter;
           if (isX) {
             if ((aMask & BG_LEFT) != 0) {
-              val = nsStyle.BG_POSITION_LEFT;
+              val = nsStyle.BgPositionLeft;
             }
             else if ((aMask & BG_RIGHT) != 0) {
-              val = nsStyle.BG_POSITION_RIGHT;
+              val = nsStyle.BgPositionRight;
             }
           }
           else {
             if ((aMask & BG_TOP) != 0) {
-              val = nsStyle.BG_POSITION_TOP;
+              val = nsStyle.BgPositionTop;
             }
             else if ((aMask & BG_BOTTOM) != 0) {
-              val = nsStyle.BG_POSITION_BOTTOM;
+              val = nsStyle.BgPositionBottom;
             }
           }
         
@@ -5646,14 +5646,14 @@ namespace Alba.CsCss.Style
           // Fill in the values that the shorthand will set if we don't find
           // other values.
           aState.mImage.mValue.SetNoneValue();
-          aState.mRepeat.mXValue.SetIntValue(nsStyle.BG_REPEAT_REPEAT,
+          aState.mRepeat.mXValue.SetIntValue(nsStyle.BgRepeatRepeat,
                                               nsCSSUnit.Enumerated);
           aState.mRepeat.mYValue.Reset();
-          aState.mAttachment.mValue.SetIntValue(nsStyle.BG_ATTACHMENT_SCROLL,
+          aState.mAttachment.mValue.SetIntValue(nsStyle.BgAttachmentScroll,
                                                  nsCSSUnit.Enumerated);
-          aState.mClip.mValue.SetIntValue(nsStyle.BG_CLIP_BORDER,
+          aState.mClip.mValue.SetIntValue(nsStyle.BgClipBorder,
                                            nsCSSUnit.Enumerated);
-          aState.mOrigin.mValue.SetIntValue(nsStyle.BG_ORIGIN_PADDING,
+          aState.mOrigin.mValue.SetIntValue(nsStyle.BgOriginPadding,
                                              nsCSSUnit.Enumerated);
           nsCSSValue[] positionArr = new nsCSSValue[4];
           aState.mPosition.mValue.SetArrayValue(positionArr, nsCSSUnit.Array);
@@ -5901,8 +5901,8 @@ namespace Alba.CsCss.Style
           if (ParseEnum(ref xValue, nsCSSProps.kBackgroundRepeatKTable)) {
             int32_t value = xValue.GetIntValue();
             // For single values set yValue as nsCSSUnit.Null.
-            if (value == nsStyle.BG_REPEAT_REPEAT_X ||
-                value == nsStyle.BG_REPEAT_REPEAT_Y ||
+            if (value == nsStyle.BgRepeatRepeatX ||
+                value == nsStyle.BgRepeatRepeatY ||
                 !ParseEnum(ref yValue, nsCSSProps.kBackgroundRepeatPartKTable)) {
               // the caller will fail cases like "repeat-x no-repeat"
               // by expecting a list separator or an end property.
@@ -6184,7 +6184,7 @@ namespace Alba.CsCss.Style
                 value[1] = value[0]; // move xOffset to correct position
                 xEdge.Reset();
               }
-              yEdge.SetIntValue(nsStyle.BG_POSITION_CENTER, nsCSSUnit.Enumerated);
+              yEdge.SetIntValue(nsStyle.BgPositionCenter, nsCSSUnit.Enumerated);
               yOffset.Reset();
               break;
             default:
@@ -6349,7 +6349,7 @@ namespace Alba.CsCss.Style
           // border-image-repeat: repeat
           var repeat = new nsCSSValue();
           var repeatPair = new nsCSSValuePair();
-          repeatPair.SetBothValuesTo(new nsCSSValue(nsStyle.BORDER_IMAGE_REPEAT_STRETCH,
+          repeatPair.SetBothValuesTo(new nsCSSValue(nsStyle.BorderImageRepeatStretch,
                                                 nsCSSUnit.Enumerated));
           repeat.SetPairValue(repeatPair);
           AppendValue(nsCSSProperty.BorderImageRepeat, repeat);
@@ -6604,13 +6604,13 @@ namespace Alba.CsCss.Style
           }
         
           if ((found & 1) == 0) { // Provide default border-width
-            values[0].SetIntValue(nsStyle.BORDER_WIDTH_MEDIUM, nsCSSUnit.Enumerated);
+            values[0].SetIntValue(nsStyle.BorderWidthMedium, nsCSSUnit.Enumerated);
           }
           if ((found & 2) == 0) { // Provide default border-style
-            values[1].SetIntValue(nsStyle.BORDER_STYLE_NONE, nsCSSUnit.Enumerated);
+            values[1].SetIntValue(nsStyle.BorderStyleNone, nsCSSUnit.Enumerated);
           }
           if ((found & 4) == 0) { // text color will be used
-            values[2].SetIntValue(nsStyle.COLOR_MOZ_USE_TEXT_COLOR, nsCSSUnit.Enumerated);
+            values[2].SetIntValue(nsStyle.ColorMozUseTextColor, nsCSSUnit.Enumerated);
           }
         
           if (aSetAllSides) {
@@ -6666,7 +6666,7 @@ namespace Alba.CsCss.Style
               SetBorderImageInitialValues();
               break;
             }
-            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+            for (Side side = nsStyle.SideTop; side <= nsStyle.SideLeft; side++) {
               AppendValue(kBorderColorsProps[(int)side], extraValue);
             }
           }
@@ -6691,13 +6691,13 @@ namespace Alba.CsCss.Style
           }
         
           if ((found & 1) == 0) { // Provide default border-width
-            values[0].SetIntValue(nsStyle.BORDER_WIDTH_MEDIUM, nsCSSUnit.Enumerated);
+            values[0].SetIntValue(nsStyle.BorderWidthMedium, nsCSSUnit.Enumerated);
           }
           if ((found & 2) == 0) { // Provide default border-style
-            values[1].SetIntValue(nsStyle.BORDER_STYLE_NONE, nsCSSUnit.Enumerated);
+            values[1].SetIntValue(nsStyle.BorderStyleNone, nsCSSUnit.Enumerated);
           }
           if ((found & 4) == 0) { // text color will be used
-            values[2].SetIntValue(nsStyle.COLOR_MOZ_USE_TEXT_COLOR, nsCSSUnit.Enumerated);
+            values[2].SetIntValue(nsStyle.ColorMozUseTextColor, nsCSSUnit.Enumerated);
           }
           for (int32_t index = 0; index < numProps; index++) {
             nsCSSProperty[] subprops =
@@ -7046,7 +7046,7 @@ namespace Alba.CsCss.Style
                      mToken.mIdentStr.LowerCaseEqualsLiteral("rect")) {
             nsCSSRect rect = val.SetRectValue();
             bool useCommas = false;
-            for (Side side = nsStyle.SIDE_TOP; side <= nsStyle.SIDE_LEFT; side++) {
+            for (Side side = nsStyle.SideTop; side <= nsStyle.SideLeft; side++) {
               if (! ParseVariant(rect.GetSide(side), v => rect.SetSide(side, v),
                                  VARIANT_AL, null)) {
                 return false;
@@ -7122,15 +7122,15 @@ namespace Alba.CsCss.Style
           // We need to divide the 'content' keywords into two classes for
           // ParseVariant's sake, so we can't just use nsCSSProps.kContentKTable.
           /*TODO: static*/ int32_t[] kContentListKWs = {
-            (int32_t)nsCSSKeyword.OpenQuote, nsStyle.CONTENT_OPEN_QUOTE,
-            (int32_t)nsCSSKeyword.CloseQuote, nsStyle.CONTENT_CLOSE_QUOTE,
-            (int32_t)nsCSSKeyword.NoOpenQuote, nsStyle.CONTENT_NO_OPEN_QUOTE,
-            (int32_t)nsCSSKeyword.NoCloseQuote, nsStyle.CONTENT_NO_CLOSE_QUOTE,
+            (int32_t)nsCSSKeyword.OpenQuote, nsStyle.ContentOpenQuote,
+            (int32_t)nsCSSKeyword.CloseQuote, nsStyle.ContentCloseQuote,
+            (int32_t)nsCSSKeyword.NoOpenQuote, nsStyle.ContentNoOpenQuote,
+            (int32_t)nsCSSKeyword.NoCloseQuote, nsStyle.ContentNoCloseQuote,
             (int32_t)nsCSSKeyword.Unknown,-1
           };
         
           /*TODO: static*/ int32_t[] kContentSolitaryKWs = {
-            (int32_t)nsCSSKeyword.MozAltContent, nsStyle.CONTENT_ALT_CONTENT,
+            (int32_t)nsCSSKeyword.MozAltContent, nsStyle.ContentAltContent,
             (int32_t)nsCSSKeyword.Unknown,-1
           };
         
@@ -7751,13 +7751,13 @@ namespace Alba.CsCss.Style
           // Provide default values
           if ((found & 2) == 0) {
             if ((found & 1) != 0) {
-              values[1].SetIntValue(nsStyle.LIST_STYLE_NONE, nsCSSUnit.Enumerated);
+              values[1].SetIntValue(nsStyle.ListStyleNone, nsCSSUnit.Enumerated);
             } else {
-              values[1].SetIntValue(nsStyle.LIST_STYLE_DISC, nsCSSUnit.Enumerated);
+              values[1].SetIntValue(nsStyle.ListStyleDisc, nsCSSUnit.Enumerated);
             }
           }
           if ((found & 4) == 0) {
-            values[2].SetIntValue(nsStyle.LIST_STYLE_POSITION_OUTSIDE,
+            values[2].SetIntValue(nsStyle.ListStylePositionOutside,
                                   nsCSSUnit.Enumerated);
           }
           if ((found & 8) == 0) {
@@ -7796,12 +7796,12 @@ namespace Alba.CsCss.Style
         {
           if (ParseVariant(ref aValue, VARIANT_HK, nsCSSProps.kPageMarksKTable)) {
             if (nsCSSUnit.Enumerated == aValue.GetUnit()) {
-              if (nsStyle.PAGE_MARKS_NONE != aValue.GetIntValue() &&
+              if (nsStyle.PageMarksNone != aValue.GetIntValue() &&
                   false == CheckEndProperty()) {
                 var second = new nsCSSValue();
                 if (ParseEnum(ref second, nsCSSProps.kPageMarksKTable)) {
                   // 'none' keyword in conjuction with others is not allowed
-                  if (nsStyle.PAGE_MARKS_NONE != second.GetIntValue()) {
+                  if (nsStyle.PageMarksNone != second.GetIntValue()) {
                     aValue.SetIntValue(aValue.GetIntValue() | second.GetIntValue(),
                                        nsCSSUnit.Enumerated);
                     return true;
@@ -7832,13 +7832,13 @@ namespace Alba.CsCss.Style
         
           // Provide default values
           if ((found & 1) == 0) { // Provide default outline-color
-            values[0].SetIntValue(nsStyle.COLOR_MOZ_USE_TEXT_COLOR, nsCSSUnit.Enumerated);
+            values[0].SetIntValue(nsStyle.ColorMozUseTextColor, nsCSSUnit.Enumerated);
           }
           if ((found & 2) == 0) { // Provide default outline-style
-            values[1].SetIntValue(nsStyle.BORDER_STYLE_NONE, nsCSSUnit.Enumerated);
+            values[1].SetIntValue(nsStyle.BorderStyleNone, nsCSSUnit.Enumerated);
           }
           if ((found & 4) == 0) { // Provide default outline-width
-            values[2].SetIntValue(nsStyle.BORDER_WIDTH_MEDIUM, nsCSSUnit.Enumerated);
+            values[2].SetIntValue(nsStyle.BorderWidthMedium, nsCSSUnit.Enumerated);
           }
         
           int32_t index = 0;
@@ -7860,13 +7860,13 @@ namespace Alba.CsCss.Style
           var overflowY = new nsCSSValue(overflow);
           if (nsCSSUnit.Enumerated == overflow.GetUnit())
             switch(overflow.GetIntValue()) {
-              case nsStyle.OVERFLOW_SCROLLBARS_HORIZONTAL:
-                overflowX.SetIntValue(nsStyle.OVERFLOW_SCROLL, nsCSSUnit.Enumerated);
-                overflowY.SetIntValue(nsStyle.OVERFLOW_HIDDEN, nsCSSUnit.Enumerated);
+              case nsStyle.OverflowScrollbarsHorizontal:
+                overflowX.SetIntValue(nsStyle.OverflowScroll, nsCSSUnit.Enumerated);
+                overflowY.SetIntValue(nsStyle.OverflowHidden, nsCSSUnit.Enumerated);
                 break;
-              case nsStyle.OVERFLOW_SCROLLBARS_VERTICAL:
-                overflowX.SetIntValue(nsStyle.OVERFLOW_HIDDEN, nsCSSUnit.Enumerated);
-                overflowY.SetIntValue(nsStyle.OVERFLOW_SCROLL, nsCSSUnit.Enumerated);
+              case nsStyle.OverflowScrollbarsVertical:
+                overflowX.SetIntValue(nsStyle.OverflowHidden, nsCSSUnit.Enumerated);
+                overflowY.SetIntValue(nsStyle.OverflowScroll, nsCSSUnit.Enumerated);
                 break;
             }
           AppendValue(nsCSSProperty.OverflowX, overflowX);
@@ -7954,12 +7954,12 @@ namespace Alba.CsCss.Style
         
         internal bool ParseTextDecoration()
         {
-          const int eDecorationNone         = nsStyle.TEXT_DECORATION_LINE_NONE;
-          const int eDecorationUnderline    = nsStyle.TEXT_DECORATION_LINE_UNDERLINE;
-          const int eDecorationOverline     = nsStyle.TEXT_DECORATION_LINE_OVERLINE;
-          const int eDecorationLineThrough  = nsStyle.TEXT_DECORATION_LINE_LINE_THROUGH;
-          const int eDecorationBlink        = nsStyle.TEXT_DECORATION_LINE_BLINK;
-          const int eDecorationPrefAnchors  = nsStyle.TEXT_DECORATION_LINE_PREF_ANCHORS;
+          const int eDecorationNone         = nsStyle.TextDecorationLineNone;
+          const int eDecorationUnderline    = nsStyle.TextDecorationLineUnderline;
+          const int eDecorationOverline     = nsStyle.TextDecorationLineOverline;
+          const int eDecorationLineThrough  = nsStyle.TextDecorationLineLineThrough;
+          const int eDecorationBlink        = nsStyle.TextDecorationLineBlink;
+          const int eDecorationPrefAnchors  = nsStyle.TextDecorationLinePrefAnchors;
         
           /*TODO: static*/ int32_t[] kTextDecorationKTable = {
             (int32_t)nsCSSKeyword.None,                   eDecorationNone,
@@ -7981,15 +7981,15 @@ namespace Alba.CsCss.Style
             case nsCSSUnit.Enumerated: {
               // We shouldn't accept decoration line style and color via
               // text-decoration.
-              color.SetIntValue(nsStyle.COLOR_MOZ_USE_TEXT_COLOR,
+              color.SetIntValue(nsStyle.ColorMozUseTextColor,
                                 nsCSSUnit.Enumerated);
-              style.SetIntValue(nsStyle.TEXT_DECORATION_STYLE_SOLID,
+              style.SetIntValue(nsStyle.TextDecorationStyleSolid,
                                 nsCSSUnit.Enumerated);
         
               int32_t intValue = value.GetIntValue();
               if (intValue == eDecorationNone) {
-                blink.SetIntValue(nsStyle.TEXT_BLINK_NONE, nsCSSUnit.Enumerated);
-                line.SetIntValue(nsStyle.TEXT_DECORATION_LINE_NONE,
+                blink.SetIntValue(nsStyle.TextBlinkNone, nsCSSUnit.Enumerated);
+                line.SetIntValue(nsStyle.TextDecorationLineNone,
                                  nsCSSUnit.Enumerated);
                 break;
               }
@@ -8011,7 +8011,7 @@ namespace Alba.CsCss.Style
               }
         
               blink.SetIntValue((intValue & eDecorationBlink) != 0 ?
-                                  nsStyle.TEXT_BLINK_BLINK : nsStyle.TEXT_BLINK_NONE,
+                                  nsStyle.TextBlinkBlink : nsStyle.TextBlinkNone,
                                 nsCSSUnit.Enumerated);
               line.SetIntValue((intValue & ~eDecorationBlink), nsCSSUnit.Enumerated);
               break;
@@ -8035,14 +8035,14 @@ namespace Alba.CsCss.Style
           if (ParseVariant(ref aValue, VARIANT_HK, nsCSSProps.kTextDecorationLineKTable)) {
             if (nsCSSUnit.Enumerated == aValue.GetUnit()) {
               int32_t intValue = aValue.GetIntValue();
-              if (intValue != nsStyle.TEXT_DECORATION_LINE_NONE) {
+              if (intValue != nsStyle.TextDecorationLineNone) {
                 // look for more keywords
                 var keyword = new nsCSSValue();
                 int32_t index = 0;
                 for (index = 0; index < 2; index++) {
                   if (ParseEnum(ref keyword, nsCSSProps.kTextDecorationLineKTable)) {
                     int32_t newValue = keyword.GetIntValue();
-                    if (newValue == nsStyle.TEXT_DECORATION_LINE_NONE ||
+                    if (newValue == nsStyle.TextDecorationLineNone ||
                         ((newValue & intValue) != 0)) {
                       // 'none' keyword in conjuction with others is not allowed, and
                       // duplicate keyword is not allowed.
@@ -8612,7 +8612,7 @@ namespace Alba.CsCss.Style
             return false;
           }
         
-          int32_t type = nsStyle.TRANSITION_TIMING_FUNCTION_STEP_END;
+          int32_t type = nsStyle.TransitionTimingFunctionStepEnd;
           if (ExpectSymbol(',', true)) {
             if (!GetToken(true)) {
               return false;
@@ -8620,9 +8620,9 @@ namespace Alba.CsCss.Style
             type = -1;
             if (mToken.mType == nsCSSTokenType.Ident) {
               if (mToken.mIdentStr.LowerCaseEqualsLiteral("start")) {
-                type = nsStyle.TRANSITION_TIMING_FUNCTION_STEP_START;
+                type = nsStyle.TransitionTimingFunctionStepStart;
               } else if (mToken.mIdentStr.LowerCaseEqualsLiteral("end")) {
-                type = nsStyle.TRANSITION_TIMING_FUNCTION_STEP_END;
+                type = nsStyle.TransitionTimingFunctionStepEnd;
               }
             }
             if (type == -1) {
@@ -8763,7 +8763,7 @@ namespace Alba.CsCss.Style
         
           var initialValues = new nsCSSValue[numProps];
           initialValues[0].SetFloatValue(0.0, nsCSSUnit.Seconds);
-          initialValues[1].SetIntValue(nsStyle.TRANSITION_TIMING_FUNCTION_EASE,
+          initialValues[1].SetIntValue(nsStyle.TransitionTimingFunctionEase,
                                        nsCSSUnit.Enumerated);
           initialValues[2].SetFloatValue(0.0, nsCSSUnit.Seconds);
           initialValues[3].SetAllValue();
@@ -8842,11 +8842,11 @@ namespace Alba.CsCss.Style
         
           var initialValues = new nsCSSValue[numProps];
           initialValues[0].SetFloatValue(0.0, nsCSSUnit.Seconds);
-          initialValues[1].SetIntValue(nsStyle.TRANSITION_TIMING_FUNCTION_EASE,
+          initialValues[1].SetIntValue(nsStyle.TransitionTimingFunctionEase,
                                        nsCSSUnit.Enumerated);
           initialValues[2].SetFloatValue(0.0, nsCSSUnit.Seconds);
-          initialValues[3].SetIntValue(nsStyle.ANIMATION_DIRECTION_NORMAL, nsCSSUnit.Enumerated);
-          initialValues[4].SetIntValue(nsStyle.ANIMATION_FILL_MODE_NONE, nsCSSUnit.Enumerated);
+          initialValues[3].SetIntValue(nsStyle.AnimationDirectionNormal, nsCSSUnit.Enumerated);
+          initialValues[4].SetIntValue(nsStyle.AnimationFillModeNone, nsCSSUnit.Enumerated);
           initialValues[5].SetFloatValue(1.0f, nsCSSUnit.Number);
           initialValues[6].SetNoneValue();
         
@@ -9083,10 +9083,10 @@ namespace Alba.CsCss.Style
         {
         
           /*TODO: static*/ int32_t[] kPaintOrderKTable = {
-            (int32_t)nsCSSKeyword.Normal,  nsStyle.PAINT_ORDER_NORMAL,
-            (int32_t)nsCSSKeyword.Fill,    nsStyle.PAINT_ORDER_FILL,
-            (int32_t)nsCSSKeyword.Stroke,  nsStyle.PAINT_ORDER_STROKE,
-            (int32_t)nsCSSKeyword.Markers, nsStyle.PAINT_ORDER_MARKERS,
+            (int32_t)nsCSSKeyword.Normal,  nsStyle.PaintOrderNormal,
+            (int32_t)nsCSSKeyword.Fill,    nsStyle.PaintOrderFill,
+            (int32_t)nsCSSKeyword.Stroke,  nsStyle.PaintOrderStroke,
+            (int32_t)nsCSSKeyword.Markers, nsStyle.PaintOrderMarkers,
             (int32_t)nsCSSKeyword.Unknown,-1
           };
         
@@ -9104,7 +9104,7 @@ namespace Alba.CsCss.Style
         
           if (value.GetUnit() == nsCSSUnit.Enumerated) {
             uint32_t component = ((uint32_t)(value.GetIntValue()));
-            if (component != nsStyle.PAINT_ORDER_NORMAL) {
+            if (component != nsStyle.PaintOrderNormal) {
               bool parsedOK = true;
               for (;;) {
                 if (((seen & (1 << component)) != 0)) {
@@ -9115,12 +9115,12 @@ namespace Alba.CsCss.Style
                 }
                 seen |= (1 << component);
                 order |= (component << position);
-                position += nsStyle.PAINT_ORDER_BITWIDTH;
+                position += nsStyle.PaintOrderBitwidth;
                 if (!ParseEnum(ref value, kPaintOrderKTable)) {
                   break;
                 }
                 component = value.GetIntValue();
-                if (component == nsStyle.PAINT_ORDER_NORMAL) {
+                if (component == nsStyle.PaintOrderNormal) {
                   // Can't have "normal" in the middle of the list of paint components.
                   UngetToken();
                   parsedOK = false;
@@ -9132,11 +9132,11 @@ namespace Alba.CsCss.Style
               // constant values.
               if (parsedOK) {
                 for (component = 1;
-                     component <= nsStyle.PAINT_ORDER_LAST_VALUE;
+                     component <= nsStyle.PaintOrderLastValue;
                      component++) {
                   if (!(((seen & (1 << component)) != 0))) {
                     order |= (component << position);
-                    position += nsStyle.PAINT_ORDER_BITWIDTH;
+                    position += nsStyle.PaintOrderBitwidth;
                   }
                 }
               }

@@ -20,895 +20,895 @@ namespace Alba.CsCss.Style
         // Indices into border/padding/margin arrays
         
         // Indices into "half corner" arrays (nsStyleCorners e.g.)
-        public const int CORNER_TOP_LEFT_X = 0;
-        public const int CORNER_TOP_LEFT_Y = 1;
-        public const int CORNER_TOP_RIGHT_X = 2;
-        public const int CORNER_TOP_RIGHT_Y = 3;
-        public const int CORNER_BOTTOM_RIGHT_X = 4;
-        public const int CORNER_BOTTOM_RIGHT_Y = 5;
-        public const int CORNER_BOTTOM_LEFT_X = 6;
-        public const int CORNER_BOTTOM_LEFT_Y = 7;
+        public const int CornerTopLeftX = 0;
+        public const int CornerTopLeftY = 1;
+        public const int CornerTopRightX = 2;
+        public const int CornerTopRightY = 3;
+        public const int CornerBottomRightX = 4;
+        public const int CornerBottomRightY = 5;
+        public const int CornerBottomLeftX = 6;
+        public const int CornerBottomLeftY = 7;
         
         // The results of these conversion macros are exhaustively checked in
         // nsStyleCoord.cpp.
         // Arguments must not have side effects.
         
         // {margin,border-{width,style,color},padding}-{left,right}-{ltr,rtl}-source
-        public const int BOXPROP_SOURCE_PHYSICAL = 0;
-        public const int BOXPROP_SOURCE_LOGICAL = 1;
+        public const int BoxpropSourcePhysical = 0;
+        public const int BoxpropSourceLogical = 1;
         
         // box-sizing
-        public const int BOX_SIZING_CONTENT = 0;
-        public const int BOX_SIZING_PADDING = 1;
-        public const int BOX_SIZING_BORDER = 2;
+        public const int BoxSizingContent = 0;
+        public const int BoxSizingPadding = 1;
+        public const int BoxSizingBorder = 2;
         
         // box-shadow
-        public const int BOX_SHADOW_INSET = 0;
+        public const int BoxShadowInset = 0;
         
         // float-edge
-        public const int FLOAT_EDGE_CONTENT = 0;
-        public const int FLOAT_EDGE_MARGIN = 1;
+        public const int FloatEdgeContent = 0;
+        public const int FloatEdgeMargin = 1;
         
         // user-focus
-        public const int USER_FOCUS_NONE = 0;
-        public const int USER_FOCUS_IGNORE = 1;
-        public const int USER_FOCUS_NORMAL = 2;
-        public const int USER_FOCUS_SELECT_ALL = 3;
-        public const int USER_FOCUS_SELECT_BEFORE = 4;
-        public const int USER_FOCUS_SELECT_AFTER = 5;
-        public const int USER_FOCUS_SELECT_SAME = 6;
-        public const int USER_FOCUS_SELECT_MENU = 7;
+        public const int UserFocusNone = 0;
+        public const int UserFocusIgnore = 1;
+        public const int UserFocusNormal = 2;
+        public const int UserFocusSelectAll = 3;
+        public const int UserFocusSelectBefore = 4;
+        public const int UserFocusSelectAfter = 5;
+        public const int UserFocusSelectSame = 6;
+        public const int UserFocusSelectMenu = 7;
         
         // user-select
-        public const int USER_SELECT_NONE = 0;
-        public const int USER_SELECT_TEXT = 1;
-        public const int USER_SELECT_ELEMENT = 2;
-        public const int USER_SELECT_ELEMENTS = 3;
-        public const int USER_SELECT_ALL = 4;
-        public const int USER_SELECT_TOGGLE = 5;
-        public const int USER_SELECT_TRI_STATE = 6;
-        public const int USER_SELECT_AUTO = 7; // internal value - please use nsFrame::IsSelectable()
-        public const int USER_SELECT_MOZ_ALL = 8; // force selection of all children, unless an ancestor has NONE set - bug 48096
-        public const int USER_SELECT_MOZ_NONE = 9; // Like NONE, but doesn't change selection behavior for descendants whose user-select is not AUTO.
+        public const int UserSelectNone = 0;
+        public const int UserSelectText = 1;
+        public const int UserSelectElement = 2;
+        public const int UserSelectElements = 3;
+        public const int UserSelectAll = 4;
+        public const int UserSelectToggle = 5;
+        public const int UserSelectTriState = 6;
+        public const int UserSelectAuto = 7; // internal value - please use nsFrame::IsSelectable()
+        public const int UserSelectMozAll = 8; // force selection of all children, unless an ancestor has NONE set - bug 48096
+        public const int UserSelectMozNone = 9; // Like NONE, but doesn't change selection behavior for descendants whose user-select is not AUTO.
         
         // user-input
-        public const int USER_INPUT_NONE = 0;
-        public const int USER_INPUT_ENABLED = 1;
-        public const int USER_INPUT_DISABLED = 2;
-        public const int USER_INPUT_AUTO = 3;
+        public const int UserInputNone = 0;
+        public const int UserInputEnabled = 1;
+        public const int UserInputDisabled = 2;
+        public const int UserInputAuto = 3;
         
         // user-modify
-        public const int USER_MODIFY_READ_ONLY = 0;
-        public const int USER_MODIFY_READ_WRITE = 1;
-        public const int USER_MODIFY_WRITE_ONLY = 2;
+        public const int UserModifyReadOnly = 0;
+        public const int UserModifyReadWrite = 1;
+        public const int UserModifyWriteOnly = 2;
         
         // box-align
-        public const int BOX_ALIGN_STRETCH = 0;
-        public const int BOX_ALIGN_START = 1;
-        public const int BOX_ALIGN_CENTER = 2;
-        public const int BOX_ALIGN_BASELINE = 3;
-        public const int BOX_ALIGN_END = 4;
+        public const int BoxAlignStretch = 0;
+        public const int BoxAlignStart = 1;
+        public const int BoxAlignCenter = 2;
+        public const int BoxAlignBaseline = 3;
+        public const int BoxAlignEnd = 4;
         
         // box-pack
-        public const int BOX_PACK_START = 0;
-        public const int BOX_PACK_CENTER = 1;
-        public const int BOX_PACK_END = 2;
-        public const int BOX_PACK_JUSTIFY = 3;
+        public const int BoxPackStart = 0;
+        public const int BoxPackCenter = 1;
+        public const int BoxPackEnd = 2;
+        public const int BoxPackJustify = 3;
         
         // box-direction
-        public const int BOX_DIRECTION_NORMAL = 0;
-        public const int BOX_DIRECTION_REVERSE = 1;
+        public const int BoxDirectionNormal = 0;
+        public const int BoxDirectionReverse = 1;
         
         // box-orient
-        public const int BOX_ORIENT_HORIZONTAL = 0;
-        public const int BOX_ORIENT_VERTICAL = 1;
+        public const int BoxOrientHorizontal = 0;
+        public const int BoxOrientVertical = 1;
         
         // orient
-        public const int ORIENT_HORIZONTAL = 0;
-        public const int ORIENT_VERTICAL = 1;
-        public const int ORIENT_AUTO = 2;
+        public const int OrientHorizontal = 0;
+        public const int OrientVertical = 1;
+        public const int OrientAuto = 2;
         
         // stack-sizing
-        public const int STACK_SIZING_IGNORE = 0;
-        public const int STACK_SIZING_STRETCH_TO_FIT = 1;
+        public const int StackSizingIgnore = 0;
+        public const int StackSizingStretchToFit = 1;
         
         // Azimuth - See nsStyleAural
-        public const int AZIMUTH_LEFT_SIDE = 0x00;
-        public const int AZIMUTH_FAR_LEFT = 0x01;
-        public const int AZIMUTH_LEFT = 0x02;
-        public const int AZIMUTH_CENTER_LEFT = 0x03;
-        public const int AZIMUTH_CENTER = 0x04;
-        public const int AZIMUTH_CENTER_RIGHT = 0x05;
-        public const int AZIMUTH_RIGHT = 0x06;
-        public const int AZIMUTH_FAR_RIGHT = 0x07;
-        public const int AZIMUTH_RIGHT_SIDE = 0x08;
-        public const int AZIMUTH_BEHIND = 0x80; // bits
-        public const int AZIMUTH_LEFTWARDS = 0x10; // bits
-        public const int AZIMUTH_RIGHTWARDS = 0x20; // bits
+        public const int AzimuthLeftSide = 0x00;
+        public const int AzimuthFarLeft = 0x01;
+        public const int AzimuthLeft = 0x02;
+        public const int AzimuthCenterLeft = 0x03;
+        public const int AzimuthCenter = 0x04;
+        public const int AzimuthCenterRight = 0x05;
+        public const int AzimuthRight = 0x06;
+        public const int AzimuthFarRight = 0x07;
+        public const int AzimuthRightSide = 0x08;
+        public const int AzimuthBehind = 0x80; // bits
+        public const int AzimuthLeftwards = 0x10; // bits
+        public const int AzimuthRightwards = 0x20; // bits
         
         // See nsStyleAural
-        public const int ELEVATION_BELOW = 1;
-        public const int ELEVATION_LEVEL = 2;
-        public const int ELEVATION_ABOVE = 3;
-        public const int ELEVATION_HIGHER = 4;
-        public const int ELEVATION_LOWER = 5;
+        public const int ElevationBelow = 1;
+        public const int ElevationLevel = 2;
+        public const int ElevationAbove = 3;
+        public const int ElevationHigher = 4;
+        public const int ElevationLower = 5;
         
         // See nsStyleAural
-        public const int PITCH_X_LOW = 1;
-        public const int PITCH_LOW = 2;
-        public const int PITCH_MEDIUM = 3;
-        public const int PITCH_HIGH = 4;
-        public const int PITCH_X_HIGH = 5;
+        public const int PitchXLow = 1;
+        public const int PitchLow = 2;
+        public const int PitchMedium = 3;
+        public const int PitchHigh = 4;
+        public const int PitchXHigh = 5;
         
         // See nsStyleAural
-        public const int SPEAK_NONE = 0;
-        public const int SPEAK_NORMAL = 1;
-        public const int SPEAK_SPELL_OUT = 2;
+        public const int SpeakNone = 0;
+        public const int SpeakNormal = 1;
+        public const int SpeakSpellOut = 2;
         
         // See nsStyleAural
-        public const int SPEAK_HEADER_ONCE = 0;
-        public const int SPEAK_HEADER_ALWAYS = 1;
+        public const int SpeakHeaderOnce = 0;
+        public const int SpeakHeaderAlways = 1;
         
         // See nsStyleAural
-        public const int SPEAK_NUMERAL_DIGITS = 0;
-        public const int SPEAK_NUMERAL_CONTINUOUS = 1;
+        public const int SpeakNumeralDigits = 0;
+        public const int SpeakNumeralContinuous = 1;
         
         // See nsStyleAural
-        public const int SPEAK_PUNCTUATION_NONE = 0;
-        public const int SPEAK_PUNCTUATION_CODE = 1;
+        public const int SpeakPunctuationNone = 0;
+        public const int SpeakPunctuationCode = 1;
         
         // See nsStyleAural
-        public const int SPEECH_RATE_X_SLOW = 0;
-        public const int SPEECH_RATE_SLOW = 1;
-        public const int SPEECH_RATE_MEDIUM = 2;
-        public const int SPEECH_RATE_FAST = 3;
-        public const int SPEECH_RATE_X_FAST = 4;
-        public const int SPEECH_RATE_FASTER = 10;
-        public const int SPEECH_RATE_SLOWER = 11;
+        public const int SpeechRateXSlow = 0;
+        public const int SpeechRateSlow = 1;
+        public const int SpeechRateMedium = 2;
+        public const int SpeechRateFast = 3;
+        public const int SpeechRateXFast = 4;
+        public const int SpeechRateFaster = 10;
+        public const int SpeechRateSlower = 11;
         
         // See nsStyleAural
-        public const int VOLUME_SILENT = 0;
-        public const int VOLUME_X_SOFT = 1;
-        public const int VOLUME_SOFT = 2;
-        public const int VOLUME_MEDIUM = 3;
-        public const int VOLUME_LOUD = 4;
-        public const int VOLUME_X_LOUD = 5;
+        public const int VolumeSilent = 0;
+        public const int VolumeXSoft = 1;
+        public const int VolumeSoft = 2;
+        public const int VolumeMedium = 3;
+        public const int VolumeLoud = 4;
+        public const int VolumeXLoud = 5;
         
         // See nsStyleColor
-        public const int COLOR_MOZ_USE_TEXT_COLOR = 1;
-        public const int COLOR_INHERIT_FROM_BODY = 2; /* Can't come from CSS directly */
+        public const int ColorMozUseTextColor = 1;
+        public const int ColorInheritFromBody = 2; /* Can't come from CSS directly */
         
         // See nsStyleColor
-        public const int COLOR_CURRENTCOLOR = -1;
-        public const int COLOR_MOZ_DEFAULT_COLOR = -2;
-        public const int COLOR_MOZ_DEFAULT_BACKGROUND_COLOR = -3;
-        public const int COLOR_MOZ_HYPERLINKTEXT = -4;
-        public const int COLOR_MOZ_VISITEDHYPERLINKTEXT = -5;
-        public const int COLOR_MOZ_ACTIVEHYPERLINKTEXT = -6;
+        public const int ColorCurrentcolor = -1;
+        public const int ColorMozDefaultColor = -2;
+        public const int ColorMozDefaultBackgroundColor = -3;
+        public const int ColorMozHyperlinktext = -4;
+        public const int ColorMozVisitedhyperlinktext = -5;
+        public const int ColorMozActivehyperlinktext = -6;
         // Only valid as paints in SVG glyphs
-        public const int COLOR_OBJECTFILL = -7;
-        public const int COLOR_OBJECTSTROKE = -8;
+        public const int ColorObjectfill = -7;
+        public const int ColorObjectstroke = -8;
         
         // See nsStyleDisplay
-        public const int ANIMATION_DIRECTION_NORMAL = 0;
-        public const int ANIMATION_DIRECTION_REVERSE = 1;
-        public const int ANIMATION_DIRECTION_ALTERNATE = 2;
-        public const int ANIMATION_DIRECTION_ALTERNATE_REVERSE = 3;
+        public const int AnimationDirectionNormal = 0;
+        public const int AnimationDirectionReverse = 1;
+        public const int AnimationDirectionAlternate = 2;
+        public const int AnimationDirectionAlternateReverse = 3;
         
         // See nsStyleDisplay
-        public const int ANIMATION_FILL_MODE_NONE = 0;
-        public const int ANIMATION_FILL_MODE_FORWARDS = 1;
-        public const int ANIMATION_FILL_MODE_BACKWARDS = 2;
-        public const int ANIMATION_FILL_MODE_BOTH = 3;
+        public const int AnimationFillModeNone = 0;
+        public const int AnimationFillModeForwards = 1;
+        public const int AnimationFillModeBackwards = 2;
+        public const int AnimationFillModeBoth = 3;
         
         // See nsStyleDisplay
-        public const int ANIMATION_ITERATION_COUNT_INFINITE = 0;
+        public const int AnimationIterationCountInfinite = 0;
         
         // See nsStyleDisplay
-        public const int ANIMATION_PLAY_STATE_RUNNING = 0;
-        public const int ANIMATION_PLAY_STATE_PAUSED = 1;
+        public const int AnimationPlayStateRunning = 0;
+        public const int AnimationPlayStatePaused = 1;
         
         // See nsStyleBackground
-        public const int BG_ATTACHMENT_SCROLL = 0;
-        public const int BG_ATTACHMENT_FIXED = 1;
+        public const int BgAttachmentScroll = 0;
+        public const int BgAttachmentFixed = 1;
         
         // See nsStyleBackground
         // Code depends on these constants having the same values as BG_ORIGIN_*
-        public const int BG_CLIP_BORDER = 0;
-        public const int BG_CLIP_PADDING = 1;
-        public const int BG_CLIP_CONTENT = 2;
+        public const int BgClipBorder = 0;
+        public const int BgClipPadding = 1;
+        public const int BgClipContent = 2;
         // A magic value that we use for our "pretend that background-clip is
         // 'padding' when we have a solid border" optimization.  This isn't
         // actually equal to NS_STYLE_BG_CLIP_PADDING because 
         // causes antialiasing seams between the background and border.  This
         // is a backend-only value.
-        public const int BG_CLIP_MOZ_ALMOST_PADDING = 127;
+        public const int BgClipMozAlmostPadding = 127;
         
         // See nsStyleBackground
-        public const int BG_INLINE_POLICY_EACH_BOX = 0;
-        public const int BG_INLINE_POLICY_CONTINUOUS = 1;
-        public const int BG_INLINE_POLICY_BOUNDING_BOX = 2;
+        public const int BgInlinePolicyEachBox = 0;
+        public const int BgInlinePolicyContinuous = 1;
+        public const int BgInlinePolicyBoundingBox = 2;
         
         // See nsStyleBackground
         // Code depends on these constants having the same values as BG_CLIP_*
-        public const int BG_ORIGIN_BORDER = 0;
-        public const int BG_ORIGIN_PADDING = 1;
-        public const int BG_ORIGIN_CONTENT = 2;
+        public const int BgOriginBorder = 0;
+        public const int BgOriginPadding = 1;
+        public const int BgOriginContent = 2;
         
         // See nsStyleBackground
         // The parser code depends on |ing these values together.
-        public const int BG_POSITION_CENTER = (1<<0);
-        public const int BG_POSITION_TOP = (1<<1);
-        public const int BG_POSITION_BOTTOM = (1<<2);
-        public const int BG_POSITION_LEFT = (1<<3);
-        public const int BG_POSITION_RIGHT = (1<<4);
+        public const int BgPositionCenter = (1<<0);
+        public const int BgPositionTop = (1<<1);
+        public const int BgPositionBottom = (1<<2);
+        public const int BgPositionLeft = (1<<3);
+        public const int BgPositionRight = (1<<4);
         
         // See nsStyleBackground
-        public const int BG_REPEAT_NO_REPEAT = 0x00;
-        public const int BG_REPEAT_REPEAT_X = 0x01;
-        public const int BG_REPEAT_REPEAT_Y = 0x02;
-        public const int BG_REPEAT_REPEAT = 0x03;
+        public const int BgRepeatNoRepeat = 0x00;
+        public const int BgRepeatRepeatX = 0x01;
+        public const int BgRepeatRepeatY = 0x02;
+        public const int BgRepeatRepeat = 0x03;
         
         // See nsStyleBackground
-        public const int BG_SIZE_CONTAIN = 0;
-        public const int BG_SIZE_COVER = 1;
+        public const int BgSizeContain = 0;
+        public const int BgSizeCover = 1;
         
         // See nsStyleTable
-        public const int BORDER_COLLAPSE = 0;
-        public const int BORDER_SEPARATE = 1;
+        public const int BorderCollapse = 0;
+        public const int BorderSeparate = 1;
         
         // Possible enumerated specified values of border-*-width, used by nsCSSMargin
-        public const int BORDER_WIDTH_THIN = 0;
-        public const int BORDER_WIDTH_MEDIUM = 1;
-        public const int BORDER_WIDTH_THICK = 2;
+        public const int BorderWidthThin = 0;
+        public const int BorderWidthMedium = 1;
+        public const int BorderWidthThick = 2;
         // XXX chopping block #define NS_STYLE_BORDER_WIDTH_LENGTH_VALUE      3
         
         // See nsStyleBorder mBorderStyle
-        public const int BORDER_STYLE_NONE = 0;
-        public const int BORDER_STYLE_GROOVE = 1;
-        public const int BORDER_STYLE_RIDGE = 2;
-        public const int BORDER_STYLE_DOTTED = 3;
-        public const int BORDER_STYLE_DASHED = 4;
-        public const int BORDER_STYLE_SOLID = 5;
-        public const int BORDER_STYLE_DOUBLE = 6;
-        public const int BORDER_STYLE_INSET = 7;
-        public const int BORDER_STYLE_OUTSET = 8;
-        public const int BORDER_STYLE_HIDDEN = 9;
-        public const int BORDER_STYLE_AUTO = 10; // for outline-style only
+        public const int BorderStyleNone = 0;
+        public const int BorderStyleGroove = 1;
+        public const int BorderStyleRidge = 2;
+        public const int BorderStyleDotted = 3;
+        public const int BorderStyleDashed = 4;
+        public const int BorderStyleSolid = 5;
+        public const int BorderStyleDouble = 6;
+        public const int BorderStyleInset = 7;
+        public const int BorderStyleOutset = 8;
+        public const int BorderStyleHidden = 9;
+        public const int BorderStyleAuto = 10; // for outline-style only
         
         // See nsStyleBorder mBorderImage
-        public const int BORDER_IMAGE_REPEAT_STRETCH = 0;
-        public const int BORDER_IMAGE_REPEAT_REPEAT = 1;
-        public const int BORDER_IMAGE_REPEAT_ROUND = 2;
+        public const int BorderImageRepeatStretch = 0;
+        public const int BorderImageRepeatRepeat = 1;
+        public const int BorderImageRepeatRound = 2;
         
-        public const int BORDER_IMAGE_SLICE_NOFILL = 0;
-        public const int BORDER_IMAGE_SLICE_FILL = 1;
+        public const int BorderImageSliceNofill = 0;
+        public const int BorderImageSliceFill = 1;
         
         // See nsStyleDisplay
-        public const int CLEAR_NONE = 0;
-        public const int CLEAR_LEFT = 1;
-        public const int CLEAR_RIGHT = 2;
-        public const int CLEAR_LEFT_AND_RIGHT = 3;
-        public const int CLEAR_LINE = 4;
-        public const int CLEAR_BLOCK = 5;
-        public const int CLEAR_COLUMN = 6;
-        public const int CLEAR_PAGE = 7;
-        public const int CLEAR_LAST_VALUE = CLEAR_PAGE;
+        public const int ClearNone = 0;
+        public const int ClearLeft = 1;
+        public const int ClearRight = 2;
+        public const int ClearLeftAndRight = 3;
+        public const int ClearLine = 4;
+        public const int ClearBlock = 5;
+        public const int ClearColumn = 6;
+        public const int ClearPage = 7;
+        public const int ClearLastValue = ClearPage;
         
         // See nsStyleContent
-        public const int CONTENT_OPEN_QUOTE = 0;
-        public const int CONTENT_CLOSE_QUOTE = 1;
-        public const int CONTENT_NO_OPEN_QUOTE = 2;
-        public const int CONTENT_NO_CLOSE_QUOTE = 3;
-        public const int CONTENT_ALT_CONTENT = 4;
+        public const int ContentOpenQuote = 0;
+        public const int ContentCloseQuote = 1;
+        public const int ContentNoOpenQuote = 2;
+        public const int ContentNoCloseQuote = 3;
+        public const int ContentAltContent = 4;
         
         // See nsStyleColor
-        public const int CURSOR_AUTO = 1;
-        public const int CURSOR_CROSSHAIR = 2;
-        public const int CURSOR_DEFAULT = 3; // ie: an arrow
-        public const int CURSOR_POINTER = 4; // for links
-        public const int CURSOR_MOVE = 5;
-        public const int CURSOR_E_RESIZE = 6;
-        public const int CURSOR_NE_RESIZE = 7;
-        public const int CURSOR_NW_RESIZE = 8;
-        public const int CURSOR_N_RESIZE = 9;
-        public const int CURSOR_SE_RESIZE = 10;
-        public const int CURSOR_SW_RESIZE = 11;
-        public const int CURSOR_S_RESIZE = 12;
-        public const int CURSOR_W_RESIZE = 13;
-        public const int CURSOR_TEXT = 14; // ie: i-beam
-        public const int CURSOR_WAIT = 15;
-        public const int CURSOR_HELP = 16;
-        public const int CURSOR_COPY = 17; // CSS3
-        public const int CURSOR_ALIAS = 18;
-        public const int CURSOR_CONTEXT_MENU = 19;
-        public const int CURSOR_CELL = 20;
-        public const int CURSOR_GRAB = 21;
-        public const int CURSOR_GRABBING = 22;
-        public const int CURSOR_SPINNING = 23;
-        public const int CURSOR_MOZ_ZOOM_IN = 24;
-        public const int CURSOR_MOZ_ZOOM_OUT = 25;
-        public const int CURSOR_NOT_ALLOWED = 26;
-        public const int CURSOR_COL_RESIZE = 27;
-        public const int CURSOR_ROW_RESIZE = 28;
-        public const int CURSOR_NO_DROP = 29;
-        public const int CURSOR_VERTICAL_TEXT = 30;
-        public const int CURSOR_ALL_SCROLL = 31;
-        public const int CURSOR_NESW_RESIZE = 32;
-        public const int CURSOR_NWSE_RESIZE = 33;
-        public const int CURSOR_NS_RESIZE = 34;
-        public const int CURSOR_EW_RESIZE = 35;
-        public const int CURSOR_NONE = 36;
+        public const int CursorAuto = 1;
+        public const int CursorCrosshair = 2;
+        public const int CursorDefault = 3; // ie: an arrow
+        public const int CursorPointer = 4; // for links
+        public const int CursorMove = 5;
+        public const int CursorEResize = 6;
+        public const int CursorNeResize = 7;
+        public const int CursorNwResize = 8;
+        public const int CursorNResize = 9;
+        public const int CursorSeResize = 10;
+        public const int CursorSwResize = 11;
+        public const int CursorSResize = 12;
+        public const int CursorWResize = 13;
+        public const int CursorText = 14; // ie: i-beam
+        public const int CursorWait = 15;
+        public const int CursorHelp = 16;
+        public const int CursorCopy = 17; // CSS3
+        public const int CursorAlias = 18;
+        public const int CursorContextMenu = 19;
+        public const int CursorCell = 20;
+        public const int CursorGrab = 21;
+        public const int CursorGrabbing = 22;
+        public const int CursorSpinning = 23;
+        public const int CursorMozZoomIn = 24;
+        public const int CursorMozZoomOut = 25;
+        public const int CursorNotAllowed = 26;
+        public const int CursorColResize = 27;
+        public const int CursorRowResize = 28;
+        public const int CursorNoDrop = 29;
+        public const int CursorVerticalText = 30;
+        public const int CursorAllScroll = 31;
+        public const int CursorNeswResize = 32;
+        public const int CursorNwseResize = 33;
+        public const int CursorNsResize = 34;
+        public const int CursorEwResize = 35;
+        public const int CursorNone = 36;
         
         // See nsStyleVisibility
-        public const int DIRECTION_LTR = 0;
-        public const int DIRECTION_RTL = 1;
-        public const int DIRECTION_INHERIT = 2;
+        public const int DirectionLtr = 0;
+        public const int DirectionRtl = 1;
+        public const int DirectionInherit = 2;
         
         // See nsStyleDisplay
-        public const int DISPLAY_NONE = 0;
-        public const int DISPLAY_BLOCK = 1;
-        public const int DISPLAY_INLINE = 2;
-        public const int DISPLAY_INLINE_BLOCK = 3;
-        public const int DISPLAY_LIST_ITEM = 4;
-        public const int DISPLAY_TABLE = 8;
-        public const int DISPLAY_INLINE_TABLE = 9;
-        public const int DISPLAY_TABLE_ROW_GROUP = 10;
-        public const int DISPLAY_TABLE_COLUMN = 11;
-        public const int DISPLAY_TABLE_COLUMN_GROUP = 12;
-        public const int DISPLAY_TABLE_HEADER_GROUP = 13;
-        public const int DISPLAY_TABLE_FOOTER_GROUP = 14;
-        public const int DISPLAY_TABLE_ROW = 15;
-        public const int DISPLAY_TABLE_CELL = 16;
-        public const int DISPLAY_TABLE_CAPTION = 17;
-        public const int DISPLAY_BOX = 18;
-        public const int DISPLAY_INLINE_BOX = 19;
+        public const int DisplayNone = 0;
+        public const int DisplayBlock = 1;
+        public const int DisplayInline = 2;
+        public const int DisplayInlineBlock = 3;
+        public const int DisplayListItem = 4;
+        public const int DisplayTable = 8;
+        public const int DisplayInlineTable = 9;
+        public const int DisplayTableRowGroup = 10;
+        public const int DisplayTableColumn = 11;
+        public const int DisplayTableColumnGroup = 12;
+        public const int DisplayTableHeaderGroup = 13;
+        public const int DisplayTableFooterGroup = 14;
+        public const int DisplayTableRow = 15;
+        public const int DisplayTableCell = 16;
+        public const int DisplayTableCaption = 17;
+        public const int DisplayBox = 18;
+        public const int DisplayInlineBox = 19;
         #if MOZ_XUL
-        public const int DISPLAY_GRID = 20;
-        public const int DISPLAY_INLINE_GRID = 21;
-        public const int DISPLAY_GRID_GROUP = 22;
-        public const int DISPLAY_GRID_LINE = 23;
-        public const int DISPLAY_STACK = 24;
-        public const int DISPLAY_INLINE_STACK = 25;
-        public const int DISPLAY_DECK = 26;
-        public const int DISPLAY_POPUP = 27;
-        public const int DISPLAY_GROUPBOX = 28;
+        public const int DisplayGrid = 20;
+        public const int DisplayInlineGrid = 21;
+        public const int DisplayGridGroup = 22;
+        public const int DisplayGridLine = 23;
+        public const int DisplayStack = 24;
+        public const int DisplayInlineStack = 25;
+        public const int DisplayDeck = 26;
+        public const int DisplayPopup = 27;
+        public const int DisplayGroupbox = 28;
         #endif
         #if MOZ_FLEXBOX
-        public const int DISPLAY_FLEX = 29;
-        public const int DISPLAY_INLINE_FLEX = 30;
+        public const int DisplayFlex = 29;
+        public const int DisplayInlineFlex = 30;
         #endif // MOZ_FLEXBOX
         
         #if MOZ_FLEXBOX
         // See nsStylePosition
-        public const int ALIGN_ITEMS_FLEX_START = 0;
-        public const int ALIGN_ITEMS_FLEX_END = 1;
-        public const int ALIGN_ITEMS_CENTER = 2;
-        public const int ALIGN_ITEMS_BASELINE = 3;
-        public const int ALIGN_ITEMS_STRETCH = 4;
+        public const int AlignItemsFlexStart = 0;
+        public const int AlignItemsFlexEnd = 1;
+        public const int AlignItemsCenter = 2;
+        public const int AlignItemsBaseline = 3;
+        public const int AlignItemsStretch = 4;
         
         // For convenience/clarity (since we use this default value in multiple places)
-        public const int ALIGN_ITEMS_INITIAL_VALUE = ALIGN_ITEMS_STRETCH;
+        public const int AlignItemsInitialValue = AlignItemsStretch;
         
         // The "align-self" property accepts all of the normal "align-items" values
         // (above) plus a special 'auto' value that computes to the parent's
         // "align-items" value. Our computed style code internally represents 'auto'
         // with this enum until we actually evaluate it:
-        public const int ALIGN_SELF_AUTO = 5;
+        public const int AlignSelfAuto = 5;
         
         // See nsStylePosition
-        public const int FLEX_DIRECTION_ROW = 0;
-        public const int FLEX_DIRECTION_ROW_REVERSE = 1;
-        public const int FLEX_DIRECTION_COLUMN = 2;
-        public const int FLEX_DIRECTION_COLUMN_REVERSE = 3;
+        public const int FlexDirectionRow = 0;
+        public const int FlexDirectionRowReverse = 1;
+        public const int FlexDirectionColumn = 2;
+        public const int FlexDirectionColumnReverse = 3;
         
         // See nsStylePosition
         // NOTE: This is the initial value of the integer-valued 'order' property
         // (rather than an internal numerical representation of some keyword).
-        public const int ORDER_INITIAL = 0;
+        public const int OrderInitial = 0;
         
         // See nsStylePosition
-        public const int JUSTIFY_CONTENT_FLEX_START = 0;
-        public const int JUSTIFY_CONTENT_FLEX_END = 1;
-        public const int JUSTIFY_CONTENT_CENTER = 2;
-        public const int JUSTIFY_CONTENT_SPACE_BETWEEN = 3;
-        public const int JUSTIFY_CONTENT_SPACE_AROUND = 4;
+        public const int JustifyContentFlexStart = 0;
+        public const int JustifyContentFlexEnd = 1;
+        public const int JustifyContentCenter = 2;
+        public const int JustifyContentSpaceBetween = 3;
+        public const int JustifyContentSpaceAround = 4;
         #endif // MOZ_FLEXBOX
         
         // See nsStyleDisplay
-        public const int FLOAT_NONE = 0;
-        public const int FLOAT_LEFT = 1;
-        public const int FLOAT_RIGHT = 2;
+        public const int FloatNone = 0;
+        public const int FloatLeft = 1;
+        public const int FloatRight = 2;
         
         // See nsStyleFont
         // We should eventually stop 
-        public const int FONT_STYLE_NORMAL = nsFont.STYLE_NORMAL;
-        public const int FONT_STYLE_ITALIC = nsFont.STYLE_ITALIC;
-        public const int FONT_STYLE_OBLIQUE = nsFont.STYLE_OBLIQUE;
+        public const int FontStyleNormal = nsFont.STYLE_NORMAL;
+        public const int FontStyleItalic = nsFont.STYLE_ITALIC;
+        public const int FontStyleOblique = nsFont.STYLE_OBLIQUE;
         
         // See nsStyleFont
         // We should eventually stop 
-        public const int FONT_VARIANT_NORMAL = nsFont.VARIANT_NORMAL;
-        public const int FONT_VARIANT_SMALL_CAPS = nsFont.VARIANT_SMALL_CAPS;
+        public const int FontVariantNormal = nsFont.VARIANT_NORMAL;
+        public const int FontVariantSmallCaps = nsFont.VARIANT_SMALL_CAPS;
         
         // See nsStyleFont
         // We should eventually stop 
-        public const int FONT_WEIGHT_NORMAL = nsFont.WEIGHT_NORMAL;
-        public const int FONT_WEIGHT_BOLD = nsFont.WEIGHT_BOLD;
+        public const int FontWeightNormal = nsFont.WEIGHT_NORMAL;
+        public const int FontWeightBold = nsFont.WEIGHT_BOLD;
         // The constants below appear only in style sheets and not computed style.
-        public const int FONT_WEIGHT_BOLDER = (-1);
-        public const int FONT_WEIGHT_LIGHTER = (-2);
+        public const int FontWeightBolder = (-1);
+        public const int FontWeightLighter = (-2);
         
         // See nsStyleFont
-        public const int FONT_SIZE_XXSMALL = 0;
-        public const int FONT_SIZE_XSMALL = 1;
-        public const int FONT_SIZE_SMALL = 2;
-        public const int FONT_SIZE_MEDIUM = 3;
-        public const int FONT_SIZE_LARGE = 4;
-        public const int FONT_SIZE_XLARGE = 5;
-        public const int FONT_SIZE_XXLARGE = 6;
-        public const int FONT_SIZE_XXXLARGE = 7; // Only used by <font size="7">. Not specifiable in CSS.
-        public const int FONT_SIZE_LARGER = 8;
-        public const int FONT_SIZE_SMALLER = 9;
+        public const int FontSizeXxsmall = 0;
+        public const int FontSizeXsmall = 1;
+        public const int FontSizeSmall = 2;
+        public const int FontSizeMedium = 3;
+        public const int FontSizeLarge = 4;
+        public const int FontSizeXlarge = 5;
+        public const int FontSizeXxlarge = 6;
+        public const int FontSizeXxxlarge = 7; // Only used by <font size="7">. Not specifiable in CSS.
+        public const int FontSizeLarger = 8;
+        public const int FontSizeSmaller = 9;
         
         // See nsStyleFont
         // We should eventually stop 
-        public const int FONT_STRETCH_ULTRA_CONDENSED = nsFont.STRETCH_ULTRA_CONDENSED;
-        public const int FONT_STRETCH_EXTRA_CONDENSED = nsFont.STRETCH_EXTRA_CONDENSED;
-        public const int FONT_STRETCH_CONDENSED = nsFont.STRETCH_CONDENSED;
-        public const int FONT_STRETCH_SEMI_CONDENSED = nsFont.STRETCH_SEMI_CONDENSED;
-        public const int FONT_STRETCH_NORMAL = nsFont.STRETCH_NORMAL;
-        public const int FONT_STRETCH_SEMI_EXPANDED = nsFont.STRETCH_SEMI_EXPANDED;
-        public const int FONT_STRETCH_EXPANDED = nsFont.STRETCH_EXPANDED;
-        public const int FONT_STRETCH_EXTRA_EXPANDED = nsFont.STRETCH_EXTRA_EXPANDED;
-        public const int FONT_STRETCH_ULTRA_EXPANDED = nsFont.STRETCH_ULTRA_EXPANDED;
+        public const int FontStretchUltraCondensed = nsFont.STRETCH_ULTRA_CONDENSED;
+        public const int FontStretchExtraCondensed = nsFont.STRETCH_EXTRA_CONDENSED;
+        public const int FontStretchCondensed = nsFont.STRETCH_CONDENSED;
+        public const int FontStretchSemiCondensed = nsFont.STRETCH_SEMI_CONDENSED;
+        public const int FontStretchNormal = nsFont.STRETCH_NORMAL;
+        public const int FontStretchSemiExpanded = nsFont.STRETCH_SEMI_EXPANDED;
+        public const int FontStretchExpanded = nsFont.STRETCH_EXPANDED;
+        public const int FontStretchExtraExpanded = nsFont.STRETCH_EXTRA_EXPANDED;
+        public const int FontStretchUltraExpanded = nsFont.STRETCH_ULTRA_EXPANDED;
         
         // See nsStyleFont - system fonts
-        public const int FONT_CAPTION = 1; // css2
-        public const int FONT_ICON = 2;
-        public const int FONT_MENU = 3;
-        public const int FONT_MESSAGE_BOX = 4;
-        public const int FONT_SMALL_CAPTION = 5;
-        public const int FONT_STATUS_BAR = 6;
-        public const int FONT_WINDOW = 7; // css3
-        public const int FONT_DOCUMENT = 8;
-        public const int FONT_WORKSPACE = 9;
-        public const int FONT_DESKTOP = 10;
-        public const int FONT_INFO = 11;
-        public const int FONT_DIALOG = 12;
-        public const int FONT_BUTTON = 13;
-        public const int FONT_PULL_DOWN_MENU = 14;
-        public const int FONT_LIST = 15;
-        public const int FONT_FIELD = 16;
+        public const int FontCaption = 1; // css2
+        public const int FontIcon = 2;
+        public const int FontMenu = 3;
+        public const int FontMessageBox = 4;
+        public const int FontSmallCaption = 5;
+        public const int FontStatusBar = 6;
+        public const int FontWindow = 7; // css3
+        public const int FontDocument = 8;
+        public const int FontWorkspace = 9;
+        public const int FontDesktop = 10;
+        public const int FontInfo = 11;
+        public const int FontDialog = 12;
+        public const int FontButton = 13;
+        public const int FontPullDownMenu = 14;
+        public const int FontList = 15;
+        public const int FontField = 16;
         
         // defaults per MathML spec
-        public const float MATHML_DEFAULT_SCRIPT_SIZE_MULTIPLIER = 0.71f;
-        public const int MATHML_DEFAULT_SCRIPT_MIN_SIZE_PT = 8;
+        public const float MathmlDefaultScriptSizeMultiplier = 0.71f;
+        public const int MathmlDefaultScriptMinSizePt = 8;
         
         // See nsStylePosition::mWidth, mMinWidth, mMaxWidth
-        public const int WIDTH_MAX_CONTENT = 0;
-        public const int WIDTH_MIN_CONTENT = 1;
-        public const int WIDTH_FIT_CONTENT = 2;
-        public const int WIDTH_AVAILABLE = 3;
+        public const int WidthMaxContent = 0;
+        public const int WidthMinContent = 1;
+        public const int WidthFitContent = 2;
+        public const int WidthAvailable = 3;
         
         // See nsStylePosition.mPosition
-        public const int POSITION_STATIC = 0;
-        public const int POSITION_RELATIVE = 1;
-        public const int POSITION_ABSOLUTE = 2;
-        public const int POSITION_FIXED = 3;
+        public const int PositionStatic = 0;
+        public const int PositionRelative = 1;
+        public const int PositionAbsolute = 2;
+        public const int PositionFixed = 3;
         
         // See nsStylePosition.mClip
-        public const int CLIP_AUTO = 0x00;
-        public const int CLIP_RECT = 0x01;
-        public const int CLIP_TYPE_MASK = 0x0F;
-        public const int CLIP_LEFT_AUTO = 0x10;
-        public const int CLIP_TOP_AUTO = 0x20;
-        public const int CLIP_RIGHT_AUTO = 0x40;
-        public const int CLIP_BOTTOM_AUTO = 0x80;
+        public const int ClipAuto = 0x00;
+        public const int ClipRect = 0x01;
+        public const int ClipTypeMask = 0x0F;
+        public const int ClipLeftAuto = 0x10;
+        public const int ClipTopAuto = 0x20;
+        public const int ClipRightAuto = 0x40;
+        public const int ClipBottomAuto = 0x80;
         
         // FRAME/FRAMESET/IFRAME specific values including backward compatibility. Boolean values with
         // the same meaning (e.g. 1 & yes) may need to be distinguished for correct mode processing
-        public const int FRAME_YES = 0;
-        public const int FRAME_NO = 1;
-        public const int FRAME_0 = 2;
-        public const int FRAME_1 = 3;
-        public const int FRAME_ON = 4;
-        public const int FRAME_OFF = 5;
-        public const int FRAME_AUTO = 6;
-        public const int FRAME_SCROLL = 7;
-        public const int FRAME_NOSCROLL = 8;
+        public const int FrameYes = 0;
+        public const int FrameNo = 1;
+        public const int Frame0 = 2;
+        public const int Frame1 = 3;
+        public const int FrameOn = 4;
+        public const int FrameOff = 5;
+        public const int FrameAuto = 6;
+        public const int FrameScroll = 7;
+        public const int FrameNoscroll = 8;
         
         // See nsStylePosition.mOverflow
-        public const int OVERFLOW_VISIBLE = 0;
-        public const int OVERFLOW_HIDDEN = 1;
-        public const int OVERFLOW_SCROLL = 2;
-        public const int OVERFLOW_AUTO = 3;
-        public const int OVERFLOW_CLIP = 4;
-        public const int OVERFLOW_SCROLLBARS_HORIZONTAL = 5;
-        public const int OVERFLOW_SCROLLBARS_VERTICAL = 6;
+        public const int OverflowVisible = 0;
+        public const int OverflowHidden = 1;
+        public const int OverflowScroll = 2;
+        public const int OverflowAuto = 3;
+        public const int OverflowClip = 4;
+        public const int OverflowScrollbarsHorizontal = 5;
+        public const int OverflowScrollbarsVertical = 6;
         
         // See nsStyleList
-        public const int LIST_STYLE_NONE = 0;
-        public const int LIST_STYLE_DISC = 1;
-        public const int LIST_STYLE_CIRCLE = 2;
-        public const int LIST_STYLE_SQUARE = 3;
-        public const int LIST_STYLE_DECIMAL = 4;
-        public const int LIST_STYLE_DECIMAL_LEADING_ZERO = 5;
-        public const int LIST_STYLE_LOWER_ROMAN = 6;
-        public const int LIST_STYLE_UPPER_ROMAN = 7;
-        public const int LIST_STYLE_LOWER_GREEK = 8;
-        public const int LIST_STYLE_LOWER_ALPHA = 9;
-        public const int LIST_STYLE_LOWER_LATIN = 9; // == ALPHA
-        public const int LIST_STYLE_UPPER_ALPHA = 10;
-        public const int LIST_STYLE_UPPER_LATIN = 10; // == ALPHA
-        public const int LIST_STYLE_HEBREW = 11;
-        public const int LIST_STYLE_ARMENIAN = 12;
-        public const int LIST_STYLE_GEORGIAN = 13;
-        public const int LIST_STYLE_CJK_IDEOGRAPHIC = 14;
-        public const int LIST_STYLE_HIRAGANA = 15;
-        public const int LIST_STYLE_KATAKANA = 16;
-        public const int LIST_STYLE_HIRAGANA_IROHA = 17;
-        public const int LIST_STYLE_KATAKANA_IROHA = 18;
-        public const int LIST_STYLE_MOZ_CJK_HEAVENLY_STEM = 24;
-        public const int LIST_STYLE_MOZ_CJK_EARTHLY_BRANCH = 25;
-        public const int LIST_STYLE_MOZ_TRAD_CHINESE_INFORMAL = 26;
-        public const int LIST_STYLE_MOZ_TRAD_CHINESE_FORMAL = 27;
-        public const int LIST_STYLE_MOZ_SIMP_CHINESE_INFORMAL = 28;
-        public const int LIST_STYLE_MOZ_SIMP_CHINESE_FORMAL = 29;
-        public const int LIST_STYLE_MOZ_JAPANESE_INFORMAL = 30;
-        public const int LIST_STYLE_MOZ_JAPANESE_FORMAL = 31;
-        public const int LIST_STYLE_MOZ_ARABIC_INDIC = 32;
-        public const int LIST_STYLE_MOZ_PERSIAN = 33;
-        public const int LIST_STYLE_MOZ_URDU = 34;
-        public const int LIST_STYLE_MOZ_DEVANAGARI = 35;
-        public const int LIST_STYLE_MOZ_GURMUKHI = 36;
-        public const int LIST_STYLE_MOZ_GUJARATI = 37;
-        public const int LIST_STYLE_MOZ_ORIYA = 38;
-        public const int LIST_STYLE_MOZ_KANNADA = 39;
-        public const int LIST_STYLE_MOZ_MALAYALAM = 40;
-        public const int LIST_STYLE_MOZ_BENGALI = 41;
-        public const int LIST_STYLE_MOZ_TAMIL = 42;
-        public const int LIST_STYLE_MOZ_TELUGU = 43;
-        public const int LIST_STYLE_MOZ_THAI = 44;
-        public const int LIST_STYLE_MOZ_LAO = 45;
-        public const int LIST_STYLE_MOZ_MYANMAR = 46;
-        public const int LIST_STYLE_MOZ_KHMER = 47;
-        public const int LIST_STYLE_MOZ_HANGUL = 48;
-        public const int LIST_STYLE_MOZ_HANGUL_CONSONANT = 49;
-        public const int LIST_STYLE_MOZ_ETHIOPIC_HALEHAME = 50;
-        public const int LIST_STYLE_MOZ_ETHIOPIC_NUMERIC = 51;
-        public const int LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_AM = 52;
-        public const int LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_TI_ER = 53;
-        public const int LIST_STYLE_MOZ_ETHIOPIC_HALEHAME_TI_ET = 54;
+        public const int ListStyleNone = 0;
+        public const int ListStyleDisc = 1;
+        public const int ListStyleCircle = 2;
+        public const int ListStyleSquare = 3;
+        public const int ListStyleDecimal = 4;
+        public const int ListStyleDecimalLeadingZero = 5;
+        public const int ListStyleLowerRoman = 6;
+        public const int ListStyleUpperRoman = 7;
+        public const int ListStyleLowerGreek = 8;
+        public const int ListStyleLowerAlpha = 9;
+        public const int ListStyleLowerLatin = 9; // == ALPHA
+        public const int ListStyleUpperAlpha = 10;
+        public const int ListStyleUpperLatin = 10; // == ALPHA
+        public const int ListStyleHebrew = 11;
+        public const int ListStyleArmenian = 12;
+        public const int ListStyleGeorgian = 13;
+        public const int ListStyleCjkIdeographic = 14;
+        public const int ListStyleHiragana = 15;
+        public const int ListStyleKatakana = 16;
+        public const int ListStyleHiraganaIroha = 17;
+        public const int ListStyleKatakanaIroha = 18;
+        public const int ListStyleMozCjkHeavenlyStem = 24;
+        public const int ListStyleMozCjkEarthlyBranch = 25;
+        public const int ListStyleMozTradChineseInformal = 26;
+        public const int ListStyleMozTradChineseFormal = 27;
+        public const int ListStyleMozSimpChineseInformal = 28;
+        public const int ListStyleMozSimpChineseFormal = 29;
+        public const int ListStyleMozJapaneseInformal = 30;
+        public const int ListStyleMozJapaneseFormal = 31;
+        public const int ListStyleMozArabicIndic = 32;
+        public const int ListStyleMozPersian = 33;
+        public const int ListStyleMozUrdu = 34;
+        public const int ListStyleMozDevanagari = 35;
+        public const int ListStyleMozGurmukhi = 36;
+        public const int ListStyleMozGujarati = 37;
+        public const int ListStyleMozOriya = 38;
+        public const int ListStyleMozKannada = 39;
+        public const int ListStyleMozMalayalam = 40;
+        public const int ListStyleMozBengali = 41;
+        public const int ListStyleMozTamil = 42;
+        public const int ListStyleMozTelugu = 43;
+        public const int ListStyleMozThai = 44;
+        public const int ListStyleMozLao = 45;
+        public const int ListStyleMozMyanmar = 46;
+        public const int ListStyleMozKhmer = 47;
+        public const int ListStyleMozHangul = 48;
+        public const int ListStyleMozHangulConsonant = 49;
+        public const int ListStyleMozEthiopicHalehame = 50;
+        public const int ListStyleMozEthiopicNumeric = 51;
+        public const int ListStyleMozEthiopicHalehameAm = 52;
+        public const int ListStyleMozEthiopicHalehameTiEr = 53;
+        public const int ListStyleMozEthiopicHalehameTiEt = 54;
         
         // See nsStyleList
-        public const int LIST_STYLE_POSITION_INSIDE = 0;
-        public const int LIST_STYLE_POSITION_OUTSIDE = 1;
+        public const int ListStylePositionInside = 0;
+        public const int ListStylePositionOutside = 1;
         
         // See nsStyleMargin
-        public const int MARGIN_SIZE_AUTO = 0;
+        public const int MarginSizeAuto = 0;
         
         // See nsStyleVisibility
-        public const int POINTER_EVENTS_NONE = 0;
-        public const int POINTER_EVENTS_VISIBLEPAINTED = 1;
-        public const int POINTER_EVENTS_VISIBLEFILL = 2;
-        public const int POINTER_EVENTS_VISIBLESTROKE = 3;
-        public const int POINTER_EVENTS_VISIBLE = 4;
-        public const int POINTER_EVENTS_PAINTED = 5;
-        public const int POINTER_EVENTS_FILL = 6;
-        public const int POINTER_EVENTS_STROKE = 7;
-        public const int POINTER_EVENTS_ALL = 8;
-        public const int POINTER_EVENTS_AUTO = 9;
+        public const int PointerEventsNone = 0;
+        public const int PointerEventsVisiblepainted = 1;
+        public const int PointerEventsVisiblefill = 2;
+        public const int PointerEventsVisiblestroke = 3;
+        public const int PointerEventsVisible = 4;
+        public const int PointerEventsPainted = 5;
+        public const int PointerEventsFill = 6;
+        public const int PointerEventsStroke = 7;
+        public const int PointerEventsAll = 8;
+        public const int PointerEventsAuto = 9;
         
         // See nsStyleDisplay
-        public const int RESIZE_NONE = 0;
-        public const int RESIZE_BOTH = 1;
-        public const int RESIZE_HORIZONTAL = 2;
-        public const int RESIZE_VERTICAL = 3;
+        public const int ResizeNone = 0;
+        public const int ResizeBoth = 1;
+        public const int ResizeHorizontal = 2;
+        public const int ResizeVertical = 3;
         
         // See nsStyleText
-        public const int TEXT_ALIGN_DEFAULT = 0;
-        public const int TEXT_ALIGN_LEFT = 1;
-        public const int TEXT_ALIGN_RIGHT = 2;
-        public const int TEXT_ALIGN_CENTER = 3;
-        public const int TEXT_ALIGN_JUSTIFY = 4;
-        public const int TEXT_ALIGN_CHAR = 5; //align based on a certain character, for table cell
-        public const int TEXT_ALIGN_END = 6;
-        public const int TEXT_ALIGN_AUTO = 7;
-        public const int TEXT_ALIGN_MOZ_CENTER = 8;
-        public const int TEXT_ALIGN_MOZ_RIGHT = 9;
-        public const int TEXT_ALIGN_MOZ_LEFT = 10;
+        public const int TextAlignDefault = 0;
+        public const int TextAlignLeft = 1;
+        public const int TextAlignRight = 2;
+        public const int TextAlignCenter = 3;
+        public const int TextAlignJustify = 4;
+        public const int TextAlignChar = 5; //align based on a certain character, for table cell
+        public const int TextAlignEnd = 6;
+        public const int TextAlignAuto = 7;
+        public const int TextAlignMozCenter = 8;
+        public const int TextAlignMozRight = 9;
+        public const int TextAlignMozLeft = 10;
         // NS_STYLE_TEXT_ALIGN_MOZ_CENTER_OR_INHERIT is only used in data structs; it
         // is never present in stylesheets or computed data.
-        public const int TEXT_ALIGN_MOZ_CENTER_OR_INHERIT = 11;
+        public const int TextAlignMozCenterOrInherit = 11;
         // Note: make sure that the largest NS_STYLE_TEXT_ALIGN_* value is smaller than
         // the smallest NS_STYLE_VERTICAL_ALIGN_* value below!
         
         // See nsStyleText
-        public const int TEXT_BLINK_NONE = 0;
-        public const int TEXT_BLINK_BLINK = 1;
+        public const int TextBlinkNone = 0;
+        public const int TextBlinkBlink = 1;
         
         // See nsStyleText, nsStyleFont
-        public const int TEXT_DECORATION_LINE_NONE = 0;
-        public const int TEXT_DECORATION_LINE_UNDERLINE = nsFont.DECORATION_UNDERLINE;
-        public const int TEXT_DECORATION_LINE_OVERLINE = nsFont.DECORATION_OVERLINE;
-        public const int TEXT_DECORATION_LINE_LINE_THROUGH = nsFont.DECORATION_LINE_THROUGH;
-        public const int TEXT_DECORATION_LINE_BLINK = 0x08;
-        public const int TEXT_DECORATION_LINE_PREF_ANCHORS = 0x10;
+        public const int TextDecorationLineNone = 0;
+        public const int TextDecorationLineUnderline = nsFont.DECORATION_UNDERLINE;
+        public const int TextDecorationLineOverline = nsFont.DECORATION_OVERLINE;
+        public const int TextDecorationLineLineThrough = nsFont.DECORATION_LINE_THROUGH;
+        public const int TextDecorationLineBlink = 0x08;
+        public const int TextDecorationLinePrefAnchors = 0x10;
         // OVERRIDE_ALL does not occur in stylesheets; it only comes from HTML
         // attribute mapping (and thus appears in computed data)
-        public const int TEXT_DECORATION_LINE_OVERRIDE_ALL = 0x20;
-        public const int TEXT_DECORATION_LINE_LINES_MASK = TEXT_DECORATION_LINE_UNDERLINE | TEXT_DECORATION_LINE_OVERLINE | TEXT_DECORATION_LINE_LINE_THROUGH;
+        public const int TextDecorationLineOverrideAll = 0x20;
+        public const int TextDecorationLineLinesMask = TextDecorationLineUnderline | TextDecorationLineOverline | TextDecorationLineLineThrough;
         
         // See nsStyleText
-        public const int TEXT_DECORATION_STYLE_NONE = 0; // not in CSS spec, mapped to -moz-none
-        public const int TEXT_DECORATION_STYLE_DOTTED = 1;
-        public const int TEXT_DECORATION_STYLE_DASHED = 2;
-        public const int TEXT_DECORATION_STYLE_SOLID = 3;
-        public const int TEXT_DECORATION_STYLE_DOUBLE = 4;
-        public const int TEXT_DECORATION_STYLE_WAVY = 5;
-        public const int TEXT_DECORATION_STYLE_MAX = TEXT_DECORATION_STYLE_WAVY;
+        public const int TextDecorationStyleNone = 0; // not in CSS spec, mapped to -moz-none
+        public const int TextDecorationStyleDotted = 1;
+        public const int TextDecorationStyleDashed = 2;
+        public const int TextDecorationStyleSolid = 3;
+        public const int TextDecorationStyleDouble = 4;
+        public const int TextDecorationStyleWavy = 5;
+        public const int TextDecorationStyleMax = TextDecorationStyleWavy;
         
         // See nsStyleTextOverflow
-        public const int TEXT_OVERFLOW_CLIP = 0;
-        public const int TEXT_OVERFLOW_ELLIPSIS = 1;
-        public const int TEXT_OVERFLOW_STRING = 2;
+        public const int TextOverflowClip = 0;
+        public const int TextOverflowEllipsis = 1;
+        public const int TextOverflowString = 2;
         
         // See nsStyleText
-        public const int TEXT_TRANSFORM_NONE = 0;
-        public const int TEXT_TRANSFORM_CAPITALIZE = 1;
-        public const int TEXT_TRANSFORM_LOWERCASE = 2;
-        public const int TEXT_TRANSFORM_UPPERCASE = 3;
-        public const int TEXT_TRANSFORM_FULLWIDTH = 4;
+        public const int TextTransformNone = 0;
+        public const int TextTransformCapitalize = 1;
+        public const int TextTransformLowercase = 2;
+        public const int TextTransformUppercase = 3;
+        public const int TextTransformFullwidth = 4;
         
         // See nsStyleDisplay
-        public const int TRANSITION_TIMING_FUNCTION_EASE = 0;
-        public const int TRANSITION_TIMING_FUNCTION_LINEAR = 1;
-        public const int TRANSITION_TIMING_FUNCTION_EASE_IN = 2;
-        public const int TRANSITION_TIMING_FUNCTION_EASE_OUT = 3;
-        public const int TRANSITION_TIMING_FUNCTION_EASE_IN_OUT = 4;
-        public const int TRANSITION_TIMING_FUNCTION_STEP_START = 5;
-        public const int TRANSITION_TIMING_FUNCTION_STEP_END = 6;
+        public const int TransitionTimingFunctionEase = 0;
+        public const int TransitionTimingFunctionLinear = 1;
+        public const int TransitionTimingFunctionEaseIn = 2;
+        public const int TransitionTimingFunctionEaseOut = 3;
+        public const int TransitionTimingFunctionEaseInOut = 4;
+        public const int TransitionTimingFunctionStepStart = 5;
+        public const int TransitionTimingFunctionStepEnd = 6;
         
         // See nsStyleText
         // Note: these values pickup after the text-align values because there
         // are a few html cases where an object can have both types of
         // alignment applied with a single attribute
-        public const int VERTICAL_ALIGN_BASELINE = 12;
-        public const int VERTICAL_ALIGN_SUB = 13;
-        public const int VERTICAL_ALIGN_SUPER = 14;
-        public const int VERTICAL_ALIGN_TOP = 15;
-        public const int VERTICAL_ALIGN_TEXT_TOP = 16;
-        public const int VERTICAL_ALIGN_MIDDLE = 17;
-        public const int VERTICAL_ALIGN_TEXT_BOTTOM = 18;
-        public const int VERTICAL_ALIGN_BOTTOM = 19;
-        public const int VERTICAL_ALIGN_MIDDLE_WITH_BASELINE = 20;
+        public const int VerticalAlignBaseline = 12;
+        public const int VerticalAlignSub = 13;
+        public const int VerticalAlignSuper = 14;
+        public const int VerticalAlignTop = 15;
+        public const int VerticalAlignTextTop = 16;
+        public const int VerticalAlignMiddle = 17;
+        public const int VerticalAlignTextBottom = 18;
+        public const int VerticalAlignBottom = 19;
+        public const int VerticalAlignMiddleWithBaseline = 20;
         
         // See nsStyleVisibility
-        public const int VISIBILITY_HIDDEN = 0;
-        public const int VISIBILITY_VISIBLE = 1;
-        public const int VISIBILITY_COLLAPSE = 2;
+        public const int VisibilityHidden = 0;
+        public const int VisibilityVisible = 1;
+        public const int VisibilityCollapse = 2;
         
         // See nsStyleText
-        public const int TABSIZE_INITIAL = 8;
+        public const int TabsizeInitial = 8;
         
         // See nsStyleText
-        public const int WHITESPACE_NORMAL = 0;
-        public const int WHITESPACE_PRE = 1;
-        public const int WHITESPACE_NOWRAP = 2;
-        public const int WHITESPACE_PRE_WRAP = 3;
-        public const int WHITESPACE_PRE_LINE = 4;
-        public const int WHITESPACE_PRE_DISCARD_NEWLINES = 5;
+        public const int WhitespaceNormal = 0;
+        public const int WhitespacePre = 1;
+        public const int WhitespaceNowrap = 2;
+        public const int WhitespacePreWrap = 3;
+        public const int WhitespacePreLine = 4;
+        public const int WhitespacePreDiscardNewlines = 5;
         
         // See nsStyleText
-        public const int WORDBREAK_NORMAL = 0;
-        public const int WORDBREAK_BREAK_ALL = 1;
-        public const int WORDBREAK_KEEP_ALL = 2;
+        public const int WordbreakNormal = 0;
+        public const int WordbreakBreakAll = 1;
+        public const int WordbreakKeepAll = 2;
         
         // See nsStyleText
-        public const int WORDWRAP_NORMAL = 0;
-        public const int WORDWRAP_BREAK_WORD = 1;
+        public const int WordwrapNormal = 0;
+        public const int WordwrapBreakWord = 1;
         
         // See nsStyleText
-        public const int HYPHENS_NONE = 0;
-        public const int HYPHENS_MANUAL = 1;
-        public const int HYPHENS_AUTO = 2;
+        public const int HyphensNone = 0;
+        public const int HyphensManual = 1;
+        public const int HyphensAuto = 2;
         
         // See nsStyleText
-        public const int TEXT_SIZE_ADJUST_NONE = 0;
-        public const int TEXT_SIZE_ADJUST_AUTO = 1;
+        public const int TextSizeAdjustNone = 0;
+        public const int TextSizeAdjustAuto = 1;
         
         // See nsStyleText
-        public const int LINE_HEIGHT_BLOCK_HEIGHT = 0;
+        public const int LineHeightBlockHeight = 0;
         
         // See nsStyleText
-        public const int UNICODE_BIDI_NORMAL = 0x0;
-        public const int UNICODE_BIDI_EMBED = 0x1;
-        public const int UNICODE_BIDI_ISOLATE = 0x2;
-        public const int UNICODE_BIDI_OVERRIDE = 0x4;
-        public const int UNICODE_BIDI_ISOLATE_OVERRIDE = 0x6;
-        public const int UNICODE_BIDI_PLAINTEXT = 0x8;
+        public const int UnicodeBidiNormal = 0x0;
+        public const int UnicodeBidiEmbed = 0x1;
+        public const int UnicodeBidiIsolate = 0x2;
+        public const int UnicodeBidiOverride = 0x4;
+        public const int UnicodeBidiIsolateOverride = 0x6;
+        public const int UnicodeBidiPlaintext = 0x8;
         
         // See nsStyleTable (here for HTML 4.0 for now, should probably change to side flags)
-        public const int TABLE_FRAME_NONE = 0;
-        public const int TABLE_FRAME_ABOVE = 1;
-        public const int TABLE_FRAME_BELOW = 2;
-        public const int TABLE_FRAME_HSIDES = 3;
-        public const int TABLE_FRAME_VSIDES = 4;
-        public const int TABLE_FRAME_LEFT = 5;
-        public const int TABLE_FRAME_RIGHT = 6;
-        public const int TABLE_FRAME_BOX = 7;
-        public const int TABLE_FRAME_BORDER = 8;
+        public const int TableFrameNone = 0;
+        public const int TableFrameAbove = 1;
+        public const int TableFrameBelow = 2;
+        public const int TableFrameHsides = 3;
+        public const int TableFrameVsides = 4;
+        public const int TableFrameLeft = 5;
+        public const int TableFrameRight = 6;
+        public const int TableFrameBox = 7;
+        public const int TableFrameBorder = 8;
         
         // See nsStyleTable
-        public const int TABLE_RULES_NONE = 0;
-        public const int TABLE_RULES_GROUPS = 1;
-        public const int TABLE_RULES_ROWS = 2;
-        public const int TABLE_RULES_COLS = 3;
-        public const int TABLE_RULES_ALL = 4;
+        public const int TableRulesNone = 0;
+        public const int TableRulesGroups = 1;
+        public const int TableRulesRows = 2;
+        public const int TableRulesCols = 3;
+        public const int TableRulesAll = 4;
         
-        public const int TABLE_LAYOUT_AUTO = 0;
-        public const int TABLE_LAYOUT_FIXED = 1;
+        public const int TableLayoutAuto = 0;
+        public const int TableLayoutFixed = 1;
         
-        public const int TABLE_EMPTY_CELLS_HIDE = 0;
-        public const int TABLE_EMPTY_CELLS_SHOW = 1;
-        public const int TABLE_EMPTY_CELLS_SHOW_BACKGROUND = 2;
+        public const int TableEmptyCellsHide = 0;
+        public const int TableEmptyCellsShow = 1;
+        public const int TableEmptyCellsShowBackground = 2;
         
-        public const int CAPTION_SIDE_TOP = 0;
-        public const int CAPTION_SIDE_RIGHT = 1;
-        public const int CAPTION_SIDE_BOTTOM = 2;
-        public const int CAPTION_SIDE_LEFT = 3;
-        public const int CAPTION_SIDE_TOP_OUTSIDE = 4;
-        public const int CAPTION_SIDE_BOTTOM_OUTSIDE = 5;
+        public const int CaptionSideTop = 0;
+        public const int CaptionSideRight = 1;
+        public const int CaptionSideBottom = 2;
+        public const int CaptionSideLeft = 3;
+        public const int CaptionSideTopOutside = 4;
+        public const int CaptionSideBottomOutside = 5;
         
         // constants for cell "scope" attribute
-        public const int CELL_SCOPE_ROW = 0;
-        public const int CELL_SCOPE_COL = 1;
-        public const int CELL_SCOPE_ROWGROUP = 2;
-        public const int CELL_SCOPE_COLGROUP = 3;
+        public const int CellScopeRow = 0;
+        public const int CellScopeCol = 1;
+        public const int CellScopeRowgroup = 2;
+        public const int CellScopeColgroup = 3;
         
         // See nsStylePage
-        public const int PAGE_MARKS_NONE = 0x00;
-        public const int PAGE_MARKS_CROP = 0x01;
-        public const int PAGE_MARKS_REGISTER = 0x02;
+        public const int PageMarksNone = 0x00;
+        public const int PageMarksCrop = 0x01;
+        public const int PageMarksRegister = 0x02;
         
         // See nsStylePage
-        public const int PAGE_SIZE_AUTO = 0;
-        public const int PAGE_SIZE_PORTRAIT = 1;
-        public const int PAGE_SIZE_LANDSCAPE = 2;
+        public const int PageSizeAuto = 0;
+        public const int PageSizePortrait = 1;
+        public const int PageSizeLandscape = 2;
         
         // See nsStyleBreaks
-        public const int PAGE_BREAK_AUTO = 0;
-        public const int PAGE_BREAK_ALWAYS = 1;
-        public const int PAGE_BREAK_AVOID = 2;
-        public const int PAGE_BREAK_LEFT = 3;
-        public const int PAGE_BREAK_RIGHT = 4;
+        public const int PageBreakAuto = 0;
+        public const int PageBreakAlways = 1;
+        public const int PageBreakAvoid = 2;
+        public const int PageBreakLeft = 3;
+        public const int PageBreakRight = 4;
         
         // See nsStyleColumn
-        public const int COLUMN_COUNT_AUTO = 0;
-        public const int COLUMN_COUNT_UNLIMITED = (-1);
+        public const int ColumnCountAuto = 0;
+        public const int ColumnCountUnlimited = (-1);
         
-        public const int COLUMN_FILL_AUTO = 0;
-        public const int COLUMN_FILL_BALANCE = 1;
+        public const int ColumnFillAuto = 0;
+        public const int ColumnFillBalance = 1;
         
         // See nsStyleUIReset
-        public const int IME_MODE_AUTO = 0;
-        public const int IME_MODE_NORMAL = 1;
-        public const int IME_MODE_ACTIVE = 2;
-        public const int IME_MODE_DISABLED = 3;
-        public const int IME_MODE_INACTIVE = 4;
+        public const int ImeModeAuto = 0;
+        public const int ImeModeNormal = 1;
+        public const int ImeModeActive = 2;
+        public const int ImeModeDisabled = 3;
+        public const int ImeModeInactive = 4;
         
         // See nsStyleGradient
-        public const int GRADIENT_SHAPE_LINEAR = 0;
-        public const int GRADIENT_SHAPE_ELLIPTICAL = 1;
-        public const int GRADIENT_SHAPE_CIRCULAR = 2;
+        public const int GradientShapeLinear = 0;
+        public const int GradientShapeElliptical = 1;
+        public const int GradientShapeCircular = 2;
         
-        public const int GRADIENT_SIZE_CLOSEST_SIDE = 0;
-        public const int GRADIENT_SIZE_CLOSEST_CORNER = 1;
-        public const int GRADIENT_SIZE_FARTHEST_SIDE = 2;
-        public const int GRADIENT_SIZE_FARTHEST_CORNER = 3;
-        public const int GRADIENT_SIZE_EXPLICIT_SIZE = 4;
+        public const int GradientSizeClosestSide = 0;
+        public const int GradientSizeClosestCorner = 1;
+        public const int GradientSizeFarthestSide = 2;
+        public const int GradientSizeFarthestCorner = 3;
+        public const int GradientSizeExplicitSize = 4;
         
         // See nsStyleSVG
         
         // dominant-baseline
-        public const int DOMINANT_BASELINE_AUTO = 0;
-        public const int DOMINANT_BASELINE_USE_SCRIPT = 1;
-        public const int DOMINANT_BASELINE_NO_CHANGE = 2;
-        public const int DOMINANT_BASELINE_RESET_SIZE = 3;
-        public const int DOMINANT_BASELINE_IDEOGRAPHIC = 4;
-        public const int DOMINANT_BASELINE_ALPHABETIC = 5;
-        public const int DOMINANT_BASELINE_HANGING = 6;
-        public const int DOMINANT_BASELINE_MATHEMATICAL = 7;
-        public const int DOMINANT_BASELINE_CENTRAL = 8;
-        public const int DOMINANT_BASELINE_MIDDLE = 9;
-        public const int DOMINANT_BASELINE_TEXT_AFTER_EDGE = 10;
-        public const int DOMINANT_BASELINE_TEXT_BEFORE_EDGE = 11;
+        public const int DominantBaselineAuto = 0;
+        public const int DominantBaselineUseScript = 1;
+        public const int DominantBaselineNoChange = 2;
+        public const int DominantBaselineResetSize = 3;
+        public const int DominantBaselineIdeographic = 4;
+        public const int DominantBaselineAlphabetic = 5;
+        public const int DominantBaselineHanging = 6;
+        public const int DominantBaselineMathematical = 7;
+        public const int DominantBaselineCentral = 8;
+        public const int DominantBaselineMiddle = 9;
+        public const int DominantBaselineTextAfterEdge = 10;
+        public const int DominantBaselineTextBeforeEdge = 11;
         
         // fill-rule
-        public const int FILL_RULE_NONZERO = 0;
-        public const int FILL_RULE_EVENODD = 1;
+        public const int FillRuleNonzero = 0;
+        public const int FillRuleEvenodd = 1;
         
         // image-rendering
-        public const int IMAGE_RENDERING_AUTO = 0;
-        public const int IMAGE_RENDERING_OPTIMIZESPEED = 1;
-        public const int IMAGE_RENDERING_OPTIMIZEQUALITY = 2;
-        public const int IMAGE_RENDERING_CRISPEDGES = 3;
+        public const int ImageRenderingAuto = 0;
+        public const int ImageRenderingOptimizespeed = 1;
+        public const int ImageRenderingOptimizequality = 2;
+        public const int ImageRenderingCrispedges = 3;
         
         // mask-type
-        public const int MASK_TYPE_LUMINANCE = 0;
-        public const int MASK_TYPE_ALPHA = 1;
+        public const int MaskTypeLuminance = 0;
+        public const int MaskTypeAlpha = 1;
         
         // paint-order
-        public const int PAINT_ORDER_NORMAL = 0;
-        public const int PAINT_ORDER_FILL = 1;
-        public const int PAINT_ORDER_STROKE = 2;
-        public const int PAINT_ORDER_MARKERS = 3;
-        public const int PAINT_ORDER_LAST_VALUE = PAINT_ORDER_MARKERS;
+        public const int PaintOrderNormal = 0;
+        public const int PaintOrderFill = 1;
+        public const int PaintOrderStroke = 2;
+        public const int PaintOrderMarkers = 3;
+        public const int PaintOrderLastValue = PaintOrderMarkers;
         // NS_STYLE_PAINT_ORDER_BITWIDTH is the number of bits required to store
         // a single paint-order component value.
-        public const int PAINT_ORDER_BITWIDTH = 2;
+        public const int PaintOrderBitwidth = 2;
         
         // shape-rendering
-        public const int SHAPE_RENDERING_AUTO = 0;
-        public const int SHAPE_RENDERING_OPTIMIZESPEED = 1;
-        public const int SHAPE_RENDERING_CRISPEDGES = 2;
-        public const int SHAPE_RENDERING_GEOMETRICPRECISION = 3;
+        public const int ShapeRenderingAuto = 0;
+        public const int ShapeRenderingOptimizespeed = 1;
+        public const int ShapeRenderingCrispedges = 2;
+        public const int ShapeRenderingGeometricprecision = 3;
         
         // stroke-linecap
-        public const int STROKE_LINECAP_BUTT = 0;
-        public const int STROKE_LINECAP_ROUND = 1;
-        public const int STROKE_LINECAP_SQUARE = 2;
+        public const int StrokeLinecapButt = 0;
+        public const int StrokeLinecapRound = 1;
+        public const int StrokeLinecapSquare = 2;
         
         // stroke-linejoin
-        public const int STROKE_LINEJOIN_MITER = 0;
-        public const int STROKE_LINEJOIN_ROUND = 1;
-        public const int STROKE_LINEJOIN_BEVEL = 2;
+        public const int StrokeLinejoinMiter = 0;
+        public const int StrokeLinejoinRound = 1;
+        public const int StrokeLinejoinBevel = 2;
         
         // stroke-dasharray, stroke-dashoffset, stroke-width
-        public const int STROKE_PROP_OBJECTVALUE = 0;
+        public const int StrokePropObjectvalue = 0;
         
         // text-anchor
-        public const int TEXT_ANCHOR_START = 0;
-        public const int TEXT_ANCHOR_MIDDLE = 1;
-        public const int TEXT_ANCHOR_END = 2;
+        public const int TextAnchorStart = 0;
+        public const int TextAnchorMiddle = 1;
+        public const int TextAnchorEnd = 2;
         
         // text-rendering
-        public const int TEXT_RENDERING_AUTO = 0;
-        public const int TEXT_RENDERING_OPTIMIZESPEED = 1;
-        public const int TEXT_RENDERING_OPTIMIZELEGIBILITY = 2;
-        public const int TEXT_RENDERING_GEOMETRICPRECISION = 3;
+        public const int TextRenderingAuto = 0;
+        public const int TextRenderingOptimizespeed = 1;
+        public const int TextRenderingOptimizelegibility = 2;
+        public const int TextRenderingGeometricprecision = 3;
         
         // color-interpolation and color-interpolation-filters
-        public const int COLOR_INTERPOLATION_AUTO = 0;
-        public const int COLOR_INTERPOLATION_SRGB = 1;
-        public const int COLOR_INTERPOLATION_LINEARRGB = 2;
+        public const int ColorInterpolationAuto = 0;
+        public const int ColorInterpolationSrgb = 1;
+        public const int ColorInterpolationLinearrgb = 2;
         
         // vector-effect
-        public const int VECTOR_EFFECT_NONE = 0;
-        public const int VECTOR_EFFECT_NON_SCALING_STROKE = 1;
+        public const int VectorEffectNone = 0;
+        public const int VectorEffectNonScalingStroke = 1;
         
         // 3d Transforms - Backface visibility
-        public const int BACKFACE_VISIBILITY_VISIBLE = 1;
-        public const int BACKFACE_VISIBILITY_HIDDEN = 0;
+        public const int BackfaceVisibilityVisible = 1;
+        public const int BackfaceVisibilityHidden = 0;
         
-        public const int TRANSFORM_STYLE_FLAT = 0;
-        public const int TRANSFORM_STYLE_PRESERVE_3D = 1;
+        public const int TransformStyleFlat = 0;
+        public const int TransformStylePreserve3d = 1;
         
         // object {fill,stroke}-opacity for SVG glyphs
-        public const int OBJECT_FILL_OPACITY = 0;
-        public const int OBJECT_STROKE_OPACITY = 1;
+        public const int ObjectFillOpacity = 0;
+        public const int ObjectStrokeOpacity = 1;
         
         /*****************************************************************************
          * Constants for media features.                                             *
          *****************************************************************************/
         
         // orientation
-        public const int ORIENTATION_PORTRAIT = 0;
-        public const int ORIENTATION_LANDSCAPE = 1;
+        public const int OrientationPortrait = 0;
+        public const int OrientationLandscape = 1;
         
         // scan
-        public const int SCAN_PROGRESSIVE = 0;
-        public const int SCAN_INTERLACE = 1;
+        public const int ScanProgressive = 0;
+        public const int ScanInterlace = 1;
     }
 }
