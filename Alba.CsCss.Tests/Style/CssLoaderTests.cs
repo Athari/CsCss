@@ -44,7 +44,7 @@ namespace Alba.CsCss.Tests.Style
             var h1color = css.StyleRules.Single().Declaration.Data.Single();
             Assert.AreEqual(CssProperty.Color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), CssColor.ColorNameToRGB(h1color.Value.String));
-            Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), h1color.Value.CalculatedColor);
+            Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), h1color.Value.ComputedColor);
         }
 
         [TestMethod]

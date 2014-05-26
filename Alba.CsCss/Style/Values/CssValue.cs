@@ -505,7 +505,7 @@ namespace Alba.CsCss.Style
             get { return GetColorValue(); }
         }
 
-        public CssColor CalculatedColor
+        public CssColor ComputedColor
         {
             get
             {
