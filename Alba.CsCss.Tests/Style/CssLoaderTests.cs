@@ -41,21 +41,21 @@ namespace Alba.CsCss.Tests.Style
             var loader = new CssLoader();
             var css = loader.ParseSheet("h1 { color: red; }", SheetUri, BaseUri);
 
-            Assert.AreEqual(SheetUri, css.SheetUri);
-            Assert.AreEqual(BaseUri, css.BaseUri);
-            Assert.AreEqual(1, css.Rules.Count());
-            Assert.AreEqual(1, css.AllRules.Count());
-            Assert.AreEqual(1, css.StyleRules.Count());
-            Assert.AreEqual(1, css.AllStyleRules.Count());
-            var h1 = css.StyleRules.Single();
-            var h1sel = h1.SelectorGroups.Single().Selectors.Single();
-            Assert.AreEqual("h1", h1sel.Tag);
-            var h1color = h1.Declaration.Data.Single();
+            var h1color = css.StyleRules.Single().Declaration.Data.Single();
             Assert.AreEqual(CssProperty.Color, h1color.Property);
             Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), CssColor.ColorNameToRGB(h1color.Value.String));
-            Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), CssColor.ColorNameToRGB(css.StyleRules.Single().Declaration.Color.String));
             Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), h1color.Value.CalculatedColor);
-            Assert.AreEqual(CssColor.RGB(0xFF, 0x00, 0x00), css.StyleRules.Single().Declaration.Color.CalculatedColor);
+        }
+
+        [TestMethod]
+        public void ParseSheet_Simple_TextAlign ()
+        {
+            var loader = new CssLoader();
+            var css = loader.ParseSheet("h1 { text-align: right; }", SheetUri, BaseUri);
+
+            var h1textalign = css.StyleRules.Single().Declaration.Data.Single();
+            Assert.AreEqual(CssProperty.TextAlign, h1textalign.Property);
+            Assert.AreEqual(CssStyle.TextAlignRight, h1textalign.Value.Int);
         }
 
         [TestMethod]

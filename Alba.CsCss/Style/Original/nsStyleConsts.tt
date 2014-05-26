@@ -58,7 +58,7 @@ namespace Alba.CsCss.Style
                              \#define \ +
                              NS_(STYLE_)? (?<Name>\w+) \ +                            # constant name with prefix removed
                              \(? (                                                    # aliased constant name(s)
-                                 NS_(STYLE_)? (?<NamesValue>\w+) (\ *\|\ *)?         # aliased constant name ending with optional | operator
+                                 NS_(STYLE_)? (?<NamesValue>\w+) (\ *\|\ *)?          # aliased constant name ending with optional | operator
                              )+ \)? \ *?
                              (?<Remainder>\ ? (//.* | /\*.*)? )$                      # one-line or block comment",
                         m => {
