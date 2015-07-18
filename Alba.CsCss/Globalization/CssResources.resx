@@ -120,7 +120,7 @@
     <value>',' or '{'</value>
   </data>
   <data name="PESelectorListExtra" xml:space="preserve">
-    <value>Expected ',' or '{' but found '{0}'.</value>
+    <value>Expected ',' or '{{' but found '{0}'.</value>
   </data>
   <data name="PESelectorGroupNoSelector" xml:space="preserve">
     <value>Selector expected.</value>
@@ -234,7 +234,7 @@
     <value>selector</value>
   </data>
   <data name="PEBadDeclBlockStart" xml:space="preserve">
-    <value>Expected '{' to begin declaration block but found '{0}'.</value>
+    <value>Expected '{{' to begin declaration block but found '{0}'.</value>
   </data>
   <data name="PEColorEOF" xml:space="preserve">
     <value>color</value>
@@ -300,7 +300,7 @@
     <value>Expected ';' to terminate declaration but found '{0}'.</value>
   </data>
   <data name="PEBadDeclOrRuleEnd2" xml:space="preserve">
-    <value>Expected ';' or '}' to terminate declaration but found '{0}'.</value>
+    <value>Expected ';' or '}}' to terminate declaration but found '{0}'.</value>
   </data>
   <data name="PEInaccessibleProperty2" xml:space="preserve">
     <value>Cannot specify value for internal property.</value>
@@ -336,10 +336,10 @@
     <value>Found invalid value for media feature.</value>
   </data>
   <data name="PEBadFontBlockStart" xml:space="preserve">
-    <value>Expected '{' to begin @font-face rule but found '{0}'.</value>
+    <value>Expected '{{' to begin @font-face rule but found '{0}'.</value>
   </data>
   <data name="PEBadFontBlockEnd" xml:space="preserve">
-    <value>Expected '}' to end @font-face rule but found '{0}'.</value>
+    <value>Expected '}}' to end @font-face rule but found '{0}'.</value>
   </data>
   <data name="PEAnonBoxNotAlone" xml:space="preserve">
     <value>Did not expect anonymous box.</value>
@@ -372,6 +372,6 @@
     <value>Expected 'not' while parsing supports condition but found '{0}'.</value>
   </data>
   <data name="PESupportsGroupRuleStart" xml:space="preserve">
-    <value>Expected '{' to begin @supports rule but found '{0}'.</value>
+    <value>Expected '{{' to begin @supports rule but found '{0}'.</value>
   </data>
 </root>
